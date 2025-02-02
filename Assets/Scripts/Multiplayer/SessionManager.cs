@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
 using Unity.Services.Multiplayer;
@@ -7,12 +8,14 @@ using UnityEngine;
 public static class SessionManager
 {
     public static ISession Session {  get; private set; }
-    public static string SessionCode = null;
-
 
     public const int MAXPLAYERS = 4;
 
     public static ConnectionState State { get; private set; } = ConnectionState.Disconnected;
+
+    public static Action<string> PlayerJoined = delegate { };
+    public static Action<string> PlayerLeft = delegate { };
+
     public enum ConnectionState
     {
         Disconnected,
@@ -20,8 +23,22 @@ public static class SessionManager
         Connected,
     }
 
+    public static void RegisterSessionEvents()
+    {
+        Session.PlayerJoined += (value) => { PlayerJoined.Invoke(value); };
+        Session.PlayerHasLeft += (value) => { PlayerLeft.Invoke(value); };
+    }
+
+    public static void UnregisterSessionEvents()
+    {
+        Session.PlayerJoined -= (value) => { PlayerJoined.Invoke(value); };
+        Session.PlayerHasLeft -= (value) => { PlayerLeft.Invoke(value); };
+    }
+
     public static async Task<TaskResult> HostSession()
     {
+        if (State == ConnectionState.Connected) return TaskResult.Faliure;
+
         //Signs in the player, returns out if sign in fails
         TaskResult playerSignInResult = await SignInPlayer();
 
@@ -34,11 +51,14 @@ public static class SessionManager
         //Generates a random session ID for simplicity
         string SessionName = UnityEngine.Random.Range(10, 99).ToString();
 
+        var playerProperties = PlayerProperties.GetPlayerProperties();
+
         // Set the session options.
         var options = new SessionOptions()
         {
             Name = SessionName,
-            MaxPlayers = MAXPLAYERS
+            MaxPlayers = MAXPLAYERS,
+            PlayerProperties = playerProperties
         }.WithDistributedAuthorityNetwork();
 
         Debug.Log($"Creating session {options.Name}...");
@@ -56,13 +76,15 @@ public static class SessionManager
             return TaskResult.Faliure;
         }
 
-        SessionCode = Session.Code;
+        RegisterSessionEvents();
 
         return TaskResult.Success;
     }
 
     public static async Task<TaskResult> JoinSession(string sessionCode)
     {
+        if (State == ConnectionState.Connected) return TaskResult.Faliure;
+
         //Signs in the player, returns out if sign in fails
         TaskResult result = await SignInPlayer();
 
@@ -74,12 +96,17 @@ public static class SessionManager
 
         Debug.Log($"Connecting to {sessionCode}...");
 
+        //Sets player properties
+        JoinSessionOptions options = new JoinSessionOptions()
+        {
+            PlayerProperties = PlayerProperties.GetPlayerProperties()
+        };
+
+        //Attempt connection to session via code
         try
         {
-            Session = await MultiplayerService.Instance.JoinSessionByCodeAsync(sessionCode);
+            Session = await MultiplayerService.Instance.JoinSessionByCodeAsync(sessionCode, options);
             State = ConnectionState.Connected;
-
-            SessionCode = sessionCode;
         }
         catch (Exception e)
         {
@@ -87,6 +114,8 @@ public static class SessionManager
             Debug.Log(e);
             return TaskResult.Faliure;
         }
+
+        RegisterSessionEvents();
 
         return TaskResult.Success;
     }
@@ -97,6 +126,8 @@ public static class SessionManager
         {
             await Session.LeaveAsync();
         }
+
+        UnregisterSessionEvents();
 
         State = ConnectionState.Disconnected;
     }
@@ -114,6 +145,8 @@ public static class SessionManager
             {
                 AuthenticationService.Instance.SwitchProfile(PlayerProfile.PlayerName);
                 await AuthenticationService.Instance.SignInAnonymouslyAsync();
+
+                await AuthenticationService.Instance.UpdatePlayerNameAsync(PlayerProfile.PlayerName);
             }
         }
         catch (Exception e)

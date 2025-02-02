@@ -146,8 +146,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5007037270123546825}
   - component: {fileID: 6969404160874680174}
+  - component: {fileID: 4523491698436699071}
   m_Layer: 5
-  m_Name: Playerslot_prefab
+  m_Name: Playercard_prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -182,6 +183,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5641063750230492783}
   m_CullTransparentMesh: 1
+--- !u!114 &4523491698436699071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5641063750230492783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f6a9aca74163264c98f91b2391785e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerNameText: {fileID: 6246588312522772845}
 --- !u!1 &6920959572212504328
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ public static class PlayerProfile
             return;
         }
 
-        if (playerName.Length > 12)
+        if (playerName.Length > 14)
         {
             Debug.Log("PlayerNameTooLong");
             return;
