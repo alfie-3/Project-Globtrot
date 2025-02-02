@@ -3,6 +3,7 @@ using TMPro;
 using Unity.Netcode;
 using Unity.Services.Multiplayer;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UI_LobbyManager : MonoBehaviour
 {
@@ -34,6 +35,13 @@ public class UI_LobbyManager : MonoBehaviour
         ClearPlayerCards();
     }
 
+    public void StartGame()
+    {
+        if (NetworkManager.Singleton.LocalClient.IsSessionOwner)
+
+            NetworkManager.Singleton.SceneManager.LoadScene("Scene_MultiplayerTest", LoadSceneMode.Single);
+    }
+
     public void AddPlayerCards()
     {
         foreach (IReadOnlyPlayer player in SessionManager.Session.Players)
@@ -44,7 +52,7 @@ public class UI_LobbyManager : MonoBehaviour
 
     public void AddPlayerCard(string playerId)
     {
-        foreach(IReadOnlyPlayer player in SessionManager.Session.Players)
+        foreach (IReadOnlyPlayer player in SessionManager.Session.Players)
         {
             if (player.Id == playerId)
             {
