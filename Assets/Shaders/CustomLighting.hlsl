@@ -26,7 +26,7 @@ void MainLight_float(float3 WorldPos, out float3 Direction, out float3 Color, ou
             #else
                 ShadowSamplingData shadowSamplingData = GetMainLightShadowSamplingData();
                 float shadowStrength = GetMainLightShadowStrength();
-                ShadowAtten = SampleShadowmap(shadowCoord, TEXTURE2D_ARGS(_MainLightShadowmapTexture, sampler_MainLightShadowMapTexture), shadowSamplingData, shadowStrength, false);
+                ShadowAtten = SampleShadowmap(shadowCoord, TEXTURE2D_ARGS(_MainLightShadowmapTexture, sampler_MainLightShadowmapTexture), shadowSamplingData, shadowStrength, false);
             #endif
         #endif
         }
