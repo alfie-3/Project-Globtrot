@@ -13,13 +13,18 @@ public class SpawnManager : NetworkBehaviour
 
     public void Start()
     {
+        if (NetworkManager.Singleton.IsListening)
+            SpawnPlayer();
+    }
+
+    [ContextMenu("Spawn Player")]
+    public void SpawnPlayer()
+    {
         NetworkManager networkManager = NetworkManager.Singleton;
 
         SpawnPlayer(networkManager.LocalClientId, spawnPoints[spanwedPlayers.Value % spawnPoints.Count]);
 
         OnClientSpawned_Rpc();
-
-
     }
 
     [Rpc(SendTo.Owner)]

@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -8,7 +9,11 @@ public class PlayerInputManager : NetworkBehaviour
     //Player input actions generated from input system data 
     InputSystem_Actions inputActions;
 
-    public Vector2 MovementInput {  get; private set; }
+    public Vector2 MovementInput { get; private set; }
+
+    public Action OnInteract = delegate { };
+    public Action OnPerformPrimary = delegate { };
+    public Action OnPerformSecondary = delegate { };
 
     [field: SerializeField] PlayerCameraManager cameraManager;
 
@@ -29,6 +34,15 @@ public class PlayerInputManager : NetworkBehaviour
     private void Update()
     {
         MovementInput = inputActions.Player.Move.ReadValue<Vector2>();
+
+        if (inputActions.Player.Interact.WasPerformedThisFrame())
+            OnInteract.Invoke();
+
+        if (inputActions.Player.PerformPrimary.WasPerformedThisFrame())
+            OnPerformPrimary.Invoke();
+
+        if (inputActions.Player.PerformSecondary.WasPerformedThisFrame())
+            OnPerformSecondary.Invoke();
     }
 
     //Used for converting movement direction to be relative to chamera direction

@@ -12,9 +12,11 @@ GameObject:
   - component: {fileID: 2623649139028998535}
   - component: {fileID: 7596384307904657330}
   - component: {fileID: 8877675575019304611}
-  - component: {fileID: 3745843975204388149}
   - component: {fileID: 2592182184904501188}
   - component: {fileID: 8685920174684827089}
+  - component: {fileID: 3745843975204388149}
+  - component: {fileID: 6292008950873804373}
+  - component: {fileID: 3297204459110454619}
   m_Layer: 0
   m_Name: Player_test_prefab
   m_TagString: Untagged
@@ -125,20 +127,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3745843975204388149
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5789001657597990608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06dc40b68c4f75b4290eb76d7979ef15, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <Controller>k__BackingField: {fileID: 8877675575019304611}
-  <BaseMovementSpeed>k__BackingField: 5
 --- !u!114 &2592182184904501188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,6 +153,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3330a2f98eeafb240ac234ed4c684407, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3745843975204388149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5789001657597990608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06dc40b68c4f75b4290eb76d7979ef15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Controller>k__BackingField: {fileID: 8877675575019304611}
+  <BaseMovementSpeed>k__BackingField: 5
+--- !u!114 &6292008950873804373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5789001657597990608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4d36f8dc79709c4d92c9e77cadf97f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InteractionDistance: 5
+  cameraManager: {fileID: 1500532457161846325}
+  interactableLayer:
+    serializedVersion: 2
+    m_Bits: 1
+--- !u!114 &3297204459110454619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5789001657597990608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 935b7a55aa49d9c469abbc0f7ba75ed4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <HeldItem>k__BackingField: {fileID: 0}
 --- !u!1 &6643954352295865263
 GameObject:
   m_ObjectHideFlags: 0
