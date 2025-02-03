@@ -19,8 +19,13 @@ public class SpawnManager : NetworkBehaviour
 
         SpawnPlayer(networkManager.LocalClientId, spawnPoints[spanwedPlayers.Value % spawnPoints.Count]);
 
-        spanwedPlayers.Value++;
+        OnClientSpawned_Rpc();
+    }
 
+    [Rpc(SendTo.Owner)]
+    public void OnClientSpawned_Rpc()
+    {
+        spanwedPlayers.Value++;
     }
 
     public void SpawnPlayer(ulong id, SpawnPoint spawnPoint)
