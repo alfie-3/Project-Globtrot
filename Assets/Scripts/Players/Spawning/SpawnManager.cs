@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class SpawnManager : NetworkBehaviour
 {
-    [SerializeField] bool AutoSpawnPlayers = true;
-
     [SerializeField] GameObject playerPrefab;
 
     [SerializeField] SpawnPoint defaultSpawnPoint;
@@ -20,6 +18,8 @@ public class SpawnManager : NetworkBehaviour
         SpawnPlayer(networkManager.LocalClientId, spawnPoints[spanwedPlayers.Value % spawnPoints.Count]);
 
         OnClientSpawned_Rpc();
+
+
     }
 
     [Rpc(SendTo.Owner)]
