@@ -6,28 +6,21 @@ public class SpawnManager : NetworkBehaviour
 {
     [SerializeField] bool AutoSpawnPlayers = true;
 
-    [SerializeField] PlayerInputManager playerPrefab;
+    [SerializeField] GameObject playerPrefab;
 
     [SerializeField] SpawnPoint defaultSpawnPoint;
     [SerializeField] List<SpawnPoint> spawnPoints;
 
-    public override void OnNetworkSpawn()
-    {
-        if (AutoSpawnPlayers)
-            SpawnPlayers();
-    }
+    NetworkVariable<int> spanwedPlayers = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Owner);
 
-    public void SpawnPlayers()
+    public void Start()
     {
         NetworkManager networkManager = NetworkManager.Singleton;
 
-        Queue<SpawnPoint> spawnPointsQueue = new Queue<SpawnPoint>();
-        foreach (SpawnPoint spawnPoint in spawnPoints) spawnPointsQueue.Enqueue(spawnPoint);
+        SpawnPlayer(networkManager.LocalClientId, spawnPoints[spanwedPlayers.Value % spawnPoints.Count]);
 
-        foreach (NetworkClient networkClient in networkManager.ConnectedClientsList)
-        {
-            SpawnPlayer(networkClient.ClientId, spawnPointsQueue.Count > 0 ? spawnPointsQueue.Dequeue() : defaultSpawnPoint);
-        }
+        spanwedPlayers.Value++;
+
     }
 
     public void SpawnPlayer(ulong id, SpawnPoint spawnPoint)
