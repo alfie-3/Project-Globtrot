@@ -1,7 +1,7 @@
 void MainLight_float(float3 WorldPos, out float3 Direction, out float3 Color, out float DistanceAtten, out float ShadowAtten)
         {
         #if SHADERGRAPH_PREVIEW
-                Direction = float3(0.5, 0.5, 0);
+                Direction = float3(0.5, 0.5, -0.25);
                 Color = 1;
                 DistanceAtten = 1;
                 ShadowAtten = 1;
