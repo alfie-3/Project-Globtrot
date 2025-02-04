@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SpawnManager : NetworkBehaviour
 {
@@ -11,26 +12,26 @@ public class SpawnManager : NetworkBehaviour
 
     NetworkVariable<int> spanwedPlayers = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Owner);
 
-    public void Start()
+    public void Awake()
     {
-        if (NetworkManager.Singleton.IsListening)
-            SpawnPlayer();
+        if (!NetworkManager.Singleton.IsServer) return;
+
+        NetworkManager.SceneManager.OnLoadComplete += SpawnPlayers;
     }
 
-    [ContextMenu("Spawn Player")]
-    public void SpawnPlayer()
+    public void SpawnPlayers(ulong clientId, string sceneName, LoadSceneMode mode)
     {
         NetworkManager networkManager = NetworkManager.Singleton;
 
-        SpawnPlayer(networkManager.LocalClientId, spawnPoints[spanwedPlayers.Value % spawnPoints.Count]);
+        foreach (NetworkClient networkClient in networkManager.ConnectedClientsList)
+        {
+            if (networkClient.ClientId != clientId) continue;
 
-        OnClientSpawned_Rpc();
-    }
+            SpawnPlayer(clientId, spawnPoints[spanwedPlayers.Value % spawnPoints.Count]);
+        }
 
-    [Rpc(SendTo.Owner)]
-    public void OnClientSpawned_Rpc()
-    {
         spanwedPlayers.Value++;
+
     }
 
     public void SpawnPlayer(ulong id, SpawnPoint spawnPoint)
@@ -38,6 +39,8 @@ public class SpawnManager : NetworkBehaviour
         NetworkObject player = Instantiate(playerPrefab, spawnPoint.transform.position, Quaternion.identity).GetComponent<NetworkObject>();
 
         player.SpawnAsPlayerObject(id);
+
+        player.transform.position = spawnPoint.transform.position;
 
         Debug.Log($"Spawned player {id} at {spawnPoint.gameObject.name}");
     }

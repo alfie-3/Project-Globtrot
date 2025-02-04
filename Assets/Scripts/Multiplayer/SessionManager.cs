@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.Netcode;
 using Unity.Services.Authentication;
 using Unity.Services.Multiplayer;
 using UnityEngine;
@@ -59,7 +60,7 @@ public static class SessionManager
             Name = SessionName,
             MaxPlayers = MAXPLAYERS,
             PlayerProperties = playerProperties
-        }.WithDistributedAuthorityNetwork();
+        };
 
         Debug.Log($"Creating session {options.Name}...");
 
@@ -68,6 +69,8 @@ public static class SessionManager
         {
             Session = await MultiplayerService.Instance.CreateSessionAsync(options);
             State = ConnectionState.Connected;
+
+            NetworkManager.Singleton.StartHost();
         }
         catch (Exception e)
         {
@@ -107,6 +110,8 @@ public static class SessionManager
         {
             Session = await MultiplayerService.Instance.JoinSessionByCodeAsync(sessionCode, options);
             State = ConnectionState.Connected;
+
+            NetworkManager.Singleton.StartClient();
         }
         catch (Exception e)
         {

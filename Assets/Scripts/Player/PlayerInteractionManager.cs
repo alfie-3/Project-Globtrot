@@ -16,6 +16,8 @@ public class PlayerInteractionManager : NetworkBehaviour
         {
             inputManager.OnInteract += Interact;
         }
+
+        cameraManager = GetComponentInChildren<PlayerCameraManager>();
     }
 
     private void Update()

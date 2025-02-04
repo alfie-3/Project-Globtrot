@@ -37,8 +37,9 @@ public class UI_LobbyManager : MonoBehaviour
 
     public void StartGame()
     {
-        if (NetworkManager.Singleton.LocalClient.IsSessionOwner)
+        if (SessionManager.Session.IsHost)
 
+            Debug.Log(NetworkManager.Singleton.SceneManager == null);
             NetworkManager.Singleton.SceneManager.LoadScene("Scene_MultiplayerTest", LoadSceneMode.Single);
     }
 

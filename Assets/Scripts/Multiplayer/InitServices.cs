@@ -6,7 +6,7 @@ using UnityEngine;
 public class InitServices : MonoBehaviour
 {
 
-    async void Awake()
+    async void Start()
     {
         await UnityServices.InitializeAsync();
     }

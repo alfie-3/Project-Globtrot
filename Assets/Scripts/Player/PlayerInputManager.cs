@@ -15,11 +15,12 @@ public class PlayerInputManager : NetworkBehaviour
     public Action OnPerformPrimary = delegate { };
     public Action OnPerformSecondary = delegate { };
 
-    [field: SerializeField] PlayerCameraManager cameraManager;
+    PlayerCameraManager cameraManager;
 
     public void Awake()
     {
         inputActions = new();
+        cameraManager = GetComponentInChildren<PlayerCameraManager>();
     }
 
     public override void OnNetworkSpawn()
