@@ -10,10 +10,13 @@ public class PlayerInputManager : NetworkBehaviour
     InputSystem_Actions inputActions;
 
     public Vector2 MovementInput { get; private set; }
+    public Vector2 ScrollInput { get; private set; }
 
     public Action OnInteract = delegate { };
     public Action OnPerformPrimary = delegate { };
     public Action OnPerformSecondary = delegate { };
+    public Action<float> OnRotate = delegate { };
+    
 
     [field: SerializeField] PlayerCameraManager cameraManager;
 
@@ -34,6 +37,7 @@ public class PlayerInputManager : NetworkBehaviour
     private void Update()
     {
         MovementInput = inputActions.Player.Move.ReadValue<Vector2>();
+        ScrollInput = inputActions.Player.Scroll.ReadValue<Vector2>();
 
         if (inputActions.Player.Interact.WasPerformedThisFrame())
             OnInteract.Invoke();
@@ -43,6 +47,9 @@ public class PlayerInputManager : NetworkBehaviour
 
         if (inputActions.Player.PerformSecondary.WasPerformedThisFrame())
             OnPerformSecondary.Invoke();
+        Debug.Log(ScrollInput.y);
+        if(ScrollInput.y != 0)
+            OnRotate.Invoke(ScrollInput.y);
     }
 
     //Used for converting movement direction to be relative to chamera direction
@@ -66,4 +73,6 @@ public class PlayerInputManager : NetworkBehaviour
 
         return moveDir;
     }
+
+    
 }

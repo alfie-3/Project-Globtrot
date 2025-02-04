@@ -3,7 +3,7 @@ using UnityEngine;
 public class CharacterControllerPush : MonoBehaviour
 {
     [SerializeField] float pushPower = 0.2f;
-    [SerializeField] float weight = 6f;
+    //[SerializeField] float weight = 6f;
 
     private void OnCollisionStay(Collision collision)
     {

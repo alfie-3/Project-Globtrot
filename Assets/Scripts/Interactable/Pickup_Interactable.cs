@@ -12,6 +12,8 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable
 
         if (interactionManager.TryGetComponent(out PlayerHoldingManager holdingManager))
         {
+            if(holdingManager.HeldItem != null)
+                return;
             if (!IsOwner)
                 NetworkObject.ChangeOwnership(interactionManager.OwnerClientId);
 

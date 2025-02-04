@@ -3,6 +3,8 @@ using UnityEngine;
 public class PlayerHoldingManager : MonoBehaviour
 {
     [field: SerializeField] public ItemBase HeldItem { get; private set; }
+    [SerializeField] public Material Material;
+    public float Rotation { get; private set; }
 
     public PlayerCameraManager CameraManager { get; private set; }
 
@@ -12,6 +14,7 @@ public class PlayerHoldingManager : MonoBehaviour
 
         playerInputManager.OnPerformPrimary += PerformPrimary;
         playerInputManager.OnPerformSecondary += PerformSecondary;
+        playerInputManager.OnRotate += PerformRotate;
 
         CameraManager = GetComponentInChildren<PlayerCameraManager>();
     }
@@ -28,6 +31,12 @@ public class PlayerHoldingManager : MonoBehaviour
         HeldItem.OnHeld();
     }
 
+    public void Update() {
+        if (HeldItem != null) {
+            ((Placable_Item)HeldItem).ShowMesh(this);
+        }
+    }
+
     public void PerformPrimary()
     {
         if (HeldItem == null) return;
@@ -42,9 +51,17 @@ public class PlayerHoldingManager : MonoBehaviour
         HeldItem.OnSecondary(this);
     }
 
+    public void PerformRotate(float dir)
+    {
+        if (HeldItem == null) return;
+
+        Rotation += dir * 8;
+    }
+
     public void ClearItem()
     {
         HeldItem = null;
+        Rotation = 0;
     }
 
     public void DropItem()
