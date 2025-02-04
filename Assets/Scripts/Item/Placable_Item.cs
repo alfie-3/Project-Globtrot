@@ -5,36 +5,35 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Placable Item", menuName = "Items/Placable")]
 public class Placable_Item : ItemBase
 {
-    [SerializeField] GameObject placeablePrefab;
+    [field: SerializeField] public GameObject PlaceablePrefab { get; private set; }
 
-    const float PLACABLE_DISTANCE = 5;
+    public const float PLACABLE_DISTANCE = 5;
 
     public override void OnPrimary(PlayerHoldingManager holdingManager)
     {
         base.OnPrimary(holdingManager);
 
-        if (placeablePrefab != null)
-            PlaceItem(holdingManager);
+        if (PlaceablePrefab != null)
+            PlaceItem_Rpc(holdingManager);
     }
 
-    public void PlaceItem(PlayerHoldingManager holdingManager)
+    [Rpc(SendTo.Server)]
+    public void PlaceItem_Rpc(PlayerHoldingManager holdingManager)
     {
         Ray ray = new(holdingManager.CameraManager.CamTransform.position, holdingManager.CameraManager.CamTransform.forward);
 
         if (Physics.Raycast(ray, out RaycastHit hit, PLACABLE_DISTANCE, LayerMask.GetMask("Placeable")))
         {
-            NetworkObject instance = Instantiate(placeablePrefab, hit.point + placeablePrefab.transform.position, Quaternion.Euler(0, holdingManager.Rotation, 0)).GetComponent<NetworkObject>();
-            instance.Spawn();
-
+            holdingManager.PlaceItem_Rpc(ItemID, hit.point, Quaternion.Euler(0, holdingManager.Rotation, 0));
             holdingManager.ClearItem();
         }
     }
 
-    public void ShowMesh(PlayerHoldingManager holdingManager) {
+    public override void OnUpdate (PlayerHoldingManager holdingManager) {
         Ray ray = new(holdingManager.CameraManager.CamTransform.position, holdingManager.CameraManager.CamTransform.forward);
         RenderParams rp = new RenderParams(holdingManager.Material);
         if (Physics.Raycast(ray, out RaycastHit hit, PLACABLE_DISTANCE, LayerMask.GetMask("Placeable"))) {
-            Graphics.RenderMesh(rp,placeablePrefab.GetComponent<MeshFilter>().sharedMesh, 0, Matrix4x4.TRS((hit.point + placeablePrefab.transform.position), Quaternion.Euler(0,holdingManager.Rotation,0),Vector3.one));
+            Graphics.RenderMesh(rp,PlaceablePrefab.GetComponent<MeshFilter>().sharedMesh, 0, Matrix4x4.TRS((hit.point + PlaceablePrefab.transform.position), Quaternion.Euler(0,holdingManager.Rotation,0),Vector3.one));
         }
     }
 }

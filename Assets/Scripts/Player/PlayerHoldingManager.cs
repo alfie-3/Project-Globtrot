@@ -1,6 +1,7 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerHoldingManager : MonoBehaviour
+public class PlayerHoldingManager : NetworkBehaviour
 {
     [field: SerializeField] public ItemBase HeldItem { get; private set; }
     [SerializeField] public Material Material;
@@ -21,6 +22,8 @@ public class PlayerHoldingManager : MonoBehaviour
 
     public void HoldItem(ItemBase item)
     {
+        if (HeldItem != null) { return; }
+
         if (item == null)
         {
             Debug.LogWarning("No referenced item - Did you forget to assign an item?");
@@ -31,10 +34,25 @@ public class PlayerHoldingManager : MonoBehaviour
         HeldItem.OnHeld();
     }
 
+    public void DropItem()
+    {
+        //To be added
+    }
+
+    [Rpc(SendTo.Server)]
+    public void PlaceItem_Rpc(string itemId, Vector3 location, Quaternion rotation)
+    {
+
+        Placable_Item placeableItem = ItemDictionaryManager.RetrieveItem(itemId) is not Placable_Item ? null : (Placable_Item)ItemDictionaryManager.RetrieveItem(itemId);
+        if (placeableItem == null) return;
+
+        NetworkObject instance = Instantiate(placeableItem.PlaceablePrefab, location + placeableItem.PlaceablePrefab.transform.position, rotation).GetComponent<NetworkObject>();
+        instance.Spawn();
+    }
+
     public void Update() {
-        if (HeldItem != null) {
-            ((Placable_Item)HeldItem).ShowMesh(this);
-        }
+        if (HeldItem == null) return;
+        HeldItem.OnUpdate(this);
     }
 
     public void PerformPrimary()
@@ -62,10 +80,5 @@ public class PlayerHoldingManager : MonoBehaviour
     {
         HeldItem = null;
         Rotation = 0;
-    }
-
-    public void DropItem()
-    {
-
     }
 }

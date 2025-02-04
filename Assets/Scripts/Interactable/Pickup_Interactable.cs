@@ -5,21 +5,32 @@ using UnityEngine;
 public class Pickup_Interactable : NetworkBehaviour, IInteractable
 {
     [SerializeField] ItemBase item;
+    NetworkVariable<bool> pickedUp = new NetworkVariable<bool>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
 
     public void OnInteract(PlayerInteractionManager interactionManager)
     {
         Debug.Log("Interacted");
 
+        Pickup(interactionManager);
+    }
+
+    public void Pickup(PlayerInteractionManager interactionManager)
+    {
+        if (pickedUp.Value == true) return;
+
         if (interactionManager.TryGetComponent(out PlayerHoldingManager holdingManager))
         {
-            if(holdingManager.HeldItem != null)
-                return;
-            if (!IsOwner)
-                NetworkObject.ChangeOwnership(interactionManager.OwnerClientId);
-
             holdingManager.HoldItem(item);
-            NetworkObject.Despawn();
+
+            RequestRemove_RPC();
         }
+    }
+
+    [Rpc(SendTo.Server)]
+    private void RequestRemove_RPC()
+    {
+        pickedUp.Value = true;
+        NetworkObject.Despawn();
     }
 
     public void OnUnview()
