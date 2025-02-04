@@ -48,7 +48,7 @@ public class PlayerInputManager : NetworkBehaviour
 
         if (inputActions.Player.PerformSecondary.WasPerformedThisFrame())
             OnPerformSecondary.Invoke();
-        Debug.Log(ScrollInput.y);
+
         if(ScrollInput.y != 0)
             OnRotate.Invoke(ScrollInput.y);
     }

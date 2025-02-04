@@ -188,7 +188,7 @@ CharacterController:
     m_Bits: 0
   m_LayerOverridePriority: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Height: 2
   m_Radius: 0.5
@@ -210,7 +210,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  cameraManager: {fileID: 1500532457161846325}
 --- !u!114 &8685920174684827089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,6 +222,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3330a2f98eeafb240ac234ed4c684407, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  CanMove: 0
 --- !u!114 &3745843975204388149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,6 +238,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Controller>k__BackingField: {fileID: 8877675575019304611}
   <BaseMovementSpeed>k__BackingField: 5
+  slideSpeed: 8
+  groundCheckRadius: 1
+  groundCheckOffset: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  externalForceVelocity: {x: 0, y: 0, z: 0}
+  gravity: -9.8
+  friction: 10
 --- !u!114 &6292008950873804373
 MonoBehaviour:
   m_ObjectHideFlags: 0
