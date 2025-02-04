@@ -42,6 +42,11 @@ public class PlayerHoldingManager : MonoBehaviour
         HeldItem.OnSecondary(this);
     }
 
+    public void ClearItem()
+    {
+        HeldItem = null;
+    }
+
     public void DropItem()
     {
 

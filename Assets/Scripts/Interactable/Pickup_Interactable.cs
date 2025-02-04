@@ -1,4 +1,5 @@
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Pickup_Interactable : NetworkBehaviour, IInteractable
@@ -11,6 +12,9 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable
 
         if (interactionManager.TryGetComponent(out PlayerHoldingManager holdingManager))
         {
+            if (!IsOwner)
+                NetworkObject.ChangeOwnership(interactionManager.OwnerClientId);
+
             holdingManager.HoldItem(item);
             NetworkObject.Despawn();
         }

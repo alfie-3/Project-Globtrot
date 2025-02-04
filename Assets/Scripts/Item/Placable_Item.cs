@@ -21,10 +21,12 @@ public class Placable_Item : ItemBase
     {
         Ray ray = new(holdingManager.CameraManager.CamTransform.position, holdingManager.CameraManager.CamTransform.forward);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, PLACABLE_DISTANCE))
+        if (Physics.Raycast(ray, out RaycastHit hit, PLACABLE_DISTANCE, LayerMask.GetMask("Placeable")))
         {
-            NetworkObject instance = Instantiate(placeablePrefab, hit.point, Quaternion.identity).GetComponent<NetworkObject>();
+            NetworkObject instance = Instantiate(placeablePrefab, hit.point + placeablePrefab.transform.position, Quaternion.identity).GetComponent<NetworkObject>();
             instance.Spawn();
+
+            holdingManager.ClearItem();
         }
     }
 }
