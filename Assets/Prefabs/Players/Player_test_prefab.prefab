@@ -52,7 +52,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.6
+  m_Radius: 0.36
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -191,8 +191,8 @@ CharacterController:
   m_Enabled: 0
   serializedVersion: 3
   m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
+  m_Radius: 0.2
+  m_SlopeLimit: 64.28
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
@@ -239,9 +239,10 @@ MonoBehaviour:
   <Controller>k__BackingField: {fileID: 8877675575019304611}
   <BaseMovementSpeed>k__BackingField: 5
   JumpVelocity: {x: 3.6, y: 1.5}
-  slideSpeed: 8
-  groundCheckRadius: 0.49
+  slideSpeed: 2.93
+  groundCheckRadius: 0.19
   groundCheckOffset: 0.11
+  slopePushForce: 2.1
   groundLayer:
     serializedVersion: 2
     m_Bits: 65

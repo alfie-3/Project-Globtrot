@@ -12,7 +12,7 @@ public class CharacterMovement : MonoBehaviour
     [field: SerializeField] public Vector2 JumpVelocity = new(2, 1.5f);
     [SerializeField] float slideSpeed = 8;
 
-    [Header("GroundCheckVariables")]
+    [Header("Ground and Slope Variables")]
     [SerializeField] float groundCheckRadius = 1f;
     [SerializeField] float groundCheckOffset = 0f;
     [SerializeField] LayerMask groundLayer;
@@ -32,6 +32,7 @@ public class CharacterMovement : MonoBehaviour
     private void FixedUpdate()
     {
         IsGrounded = GroundCheck();
+        GetSlopeNormal();
     }
 
     public void Move(Vector3 direction)
@@ -66,7 +67,8 @@ public class CharacterMovement : MonoBehaviour
 
         if (angle > Controller.slopeLimit)
         {
-            slideDirection = new Vector3(hitNormal.x, -hitNormal.y, hitNormal.z) * slideSpeed;
+            slideDirection = new Vector3(hitNormal.x, -1, hitNormal.z) * slideSpeed;
+            Debug.Log(angle);
         }
 
         if (IsGrounded && externalForceVelocity.y < 0)
