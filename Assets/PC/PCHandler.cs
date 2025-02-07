@@ -4,6 +4,8 @@ public class PCHandler : MonoBehaviour
 {
     [SerializeField] private Animator camAnimator;
     [SerializeField] private GameObject screen;
+    [SerializeField] private GameObject screenObj;
+    [SerializeField] private GameObject screenOffObj;
 
     private bool isZoomed = false;
 
@@ -18,7 +20,7 @@ public class PCHandler : MonoBehaviour
 
     private IEnumerator ActivateUIScreen()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.0f);
         screen.SetActive(true);
     }
 
@@ -28,12 +30,27 @@ public class PCHandler : MonoBehaviour
         camAnimator.SetTrigger("undoZoom"); 
         screen.SetActive(false);
     }
+
+    public void TurnOn()
+    {
+        screenOffObj.SetActive(false);
+        screenObj.SetActive(true);
+    }
+
+    public void TurnOff()
+    {
+        screenOffObj.SetActive(true);
+        screenObj.SetActive(false);
+    }   
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             ResetCamera();
+
         }
     }
+
 
 }
