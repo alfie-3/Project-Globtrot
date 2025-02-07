@@ -9,6 +9,14 @@ public class PCHandler : MonoBehaviour
 
     private bool isZoomed = false;
 
+    void Start()
+    {
+        CanvasGroup canvasGroup = screen.GetComponent<CanvasGroup>();
+        canvasGroup.alpha = 0; 
+        canvasGroup.interactable = false; 
+        canvasGroup.blocksRaycasts = false; 
+    }
+
     public void ZoomToScreen()
     {
         if (isZoomed) return;
@@ -21,14 +29,22 @@ public class PCHandler : MonoBehaviour
     private IEnumerator ActivateUIScreen()
     {
         yield return new WaitForSeconds(1.0f);
-        screen.SetActive(true);
+        CanvasGroup canvasGroup = screen.GetComponent<CanvasGroup>();
+        canvasGroup.alpha = 1; 
+        canvasGroup.interactable = true; 
+        canvasGroup.blocksRaycasts = true; 
+
     }
 
     public void ResetCamera()
     {
         isZoomed = false;
         camAnimator.SetTrigger("undoZoom"); 
-        screen.SetActive(false);
+        CanvasGroup canvasGroup = screen.GetComponent<CanvasGroup>();
+        canvasGroup.alpha = 0; 
+        canvasGroup.interactable = false; 
+        canvasGroup.blocksRaycasts = false; 
+
     }
 
     public void TurnOn()
