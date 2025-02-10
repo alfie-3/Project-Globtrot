@@ -8,11 +8,12 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable
     [SerializeField] ItemBase item;
     NetworkVariable<bool> pickedUp = new NetworkVariable<bool>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
 
-    public void OnInteract(PlayerInteractionManager interactionManager)
+    public virtual void OnInteract(PlayerInteractionManager interactionManager)
     {
         Debug.Log("Interacted");
 
         Pickup(interactionManager);
+        ChangeParent_RPC(true, interactionManager.GetComponent<NetworkObject>());
     }
 
     public void Pickup(PlayerInteractionManager interactionManager)
@@ -22,14 +23,7 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable
         if (interactionManager.TryGetComponent(out PlayerHoldingManager holdingManager))
         {
             holdingManager.HoldItem(item,this);
-
-            ChangeParent_RPC(true, interactionManager.GetComponent<NetworkObject>());
-
-           // NetworkBehaviourReference
-            //GetComponent<NetworkObject>().TrySetParent(interactionManager.GetComponent<NetworkObject>());
-            //Destroy(GetComponent<NetworkRigidbody>());
-            //Destroy(GetComponent<Rigidbody>());
-            //RequestRemove_RPC();
+            
         }
     }
 
@@ -38,11 +32,8 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable
     public void OnDrop(PlayerHoldingManager holdingManager) 
     {
         if (pickedUp.Value == false) return;
-        //hfrbiwefu_RPC(false);
         holdingManager.ClearItem();
         RemoveParent_RPC();
-        //gameObject.AddComponent<Rigidbody>();
-        //gameObject.AddComponent<NetworkRigidbody>();
     }
 
 

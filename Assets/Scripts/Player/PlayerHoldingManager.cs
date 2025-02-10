@@ -1,14 +1,17 @@
 using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
+using static UnityEditor.FilePathAttribute;
 
 public class PlayerHoldingManager : NetworkBehaviour
 {
     [field: SerializeField] public ItemBase HeldItem { get; private set; }
     public Pickup_Interactable HeldObj { get; private set; }
+
     [SerializeField] public Material Material;
     public float Rotation { get; private set; }
 
+    private NetworkObjectReference heldObjRef;
     public PlayerCameraManager CameraManager { get; private set; }
 
     private void Awake()
@@ -33,9 +36,15 @@ public class PlayerHoldingManager : NetworkBehaviour
             return;
         }
 
-        HeldObj = obj;
+        if (obj is PickUp_Funiture) {
+            GiveCrate_RPC();
+        } else {
+            HeldObj = obj;
+            heldObjRef = HeldObj.GetComponent<NetworkObject>();
+        }
         HeldItem = item;
         HeldItem.OnHeld();
+        
     }
 
     public void DropItem()
@@ -56,6 +65,15 @@ public class PlayerHoldingManager : NetworkBehaviour
 
         //HeldObj.GetComponent<NetworkObject>().Despawn();
         //HeldObj.RequestRemove_RPC();
+    }
+    [Rpc(SendTo.Server)]
+    private void GiveCrate_RPC() {
+        Placable_Item placeableItem = ItemDictionaryManager.RetrieveItem("Crate") is not Placable_Item ? null : (Placable_Item)ItemDictionaryManager.RetrieveItem("Crate");
+        if (placeableItem == null) return;
+        NetworkObject instance = Instantiate(placeableItem.PlaceablePrefab).GetComponent<NetworkObject>();
+        instance.Spawn();
+        HeldObj = instance.GetComponent<Pickup_Interactable>();
+        heldObjRef = instance.GetComponent<NetworkObject>();
     }
 
     public void Update() {
