@@ -8,14 +8,19 @@ public class PlayerInputManager : NetworkBehaviour
 
     //Player input actions generated from input system data 
     InputSystem_Actions inputActions;
-
+    
+    //Movement
     public Vector2 MovementInput { get; private set; }
-    public Vector2 ScrollInput { get; private set; }
+    public Action OnJump = delegate { };
 
+    //Rotating
+    public Vector2 ScrollInput { get; private set; }
+    public Action<float> OnRotate = delegate { };
+
+    //Interaction
     public Action OnInteract = delegate { };
     public Action OnPerformPrimary = delegate { };
     public Action OnPerformSecondary = delegate { };
-    public Action<float> OnRotate = delegate { };
     
 
     PlayerCameraManager cameraManager;
@@ -48,6 +53,9 @@ public class PlayerInputManager : NetworkBehaviour
 
         if (inputActions.Player.PerformSecondary.WasPerformedThisFrame())
             OnPerformSecondary.Invoke();
+
+        if (inputActions.Player.Jump.WasCompletedThisFrame())
+            OnJump.Invoke();
 
         if(ScrollInput.y != 0)
             OnRotate.Invoke(ScrollInput.y);

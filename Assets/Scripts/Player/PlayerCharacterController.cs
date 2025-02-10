@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -16,6 +17,11 @@ public class PlayerCharacterController : NetworkBehaviour
         CharacterMovement.Controller.enabled = true;
     }
 
+    private void OnEnable()
+    {
+        PlayerInputManager.OnJump += Jump;
+    }
+
     private void Awake()
     {
         CharacterMovement = GetComponent<CharacterMovement>();
@@ -29,5 +35,10 @@ public class PlayerCharacterController : NetworkBehaviour
         if (!CanMove) return;
 
         CharacterMovement.Move(PlayerInputManager.CameraRelativeInput());
+    }
+
+    private void Jump()
+    {
+         CharacterMovement.Jump(PlayerInputManager.CameraRelativeInput());
     }
 }
