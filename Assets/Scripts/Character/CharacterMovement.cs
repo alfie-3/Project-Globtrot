@@ -22,6 +22,7 @@ public class CharacterMovement : MonoBehaviour
     [Header("Forces Variables")]
     [SerializeField] Vector3 externalForceVelocity;
     [SerializeField] protected float gravity = -9.8f;
+    [field: SerializeField] public float Weight { get; private set; } = 5f;
     [SerializeField] float friction = 10;
 
     private void Awake()
@@ -68,14 +69,13 @@ public class CharacterMovement : MonoBehaviour
         if (angle > Controller.slopeLimit)
         {
             slideDirection = new Vector3(hitNormal.x, -1, hitNormal.z) * slideSpeed;
-            Debug.Log(angle);
         }
 
         if (IsGrounded && externalForceVelocity.y < 0)
         {
             externalForceVelocity.y = -0.5f;
-            externalForceVelocity.x = Mathf.Lerp(externalForceVelocity.x, 0, friction) * Time.deltaTime;
-            externalForceVelocity.z = Mathf.Lerp(externalForceVelocity.z, 0, friction) * Time.deltaTime;
+            externalForceVelocity.x = Mathf.Lerp(externalForceVelocity.x, 0, friction * Time.deltaTime);
+            externalForceVelocity.z = Mathf.Lerp(externalForceVelocity.z, 0, friction * Time.deltaTime);
         }
         else
         {
@@ -83,6 +83,12 @@ public class CharacterMovement : MonoBehaviour
         }
 
         return externalForceVelocity + slideDirection;
+    }
+
+    public void Push(Vector3 direction)
+    {
+        externalForceVelocity += (direction / Weight);
+        Debug.Log($"{externalForceVelocity} : {direction}");
     }
 
     Vector3 SphereCastPoint => (transform.position + Controller.center) - new Vector3(0, (Controller.height / 2 - Controller.radius), 0);
