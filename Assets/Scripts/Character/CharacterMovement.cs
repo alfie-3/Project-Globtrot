@@ -88,7 +88,6 @@ public class CharacterMovement : MonoBehaviour
     public void Push(Vector3 direction)
     {
         externalForceVelocity += (direction / Weight);
-        Debug.Log($"{externalForceVelocity} : {direction}");
     }
 
     Vector3 SphereCastPoint => (transform.position + Controller.center) - new Vector3(0, (Controller.height / 2 - Controller.radius), 0);
