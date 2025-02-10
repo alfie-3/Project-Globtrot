@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Pickup_Interactable : NetworkBehaviour, IInteractable
 {
-    [SerializeField] ItemBase item;
+    [SerializeField] public ItemBase item;
     NetworkVariable<bool> pickedUp = new NetworkVariable<bool>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
 
     public virtual void OnInteract(PlayerInteractionManager interactionManager)
@@ -13,10 +13,10 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable
         Debug.Log("Interacted");
 
         Pickup(interactionManager);
-        ChangeParent_RPC(true, interactionManager.GetComponent<NetworkObject>());
+        Pickup_RPC();
     }
 
-    public void Pickup(PlayerInteractionManager interactionManager)
+    protected void Pickup(PlayerInteractionManager interactionManager)
     {
         if (pickedUp.Value == true) return;
 
@@ -33,30 +33,26 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable
     {
         if (pickedUp.Value == false) return;
         holdingManager.ClearItem();
-        RemoveParent_RPC();
+        Drop_RPC();
     }
 
 
     [Rpc(SendTo.Server)]
-    private void ChangeParent_RPC(bool state,NetworkObjectReference awd) {
-        pickedUp.Value = state;
+    private void Pickup_RPC() {
+        pickedUp.Value = true;
 
-        if (awd.TryGet(out NetworkObject ham)) {
-            Rigidbody body = GetComponent<Rigidbody>();
-            body.isKinematic = true;
-            NetworkRigidbody nBody = GetComponent<NetworkRigidbody>();
-            nBody.UseRigidBodyForMotion = false;
+        Rigidbody body = GetComponent<Rigidbody>();
+        body.isKinematic = true;
+        NetworkRigidbody nBody = GetComponent<NetworkRigidbody>();
+        nBody.UseRigidBodyForMotion = false;
 
-            transform.localScale = Vector3.one * 0.25f;
-        }
-
+        transform.localScale = Vector3.one * 0.25f;
     }
 
     [Rpc(SendTo.Server)]
-    private void RemoveParent_RPC() {
+    private void Drop_RPC() {
         pickedUp.Value = false;
 
-        //GetComponent<NetworkObject>().TryRemoveParent();
         Rigidbody body = GetComponent<Rigidbody>();
         body.isKinematic = false;
 

@@ -5,8 +5,14 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Placable Item", menuName = "Items/Placable")]
 public class Placable_Item : ItemBase
 {
+    private GameObject _PlaceablePrefab;
     [field: SerializeField] public GameObject PlaceablePrefab { get; private set; }
-
+    //    { 
+    //    get { return _PlaceablePrefab; }
+    //    private set { _PlaceablePrefab = value; holoMesh = value.GetComponent<MeshFilter>().sharedMesh;}
+    //}
+    private Mesh holoMesh;
+    private RenderParams renderParams;
 
     public const float PLACABLE_DISTANCE = 5;
 

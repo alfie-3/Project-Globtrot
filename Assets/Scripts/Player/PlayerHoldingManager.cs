@@ -37,7 +37,7 @@ public class PlayerHoldingManager : NetworkBehaviour
         }
 
         if (obj is PickUp_Funiture) {
-            GiveCrate_RPC();
+            GiveCrate_RPC(item.ItemID);
         } else {
             HeldObj = obj;
             heldObjRef = HeldObj.GetComponent<NetworkObject>();
@@ -56,10 +56,12 @@ public class PlayerHoldingManager : NetworkBehaviour
     [Rpc(SendTo.Server)]
     public void PlaceItem_Rpc(string itemId, Vector3 location, Quaternion rotation)
     {
-
+        Debug.Log("Tammy");
         Placable_Item placeableItem = ItemDictionaryManager.RetrieveItem(itemId) is not Placable_Item ? null : (Placable_Item)ItemDictionaryManager.RetrieveItem(itemId);
+        Debug.Log("Nammy");
+        Debug.Log(itemId);
         if (placeableItem == null) return;
-
+        Debug.Log("Hammy");
         NetworkObject instance = Instantiate(placeableItem.PlaceablePrefab, location + placeableItem.PlaceablePrefab.transform.position, rotation).GetComponent<NetworkObject>();
         instance.Spawn();
 
@@ -67,13 +69,16 @@ public class PlayerHoldingManager : NetworkBehaviour
         //HeldObj.RequestRemove_RPC();
     }
     [Rpc(SendTo.Server)]
-    private void GiveCrate_RPC() {
+    private void GiveCrate_RPC(string itemID) {
         Placable_Item placeableItem = ItemDictionaryManager.RetrieveItem("Crate") is not Placable_Item ? null : (Placable_Item)ItemDictionaryManager.RetrieveItem("Crate");
         if (placeableItem == null) return;
         NetworkObject instance = Instantiate(placeableItem.PlaceablePrefab).GetComponent<NetworkObject>();
         instance.Spawn();
-        HeldObj = instance.GetComponent<Pickup_Interactable>();
-        heldObjRef = instance.GetComponent<NetworkObject>();
+
+        //HeldObj = instance.GetComponent<Pickup_Interactable>();
+        //heldObjRef = instance.GetComponent<NetworkObject>();
+        instance.GetComponent<Pickup_Interactable>().item = ItemDictionaryManager.RetrieveItem(itemID);
+        instance.GetComponent<Pickup_Interactable>().OnInteract(GetComponent<PlayerInteractionManager>());
     }
 
     public void Update() {
