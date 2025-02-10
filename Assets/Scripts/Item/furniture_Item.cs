@@ -2,8 +2,8 @@ using Unity.AppUI.UI;
 using Unity.Netcode;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Placable Item", menuName = "Items/Placable")]
-public class Placable_Item : ItemBase
+[CreateAssetMenu(fileName = "New Furniture", menuName = "Items/Placable/Funiture")]
+public class furniture : ItemBase
 {
     [field: SerializeField] public GameObject PlaceablePrefab { get; private set; }
 

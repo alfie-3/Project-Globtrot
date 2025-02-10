@@ -21,7 +21,8 @@ public class PlayerInputManager : NetworkBehaviour
     public Action OnInteract = delegate { };
     public Action OnPerformPrimary = delegate { };
     public Action OnPerformSecondary = delegate { };
-    
+    public Action OnPerformDrop = delegate { };
+
 
     PlayerCameraManager cameraManager;
 
@@ -53,6 +54,9 @@ public class PlayerInputManager : NetworkBehaviour
 
         if (inputActions.Player.PerformSecondary.WasPerformedThisFrame())
             OnPerformSecondary.Invoke();
+
+        if (inputActions.Player.Drop.WasPerformedThisFrame())
+            OnPerformDrop.Invoke();
 
         if (inputActions.Player.Jump.WasCompletedThisFrame())
             OnJump.Invoke();
