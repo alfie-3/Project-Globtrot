@@ -891,7 +891,7 @@ GameObject:
   - component: {fileID: 233852197}
   - component: {fileID: 233852196}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Start
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1346,7 +1346,7 @@ GameObject:
   - component: {fileID: 379476287}
   - component: {fileID: 379476286}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Leave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3851,7 +3851,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2003741694}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 2
   m_Camera: {fileID: 0}
@@ -3899,6 +3899,7 @@ MonoBehaviour:
   lobbyIdText: {fileID: 2133317489}
   playerCardHolder: {fileID: 414014810}
   playerCardPrefab: {fileID: 4523491698436699071, guid: 7e1a6dfaf800d5b45a9a15b410ad7671, type: 3}
+  startGameButton: {fileID: 233852196}
 --- !u!114 &2003741699
 MonoBehaviour:
   m_ObjectHideFlags: 0

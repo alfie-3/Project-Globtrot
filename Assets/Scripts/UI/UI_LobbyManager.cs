@@ -4,6 +4,7 @@ using Unity.Netcode;
 using Unity.Services.Multiplayer;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UI_LobbyManager : MonoBehaviour
 {
@@ -14,10 +15,14 @@ public class UI_LobbyManager : MonoBehaviour
 
     Dictionary<string, UI_PlayerCard> playerCardDict = new Dictionary<string, UI_PlayerCard>();
 
+    [SerializeField] Button startGameButton;
+
     private void OnEnable()
     {
         SessionManager.PlayerJoined += AddPlayerCard;
         SessionManager.PlayerLeft += RemovePlayerCard;
+
+        GetComponent<UI_OpenableCanvas>(). CanvasOpened += ToggleStartButton;
     }
 
     public void StartLobby()
@@ -82,5 +87,10 @@ public class UI_LobbyManager : MonoBehaviour
         }
 
         playerCardDict.Clear();
+    }
+
+    public void ToggleStartButton(UI_OpenableCanvas _)
+    {
+        startGameButton.interactable = SessionManager.Session.IsHost;
     }
 }
