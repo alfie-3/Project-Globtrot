@@ -1,6 +1,9 @@
 using Unity.Netcode;
 using Unity.Netcode.Components;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 using static UnityEditor.FilePathAttribute;
 
 public class PlayerHoldingManager : NetworkBehaviour
@@ -37,14 +40,13 @@ public class PlayerHoldingManager : NetworkBehaviour
         }
 
         if (obj is PickUp_Funiture) {
-            GiveCrate_RPC(item.ItemID);
-        } else {
-            HeldObj = obj;
-            heldObjRef = HeldObj.GetComponent<NetworkObject>();
-        }
+            GiveCrate_RPC(item.ItemID); return;
+        } 
+        HeldObj = obj;
+        heldObjRef = HeldObj.GetComponent<NetworkObject>();
         HeldItem = item;
         HeldItem.OnHeld();
-        
+
     }
 
     public void DropItem()
@@ -102,11 +104,20 @@ public class PlayerHoldingManager : NetworkBehaviour
         if (HeldItem == null) return;
 
         HeldItem.OnPrimary(this);
+        //HeldObj.RequestRemove_RPC();
     }
 
-    public void PerformSecondary()
+    public void PerformSecondary(InputAction.CallbackContext context)
     {
         if (HeldItem == null) return;
+
+        /*if (context.interaction is PressInteraction && ((PressInteraction)context.interaction).behavior is PressBehavior.PressAndRelease) {// PressBehavior.PressAndRelease) //UnityEngine.InputSystem.Interactions.PressBehavior.PressAndRelease
+            //PressInteraction afm = new PressInteraction();
+            //if(afm.behavior == PressBehavior.PressAndRelease)
+            Debug.Log(context.duration.ToString() + "  duramritne");
+        } else*/
+        Debug.Log("Throw");
+
 
         HeldItem.OnSecondary(this);
     }
@@ -130,5 +141,11 @@ public class PlayerHoldingManager : NetworkBehaviour
     {
         HeldItem = null;
         Rotation = 0;
+    }
+
+    public void DestoryHeldObject() {
+        ClearItem();
+        HeldObj.RequestRemove_RPC();
+        HeldObj = null;
     }
 }
