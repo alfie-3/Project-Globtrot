@@ -124,7 +124,7 @@ public class PlayerHoldingManager : NetworkBehaviour
     {
         if (HeldItem == null) return;
 
-        Rotation += dir * 8;
+        Rotation += dir * 22.5f;
     }
 
     public void ClearItem()
