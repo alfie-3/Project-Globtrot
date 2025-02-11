@@ -35,6 +35,9 @@
         },
         {
             "m_Id": "243172bde7164745806cc0f3db53c5e0"
+        },
+        {
+            "m_Id": "568506aa2dcf459992505eb07234a5bf"
         }
     ],
     "m_Keywords": [],
@@ -272,6 +275,9 @@
         },
         {
             "m_Id": "85a9bff6e35040a3a5c9175174243644"
+        },
+        {
+            "m_Id": "9333f11151604e97a4f7c2288b5b6bc9"
         }
     ],
     "m_GroupDatas": [
@@ -849,6 +855,20 @@
                     "m_Id": "d5c099c0d7b341aaab2d5f021afbd105"
                 },
                 "m_SlotId": 5
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "9333f11151604e97a4f7c2288b5b6bc9"
+                },
+                "m_SlotId": 0
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "49962413262d4a31aad2cdc11a693014"
+                },
+                "m_SlotId": 0
             }
         },
         {
@@ -2454,8 +2474,8 @@
     "m_ObjectId": "2219b61dac35416a89c529f109ee0ef8",
     "m_Title": "Specular Highlight",
     "m_Position": {
-        "x": -616.0,
-        "y": 1027.0
+        "x": -615.9998779296875,
+        "y": 1026.9998779296875
     }
 }
 
@@ -4743,6 +4763,34 @@
 }
 
 {
+    "m_SGVersion": 1,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty",
+    "m_ObjectId": "568506aa2dcf459992505eb07234a5bf",
+    "m_Guid": {
+        "m_GuidSerialized": "8e56a584-6194-4185-8cc9-ee843a7ec1d6"
+    },
+    "m_Name": "Alpha",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "Alpha",
+    "m_DefaultReferenceName": "_Alpha",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_DismissedVersion": 0,
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": 1.0,
+    "m_FloatType": 0,
+    "m_RangeValues": {
+        "x": 0.0,
+        "y": 1.0
+    }
+}
+
+{
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DynamicValueMaterialSlot",
     "m_ObjectId": "574a4cba6cc04842a07006df9b2e4684",
@@ -4788,6 +4836,21 @@
         "e32": 0.0,
         "e33": 1.0
     }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "5764e232b40e4a0ea04325f799a716bc",
+    "m_Id": 0,
+    "m_DisplayName": "Alpha",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Out",
+    "m_StageCapability": 3,
+    "m_Value": 0.0,
+    "m_DefaultValue": 0.0,
+    "m_Labels": []
 }
 
 {
@@ -5832,8 +5895,8 @@
     "m_ObjectId": "74754638bbac494eb52d3ec02a9c41ef",
     "m_Title": "Gradient bits idk",
     "m_Position": {
-        "x": 1514.0,
-        "y": 1535.0
+        "x": 1513.9998779296875,
+        "y": 1534.9996337890625
     }
 }
 
@@ -6315,7 +6378,7 @@
     "m_Title": "test lolll",
     "m_Position": {
         "x": 452.0,
-        "y": -243.0
+        "y": -243.00009155273438
     }
 }
 
@@ -6760,10 +6823,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 1121.0,
-            "y": 461.0,
+            "x": 1122.0,
+            "y": 452.0,
             "width": 208.0,
-            "height": 301.99993896484377
+            "height": 302.0
         }
     },
     "m_Slots": [
@@ -7029,6 +7092,42 @@
     "m_Value": 93.0,
     "m_DefaultValue": 0.0,
     "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
+    "m_ObjectId": "9333f11151604e97a4f7c2288b5b6bc9",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "Property",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": 3190.0,
+            "y": 876.0,
+            "width": 0.0,
+            "height": 0.0
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "5764e232b40e4a0ea04325f799a716bc"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_Property": {
+        "m_Id": "568506aa2dcf459992505eb07234a5bf"
+    }
 }
 
 {
@@ -10384,6 +10483,9 @@
         },
         {
             "m_Id": "d648f1382cd04c29bc55ec5bb4900b3f"
+        },
+        {
+            "m_Id": "568506aa2dcf459992505eb07234a5bf"
         }
     ]
 }
