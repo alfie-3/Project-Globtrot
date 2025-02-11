@@ -1602,7 +1602,7 @@ Light:
     m_CustomResolution: -1
     m_Strength: 1
     m_Bias: 0.05
-    m_NormalBias: 0.4
+    m_NormalBias: 0
     m_NearPlane: 0.2
     m_CullingMatrixOverride:
       e00: 1
@@ -1673,7 +1673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Version: 3
-  m_UsePipelineSettings: 1
+  m_UsePipelineSettings: 0
   m_AdditionalLightsShadowResolutionTier: 2
   m_LightLayerMask: 1
   m_RenderingLayers: 1
@@ -11242,6 +11242,24 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 250530220}
   m_SourcePrefab: {fileID: 100100000, guid: 9ff59f7d8cb93f64b92fd5e0ca8d89ce, type: 3}
+--- !u!1 &1886103119 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1664385448671051171, guid: a3e8aaa27dc08db42af74e3b15832c76, type: 3}
+  m_PrefabInstance: {fileID: 1944867440}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1886103129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1886103119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fab5b17e554ceb4f8a0a0e7cc7fdfc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AcceptedStockType: 0
 --- !u!1 &1935345437 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: bf3b88ef69dd0ea4ca68541cb1057510, type: 3}
@@ -11352,7 +11370,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1664385448671051171, guid: a3e8aaa27dc08db42af74e3b15832c76, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1886103129}
   m_SourcePrefab: {fileID: 100100000, guid: a3e8aaa27dc08db42af74e3b15832c76, type: 3}
 --- !u!1 &1970217152 stripped
 GameObject:
