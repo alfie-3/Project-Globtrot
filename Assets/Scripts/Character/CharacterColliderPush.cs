@@ -11,6 +11,8 @@ public class CharacterColliderPush : NetworkBehaviour
     CharacterMovement characterMovement;
     LayerMask mask = ~0;
 
+    Collider[] allocatedColliders = new Collider[20];
+
     private void Awake()
     {
         characterMovement = GetComponentInParent<CharacterMovement>();
@@ -26,15 +28,18 @@ public class CharacterColliderPush : NetworkBehaviour
         Vector3 start = new(transform.position.x, transform.position.y + characterMovement.Controller.height/2, transform.position.z);
         Vector3 end = new(transform.position.x, transform.position.y - characterMovement.Controller.height/2, transform.position.z);
 
-        Collider[] colliders = Physics.OverlapCapsule(start, end, radius, mask, QueryTriggerInteraction.Collide);
+        int collidersCount = Physics.OverlapCapsuleNonAlloc(start, end, radius, allocatedColliders, mask, QueryTriggerInteraction.Collide);
 
-        foreach (Collider collider in colliders)
+        Collider collider;
+
+        for (int i = 0; i < collidersCount; i++)
         {
+            collider = allocatedColliders[i];
+
             if (collider.transform == transform) continue;
 
             if (collider.TryGetComponent(out CharacterColliderPush _))
             {
-                Debug.Log("Push");
                 PerformPlayerCollision(collider);
             }
 

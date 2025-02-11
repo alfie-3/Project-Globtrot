@@ -102,7 +102,6 @@ public class PlayerHoldingManager : NetworkBehaviour
         if (HeldItem == null) return;
 
         HeldItem.OnPrimary(this);
-        HeldObj.RequestRemove_RPC();
     }
 
     public void PerformSecondary()

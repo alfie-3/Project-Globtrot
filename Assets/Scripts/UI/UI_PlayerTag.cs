@@ -44,6 +44,7 @@ public class UI_PlayerTag : NetworkBehaviour
         if (IsOwner)
         {
             UpdateNameTagText();
+            GetComponentInChildren<Canvas>().enabled = false;
         }
         else
         {
