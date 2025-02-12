@@ -36,7 +36,7 @@ public class CharacterMovement : MonoBehaviour
         GetSlopeNormal();
     }
 
-    public void Move(Vector3 direction)
+    public void Move(Vector3 direction, float movementMultiplier = 1)
     {
         float angle = Vector3.Angle(Vector3.up, hitNormal);
         if (angle < Controller.slopeLimit)
@@ -44,7 +44,7 @@ public class CharacterMovement : MonoBehaviour
             direction = AdjustDirectionToSlope(direction);
         }
 
-        Controller.Move(((direction * BaseMovementSpeed) + CalculateForces()) * Time.deltaTime);
+        Controller.Move(((direction * (BaseMovementSpeed * movementMultiplier)) + CalculateForces()) * Time.deltaTime);
     }
 
     public void Teleport(Vector3 position)

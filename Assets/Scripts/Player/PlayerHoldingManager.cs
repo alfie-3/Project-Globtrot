@@ -1,5 +1,6 @@
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerHoldingManager : NetworkBehaviour
 {
@@ -100,7 +101,7 @@ public class PlayerHoldingManager : NetworkBehaviour
         }
     }
 
-    public void PerformPrimary()
+    public void PerformPrimary(InputAction.CallbackContext context)
     {
         if (HeldObj == null) return;
 
@@ -109,7 +110,7 @@ public class PlayerHoldingManager : NetworkBehaviour
         useableObject.UsePrimary(this);
     }
 
-    public void PerformSecondary()
+    public void PerformSecondary(InputAction.CallbackContext context)
     {
         if (HeldObj == null) return;
 
@@ -118,7 +119,7 @@ public class PlayerHoldingManager : NetworkBehaviour
         useableObject.UseSecondary(this);
     }
 
-    public void PerformDrop()
+    public void PerformDrop(InputAction.CallbackContext context)
     {
         if (HeldObj == null) return;
 

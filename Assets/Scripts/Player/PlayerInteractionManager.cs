@@ -1,5 +1,6 @@
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerInteractionManager : NetworkBehaviour
 {
@@ -52,7 +53,7 @@ public class PlayerInteractionManager : NetworkBehaviour
         }
     }
 
-    public void Interact()
+    public void Interact(InputAction.CallbackContext context)
     {
         currentInteractable?.OnInteract(this);
     }

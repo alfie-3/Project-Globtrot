@@ -49,8 +49,6 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
             nBody.UseRigidBodyForMotion = false;
         }
 
-        transform.localScale = Vector3.one * 0.25f;
-
         ToggleCollisions(false);
     }
 
@@ -67,9 +65,6 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
             NetworkRigidbody nBody = GetComponent<NetworkRigidbody>();
             nBody.UseRigidBodyForMotion = true;
         }
-
-
-        transform.localScale = Vector3.one;
 
         ToggleCollisions(true);
 

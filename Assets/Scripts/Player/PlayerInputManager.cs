@@ -1,6 +1,8 @@
 using System;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerInputManager : NetworkBehaviour
 {
@@ -8,7 +10,7 @@ public class PlayerInputManager : NetworkBehaviour
 
     //Player input actions generated from input system data 
     InputSystem_Actions inputActions;
-    
+
     //Movement
     public Vector2 MovementInput { get; private set; }
     public Action OnJump = delegate { };
@@ -18,10 +20,11 @@ public class PlayerInputManager : NetworkBehaviour
     public Action<float> OnRotate = delegate { };
 
     //Interaction
-    public Action OnInteract = delegate { };
-    public Action OnPerformPrimary = delegate { };
-    public Action OnPerformSecondary = delegate { };
-    public Action OnPerformDrop = delegate { };
+    public Action<InputAction.CallbackContext> OnInteract = delegate { };
+    public Action<InputAction.CallbackContext> OnPerformPrimary = delegate { };
+    public Action<InputAction.CallbackContext> OnPerformSecondary = delegate { };
+    public Action<InputAction.CallbackContext> OnPerformDrop = delegate { };
+    public Action<InputAction.CallbackContext> OnSprint = delegate { };
 
 
     PlayerCameraManager cameraManager;
@@ -30,6 +33,15 @@ public class PlayerInputManager : NetworkBehaviour
     {
         inputActions = new();
         cameraManager = GetComponentInChildren<PlayerCameraManager>();
+
+        inputActions.Player.Interact.performed += context => { OnInteract.Invoke(context); };
+        inputActions.Player.PerformPrimary.performed += context => { OnPerformPrimary.Invoke(context); };
+        inputActions.Player.PerformSecondary.performed += context => { OnPerformSecondary.Invoke(context); Debug.Log("time: " + context.duration); };
+        inputActions.Player.Drop.performed += context => { OnPerformDrop.Invoke(context); };
+        inputActions.Player.Jump.performed += context => { OnJump.Invoke(); };
+
+        inputActions.Player.Sprint.started += context => { OnSprint.Invoke(context); };
+        inputActions.Player.Sprint.canceled += context => { OnSprint.Invoke(context); };
     }
 
     public override void OnNetworkSpawn()
@@ -41,27 +53,26 @@ public class PlayerInputManager : NetworkBehaviour
             inputActions.Enable();
     }
 
+    void OnMoveInput(InputAction.CallbackContext context)
+    {
+
+        // Get the input value from the context
+
+        float movementValue = context.ReadValue<float>();
+
+
+        //context.
+        // Trigger the delegate with the input value
+
+        //OnMove?.Invoke(movementValue);
+    }
+
     private void Update()
     {
         MovementInput = inputActions.Player.Move.ReadValue<Vector2>();
         ScrollInput = inputActions.Player.Scroll.ReadValue<Vector2>();
 
-        if (inputActions.Player.Interact.WasPerformedThisFrame())
-            OnInteract.Invoke();
-
-        if (inputActions.Player.PerformPrimary.WasPerformedThisFrame())
-            OnPerformPrimary.Invoke();
-
-        if (inputActions.Player.PerformSecondary.WasPerformedThisFrame())
-            OnPerformSecondary.Invoke();
-
-        if (inputActions.Player.Drop.WasPerformedThisFrame())
-            OnPerformDrop.Invoke();
-
-        if (inputActions.Player.Jump.WasCompletedThisFrame())
-            OnJump.Invoke();
-
-        if(ScrollInput.y != 0)
+        if (ScrollInput.y != 0)
             OnRotate.Invoke(ScrollInput.y);
     }
 
@@ -87,5 +98,5 @@ public class PlayerInputManager : NetworkBehaviour
         return moveDir;
     }
 
-    
+
 }
