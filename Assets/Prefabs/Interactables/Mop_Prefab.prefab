@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 8134042259328544409}
   - component: {fileID: 6772433760194074613}
   - component: {fileID: 164319093881441903}
+  - component: {fileID: -2696343959375472244}
   - component: {fileID: 4296117219072818657}
   - component: {fileID: 2801042568454915160}
   m_Layer: 0
@@ -211,7 +212,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  item: {fileID: 11400000, guid: e3d1c2f8b9fa89c42941254682276067, type: 2}
+  item: {fileID: 0}
+--- !u!114 &-2696343959375472244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6214333372330626780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6466fb13eebad5c41a8c992c8ac032a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  sweepDistance: 5
+  sweepPower: 1
 --- !u!65 &4296117219072818657
 BoxCollider:
   m_ObjectHideFlags: 0

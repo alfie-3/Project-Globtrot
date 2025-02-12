@@ -1,21 +1,18 @@
+using Unity.Netcode;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Mop Item", menuName = "Items/Mop")]
-public class Mop_Item : ItemBase
+public class MopHandler : NetworkBehaviour, IUsePrimary, IOnHeld
 {
     [SerializeField] float sweepDistance = 5f;
     [SerializeField] int sweepPower = 1;
 
-    public override void OnHeld()
+    public void OnHeld(PlayerHoldingManager _)
     {
-        base.OnHeld();
         Debug.Log("Mop Equiped");
     }
 
-    public override void OnPrimary(PlayerHoldingManager holdingManager)
+    public void UsePrimary(PlayerHoldingManager holdingManager)
     {
-        base.OnPrimary(holdingManager);
-
         Sweep(holdingManager);
     }
 
