@@ -1,14 +1,19 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.Multiplayer.Widgets;
 using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
+using Unity.Networking.Transport.Relay;
 using Unity.Services.Authentication;
 using Unity.Services.Multiplayer;
+using Unity.Services.Relay;
+using Unity.Services.Relay.Models;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public static class SessionManager
 {
-    public static ISession Session {  get; private set; }
+    public static ISession Session { get; private set; }
 
     public const int MAXPLAYERS = 4;
 
@@ -28,6 +33,8 @@ public static class SessionManager
     {
         Session.PlayerJoined += (value) => { PlayerJoined.Invoke(value); };
         Session.PlayerHasLeft += (value) => { PlayerLeft.Invoke(value); };
+
+        NetworkManager.Singleton.OnClientConnectedCallback += context => { Debug.Log($"Client {context} connected"); };
     }
 
     public static void UnregisterSessionEvents()
@@ -60,7 +67,7 @@ public static class SessionManager
             Name = SessionName,
             MaxPlayers = MAXPLAYERS,
             PlayerProperties = playerProperties
-        };
+        }.WithRelayNetwork();
 
         Debug.Log($"Creating session {options.Name}...");
 
@@ -69,8 +76,6 @@ public static class SessionManager
         {
             Session = await MultiplayerService.Instance.CreateSessionAsync(options);
             State = ConnectionState.Connected;
-
-            NetworkManager.Singleton.StartHost();
         }
         catch (Exception e)
         {
@@ -110,8 +115,6 @@ public static class SessionManager
         {
             Session = await MultiplayerService.Instance.JoinSessionByCodeAsync(sessionCode, options);
             State = ConnectionState.Connected;
-
-            NetworkManager.Singleton.StartClient();
         }
         catch (Exception e)
         {
@@ -123,6 +126,14 @@ public static class SessionManager
         RegisterSessionEvents();
 
         return TaskResult.Success;
+    }
+
+    public static void LoadScene(string sceneName)
+    {
+        if (!Session.IsHost) return;
+
+        NetworkManager.Singleton.SceneManager.ActiveSceneSynchronizationEnabled = true;
+        NetworkManager.Singleton.SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
     }
 
     public static async Task LeaveSession()
