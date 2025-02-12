@@ -22,7 +22,7 @@ public class UI_LobbyManager : MonoBehaviour
         SessionManager.PlayerJoined += AddPlayerCard;
         SessionManager.PlayerLeft += RemovePlayerCard;
 
-        GetComponent<UI_OpenableCanvas>(). CanvasOpened += ToggleStartButton;
+        GetComponent<UI_OpenableCanvas>().CanvasOpened += ToggleStartButton;
     }
 
     public void StartLobby()
@@ -40,12 +40,9 @@ public class UI_LobbyManager : MonoBehaviour
         ClearPlayerCards();
     }
 
-    public void StartGame()
+    public void StartGame(string sceneName)
     {
-        if (SessionManager.Session.IsHost)
-
-            Debug.Log(NetworkManager.Singleton.SceneManager == null);
-            NetworkManager.Singleton.SceneManager.LoadScene("Scene_MultiplayerTest", LoadSceneMode.Single);
+        SessionManager.LoadScene(sceneName);
     }
 
     public void AddPlayerCards()

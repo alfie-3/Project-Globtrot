@@ -1,6 +1,7 @@
 using System;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterMovement), typeof(PlayerInputManager))]
 public class PlayerCharacterController : NetworkBehaviour
@@ -9,6 +10,9 @@ public class PlayerCharacterController : NetworkBehaviour
     public PlayerInputManager PlayerInputManager { get; private set; }
 
     public bool CanMove = false;
+
+    [SerializeField] float sprintMultiplier = 1.4f;
+    float currentMovementMultiplier = 1f;
 
     public override void OnNetworkSpawn()
     {
@@ -20,6 +24,7 @@ public class PlayerCharacterController : NetworkBehaviour
     private void OnEnable()
     {
         PlayerInputManager.OnJump += Jump;
+        PlayerInputManager.OnSprint += ToggleSprint;
     }
 
     private void Awake()
@@ -34,11 +39,19 @@ public class PlayerCharacterController : NetworkBehaviour
     {
         if (!CanMove) return;
 
-        CharacterMovement.Move(PlayerInputManager.CameraRelativeInput());
+        CharacterMovement.Move(PlayerInputManager.CameraRelativeInput(), currentMovementMultiplier);
     }
 
     private void Jump()
     {
          CharacterMovement.Jump(PlayerInputManager.CameraRelativeInput());
+    }
+
+    private void ToggleSprint(InputAction.CallbackContext context)
+    {
+        if (context.started)
+            currentMovementMultiplier = sprintMultiplier;
+        else if (context.canceled)
+            currentMovementMultiplier = 1f;
     }
 }
