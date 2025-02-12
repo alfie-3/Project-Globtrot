@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 5573068081862413614}
   - component: {fileID: 4194480332137284511}
   - component: {fileID: 8637402794023540924}
+  - component: {fileID: 9014421328151651998}
   m_Layer: 0
   m_Name: ItemCrate
   m_TagString: Untagged
@@ -231,4 +232,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  item: {fileID: 11400000, guid: 590190be5cd89c544af99dd6f4e0f303, type: 2}
+--- !u!114 &9014421328151651998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 69965173015864777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b73e051a0fc993b46ad9e6309b0d675d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  furnitureItem: {fileID: 11400000, guid: 71d3620417e0e0a4d9f83519ee57fe4d, type: 2}

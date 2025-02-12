@@ -1,20 +1,16 @@
 using Unity.Netcode;
-using Unity.Netcode.Components;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Interactions;
-using static UnityEditor.FilePathAttribute;
 
 public class PlayerHoldingManager : NetworkBehaviour
 {
-    [field: SerializeField] public ItemBase HeldItem { get; private set; }
-    public Pickup_Interactable HeldObj { get; private set; }
+    public NetworkObject HeldObj { get; private set; }
 
     [SerializeField] public Material Material;
+
+    [SerializeField] HoldingItemSocket ItemSocket;
+
     public float Rotation { get; private set; }
 
-    private NetworkObjectReference heldObjRef;
     public PlayerCameraManager CameraManager { get; private set; }
 
     private void Awake()
@@ -29,24 +25,25 @@ public class PlayerHoldingManager : NetworkBehaviour
         CameraManager = GetComponentInChildren<PlayerCameraManager>();
     }
 
-    public void HoldItem(ItemBase item, Pickup_Interactable obj)
+    public void HoldItem(Pickup_Interactable obj)
     {
-        if (HeldItem != null) { return; }
+        if (HeldObj != null) { return; }
 
-        if (item == null)
+        if (obj == null)
         {
-            Debug.LogWarning("No referenced item - Did you forget to assign an item?");
             return;
         }
 
-        if (obj is PickUp_Funiture) {
-            GiveCrate_RPC(item.ItemID); return;
-        } 
-        HeldObj = obj;
-        heldObjRef = HeldObj.GetComponent<NetworkObject>();
-        HeldItem = item;
-        HeldItem.OnHeld();
+        if (!obj.TryGetComponent(out NetworkObject nwObject)) return;
 
+        HeldObj = nwObject;
+
+        if (obj.TryGetComponent(out IOnHeld useableObject))
+        {
+            useableObject.OnHeld(this);
+        }
+
+        ItemSocket.BindObject_Rpc(HeldObj);
     }
 
     public void DropItem()
@@ -56,96 +53,98 @@ public class PlayerHoldingManager : NetworkBehaviour
     }
 
     [Rpc(SendTo.Server)]
-    public void PlaceItem_Rpc(string itemId, Vector3 location, Quaternion rotation)
+    public void PlaceItem_Rpc(NetworkObjectReference placedItem, string itemId, Vector3 location, Quaternion rotation)
     {
-        Debug.Log("Tammy");
-        Placable_Item placeableItem = ItemDictionaryManager.RetrieveItem(itemId) is not Placable_Item ? null : (Placable_Item)ItemDictionaryManager.RetrieveItem(itemId);
-        Debug.Log("Nammy");
-        Debug.Log(itemId);
+        PlacableFurniture_Item placeableItem = ItemDictionaryManager.RetrieveItem(itemId) is not PlacableFurniture_Item ? null : (PlacableFurniture_Item)ItemDictionaryManager.RetrieveItem(itemId);
+        Debug.Log($"Placing furntiure item {itemId}");
+
         if (placeableItem == null) return;
-        Debug.Log("Hammy");
-        NetworkObject instance = Instantiate(placeableItem.PlaceablePrefab, location + placeableItem.PlaceablePrefab.transform.position, rotation).GetComponent<NetworkObject>();
+
+        NetworkObject instance = Instantiate(placeableItem.FurniturePrefab, location + placeableItem.FurniturePrefab.transform.position, rotation).GetComponent<NetworkObject>();
         instance.Spawn();
 
-        //HeldObj.GetComponent<NetworkObject>().Despawn();
-        //HeldObj.RequestRemove_RPC();
+        if (placedItem.TryGet(out NetworkObject networkObject))
+        {
+            networkObject.Despawn();
+            RequestClearItem_Rpc();
+        }
     }
+
     [Rpc(SendTo.Server)]
-    private void GiveCrate_RPC(string itemID) {
-        Placable_Item placeableItem = ItemDictionaryManager.RetrieveItem("Crate") is not Placable_Item ? null : (Placable_Item)ItemDictionaryManager.RetrieveItem("Crate");
+    private void GiveCrate_RPC(string itemID)
+    {
+        PlacableFurniture_Item placeableItem = ItemDictionaryManager.RetrieveItem("Crate") is not PlacableFurniture_Item ? null : (PlacableFurniture_Item)ItemDictionaryManager.RetrieveItem("Crate");
         if (placeableItem == null) return;
-        NetworkObject instance = Instantiate(placeableItem.PlaceablePrefab).GetComponent<NetworkObject>();
+        NetworkObject instance = Instantiate(placeableItem.FurniturePrefab).GetComponent<NetworkObject>();
         instance.Spawn();
 
-        //HeldObj = instance.GetComponent<Pickup_Interactable>();
-        //heldObjRef = instance.GetComponent<NetworkObject>();
-        instance.GetComponent<Pickup_Interactable>().item = ItemDictionaryManager.RetrieveItem(itemID);
         instance.GetComponent<Pickup_Interactable>().OnInteract(GetComponent<PlayerInteractionManager>());
     }
 
-    public void Update() {
-        if (HeldItem == null) return;
-        //HeldObj.transform.localPosition = transform.position + transform.forward;
-        if(HeldObj.TryGetComponent<NetworkObject>(out NetworkObject networkObject))
-            UpdateItemPosition_RPC(transform.position + (transform.Find("PlayerModelHolder").forward*0.5f), networkObject);
-        
-        HeldItem.OnUpdate(this);
+    public void Update()
+    {
+        if (HeldObj == null) return;
+
+        if (HeldObj.TryGetComponent(out IUpdate update))
+        {
+            update.OnUpdate(this);
+        }
     }
 
     [Rpc(SendTo.Server)]
-    private void UpdateItemPosition_RPC(Vector3 position, NetworkObjectReference item) {
-        if (item.TryGet(out NetworkObject obj)) {
+    private void UpdateItemPosition_RPC(Vector3 position, NetworkObjectReference item)
+    {
+        if (item.TryGet(out NetworkObject obj))
+        {
             obj.transform.position = position;
         }
     }
 
     public void PerformPrimary()
     {
-        if (HeldItem == null) return;
+        if (HeldObj == null) return;
 
-        HeldItem.OnPrimary(this);
-        //HeldObj.RequestRemove_RPC();
+        if (!HeldObj.TryGetComponent(out IUsePrimary useableObject)) return;
+
+        useableObject.UsePrimary(this);
     }
 
-    public void PerformSecondary(InputAction.CallbackContext context)
+    public void PerformSecondary()
     {
-        if (HeldItem == null) return;
+        if (HeldObj == null) return;
 
-        /*if (context.interaction is PressInteraction && ((PressInteraction)context.interaction).behavior is PressBehavior.PressAndRelease) {// PressBehavior.PressAndRelease) //UnityEngine.InputSystem.Interactions.PressBehavior.PressAndRelease
-            //PressInteraction afm = new PressInteraction();
-            //if(afm.behavior == PressBehavior.PressAndRelease)
-            Debug.Log(context.duration.ToString() + "  duramritne");
-        } else*/
-        Debug.Log("Throw");
+        if (!HeldObj.TryGetComponent(out IUseSecondary useableObject)) return;
 
-
-        HeldItem.OnSecondary(this);
+        useableObject.UseSecondary(this);
     }
 
-    public void PerformDrop() 
+    public void PerformDrop()
     {
-        if (HeldItem == null) return;
-        Debug.Log("Drop");
+        if (HeldObj == null) return;
 
-        HeldObj.OnDrop(this);
+        if (!HeldObj.TryGetComponent(out IOnDrop useableObject)) return;
+
+        ItemSocket.ClearObjectBinding_Rpc();
+
+        useableObject.OnDrop(this);
     }
 
     public void PerformRotate(float dir)
     {
-        if (HeldItem == null) return;
+        if (HeldObj == null) return;
 
         Rotation += dir * 22.5f;
     }
 
-    public void ClearItem()
+    [Rpc(SendTo.Everyone)]
+    public void RequestClearItem_Rpc()
     {
-        HeldItem = null;
-        Rotation = 0;
+        ClearItem();
     }
 
-    public void DestoryHeldObject() {
-        ClearItem();
-        HeldObj.RequestRemove_RPC();
+    public void ClearItem()
+    {
         HeldObj = null;
+        Rotation = 0;
     }
 }

@@ -1,16 +1,17 @@
 using Unity.Netcode;
 using Unity.Netcode.Components;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class Pickup_Interactable : NetworkBehaviour, IInteractable
+public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
 {
-    [SerializeField] public ItemBase item;
     NetworkVariable<bool> pickedUp = new NetworkVariable<bool>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
 
     public virtual void OnInteract(PlayerInteractionManager interactionManager)
     {
-        Debug.Log("Interacted");
+        if (interactionManager.TryGetComponent(out PlayerHoldingManager holdingManager))
+        {
+            if (holdingManager.HeldObj != null) return;
+        }
 
         Pickup(interactionManager);
         Pickup_RPC();
@@ -22,14 +23,13 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable
 
         if (interactionManager.TryGetComponent(out PlayerHoldingManager holdingManager))
         {
-            holdingManager.HoldItem(item,this);
-            
+            holdingManager.HoldItem(this);
         }
     }
 
 
-    
-    public void OnDrop(PlayerHoldingManager holdingManager) 
+
+    public void OnDrop(PlayerHoldingManager holdingManager)
     {
         if (pickedUp.Value == false) return;
         holdingManager.ClearItem();
@@ -37,29 +37,55 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable
     }
 
 
-    [Rpc(SendTo.Server)]
-    private void Pickup_RPC() {
-        pickedUp.Value = true;
-
-        Rigidbody body = GetComponent<Rigidbody>();
-        body.isKinematic = true;
-        NetworkRigidbody nBody = GetComponent<NetworkRigidbody>();
-        nBody.UseRigidBodyForMotion = false;
+    [Rpc(SendTo.Everyone)]
+    private void Pickup_RPC()
+    {
+        if (IsServer)
+        {
+            pickedUp.Value = true;
+            Rigidbody body = GetComponent<Rigidbody>();
+            body.isKinematic = true;
+            NetworkRigidbody nBody = GetComponent<NetworkRigidbody>();
+            nBody.UseRigidBodyForMotion = false;
+        }
 
         transform.localScale = Vector3.one * 0.25f;
+
+        ToggleCollisions(false);
     }
 
-    [Rpc(SendTo.Server)]
-    private void Drop_RPC() {
-        pickedUp.Value = false;
+    [Rpc(SendTo.Everyone)]
+    private void Drop_RPC()
+    {
+        if (IsServer)
+        {
+            pickedUp.Value = false;
 
-        Rigidbody body = GetComponent<Rigidbody>();
-        body.isKinematic = false;
+            Rigidbody body = GetComponent<Rigidbody>();
+            body.isKinematic = false;
 
-        NetworkRigidbody nBody = GetComponent<NetworkRigidbody>();
-        nBody.UseRigidBodyForMotion = true;
+            NetworkRigidbody nBody = GetComponent<NetworkRigidbody>();
+            nBody.UseRigidBodyForMotion = true;
+        }
+
 
         transform.localScale = Vector3.one;
+
+        ToggleCollisions(true);
+
+    }
+
+    public void ToggleCollisions(bool toggle)
+    {
+        foreach (Collider collider in GetComponents<Collider>())
+        {
+            collider.enabled = toggle;
+        }
+
+        foreach (Collider collider in GetComponentsInChildren<Collider>())
+        {
+            collider.enabled = toggle;
+        }
     }
 
 
@@ -68,7 +94,7 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable
     {
         pickedUp.Value = true;
         NetworkObject.Despawn();
-        
+
     }
 
     public void OnUnview()
