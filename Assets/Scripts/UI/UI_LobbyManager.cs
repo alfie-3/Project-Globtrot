@@ -40,12 +40,12 @@ public class UI_LobbyManager : MonoBehaviour
         ClearPlayerCards();
     }
 
-    public void StartGame()
+    public void StartGame(string sceneName)
     {
         if (SessionManager.Session.IsHost)
 
             Debug.Log(NetworkManager.Singleton.SceneManager == null);
-            NetworkManager.Singleton.SceneManager.LoadScene("Scene_MultiplayerTest", LoadSceneMode.Single);
+            NetworkManager.Singleton.SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
     }
 
     public void AddPlayerCards()
