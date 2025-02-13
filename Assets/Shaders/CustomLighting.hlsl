@@ -16,7 +16,7 @@ void MainLight_float(float3 WorldPos, out float3 Direction, out float3 Color, ou
                 Direction = mainLight.direction;
                 Color = mainLight.color;
                 DistanceAtten = mainLight.distanceAttenuation;
-
+                ShadowAtten = mainLight.shadowAttenuation;
             #if !defined(_MAIN_LIGHT_SHADOWS) || defined(_RECEIVE_SHADOWS_OFF)
                 ShadowAtten = 1.0f;
             #endif
