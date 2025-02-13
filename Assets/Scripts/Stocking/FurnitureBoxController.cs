@@ -31,6 +31,7 @@ public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate
     public void OnUpdate(PlayerHoldingManager holdingManager)
     {
         if (furnitureItem == null) return;
+        if (!holdingManager.IsLocalPlayer) return;
 
         Ray ray = new(holdingManager.CameraManager.CamTransform.position, holdingManager.CameraManager.CamTransform.forward);
         RenderParams rp = new RenderParams(holdingManager.Material);
