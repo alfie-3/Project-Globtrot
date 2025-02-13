@@ -152,7 +152,7 @@ public static class SessionManager
     {
         if (string.IsNullOrEmpty(PlayerProfile.PlayerName))
         {
-            return TaskResult.Faliure;
+            PlayerProfile.SetPlayerName("3i29132");
         }
 
         try

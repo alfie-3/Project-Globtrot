@@ -20,17 +20,27 @@ public class HoldingItemSocket : NetworkBehaviour
         if (networkObjectReference.TryGet(out NetworkObject bindingObject))
         {
             boundObject = bindingObject;
-
-            boundObject.GetComponent<NetworkTransform>().enabled = false;
         }
     }
 
-    [Rpc(SendTo.Everyone)]
-    public void ClearObjectBinding_Rpc()
+    [Rpc(SendTo.Server)]
+    public void ClearObjectBindingServer_Rpc(Vector3 position, Quaternion rotation)
     {
         if (boundObject == null) return;
+        if (!boundObject.TryGetComponent(out NetworkTransform networkTransform)) return;
 
-        boundObject.GetComponent<NetworkTransform>().enabled = true;
+        if(IsServer)
+         networkTransform.Teleport(position, rotation, boundObject.transform.localScale);
+
+        boundObject = null;
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    public void ClearObjectBindingClient_Rpc()
+    {
+        if (boundObject == null) return;
+        if (!boundObject.TryGetComponent(out NetworkTransform networkTransform)) return;
+
         boundObject = null;
     }
 }

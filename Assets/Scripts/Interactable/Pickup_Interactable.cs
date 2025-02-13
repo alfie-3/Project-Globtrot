@@ -47,6 +47,8 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
             body.isKinematic = true;
             NetworkRigidbody nBody = GetComponent<NetworkRigidbody>();
             nBody.UseRigidBodyForMotion = false;
+
+            body.linearVelocity = Vector3.zero;
         }
 
         ToggleCollisions(false);

@@ -124,13 +124,9 @@ public class PlayerHoldingManager : NetworkBehaviour
         if (HeldObj == null) return;
 
         if (HeldObj.TryGetComponent(out IOnDrop useableObject))
-        {
             useableObject.OnDrop(this);
-        }
 
-        ItemSocket.ClearObjectBinding_Rpc();
-
-        useableObject.OnDrop(this);
+        ItemSocket.ClearObjectBindingServer_Rpc(ItemSocket.transform.position, ItemSocket.transform.rotation);
     }
 
     public void PerformRotate(float dir)
