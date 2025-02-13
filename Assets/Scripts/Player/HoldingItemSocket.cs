@@ -33,6 +33,8 @@ public class HoldingItemSocket : NetworkBehaviour
          networkTransform.Teleport(position, rotation, boundObject.transform.localScale);
 
         boundObject = null;
+
+        ClearObjectBindingClient_Rpc();
     }
 
     [Rpc(SendTo.ClientsAndHost)]

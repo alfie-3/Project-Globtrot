@@ -6,6 +6,14 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
 {
     NetworkVariable<bool> pickedUp = new NetworkVariable<bool>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
 
+    public override void OnNetworkSpawn()
+    {
+        if (NetworkManager.Singleton.IsServer) return;
+
+        if (TryGetComponent(out Rigidbody rigidbody))
+            rigidbody.isKinematic = true;
+    }
+
     public virtual void OnInteract(PlayerInteractionManager interactionManager)
     {
         if (interactionManager.TryGetComponent(out PlayerHoldingManager holdingManager))
@@ -44,11 +52,10 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
         {
             pickedUp.Value = true;
             Rigidbody body = GetComponent<Rigidbody>();
+            body.linearVelocity = Vector3.zero;
             body.isKinematic = true;
             NetworkRigidbody nBody = GetComponent<NetworkRigidbody>();
             nBody.UseRigidBodyForMotion = false;
-
-            body.linearVelocity = Vector3.zero;
         }
 
         ToggleCollisions(false);
