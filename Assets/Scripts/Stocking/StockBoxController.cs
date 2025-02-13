@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class StockBoxController : MonoBehaviour
 {
-    public NetworkVariable<FixedString64Bytes> ItemId { get; private set; } = new NetworkVariable<FixedString64Bytes>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
+    public NetworkVariable<FixedString32Bytes> ItemId { get; private set; } = new NetworkVariable<FixedString32Bytes>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
     public bool IsEmpty { get; private set; }
     public NetworkVariable<int> ItemQuantity { get; private set; } = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
 

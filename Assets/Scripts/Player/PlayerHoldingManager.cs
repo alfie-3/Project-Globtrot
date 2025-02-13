@@ -123,7 +123,10 @@ public class PlayerHoldingManager : NetworkBehaviour
     {
         if (HeldObj == null) return;
 
-        if (!HeldObj.TryGetComponent(out IOnDrop useableObject)) return;
+        if (HeldObj.TryGetComponent(out IOnDrop useableObject))
+        {
+            useableObject.OnDrop(this);
+        }
 
         ItemSocket.ClearObjectBinding_Rpc();
 

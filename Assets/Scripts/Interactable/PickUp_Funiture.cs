@@ -1,11 +1,15 @@
 using Unity.Netcode;
 using UnityEngine;
+using System.Collections;
+using Unity.Collections;
 
 public class PickUp_Funiture : Pickup_Interactable {
-    public string itemID;
+
+    public PlacableFurniture_Item placableFurniture;
+
     public override void OnInteract(PlayerInteractionManager interactionManager) {
         //Pickup(interactionManager);
-        GiveCrate_RPC(itemID,interactionManager.NetworkObject);
+        GiveCrate_RPC(placableFurniture.ItemID, interactionManager.NetworkObject);
         RequestRemove_RPC();
     }
 
@@ -14,11 +18,14 @@ public class PickUp_Funiture : Pickup_Interactable {
     {
         if (!holderReference.TryGet(out NetworkObject obj))
             return;
+
         PlacableFurniture_Item placeableItem = ItemDictionaryManager.RetrieveItem("Crate") is not PlacableFurniture_Item ? null : (PlacableFurniture_Item)ItemDictionaryManager.RetrieveItem("Crate");
+
         if (placeableItem == null) return;
-        NetworkObject instance = Instantiate(placeableItem.FurniturePrefab).GetComponent<NetworkObject>();
+        NetworkObject instance = Instantiate(placeableItem.FurniturePrefab, obj.transform.position, Quaternion.identity).GetComponent<NetworkObject>();
         instance.Spawn();
-        instance.GetComponent<FurnitureBoxController>().SetItem(itemID);
+
+        instance.GetComponent<FurnitureBoxController>().SetItem_Rpc(itemID);
 
         RpcSendParams sendParams = new RpcSendParams()
         {

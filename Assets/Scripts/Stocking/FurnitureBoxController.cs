@@ -11,7 +11,8 @@ public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate
 
     public const float PLACABLE_DISTANCE = 5;
 
-    public void SetItem(string itemID)
+    [Rpc(SendTo.Everyone)]
+    public void SetItem_Rpc(string itemID)
     {
         furnitureItem = ItemDictionaryManager.RetrieveItem(itemID) is not PlacableFurniture_Item ? null : (PlacableFurniture_Item)ItemDictionaryManager.RetrieveItem(itemID);
     }
