@@ -6,6 +6,8 @@ public class MopHandler : NetworkBehaviour, IUsePrimary, IOnHeld
     [SerializeField] float sweepDistance = 5f;
     [SerializeField] int sweepPower = 1;
 
+    [SerializeField] LayerMask SpillsLayerMask;
+
     public void OnHeld(PlayerHoldingManager _)
     {
         Debug.Log("Mop Equiped");
@@ -20,7 +22,7 @@ public class MopHandler : NetworkBehaviour, IUsePrimary, IOnHeld
     {
         Ray ray = new(holdingManager.CameraManager.CamTransform.position, holdingManager.CameraManager.CamTransform.forward);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, sweepDistance))
+        if (Physics.Raycast(ray, out RaycastHit hit, sweepDistance, SpillsLayerMask))
         {
             if (hit.collider.TryGetComponent(out MessController messController))
             {

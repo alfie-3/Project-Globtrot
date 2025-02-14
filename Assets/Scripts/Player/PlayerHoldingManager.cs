@@ -4,11 +4,15 @@ using UnityEngine.InputSystem;
 
 public class PlayerHoldingManager : NetworkBehaviour
 {
+    //Item Holding
     public NetworkObject HeldObj { get; private set; }
-
-    [SerializeField] public Material Material;
-
     [SerializeField] HoldingItemSocket ItemSocket;
+    [Space]
+    [SerializeField] float dropForce = 10f;
+    [SerializeField] float movementDropForceMultiplier = 2f;
+
+    //Hologram Material
+    [SerializeField] public Material Material;
 
     public float Rotation { get; private set; }
 
@@ -47,12 +51,6 @@ public class PlayerHoldingManager : NetworkBehaviour
         ItemSocket.BindObject_Rpc(HeldObj);
     }
 
-    public void DropItem()
-    {
-
-        //To be added
-    }
-
     [Rpc(SendTo.Server)]
     public void PlaceItem_Rpc(NetworkObjectReference placedItem, string itemId, Vector3 location, Quaternion rotation)
     {
@@ -69,17 +67,6 @@ public class PlayerHoldingManager : NetworkBehaviour
             networkObject.Despawn();
             RequestClearItem_Rpc();
         }
-    }
-
-    [Rpc(SendTo.Server)]
-    private void GiveCrate_RPC(string itemID)
-    {
-        PlacableFurniture_Item placeableItem = ItemDictionaryManager.RetrieveItem("Crate") is not PlacableFurniture_Item ? null : (PlacableFurniture_Item)ItemDictionaryManager.RetrieveItem("Crate");
-        if (placeableItem == null) return;
-        NetworkObject instance = Instantiate(placeableItem.FurniturePrefab).GetComponent<NetworkObject>();
-        instance.Spawn();
-
-        instance.GetComponent<Pickup_Interactable>().OnInteract(GetComponent<PlayerInteractionManager>());
     }
 
     public void Update()
@@ -127,6 +114,14 @@ public class PlayerHoldingManager : NetworkBehaviour
             useableObject.OnDrop(this);
 
         ItemSocket.ClearObjectBindingServer_Rpc(ItemSocket.transform.position, ItemSocket.transform.rotation);
+
+        if (HeldObj.TryGetComponent(out PredictiveRigidbody rb))
+        {
+            Debug.Log(GetComponent<CharacterMovement>().CurrentMovementVelocity);
+            rb.AddForce((CameraManager.CamTransform.forward + (Vector3.Normalize(GetComponent<CharacterMovement>().CurrentMovementVelocity) * movementDropForceMultiplier) ) * dropForce, ForceMode.Impulse);
+        }
+
+        ClearItem();
     }
 
     public void PerformRotate(float dir)

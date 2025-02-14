@@ -41,17 +41,29 @@ public class CharacterColliderPush : NetworkBehaviour
             if (collider.TryGetComponent(out CharacterColliderPush _))
             {
                 PerformPlayerCollision(collider);
+                continue;
             }
 
-            Vector3 direction = collider.gameObject.transform.position - transform.position;
-            direction.y = 0;
-            direction.Normalize();
-
-            Rigidbody rb = collider.attachedRigidbody;
-            if (rb == null) continue;
-
-            rb.AddForceAtPosition(direction * pushPower, transform.position, ForceMode.Impulse);
+            if (collider.attachedRigidbody != null)
+            {
+                PerformRigidBodyPush(collider);
+                continue;
+            }
         }
+    }
+
+    private void PerformRigidBodyPush(Collider collider)
+    {
+        //Dont push objects that are below players feet
+        if (collider.transform.position.y < transform.position.y - characterMovement.Controller.height / 2) return;
+
+        Vector3 direction = collider.gameObject.transform.position - transform.position;
+        direction.y = 0;
+        direction.Normalize();
+
+        if (!TryGetComponent(out PredictiveRigidbody predictiveRb)) return;
+
+        predictiveRb.AddForce(direction * pushPower, ForceMode.Force);
     }
 
     private void PerformPlayerCollision(Collider collider)

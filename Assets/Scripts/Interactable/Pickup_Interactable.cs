@@ -1,5 +1,4 @@
 using Unity.Netcode;
-using Unity.Netcode.Components;
 using UnityEngine;
 
 public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
@@ -40,7 +39,6 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
     public void OnDrop(PlayerHoldingManager holdingManager)
     {
         if (pickedUp.Value == false) return;
-        holdingManager.ClearItem();
         Drop_RPC();
     }
 
@@ -49,47 +47,23 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
     private void Pickup_RPC()
     {
         if (IsServer)
-        {
             pickedUp.Value = true;
-            Rigidbody body = GetComponent<Rigidbody>();
-            body.linearVelocity = Vector3.zero;
-            body.isKinematic = true;
-            NetworkRigidbody nBody = GetComponent<NetworkRigidbody>();
-            nBody.UseRigidBodyForMotion = false;
-        }
 
-        ToggleCollisions(false);
+        Rigidbody body = GetComponent<Rigidbody>();
+        body.linearVelocity = Vector3.zero;
+        body.isKinematic = true;
+
     }
 
     [Rpc(SendTo.Everyone)]
     private void Drop_RPC()
     {
         if (IsServer)
-        {
             pickedUp.Value = false;
 
-            Rigidbody body = GetComponent<Rigidbody>();
-            body.isKinematic = false;
+        Rigidbody body = GetComponent<Rigidbody>();
+        body.isKinematic = false;
 
-            NetworkRigidbody nBody = GetComponent<NetworkRigidbody>();
-            nBody.UseRigidBodyForMotion = true;
-        }
-
-        ToggleCollisions(true);
-
-    }
-
-    public void ToggleCollisions(bool toggle)
-    {
-        foreach (Collider collider in GetComponents<Collider>())
-        {
-            collider.enabled = toggle;
-        }
-
-        foreach (Collider collider in GetComponentsInChildren<Collider>())
-        {
-            collider.enabled = toggle;
-        }
     }
 
 

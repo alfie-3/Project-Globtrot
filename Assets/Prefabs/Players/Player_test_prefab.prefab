@@ -202,7 +202,7 @@ Transform:
   m_GameObject: {fileID: 2474288539071401847}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.013, z: 0.564}
+  m_LocalPosition: {x: 0, y: 0.06999998, z: 0.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -292,7 +292,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   radius: 0.21
   CharacterRepelForce: 3
-  pushPower: 0.2
+  pushPower: 9.92
 --- !u!1 &5789001657597990608
 GameObject:
   m_ObjectHideFlags: 0
@@ -418,7 +418,7 @@ CharacterController:
   m_Height: 2
   m_Radius: 0.2
   m_SlopeLimit: 64.28
-  m_StepOffset: 0.3
+  m_StepOffset: 0.15
   m_SkinWidth: 0.01
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: -0.06, z: 0}
@@ -506,8 +506,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  Material: {fileID: 2100000, guid: 6583902f623753a498a90e1534bfbaac, type: 2}
   ItemSocket: {fileID: 1374719449980418442}
+  dropForce: 8
+  movementDropForceMultiplier: 2
+  Material: {fileID: 2100000, guid: 6583902f623753a498a90e1534bfbaac, type: 2}
 --- !u!1 &6643954352295865263
 GameObject:
   m_ObjectHideFlags: 0

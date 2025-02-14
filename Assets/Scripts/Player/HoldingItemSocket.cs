@@ -20,29 +20,34 @@ public class HoldingItemSocket : NetworkBehaviour
         if (networkObjectReference.TryGet(out NetworkObject bindingObject))
         {
             boundObject = bindingObject;
+
+            ToggleHeldObjectCollisions(false);
         }
     }
 
-    [Rpc(SendTo.Server)]
+    [Rpc(SendTo.Everyone, DeferLocal = true)]
     public void ClearObjectBindingServer_Rpc(Vector3 position, Quaternion rotation)
     {
         if (boundObject == null) return;
-        if (!boundObject.TryGetComponent(out NetworkTransform networkTransform)) return;
 
-        if(IsServer)
-         networkTransform.Teleport(position, rotation, boundObject.transform.localScale);
+        boundObject.transform.SetPositionAndRotation(position, rotation);
 
+        ToggleHeldObjectCollisions(true);
         boundObject = null;
 
-        ClearObjectBindingClient_Rpc();
     }
 
-    [Rpc(SendTo.ClientsAndHost)]
-    public void ClearObjectBindingClient_Rpc()
-    {
-        if (boundObject == null) return;
-        if (!boundObject.TryGetComponent(out NetworkTransform networkTransform)) return;
 
-        boundObject = null;
+    public void ToggleHeldObjectCollisions(bool toggle)
+    {
+        foreach (Collider collider in boundObject.GetComponents<Collider>())
+        {
+            collider.enabled = toggle;
+        }
+
+        foreach (Collider collider in boundObject.GetComponentsInChildren<Collider>())
+        {
+            collider.enabled = toggle;
+        }
     }
 }

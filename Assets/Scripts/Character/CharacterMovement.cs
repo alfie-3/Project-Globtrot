@@ -11,6 +11,7 @@ public class CharacterMovement : MonoBehaviour
     [field: SerializeField] public float BaseMovementSpeed { get; private set; } = 5f;
     [field: SerializeField] public Vector2 JumpVelocity = new(2, 1.5f);
     [SerializeField] float slideSpeed = 8;
+    public Vector3 CurrentMovementVelocity { get; private set; }
 
     [Header("Ground and Slope Variables")]
     [SerializeField] float groundCheckRadius = 1f;
@@ -44,7 +45,11 @@ public class CharacterMovement : MonoBehaviour
             direction = AdjustDirectionToSlope(direction);
         }
 
+        Vector3 lastPosition = transform.position;
+
         Controller.Move(((direction * (BaseMovementSpeed * movementMultiplier)) + CalculateForces()) * Time.deltaTime);
+
+        CurrentMovementVelocity = transform.position - lastPosition;
     }
 
     public void Teleport(Vector3 position)
