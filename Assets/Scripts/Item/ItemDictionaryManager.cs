@@ -4,6 +4,8 @@ using UnityEngine;
 public static class ItemDictionaryManager
 {
     static Dictionary<string, ItemBase> ITEM_DICT;
+    public static IReadOnlyDictionary<string, ItemBase> ItemDict => ITEM_DICT;
+
 
     public static void RegisterItems()
     {

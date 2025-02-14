@@ -1,54 +1,49 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-// manages products + spawns their displays in the shop ui
 public class ProductManager : MonoBehaviour
 {
-    public ProductData[] AllProducts; 
     [SerializeField] private GameObject productUIPrefab;
-    [SerializeField] private List<Transform> basePanels = new List<Transform>(); //panels in scene - help product ui display properly
+    [SerializeField] private List<Transform> basePanels = new List<Transform>(); 
     public UI_StockShop ShopScript;
 
+    private List<ShopProduct_Item> allProducts = new List<ShopProduct_Item>();
 
     private void Start()
     {
-        // register products with the shop
+        ItemDictionaryManager.RegisterItems();  
         RegisterProducts();
-        
-        // spawn ui for the products
         InitializeProductUI();
     }
 
-    // registers each product's prefab with the shop for spawning when purchased
     private void RegisterProducts()
     {
         if (ShopScript == null) return;
 
-        foreach (ProductData product in AllProducts)
+        // Load all shop products from ItemDictionaryManager
+        foreach (var item in ItemDictionaryManager.ItemDict.Values)
         {
-            if (product.Prefab != null)
+            if (item is ShopProduct_Item productItem)
             {
-                ShopScript.Register(product.ProductName, product.Prefab);
+                allProducts.Add(productItem);
+                ShopScript.Register(productItem.ItemID, productItem.Prefab);
+
             }
         }
     }
 
-    // instantiates ui for each product - checking if  there is an available location
     private void InitializeProductUI()
     {
         for (int i = 0; i < basePanels.Count; i++)
         {
-            if (i < AllProducts.Length)
+            if (i < allProducts.Count)
             {
                 GameObject productUIObj = Instantiate(productUIPrefab, basePanels[i].position, Quaternion.identity, basePanels[i]);
-                
-                // initialise product data with ui script
                 UI_ProductDisplay displayScript = productUIObj.GetComponent<UI_ProductDisplay>();
-                displayScript.Initialize(AllProducts[i], ShopScript);
+                displayScript.Initialize(allProducts[i], ShopScript);
             }
             else
             {
-                // disable unused panels if there are more panels than products
                 basePanels[i].gameObject.SetActive(false);
             }
         }
