@@ -3,6 +3,7 @@ using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
 
+[RequireComponent(typeof(NetworkRigidbody))]
 public class RigidbodyNetworkTransform : NetworkTransform
 {
     public bool IsSleeping = false;
@@ -46,9 +47,6 @@ public class RigidbodyNetworkTransform : NetworkTransform
 
     public void CheckPhysicsState()
     {
-        if (IsClient)
-            Debug.Log($"{IsColliding} : {Rigidbody.linearVelocity.magnitude}");
-
         if (Rigidbody.linearVelocity.magnitude > 0.001) return;
         if (!IsColliding) return;
 
