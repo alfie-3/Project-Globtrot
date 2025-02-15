@@ -36,7 +36,6 @@ public class UI_BasketProduct : MonoBehaviour
 
     public void Trash()
     {
-        shopScript.RemoveFromBasket(this);
-        Destroy(gameObject);
+        shopScript.RemoveItem(this);
     }
 }

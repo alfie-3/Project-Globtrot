@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
+using System.Collections;
 
 public class UI_StockShop : MonoBehaviour
 {
@@ -13,8 +14,7 @@ public class UI_StockShop : MonoBehaviour
     [SerializeField] private List<GameObject> spawnedProducts = new List<GameObject>();
     private Dictionary<string, GameObject> productPrefabs = new Dictionary<string, GameObject>();
     private List<GameObject> basket = new List<GameObject>(); 
-    private int basketCounter = 0;
-    private float spacingY = 75f;
+    private float spacingY = 100.0f;
 
     // registers given prefab into dictionary
     public void Register(string productName, GameObject productPrefab)
@@ -29,10 +29,10 @@ public class UI_StockShop : MonoBehaviour
     public void SendToBasket(string productName)
     {
         // check basket limit + if product exists
-        if (basketCounter >= maxBasketSize || !productPrefabs.ContainsKey(productName)) return;
+        if (basket.Count >= maxBasketSize || !productPrefabs.ContainsKey(productName)) return;
 
         // calculate spawn pos for new basket item
-        Vector3 spawnPos = basketStartPos.position - new Vector3(0, spacingY * basketCounter, 0);
+        Vector3 spawnPos = basketStartPos.position - new Vector3(0, spacingY * basket.Count, 0);
         GameObject uiProduct = Instantiate(productBasketPrefab, spawnPos, Quaternion.identity, basketParent);
 
         // update product UI and reference the shop
@@ -41,7 +41,7 @@ public class UI_StockShop : MonoBehaviour
         uiProductComponent.SetShop(this, productName);
 
         basket.Add(uiProduct);
-        basketCounter++;
+        UpdateBasket();
     }
 
     // purchase + summon products
@@ -53,14 +53,36 @@ public class UI_StockShop : MonoBehaviour
             if (productComponent != null)
             {
                 int amountToSpawn = productComponent.GetAmount();
-                for (int i = 0; i < amountToSpawn; i++)
+                string productName = productComponent.GetProductName();
+                
+                if (ItemDictionaryManager.ItemDict.TryGetValue(productName, out ItemBase item))
                 {
-                    SummonProduct(productComponent.GetProductName());
+                    if (item is ShopProduct_Item productItem)
+                    {
+                        float totalPrice = productItem.Price * amountToSpawn;
+
+                        // check if enough money
+                        if (MoneyManager.Instance.CanAfford(totalPrice))
+                        {
+                            MoneyManager.Instance.SpendMoney(totalPrice);
+
+                            for (int i = 0; i < amountToSpawn; i++)
+                            {
+                                SummonProduct(productName);
+                            }
+
+                            productComponent.Trash();  // remove from basket after purchase
+                        }
+                        else
+                        {
+                            Debug.LogWarning($"Not enough money to buy {productName}!");
+                        }
+                    }
                 }
-                productComponent.Trash();
             }
         }
     }
+
 
     // spawns product in spawn area
     private void SummonProduct(string productName)
@@ -73,9 +95,52 @@ public class UI_StockShop : MonoBehaviour
         spawnedProducts.Add(spawnedProduct);
     }
 
-    public void RemoveFromBasket(UI_BasketProduct product)
+    public void RemoveItem(UI_BasketProduct product)
     {
+        int removedIndex = basket.IndexOf(product.gameObject);
+
         basket.Remove(product.gameObject);
-        basketCounter = Mathf.Max(0, basketCounter - 1); // Prevents negative counter
+
+        Destroy(product.gameObject);
+
+        StartCoroutine(BasketUP(removedIndex));
     }
+
+    private IEnumerator BasketUP(int startIndex)
+    {
+        float animDuration = 0.1f; 
+        float elapsedTime;
+
+        for (int i = startIndex; i < basket.Count; i++)
+        {
+            Vector3 startPos = basket[i].transform.localPosition;
+            Vector3 targetPos = basketStartPos.localPosition - new Vector3(0, spacingY * i, 0);
+
+            elapsedTime = 0;
+            
+            while (elapsedTime < animDuration)
+            {
+                elapsedTime += Time.deltaTime;
+                float t = Mathf.Clamp01(elapsedTime / animDuration);
+
+                basket[i].transform.localPosition = Vector3.Lerp(startPos, targetPos, t);
+
+                yield return null;
+            }
+
+            basket[i].transform.localPosition = targetPos;
+        }
+    }
+    private void UpdateBasket()
+    {
+        for (int i = 0; i < basket.Count; i++)
+        {
+            Vector3 targetPos = basketStartPos.localPosition - new Vector3(0, spacingY * i, 0);
+            basket[i].transform.localPosition = targetPos;
+        }
+    }
+
+
+
+
 }
