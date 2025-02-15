@@ -9,7 +9,7 @@ public class CharacterColliderPush : NetworkBehaviour
     [SerializeField] float pushPower = 0.2f;
 
     CharacterMovement characterMovement;
-    LayerMask mask = ~0;
+    [SerializeField] LayerMask mask;
 
     Collider[] allocatedColliders = new Collider[20];
 
@@ -38,33 +38,40 @@ public class CharacterColliderPush : NetworkBehaviour
 
             if (collider.transform == transform) continue;
 
-            if (collider.TryGetComponent(out CharacterColliderPush _))
-            {
-                PerformPlayerCollision(collider);
-            }
-
             Vector3 direction = collider.gameObject.transform.position - transform.position;
             direction.y = 0;
             direction.Normalize();
 
-            Rigidbody rb = collider.attachedRigidbody;
-            if (rb == null) continue;
+            if (collider.TryGetComponent(out CharacterColliderPush _))
+            {
+                PerformPlayerCollision(collider, direction);
+            }
 
-            rb.AddForceAtPosition(direction * pushPower, transform.position, ForceMode.Impulse);
+            if (collider.attachedRigidbody != null)
+            {
+                PerformPhysicsCollisions(collider, direction);
+            }
         }
     }
 
-    private void PerformPlayerCollision(Collider collider)
+    private void PerformPlayerCollision(Collider collider, Vector3 direction)
     {
-        Vector3 direction = collider.gameObject.transform.position - transform.position;
-        direction.y = 0;
-        direction.Normalize();
-
         if (!IsOwner) return;
 
         characterMovement.Push(-direction * CharacterRepelForce);
 
         return;
+    }
+
+    private void PerformPhysicsCollisions(Collider collider, Vector3 direction)
+    {
+        
+        if (collider.TryGetComponent(out RigidbodyNetworkTransform rigidbodyNetworkTransform))
+        {
+            rigidbodyNetworkTransform.AddForceAtPoint_Rpc(direction * pushPower, transform.position, ForceMode.Force);
+        }
+        else
+            collider.attachedRigidbody.AddForceAtPosition(direction * pushPower, transform.position, ForceMode.Force);
     }
 }
 

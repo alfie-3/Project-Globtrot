@@ -6,14 +6,6 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
 {
     NetworkVariable<bool> pickedUp = new NetworkVariable<bool>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
 
-    public override void OnNetworkSpawn()
-    {
-        if (NetworkManager.Singleton.IsServer) return;
-
-        if (TryGetComponent(out Rigidbody rigidbody))
-            rigidbody.isKinematic = true;
-    }
-
     public virtual void OnInteract(PlayerInteractionManager interactionManager)
     {
         if (interactionManager.TryGetComponent(out PlayerHoldingManager holdingManager))
@@ -52,7 +44,6 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
         {
             pickedUp.Value = true;
             Rigidbody body = GetComponent<Rigidbody>();
-            body.linearVelocity = Vector3.zero;
             body.isKinematic = true;
             NetworkRigidbody nBody = GetComponent<NetworkRigidbody>();
             nBody.UseRigidBodyForMotion = false;
@@ -67,12 +58,11 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
         if (IsServer)
         {
             pickedUp.Value = false;
+        }
 
-            Rigidbody body = GetComponent<Rigidbody>();
-            body.isKinematic = false;
-
-            NetworkRigidbody nBody = GetComponent<NetworkRigidbody>();
-            nBody.UseRigidBodyForMotion = true;
+        if (TryGetComponent(out RigidbodyNetworkTransform rbNWT))
+        {
+            rbNWT.WakeUp();
         }
 
         ToggleCollisions(true);
@@ -103,11 +93,9 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
 
     public void OnUnview()
     {
-        Debug.Log("Unview");
     }
 
     public void OnView()
     {
-        Debug.Log("Viewed");
     }
 }
