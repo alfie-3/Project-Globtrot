@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class HoldingItemSocket : NetworkBehaviour
 {
-    NetworkObject boundObject;
+    [SerializeField] NetworkObject boundObject;
 
     // Update is called once per frame
     void Update()
@@ -44,15 +44,18 @@ public class HoldingItemSocket : NetworkBehaviour
 
             rbNWT.transform.SetPositionAndRotation(position, rotation);
 
-            if (IsServer)
+            if (!IsLocalPlayer || IsServer)
             {
-                ToggleSyncing(true);
-                networkTransform.Teleport(position, rotation, boundObject.transform.localScale);
+                if (IsServer)
+                    networkTransform.Teleport(position, rotation, boundObject.transform.localScale);
+
                 rbNWT.NetworkRigidbody.ApplyCurrentTransform();
                 boundObject = null;
             }
-            else
+            else 
             {
+                //Delays dropping item until the server teleports the item to reduce flickering effect while the object syncs
+
                 rbNWT.WaitForNextTeleport();
 
                 Action clearAction = () =>
