@@ -15,7 +15,8 @@ public class RigidbodyNetworkTransform : NetworkTransform
 
     public bool IsColliding;
 
-    public bool AwaitingNextUpdate { get; private set; } = false;
+    public bool AwaitingTeleportUpdate { get; private set; } = false;
+    public Action OnTeleportUpdate = delegate { };
 
     protected override void Awake()
     {
@@ -40,34 +41,17 @@ public class RigidbodyNetworkTransform : NetworkTransform
     {
         base.OnNetworkTransformStateUpdated(ref oldState, ref newState);
 
-        if (AwaitingNextUpdate == true && oldState.HasPositionChange)
+        if (AwaitingTeleportUpdate == true && newState.IsTeleportingNextFrame)
         {
-            AwaitingNextUpdate = false;
-
+            AwaitingTeleportUpdate = false;
+            OnTeleportUpdate.Invoke();
             Interpolate = true;
-
-            SyncPositionX = true;
-            SyncPositionY = true;
-            SyncPositionZ = true;
-
-            SyncRotAngleX = true;
-            SyncRotAngleY = true;
-            SyncRotAngleZ = true;
         }
     }
 
-    public void AwaitNextTransformUpdate()
+    public void WaitForNextTeleport()
     {
-        AwaitingNextUpdate = true;
-
-        SyncPositionX = false;
-        SyncPositionY = false;
-        SyncPositionZ = false;
-
-        SyncRotAngleX = false;
-        SyncRotAngleY = false;
-        SyncRotAngleZ = false;
-
+        AwaitingTeleportUpdate = true;
         Interpolate = false;
     }
 

@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
@@ -28,7 +29,6 @@ public class HoldingItemSocket : NetworkBehaviour
         }
 
         ToggleBoundObjectCollisions(false);
-        ToggleSyncing(false);
     }
 
     [Rpc(SendTo.Everyone)]
@@ -49,13 +49,27 @@ public class HoldingItemSocket : NetworkBehaviour
                 ToggleSyncing(true);
                 networkTransform.Teleport(position, rotation, boundObject.transform.localScale);
                 rbNWT.NetworkRigidbody.ApplyCurrentTransform();
+                boundObject = null;
             }
             else
             {
-                rbNWT.AwaitNextTransformUpdate();
+                rbNWT.WaitForNextTeleport();
+
+                Action clearAction = () =>
+                {
+                    ClearBoundObject();
+                };
+
+                rbNWT.OnTeleportUpdate += () => {
+                    clearAction.Invoke();
+                    rbNWT.OnTeleportUpdate -= clearAction;
+                };
             }
         }
+    }
 
+    public void ClearBoundObject()
+    {
         boundObject = null;
     }
 
