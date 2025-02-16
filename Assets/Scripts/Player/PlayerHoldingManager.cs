@@ -10,6 +10,12 @@ public class PlayerHoldingManager : NetworkBehaviour
 
     [SerializeField] HoldingItemSocket ItemSocket;
 
+    //Dropping
+    [Space]
+    [SerializeField] float dropDistance = 2.5f;
+    [SerializeField] float dropHeight = 0.5f;
+    [SerializeField] LayerMask dropObjectLayerMask;
+
     public float Rotation { get; private set; }
 
     public PlayerCameraManager CameraManager { get; private set; }
@@ -44,13 +50,12 @@ public class PlayerHoldingManager : NetworkBehaviour
             useableObject.OnHeld(this);
         }
 
+        if (obj.TryGetComponent(out RigidbodyNetworkTransform rbNWT))
+        {
+            rbNWT.WakeUpNearbyObjects();
+        }
+
         ItemSocket.BindObject_Rpc(HeldObj);
-    }
-
-    public void DropItem()
-    {
-
-        //To be added
     }
 
     [Rpc(SendTo.Server)]
@@ -71,17 +76,6 @@ public class PlayerHoldingManager : NetworkBehaviour
         }
     }
 
-    [Rpc(SendTo.Server)]
-    private void GiveCrate_RPC(string itemID)
-    {
-        PlacableFurniture_Item placeableItem = ItemDictionaryManager.RetrieveItem("Crate") is not PlacableFurniture_Item ? null : (PlacableFurniture_Item)ItemDictionaryManager.RetrieveItem("Crate");
-        if (placeableItem == null) return;
-        NetworkObject instance = Instantiate(placeableItem.FurniturePrefab).GetComponent<NetworkObject>();
-        instance.Spawn();
-
-        instance.GetComponent<Pickup_Interactable>().OnInteract(GetComponent<PlayerInteractionManager>());
-    }
-
     public void Update()
     {
         if (HeldObj == null) return;
@@ -89,15 +83,6 @@ public class PlayerHoldingManager : NetworkBehaviour
         if (HeldObj.TryGetComponent(out IUpdate update))
         {
             update.OnUpdate(this);
-        }
-    }
-
-    [Rpc(SendTo.Server)]
-    private void UpdateItemPosition_RPC(Vector3 position, NetworkObjectReference item)
-    {
-        if (item.TryGet(out NetworkObject obj))
-        {
-            obj.transform.position = position;
         }
     }
 
@@ -126,7 +111,19 @@ public class PlayerHoldingManager : NetworkBehaviour
         if (HeldObj.TryGetComponent(out IOnDrop useableObject))
             useableObject.OnDrop(this);
 
-        ItemSocket.ClearObjectBindingServer_Rpc(ItemSocket.transform.position, ItemSocket.transform.rotation);
+        Ray ray = new(CameraManager.CamTransform.position, CameraManager.CamTransform.forward);
+
+        Vector3 dropPos = CameraManager.CamTransform.position + CameraManager.CamTransform.forward * dropDistance;
+
+        if (Physics.Raycast(ray, out RaycastHit hit, dropDistance, dropObjectLayerMask, QueryTriggerInteraction.Ignore))
+        {
+            dropPos = hit.point;
+            dropPos.y += dropHeight;
+        }
+
+        ItemSocket.ClearObjectBinding_Rpc(dropPos, ItemSocket.transform.rotation);
+
+        Debug.Log(dropPos);
     }
 
     public void PerformRotate(float dir)

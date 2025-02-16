@@ -1,6 +1,7 @@
 using System;
 using Unity.Netcode;
 using Unity.Netcode.Components;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(NetworkRigidbody))]
@@ -14,6 +15,8 @@ public class RigidbodyNetworkTransform : NetworkTransform
 
     public bool IsColliding;
 
+    public bool AwaitingNextUpdate { get; private set; } = false;
+
     protected override void Awake()
     {
         base.Awake();
@@ -23,7 +26,6 @@ public class RigidbodyNetworkTransform : NetworkTransform
 
         OnSleepingChanged += UpdateObjectPhysics;
     }
-
     public void Update()
     {
         if (IsSleeping == true) return;
@@ -34,6 +36,41 @@ public class RigidbodyNetworkTransform : NetworkTransform
     public void OnCollisionStay(Collision collision) { IsColliding = true; }
     public void FixedUpdate() { IsColliding = false; }
 
+    protected override void OnNetworkTransformStateUpdated(ref NetworkTransformState oldState, ref NetworkTransformState newState)
+    {
+        base.OnNetworkTransformStateUpdated(ref oldState, ref newState);
+
+        if (AwaitingNextUpdate == true && oldState.HasPositionChange)
+        {
+            AwaitingNextUpdate = false;
+
+            Interpolate = true;
+
+            SyncPositionX = true;
+            SyncPositionY = true;
+            SyncPositionZ = true;
+
+            SyncRotAngleX = true;
+            SyncRotAngleY = true;
+            SyncRotAngleZ = true;
+        }
+    }
+
+    public void AwaitNextTransformUpdate()
+    {
+        AwaitingNextUpdate = true;
+
+        SyncPositionX = false;
+        SyncPositionY = false;
+        SyncPositionZ = false;
+
+        SyncRotAngleX = false;
+        SyncRotAngleY = false;
+        SyncRotAngleZ = false;
+
+        Interpolate = false;
+    }
+
     public void SetSleeping(bool state)
     {
         IsSleeping = state;
@@ -42,7 +79,24 @@ public class RigidbodyNetworkTransform : NetworkTransform
 
     public void WakeUp()
     {
+        if (!IsSleeping) return;
+
         SetSleeping(false);
+
+        WakeUpNearbyObjects();
+    }
+
+    public void WakeUpNearbyObjects()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, GetComponent<Collider>().bounds.max.magnitude);
+
+        foreach(Collider collider in colliders)
+        {
+            if (collider.TryGetComponent(out RigidbodyNetworkTransform rbNWT))
+            {
+                rbNWT.WakeUp();
+            }
+        }
     }
 
     public void CheckPhysicsState()
@@ -57,14 +111,18 @@ public class RigidbodyNetworkTransform : NetworkTransform
     public void AddForce_Rpc(Vector3 force, ForceMode forceMode)
     {
         SetSleeping(false);
-        Rigidbody.AddForce(force, forceMode);
+
+        if (IsServer)
+            Rigidbody.AddForce(force, forceMode);
     }
 
     [Rpc(SendTo.Everyone)]
     public void AddForceAtPoint_Rpc(Vector3 force, Vector3 point, ForceMode forceMode)
     {
         SetSleeping(false);
-        Rigidbody.AddForceAtPosition(force, point, forceMode);
+
+        if (IsServer)
+            Rigidbody.AddForceAtPosition(force, point, forceMode);
     }
 
     public void UpdateObjectPhysics(bool current)
@@ -77,7 +135,6 @@ public class RigidbodyNetworkTransform : NetworkTransform
         if (current == true)
         {
             gameObject.layer = LayerMask.NameToLayer("Default");
-            NetworkRigidbody.ApplyCurrentTransform();
         }
         else
         {

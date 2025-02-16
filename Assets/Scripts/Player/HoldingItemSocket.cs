@@ -19,30 +19,68 @@ public class HoldingItemSocket : NetworkBehaviour
     {
         if (networkObjectReference.TryGet(out NetworkObject bindingObject))
         {
+            if (bindingObject.TryGetComponent(out RigidbodyNetworkTransform rbNWT))
+            {
+                rbNWT.WakeUpNearbyObjects();
+            }
+
             boundObject = bindingObject;
+        }
+
+        ToggleBoundObjectCollisions(false);
+        ToggleSyncing(false);
+    }
+
+    [Rpc(SendTo.Everyone)]
+    public void ClearObjectBinding_Rpc(Vector3 position, Quaternion rotation)
+    {
+        if (boundObject == null) return;
+        if (!boundObject.TryGetComponent(out NetworkTransform networkTransform)) return;
+
+        if (boundObject.TryGetComponent(out RigidbodyNetworkTransform rbNWT))
+        {
+            ToggleBoundObjectCollisions(true);
+            rbNWT.WakeUp();
+
+            rbNWT.transform.SetPositionAndRotation(position, rotation);
+
+            if (IsServer)
+            {
+                ToggleSyncing(true);
+                networkTransform.Teleport(position, rotation, boundObject.transform.localScale);
+                rbNWT.NetworkRigidbody.ApplyCurrentTransform();
+            }
+            else
+            {
+                rbNWT.AwaitNextTransformUpdate();
+            }
+        }
+
+        boundObject = null;
+    }
+
+    public void ToggleBoundObjectCollisions(bool toggle)
+    {
+        if (boundObject == null) return;
+
+        foreach (Collider collider in boundObject.GetComponents<Collider>())
+        {
+            collider.enabled = toggle;
+        }
+
+        foreach (Collider collider in boundObject.GetComponentsInChildren<Collider>())
+        {
+            collider.enabled = toggle;
         }
     }
 
-    [Rpc(SendTo.Server)]
-    public void ClearObjectBindingServer_Rpc(Vector3 position, Quaternion rotation)
+    public void ToggleSyncing(bool toggle)
     {
-        if (boundObject == null) return;
         if (!boundObject.TryGetComponent(out NetworkTransform networkTransform)) return;
 
-        if(IsServer)
-         networkTransform.Teleport(position, rotation, boundObject.transform.localScale);
-
-        boundObject = null;
-
-        ClearObjectBindingClient_Rpc();
-    }
-
-    [Rpc(SendTo.ClientsAndHost)]
-    public void ClearObjectBindingClient_Rpc()
-    {
-        if (boundObject == null) return;
-        if (!boundObject.TryGetComponent(out NetworkTransform networkTransform)) return;
-
-        boundObject = null;
+        networkTransform.SyncPositionX = toggle;
+        networkTransform.SyncPositionY = toggle;
+        networkTransform.SyncPositionZ = toggle;
     }
 }
+

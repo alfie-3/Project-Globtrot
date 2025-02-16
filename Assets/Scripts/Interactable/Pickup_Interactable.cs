@@ -41,47 +41,16 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
     private void Pickup_RPC()
     {
         if (IsServer)
-        {
             pickedUp.Value = true;
-            Rigidbody body = GetComponent<Rigidbody>();
-            body.isKinematic = true;
-            NetworkRigidbody nBody = GetComponent<NetworkRigidbody>();
-            nBody.UseRigidBodyForMotion = false;
-        }
-
-        ToggleCollisions(false);
     }
 
     [Rpc(SendTo.Everyone)]
     private void Drop_RPC()
     {
         if (IsServer)
-        {
             pickedUp.Value = false;
-        }
-
-        if (TryGetComponent(out RigidbodyNetworkTransform rbNWT))
-        {
-            rbNWT.WakeUp();
-        }
-
-        ToggleCollisions(true);
 
     }
-
-    public void ToggleCollisions(bool toggle)
-    {
-        foreach (Collider collider in GetComponents<Collider>())
-        {
-            collider.enabled = toggle;
-        }
-
-        foreach (Collider collider in GetComponentsInChildren<Collider>())
-        {
-            collider.enabled = toggle;
-        }
-    }
-
 
     [Rpc(SendTo.Server)]
     public void RequestRemove_RPC()
