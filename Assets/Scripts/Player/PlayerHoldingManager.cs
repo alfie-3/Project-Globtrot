@@ -122,8 +122,6 @@ public class PlayerHoldingManager : NetworkBehaviour
         }
 
         ItemSocket.ClearObjectBinding_Rpc(dropPos, ItemSocket.transform.rotation);
-
-        Debug.Log(dropPos);
     }
 
     public void PerformRotate(float dir)

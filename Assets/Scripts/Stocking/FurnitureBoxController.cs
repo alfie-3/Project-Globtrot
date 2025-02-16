@@ -17,18 +17,26 @@ public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate
 
     private void Awake() {
         renderParams = new RenderParams(ableToBePlaced);
+
+        if (furnitureItem != null)
+            PopulateItem(furnitureItem);
     }
 
     [Rpc(SendTo.Everyone)]
     public void SetItem_Rpc(string itemID)
     {
         furnitureItem = ItemDictionaryManager.RetrieveItem(itemID) is not PlacableFurniture_Item ? null : (PlacableFurniture_Item)ItemDictionaryManager.RetrieveItem(itemID);
-        if (furnitureItem.FurniturePrefab.TryGetComponent(out MeshFilter meshFilter)) {
-            //Graphics.RenderMesh(rp, meshFilter.sharedMesh, 0, Matrix4x4.TRS((hit.point + furnitureItem.FurniturePrefab.transform.position), Quaternion.Euler(0, holdingManager.Rotation, 0), Vector3.one));
+        if (furnitureItem == null) return;
+
+        PopulateItem(furnitureItem);
+    }
+
+    public void PopulateItem(PlacableFurniture_Item furnitureItem)
+    {
+        if (furnitureItem.FurniturePrefab.TryGetComponent(out MeshFilter meshFilter))
+        {
             holoMesh = meshFilter.sharedMesh;
-            
         }
-        //holoMesh = 
     }
 
     public void UsePrimary(PlayerHoldingManager holdingManager)
@@ -61,6 +69,8 @@ public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate
         }
     }
     void OnDrawGizmosSelected() {
+        if (holoMesh == null) return;
+
         // Draw a yellow cube at the transform position
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireCube(transform.position+holoMesh.bounds.center, holoMesh.bounds.max);

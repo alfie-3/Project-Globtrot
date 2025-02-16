@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2895678209725705073}
   - component: {fileID: 847885647356348822}
   - component: {fileID: 5360477584597566037}
-  - component: {fileID: 4276783248340952773}
+  - component: {fileID: -8785183428425690220}
   m_Layer: 0
   m_Name: Chair_Prefab
   m_TagString: Untagged
@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1293742410
+  GlobalObjectIdHash: 137054836
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -165,8 +165,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   placableFurniture: {fileID: 11400000, guid: 71d3620417e0e0a4d9f83519ee57fe4d, type: 2}
---- !u!65 &4276783248340952773
-BoxCollider:
+--- !u!64 &-8785183428425690220
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -183,6 +183,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.874, y: 1.7389348, z: 0.7920108}
-  m_Center: {x: -0.023000002, y: 0.8694674, z: 1.6898e-41}
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6264831526926562434, guid: 4c7d53f8d986b0742b3195370e82a7f2, type: 3}
