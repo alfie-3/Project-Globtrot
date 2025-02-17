@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
 {
-    NetworkVariable<bool> pickedUp = new NetworkVariable<bool>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
+    public NetworkVariable<bool> PickedUp = new NetworkVariable<bool>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
 
     public virtual void OnInteract(PlayerInteractionManager interactionManager)
     {
@@ -19,7 +19,7 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
 
     protected void Pickup(PlayerInteractionManager interactionManager)
     {
-        if (pickedUp.Value == true) return;
+        if (PickedUp.Value == true) return;
 
         if (interactionManager.TryGetComponent(out PlayerHoldingManager holdingManager))
         {
@@ -31,7 +31,7 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
 
     public void OnDrop(PlayerHoldingManager holdingManager)
     {
-        if (pickedUp.Value == false) return;
+        if (PickedUp.Value == false) return;
         holdingManager.ClearItem();
         Drop_RPC();
     }
@@ -41,21 +41,21 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
     private void Pickup_RPC()
     {
         if (IsServer)
-            pickedUp.Value = true;
+            PickedUp.Value = true;
     }
 
     [Rpc(SendTo.Everyone)]
     private void Drop_RPC()
     {
         if (IsServer)
-            pickedUp.Value = false;
+            PickedUp.Value = false;
 
     }
 
     [Rpc(SendTo.Server)]
     public void RequestRemove_RPC()
     {
-        pickedUp.Value = true;
+        PickedUp.Value = true;
         NetworkObject.Despawn();
 
     }

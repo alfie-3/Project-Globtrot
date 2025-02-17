@@ -7,16 +7,23 @@ using UnityEngine;
 [RequireComponent(typeof(NetworkRigidbody))]
 public class RigidbodyNetworkTransform : NetworkTransform
 {
-    public bool IsSleeping = false;
-    public Action<bool> OnSleepingChanged = delegate { };
-
+    //References
     public Rigidbody Rigidbody { get; private set; }
     public NetworkRigidbody NetworkRigidbody { get; private set; }
 
+    //Sleping
+    public bool IsSleeping = false;
+    public Action<bool> OnSleepingChanged = delegate { };
+
+    //Collision detection for detecting sleeping state
     public bool IsColliding;
 
+    //For rigidbody teleportation
     public bool AwaitingTeleportUpdate { get; private set; } = false;
     public Action OnTeleportUpdate = delegate { };
+
+    //Socketing
+    public bool IsSocketed = false;
 
     protected override void Awake()
     {

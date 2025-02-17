@@ -23,6 +23,7 @@ public class HoldingItemSocket : NetworkBehaviour
             if (bindingObject.TryGetComponent(out RigidbodyNetworkTransform rbNWT))
             {
                 rbNWT.WakeUpNearbyObjects();
+                rbNWT.IsSocketed = true;
             }
 
             boundObject = bindingObject;
@@ -49,12 +50,15 @@ public class HoldingItemSocket : NetworkBehaviour
                 if (IsServer)
                     networkTransform.Teleport(position, rotation, boundObject.transform.localScale);
 
+                rbNWT.IsSocketed = false;
                 rbNWT.NetworkRigidbody.ApplyCurrentTransform();
                 boundObject = null;
             }
             else 
             {
                 //Delays dropping item until the server teleports the item to reduce flickering effect while the object syncs
+
+                rbNWT.IsSocketed = false;
 
                 rbNWT.WaitForNextTeleport();
 

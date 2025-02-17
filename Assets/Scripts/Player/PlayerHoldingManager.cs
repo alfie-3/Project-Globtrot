@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerHoldingManager : NetworkBehaviour
 {
-    public NetworkObject HeldObj { get; private set; }
+    [field: SerializeField] public NetworkObject HeldObj { get; private set; }
 
     [SerializeField] public Material Material;
 
@@ -34,13 +34,14 @@ public class PlayerHoldingManager : NetworkBehaviour
 
     public void HoldItem(Pickup_Interactable obj)
     {
-        if (HeldObj != null) { return; }
-
-        if (obj == null)
+        if (HeldObj != null)
         {
+            ItemSocket.ClearBoundObject();
             return;
         }
 
+        if (obj == null) return;
+        if (obj.PickedUp.Value == true) return;
         if (!obj.TryGetComponent(out NetworkObject nwObject)) return;
 
         HeldObj = nwObject;
