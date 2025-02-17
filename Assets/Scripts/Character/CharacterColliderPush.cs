@@ -1,5 +1,6 @@
 using Unity.Netcode;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class CharacterColliderPush : NetworkBehaviour
 {
@@ -42,8 +43,9 @@ public class CharacterColliderPush : NetworkBehaviour
             direction.y = 0;
             direction.Normalize();
 
-            if (collider.TryGetComponent(out CharacterColliderPush _))
+            if ((LayerMask.GetMask("Player", "Customer") & (1 << collider.gameObject.layer)) != 0)
             {
+                if (collider.transform == transform.parent) return;
                 PerformPlayerCollision(collider, direction);
             }
 
