@@ -3,6 +3,6 @@ using UnityEngine;
 public class SpawnBoxesTesty : MonoBehaviour
 {
     private void Awake() {
-        GetComponent<StockBoxController>().AddItem("Hot Dog");
+        GetComponent<StockBoxController>().AddItemServer_Rpc("Hot Dog");
     }
 }

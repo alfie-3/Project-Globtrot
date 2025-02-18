@@ -1,14 +1,32 @@
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using WebSocketSharp;
 
 public class StockBoxController : NetworkBehaviour, IUsePrimary
 {
     public NetworkVariable<FixedString32Bytes> ItemId { get; private set; } = new NetworkVariable<FixedString32Bytes>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
+    [field: SerializeField]  public ShopProduct_Item ProductItem { get; private set; }
+
     public bool IsEmpty { get { return ItemId.Value.IsEmpty; }}
-    public NetworkVariable<int> ItemQuantity { get; private set; } = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
 
+    [field: SerializeField] public NetworkVariable<int> ItemQuantity { get; private set; } = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
+    [SerializeField] int initialQuanitity = 10;
 
+    public void Awake()
+    {
+        ItemId.OnValueChanged += SetItem;
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+
+        if (ProductItem != null && IsServer)
+        {
+            AddItemServer_Rpc(ProductItem.ItemID, initialQuanitity);
+        }
+    }
 
     public void UsePrimary(PlayerHoldingManager holdingManager) {
         //Debug.Log("stockboxPri");
@@ -26,12 +44,18 @@ public class StockBoxController : NetworkBehaviour, IUsePrimary
             }
         }
     }
-    public void AddItem(string itemId)
+
+    [Rpc(SendTo.Server)]
+    public void AddItemServer_Rpc(string itemId, int quanitity = 1)
     {
         if (IsEmpty)
-            SetItem(itemId);
+        {
+            if (ItemDictionaryManager.RetrieveItem(ItemId.Value.ToString()) is ShopProduct_Item) return;
+            ItemId.Value = itemId;
+            ItemQuantity.Value = quanitity;
+        }
         if (ItemId.Equals(itemId))
-            ItemQuantity.Value++;
+            ItemQuantity.Value += quanitity;
 
     }
 
@@ -52,8 +76,11 @@ public class StockBoxController : NetworkBehaviour, IUsePrimary
         ItemId.Value = string.Empty;
     }
 
-    public void SetItem(string itemId)
+    public void SetItem(FixedString32Bytes _, FixedString32Bytes itemId)
     {
-        ItemId.Value = itemId;
+        if (itemId.Value.IsNullOrEmpty()) return;
+
+        ShopProduct_Item productItem = ItemDictionaryManager.RetrieveItem(itemId.ToString()) is not ShopProduct_Item ? null : (ShopProduct_Item)ItemDictionaryManager.RetrieveItem(itemId.ToString());
+        ProductItem = productItem;
     }
 }
