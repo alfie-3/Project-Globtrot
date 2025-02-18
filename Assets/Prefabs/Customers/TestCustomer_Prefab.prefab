@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3869772047088227056}
   - component: {fileID: 3480450061993822050}
   - component: {fileID: 4931626140827008684}
+  - component: {fileID: 4919112684790723249}
   m_Layer: 9
   m_Name: TestCustomer_Prefab
   m_TagString: Untagged
@@ -49,8 +50,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1143238186
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  GlobalObjectIdHash: 3419212601
+  InScenePlacedSourceGlobalObjectIdHash: 1143238186
   DeferredDespawnTick: 0
   Ownership: 8
   AlwaysReplicateAsRoot: 0
@@ -111,10 +112,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  m_Graph: {fileID: -1155333810645075167, guid: 22dcd87585f67b442878a07bd95270e7, type: 2}
+  m_Graph: {fileID: -1155333810645075167, guid: 8fd479f7504bbff46960d65922260dda, type: 2}
   m_BlackboardVariableOverridesList:
   - rid: 4640775099916484608
-  - rid: 4640775099916484609
   m_IsInitialised: 0
   m_IsStarted: 0
   NetcodeRunOnlyOnOwner: 1
@@ -129,16 +129,6 @@ MonoBehaviour:
           m_Value1: 0
         Name: Self
         m_Value: {fileID: 3451338121353106396}
-    - rid: 4640775099916484609
-      type: {class: 'BlackboardVariable`1[[System.Collections.Generic.List`1[[UnityEngine.GameObject, UnityEngine.CoreModule]], mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 11737124255229211375
-          m_Value1: 4470721606659049846
-        Name: PatrolPoints
-        m_Value:
-        - {fileID: 0}
-        - {fileID: 0}
 --- !u!195 &3480450061993822050
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -184,6 +174,21 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4919112684790723249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3451338121353106396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffc15207e02f0cd4ba90110b36a67c20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShoppingList:
+  - DesiredItem: {fileID: 11400000, guid: cef104fbb8f8ede479ead6752d4b3931, type: 2}
+    QuantityToPurchase: 1
 --- !u!1001 &954450930400582737
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -193,16 +198,28 @@ PrefabInstance:
     m_TransformParent: {fileID: 271768359789163051}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 421388f69d90a0641ab44f6e5bfc9122, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.6324343
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 421388f69d90a0641ab44f6e5bfc9122, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.7027048
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 421388f69d90a0641ab44f6e5bfc9122, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.6324343
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 421388f69d90a0641ab44f6e5bfc9122, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 421388f69d90a0641ab44f6e5bfc9122, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1.074
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 421388f69d90a0641ab44f6e5bfc9122, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.011768
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 421388f69d90a0641ab44f6e5bfc9122, type: 3}
       propertyPath: m_LocalRotation.w
@@ -232,6 +249,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 421388f69d90a0641ab44f6e5bfc9122, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 6348e027abdf9e3479cd4f6bb16941f6, type: 2}
     - target: {fileID: 919132149155446097, guid: 421388f69d90a0641ab44f6e5bfc9122, type: 3}
       propertyPath: m_Name
       value: Customer

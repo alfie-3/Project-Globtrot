@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
+using WebSocketSharp;
 
 public class StockShelvesManager : NetworkBehaviour
 {
@@ -22,12 +23,12 @@ public class StockShelvesManager : NetworkBehaviour
 
     public void UpdateStockTypes(string previousStockType, string currentStockType, int quantity)
     {
-        if (currentStockType == string.Empty)
+        if (currentStockType.IsNullOrEmpty())
         {
             StockedItemInformation.Remove(previousStockType);
         }
 
-        else if (previousStockType == string.Empty)
+        else if (previousStockType.IsNullOrEmpty())
         {
             StockedItemData stockedItemData = new StockedItemData()
             {
@@ -38,7 +39,7 @@ public class StockShelvesManager : NetworkBehaviour
             StockedItemInformation.TryAdd(currentStockType, stockedItemData);
         }
 
-        else if (previousStockType == currentStockType)
+        else if (previousStockType.Equals(currentStockType))
         {
             if (StockedItemInformation.TryGetValue(currentStockType, out StockedItemData stockedItemData))
             {

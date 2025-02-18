@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using WebSocketSharp;
 
 public class ShelfStockTrackingManager : MonoBehaviour
 {
@@ -58,7 +59,7 @@ public class ShelfStockTrackingManager : MonoBehaviour
 
     public static void UpdateShelfInfo(string previousStockId, string currentStockId, StockShelvesManager stockShelf)
     {
-        if (currentStockId == null)
+        if (currentStockId.IsNullOrEmpty())
         {
             if (StockLookupDictionary.TryGetValue(previousStockId, out HashSet<StockShelvesManager> stockShelves))
             {
@@ -66,7 +67,7 @@ public class ShelfStockTrackingManager : MonoBehaviour
             }
         }
 
-        if (previousStockId == null)
+        if (previousStockId.IsNullOrEmpty())
         {
             StockLookupDictionary.TryAdd(currentStockId, new HashSet<StockShelvesManager>());
 
