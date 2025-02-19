@@ -4,23 +4,12 @@ using UnityEngine;
 public class ShelfDataCreater : MonoBehaviour
 {
 
-    public string itemId;
+    [SerializeField] public string ItemScriptableObjectName;
     [SerializeField] public Vector3 gizmoOffset;
     [SerializeField] public Vector3 offset;
     [SerializeField] public Vector3 objectBounds;
     [SerializeField] public Vector3 stackBounds;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    [SerializeField] public Vector3 EvenOutOffset;
 
 
     void OnDrawGizmosSelected()
@@ -41,7 +30,7 @@ public class ShelfDataCreater : MonoBehaviour
             {
                 for (int y = 0; y < stackBounds.y; y++)
                 {
-                    Gizmos.DrawWireCube(new Vector3((objectBounds.x * -1) * x, (objectBounds.y * 1) * y, (objectBounds.z * 1) * z)+transform.position+gizmoOffset,objectBounds);
+                    Gizmos.DrawWireCube(new Vector3((objectBounds.x) * x, (objectBounds.y) * y, (objectBounds.z) * z)+transform.position+gizmoOffset+EvenOutOffset,objectBounds);
                 }
             }
         }

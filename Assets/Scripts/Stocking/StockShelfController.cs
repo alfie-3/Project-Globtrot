@@ -12,10 +12,13 @@ public class StockShelfController : NetworkBehaviour {
     public NetworkVariable<int> ItemQuantity { get; private set; } = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
 
     public Action<string, string, int> OnStockUpdated = delegate {};
+    /// <summary>
+    /// as opossed to big
+    /// </summary>
+    [field: SerializeField] public bool normalShelfSize { get; private set; }
 
     public void AddItem(string itemId)
     {
-
         if (IsEmpty)
             SetItem(itemId);
 
