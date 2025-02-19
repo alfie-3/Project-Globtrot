@@ -5,7 +5,7 @@ public class ProductManager : MonoBehaviour
 {
     [SerializeField] private GameObject productUIPrefab;
     [SerializeField] private List<Transform> basePanels = new List<Transform>(); 
-    public UI_StockShop ShopScript;
+    [SerializeField] private UI_StockShop ShopScript;
 
     private List<ShopProduct_Item> allProducts = new List<ShopProduct_Item>();
 
@@ -20,7 +20,7 @@ public class ProductManager : MonoBehaviour
     {
         if (ShopScript == null) return;
 
-        // Load all shop products from ItemDictionaryManager
+        // load all shop products from ItemDictionaryManager
         foreach (var item in ItemDictionaryManager.ItemDict.Values)
         {
             if (item is ShopProduct_Item productItem)
