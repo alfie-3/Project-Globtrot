@@ -1,0 +1,102 @@
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using Unity.AI.Navigation;
+using Unity.Netcode;
+using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.ProBuilder;
+
+public class NavMeshSourceTag : MonoBehaviour
+{
+    public static List<MeshFilter> Mesheses = new();
+    public static List<NavMeshModifierVolume> Modifiers = new();
+
+    public static Action RebuildNavmesh = delegate { };
+
+    private void Awake()
+    {
+        if (TryGetComponent(out MeshFilter meshFilter))
+        {
+            Mesheses.Add(meshFilter);
+        }
+
+        if (TryGetComponent(out NavMeshModifierVolume meshModifier))
+        {
+            Modifiers.Add(meshModifier);    
+        }
+    }
+
+    public void OnEnable()
+    {
+        if (NetworkManager.Singleton)
+        {
+            if (!NetworkManager.Singleton.IsServer) return;
+        }
+
+        RebuildNavmesh.Invoke();
+    }
+
+    public void OnDisable()
+    {
+        if (NetworkManager.Singleton)
+        {
+            if (!NetworkManager.Singleton.IsServer) return;
+        }
+
+        if (TryGetComponent(out MeshFilter meshFilter))
+        {
+            Mesheses.Remove(meshFilter);
+        }
+
+        if (TryGetComponent(out NavMeshModifierVolume meshModifier))
+        {
+            Modifiers.Remove(meshModifier);
+        }
+
+        RebuildNavmesh.Invoke();
+    }
+
+    public static void Collect(ref List<NavMeshBuildSource> sources)
+    {
+        sources.Clear();
+
+        for (int i = 0; i < Mesheses.Count; i++)
+        {
+            MeshFilter meshFilter = Mesheses[i];
+
+            if (meshFilter == null) continue;
+            if (meshFilter.sharedMesh == null) continue;
+
+            NavMeshBuildSource buildSource = new NavMeshBuildSource();
+            buildSource.shape = NavMeshBuildSourceShape.Mesh;
+            
+            buildSource.sourceObject = meshFilter.sharedMesh;
+            buildSource.transform = meshFilter.transform.localToWorldMatrix;
+            buildSource.area = 0;
+            sources.Add(buildSource);
+        }
+
+        for (int i = 0; i < Modifiers.Count; i++)
+        {
+            NavMeshModifierVolume navModifier = Modifiers[i];
+
+            if (navModifier == null) continue;
+
+            NavMeshBuildSource modifierBuildSource = new NavMeshBuildSource();
+            modifierBuildSource.shape = NavMeshBuildSourceShape.ModifierBox;
+
+            modifierBuildSource.size = navModifier.size;
+
+            Matrix4x4 baseMatrix = navModifier.transform.localToWorldMatrix;
+            Matrix4x4 localMatrix = Matrix4x4.TRS(navModifier.center, Quaternion.identity, Vector3.one);    
+
+            modifierBuildSource.transform = baseMatrix * localMatrix;
+
+            modifierBuildSource.area = navModifier.area;
+
+            sources.Add(modifierBuildSource);
+        }
+
+    }
+}
