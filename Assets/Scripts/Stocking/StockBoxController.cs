@@ -39,7 +39,7 @@ public class StockBoxController : NetworkBehaviour, IUsePrimary
         if(Physics.Raycast(ray, out RaycastHit hit,5,LayerMask.GetMask("ItemShelf"))) 
         {
             if (hit.collider.TryGetComponent<StockShelfController>(out StockShelfController stockShelfController)) {
-                stockShelfController.AddItem(ItemId.Value.ToString());
+                stockShelfController.AddItemServer_Rpc(ItemId.Value.ToString());
                 RemoveItem(ItemId.Value.ToString());
             }
         }
@@ -50,7 +50,7 @@ public class StockBoxController : NetworkBehaviour, IUsePrimary
     {
         if (IsEmpty)
         {
-            if (ItemDictionaryManager.RetrieveItem(ItemId.Value.ToString()) is ShopProduct_Item) return;
+            if (ItemDictionaryManager.RetrieveItem(itemId.ToString()) is ShopProduct_Item) return;
             ItemId.Value = itemId;
             ItemQuantity.Value = quanitity;
         }

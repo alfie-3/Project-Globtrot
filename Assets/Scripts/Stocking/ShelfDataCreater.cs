@@ -10,6 +10,8 @@ public class ShelfDataCreater : MonoBehaviour
     [SerializeField] public Vector3 objectBounds;
     [SerializeField] public Vector3 stackBounds;
     [SerializeField] public Vector3 EvenOutOffset;
+    [SerializeField] public int indexTest;
+    [SerializeField] public Vector3 positionTest;
 
 
     void OnDrawGizmosSelected()
@@ -30,10 +32,12 @@ public class ShelfDataCreater : MonoBehaviour
             {
                 for (int y = 0; y < stackBounds.y; y++)
                 {
-                    Gizmos.DrawWireCube(new Vector3((objectBounds.x) * x, (objectBounds.y) * y, (objectBounds.z) * z)+transform.position+gizmoOffset+EvenOutOffset,objectBounds);
+                    Gizmos.DrawWireCube(new Vector3((objectBounds.x) * x, (objectBounds.y) * y, (objectBounds.z) * z)+transform.position+gizmoOffset,objectBounds);
                 }
-            }
+            }            
         }
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(Vector3.Scale(objectBounds,positionTest) + transform.position + gizmoOffset, objectBounds);
 
         //draw force application point
         Gizmos.DrawWireSphere(Vector3.zero, 0.05f);

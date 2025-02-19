@@ -18,21 +18,29 @@ class ShelfDataCreaterEditor: Editor
             shelfData.objectBounds = shelfData.GetComponent<MeshFilter>().sharedMesh.bounds.size;
             shelfData.offset = (shelfData.GetComponent<MeshFilter>().sharedMesh.bounds.size * 0.5f) - shelfData.GetComponent<MeshFilter>().sharedMesh.bounds.center;
             shelfData.gizmoOffset = shelfData.GetComponent<MeshFilter>().sharedMesh.bounds.center;
+            shelfData.EvenOutOffset.x = (shelfData.transform.parent.GetComponent<MeshFilter>().sharedMesh.bounds.size.x % shelfData.objectBounds.x) / 2;
+            shelfData.EvenOutOffset.z = (shelfData.transform.parent.GetComponent<MeshFilter>().sharedMesh.bounds.center.z % shelfData.objectBounds.z) / 2;
             //shelfData.HapyBounds = new(0, 7, 2);
-            shelfData.transform.localPosition = shelfData.offset;
 
             shelfData.stackBounds.x = (float)Math.Floor((double)(shelfData.transform.parent.GetComponent<MeshFilter>().sharedMesh.bounds.size.x / shelfData.objectBounds.x));
             shelfData.stackBounds.y = (float)Math.Floor((double)(shelfData.transform.parent.GetComponent<MeshFilter>().sharedMesh.bounds.size.y / shelfData.objectBounds.y));
             shelfData.stackBounds.z = (float)Math.Floor((double)(shelfData.transform.parent.GetComponent<MeshFilter>().sharedMesh.bounds.center.z / shelfData.objectBounds.z));
+
+            shelfData.transform.localPosition = shelfData.offset + shelfData.EvenOutOffset;
             //Debug.Log(shelfData.transform.parent.GetComponent<MeshFilter>().sharedMesh.bounds.size);
             //Debug.Log(shelfData.transform.parent.GetComponent<MeshFilter>().sharedMesh.bounds.center);
             //Debug.Log((shelfData.transform.parent.GetComponent<MeshFilter>().sharedMesh.bounds.size.y / shelfData.objectBounds.y));
         }
-        if (GUILayout.Button("Even Out Placement Values"))
+        /*
+         * shelfData.positionTest.x = (int)(shelfData.indexTest % shelfData.stackBounds.x);
+         *  shelfData.positionTest.y = (int)((shelfData.indexTest / (int)shelfData.stackBounds.x) % (int)shelfData.stackBounds.y);
+         *  shelfData.positionTest.z = shelfData.indexTest / ((int)shelfData.stackBounds.x * (int)shelfData.stackBounds.y);
+         */
+        if (GUILayout.Button("Index test"))
         {
-            shelfData.EvenOutOffset.x = (shelfData.transform.parent.GetComponent<MeshFilter>().sharedMesh.bounds.size.x % shelfData.objectBounds.x) * 0.5f;
-            shelfData.EvenOutOffset.y = (shelfData.transform.parent.GetComponent<MeshFilter>().sharedMesh.bounds.size.y % shelfData.objectBounds.y) * 0.5f;
-            shelfData.EvenOutOffset.z = (shelfData.transform.parent.GetComponent<MeshFilter>().sharedMesh.bounds.center.z % shelfData.objectBounds.z)*0.5f;
+            shelfData.positionTest.x = (int)(shelfData.indexTest % shelfData.stackBounds.x);
+            shelfData.positionTest.z = (int)((shelfData.indexTest / (int)shelfData.stackBounds.x) % (int)shelfData.stackBounds.z);
+            shelfData.positionTest.y = shelfData.indexTest / ((int)shelfData.stackBounds.x * (int)shelfData.stackBounds.z);
         }
         if (GUILayout.Button("Save Scriptable Object values"))
         {
@@ -43,10 +51,10 @@ class ShelfDataCreaterEditor: Editor
                 return;
             }
             item.ObjectBounds = shelfData.objectBounds;
-            if (shelfData.transform.parent.GetComponent<StockShelfController>().normalShelfSize)
-                item.StackBounds = shelfData.stackBounds;
-            else
-                item.BigStackBounds = shelfData.stackBounds;
+            /////if (shelfData.transform.parent.GetComponent<StockShelfController>().normalShelfSize)
+            //    item.StackBounds = shelfData.stackBounds;
+            //else
+            //    item.BigStackBounds = shelfData.stackBounds;
         }
     }
 }
