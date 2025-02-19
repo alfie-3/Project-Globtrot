@@ -6,7 +6,7 @@ public class MoneyManager : MonoBehaviour
     public static MoneyManager Instance { get; private set; }
 
     [SerializeField] private TMP_Text moneyText;
-    [SerializeField] private float startingMoney = 100.0f;  // set the starting amount
+    [SerializeField] private float startingMoney = 100.0f;  // starting money
 
     private float currentMoney;
 
