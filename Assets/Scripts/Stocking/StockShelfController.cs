@@ -7,21 +7,21 @@ using static UnityEditor.FilePathAttribute;
 public class StockShelfController : NetworkBehaviour {
     public NetworkVariable<FixedString32Bytes> ItemId { get; private set; } = new NetworkVariable<FixedString32Bytes>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
     public bool IsEmpty { get
-        { return ItemId.Value.IsEmpty; }}
+        { return ItemId.Value.IsEmpty; } }
+
     public NetworkVariable<int> ItemQuantity { get; private set; } = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
 
-
+    public Action<string, string, int> OnStockUpdated = delegate {};
 
     public void AddItem(string itemId)
     {
-        Debug.Log("HAHHA");
-        Debug.Log(itemId);
-        Debug.Log(IsEmpty);
+
         if (IsEmpty)
             SetItem(itemId);
-        Debug.Log(ItemId.Value.ToString());
+
         if (ItemId.Value.ToString().Equals(itemId)) {
             ItemQuantity.Value++;
+            OnStockUpdated.Invoke(itemId, itemId, ItemQuantity.Value);
             SpawnItem_RPC();
         }
         
@@ -52,13 +52,13 @@ public class StockShelfController : NetworkBehaviour {
 
     public void ClearItem()
     {
+        OnStockUpdated.Invoke(ItemId.Value.ToString(), string.Empty, 0);
         ItemId.Value = null;
-        //IsEmpty = true;
     }
 
     public void SetItem(string itemId)
     {
         ItemId.Value = itemId;
-        //IsEmpty = false;
+        OnStockUpdated.Invoke(string.Empty, itemId, ItemQuantity.Value);
     }
 }
