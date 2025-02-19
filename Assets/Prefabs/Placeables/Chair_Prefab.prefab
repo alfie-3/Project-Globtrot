@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 847885647356348822}
   - component: {fileID: 5360477584597566037}
   - component: {fileID: -8785183428425690220}
+  - component: {fileID: 6555387128206244483}
   m_Layer: 0
   m_Name: Chair_Prefab
   m_TagString: Untagged
@@ -164,6 +165,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  PickedUp:
+    m_InternalValue: 0
   placableFurniture: {fileID: 11400000, guid: 71d3620417e0e0a4d9f83519ee57fe4d, type: 2}
 --- !u!64 &-8785183428425690220
 MeshCollider:
@@ -187,3 +190,15 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -6264831526926562434, guid: 4c7d53f8d986b0742b3195370e82a7f2, type: 3}
+--- !u!114 &6555387128206244483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9071561246754564292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6147ddff872833f41b1bccbe0f415f7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
