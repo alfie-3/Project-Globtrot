@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3419212601
+  GlobalObjectIdHash: 1143238186
   InScenePlacedSourceGlobalObjectIdHash: 1143238186
   DeferredDespawnTick: 0
   Ownership: 8
@@ -138,7 +138,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 3451338121353106396}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.29
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -189,6 +189,9 @@ MonoBehaviour:
   ShoppingList:
   - DesiredItem: {fileID: 11400000, guid: cef104fbb8f8ede479ead6752d4b3931, type: 2}
     QuantityToPurchase: 1
+  CurrentSearchingItem:
+    DesiredItem: {fileID: 0}
+    QuantityToPurchase: 0
 --- !u!1001 &954450930400582737
 PrefabInstance:
   m_ObjectHideFlags: 0

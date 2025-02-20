@@ -79,8 +79,10 @@ public class LocalNavmeshSurfaceBuilder : MonoBehaviour
         Gizmos.DrawWireCube(bounds.center, bounds.size);
     }
 
-    private void OnApplicationQuit()
+    private void OnDisable()
     {
+        NavMeshSourceTag.RebuildNavmesh -= RebuildNavmeshSurface;
+
         if (navMeshData != null)
         {
             if (navMeshDataInstance.valid)

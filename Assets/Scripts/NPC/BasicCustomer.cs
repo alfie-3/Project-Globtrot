@@ -1,5 +1,7 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using Unity.Behavior;
+using UnityEditor;
 using UnityEngine;
 
 public class BasicCustomer : MonoBehaviour
@@ -15,23 +17,59 @@ public class BasicCustomer : MonoBehaviour
         CurrentSearchingItem = ShoppingList[Random.Range(0, ShoppingList.Count)];
     }
 
-    public bool TryGetShoppingListShelf(out GameObject shelf)
+    public bool HasItemsInShoppingList => ShoppingList.Count > 0;
+
+    public void RemoveItemFromShoppingList()
+    {
+        if (CurrentSearchingItem == null) return;
+
+        ShoppingList.Remove(CurrentSearchingItem);
+        return;
+    }
+
+    public bool TryGetShoppingListShelf(out StockShelvesManager shelf)
     {
         shelf = null;
         if (ShoppingList.Count <= 0) { return false; }
 
         if (ShelfStockTrackingManager.TryGetShelfRandom(CurrentSearchingItem.DesiredItem.ItemID, out StockShelvesManager shelfManager))
         {
-            ShoppingList.Remove(CurrentSearchingItem);
-            shelf = shelfManager.gameObject;
-
-            if (ShoppingList.Count > 0)
-                CurrentSearchingItem = ShoppingList[Random.Range(0, ShoppingList.Count)];
+            shelf = shelfManager;
 
             return true;
         }
 
         return false;
+    }
+
+    public bool TryGetCashRegister(out CashRegister cashRegister)
+    {
+        if (CashRegister.TryGetRandomCashRegister(out CashRegister register))
+        {
+            cashRegister = register;
+            return true;
+        }
+
+        cashRegister = null;
+        return false;
+    }
+
+    public void OnDrawGizmosSelected()
+    {
+        if (CurrentSearchingItem != null)
+        {
+            Gizmos.color = Color.green;
+
+            GUIStyle style = new GUIStyle()
+            {
+                alignment = TextAnchor.MiddleCenter,
+                fontSize = 30,
+                fontStyle = FontStyle.Bold,
+                richText = true
+            };
+
+            Handles.Label(transform.position + Vector3.up/2, $"<color=red> Looking for {CurrentSearchingItem.DesiredItem.ItemID}", style);
+        }
     }
 }
 
