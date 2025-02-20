@@ -7,8 +7,4 @@ public class ShopProduct_Item : ItemBase
     [field: SerializeField] public Sprite ProductImage { get; private set; }
     [field: SerializeField] public GameObject Prefab { get; private set; }
     [field: SerializeField] public bool Stackable { get; private set; }
-
-    public Vector3 ObjectBounds;
-    public Vector3 StackBounds;
-    public Vector3 BigStackBounds;
 }

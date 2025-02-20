@@ -3,7 +3,7 @@ using Unity.Netcode;
 using UnityEngine;
 using WebSocketSharp;
 
-public class StockBoxController : NetworkBehaviour, IUsePrimary
+public class StockBoxController : NetworkBehaviour, IUsePrimary, IUseSecondary
 {
     public NetworkVariable<FixedString32Bytes> ItemId { get; private set; } = new NetworkVariable<FixedString32Bytes>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
     [field: SerializeField]  public ShopProduct_Item ProductItem { get; private set; }
@@ -21,16 +21,17 @@ public class StockBoxController : NetworkBehaviour, IUsePrimary
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-
+        
         if (ProductItem != null && IsServer)
         {
+            Debug.Log("Gam");
             AddItemServer_Rpc(ProductItem.ItemID, initialQuanitity);
         }
     }
 
     public void UsePrimary(PlayerHoldingManager holdingManager) {
-        //Debug.Log("stockboxPri");
-        //Debug.Log(ItemId.Value.ToString());
+        Debug.Log("stockboxPri");
+        Debug.Log(ItemId.Value.ToString());
         if (IsEmpty) return;
 
 
@@ -45,31 +46,62 @@ public class StockBoxController : NetworkBehaviour, IUsePrimary
         }
     }
 
+    public void UseSecondary(PlayerHoldingManager holdingManager)
+    {
+        Debug.Log("stockboxPri");
+        Debug.Log(ItemId.Value.ToString());
+        if (IsEmpty) return;
+
+
+        Ray ray = new(holdingManager.CameraManager.CamTransform.position, holdingManager.CameraManager.CamTransform.forward);
+        RaycastHit[] hits = Physics.RaycastAll(ray, 5);
+        if (Physics.Raycast(ray, out RaycastHit hit, 5, LayerMask.GetMask("ItemShelf")))
+        {
+            if (hit.collider.TryGetComponent<StockShelfController>(out StockShelfController stockShelfController))
+            {
+                FixedString32Bytes shelfItems = stockShelfController.ItemId.Value;
+                if (!IsEmpty && shelfItems != ItemId.Value) return;
+                if(!stockShelfController.RemoveItem()) return;
+                AddItemServer_Rpc(shelfItems.ToString());
+            }
+        }
+    }
+
+
+
     [Rpc(SendTo.Server)]
     public void AddItemServer_Rpc(string itemId, int quanitity = 1)
     {
+        Debug.Log("addeing item");
         if (IsEmpty)
         {
-            if (ItemDictionaryManager.RetrieveItem(itemId.ToString()) is ShopProduct_Item) return;
+            if (ItemDictionaryManager.RetrieveItem(itemId.ToString()) is not ShopProduct_Item) return;
             ItemId.Value = itemId;
-            ItemQuantity.Value = quanitity;
         }
-        if (ItemId.Equals(itemId))
+        if (ItemId.Value.ToString() == itemId)
+        {
             ItemQuantity.Value += quanitity;
+        }
 
     }
+
 
     public void RemoveItem(string itemId)
     {
         if (itemId != ItemId.Value.ToString()) return;
 
-        ItemQuantity.Value--;
+        if (IsServer)
+        {
+            ItemQuantity.Value--;
+        }
 
         if (ItemQuantity.Value <= 0)
         {
             ClearItem();
         }
     }
+
+
 
     public void ClearItem()
     {

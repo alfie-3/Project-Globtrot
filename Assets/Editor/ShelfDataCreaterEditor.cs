@@ -50,7 +50,7 @@ class ShelfDataCreaterEditor: Editor
                 Debug.LogError($"Unable to locate {shelfData.ItemScriptableObjectName}, make sure there is a scritable object in the Resources/Items folder with that name");
                 return;
             }
-            item.ObjectBounds = shelfData.objectBounds;
+            //item.ObjectBounds = shelfData.objectBounds;
             /////if (shelfData.transform.parent.GetComponent<StockShelfController>().normalShelfSize)
             //    item.StackBounds = shelfData.stackBounds;
             //else

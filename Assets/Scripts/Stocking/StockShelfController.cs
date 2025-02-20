@@ -1,67 +1,80 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using static UnityEditor.FilePathAttribute;
 
-public class StockShelfController : NetworkBehaviour {
-    public NetworkVariable<FixedString32Bytes> ItemId { get; private set; } = new NetworkVariable<FixedString32Bytes>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
+public class StockShelfController : NetworkBehaviour {    public NetworkVariable<FixedString32Bytes> ItemId { get; private set; } = new NetworkVariable<FixedString32Bytes>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
     public bool IsEmpty { get { return ItemQuantity.Value == 0; } }
 
     public NetworkVariable<int> ItemQuantity { get; private set; } = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
 
     public Action<string, string, int> OnStockUpdated = delegate {};
 
+    private Stack<NetworkObject> items = new Stack<NetworkObject>();
+
     private int maxItems;
 
     private Vector3 itemStackBounds;
     private Vector3 itemStackOffset;
+    private Bounds itemBounds;
 
 
     [Rpc(SendTo.Server)]
     public void AddItemServer_Rpc(string itemId, int quanitity = 1)
     {
+        Debug.Log("addeing item");
         if (IsEmpty)
         {
-            if (ItemDictionaryManager.RetrieveItem(itemId.ToString()) is ShopProduct_Item) return;
+            if (ItemDictionaryManager.RetrieveItem(itemId.ToString()) is not ShopProduct_Item) return;
             SetItem(itemId);
         }
         if (ItemId.Value.ToString() == itemId)
         {
-            ItemQuantity.Value += quanitity;
+            for (int i = 0; i < quanitity; i++)
+                SpawnItem_RPC();
             OnStockUpdated.Invoke(itemId, itemId, ItemQuantity.Value);
-            SpawnItem_RPC();
         }
 
     }
 
     [Rpc(SendTo.Server)]
     void SpawnItem_RPC() {
+        if (ItemQuantity.Value == maxItems) return;
         ShopProduct_Item placeableItem = (ShopProduct_Item)ItemDictionaryManager.RetrieveItem(ItemId.Value.ToString());
         Debug.Log($"Placing Stock item {ItemId.Value.ToString()}");
+
+
         if (placeableItem == null) return;
-
-
-
-
-
-        
-        
-        NetworkObject instance = Instantiate(placeableItem.Prefab, transform.position, Quaternion.identity, transform).GetComponent<NetworkObject>();
+        NetworkObject instance = Instantiate(placeableItem.Prefab, Vector3.Scale(GetSpawnPos(ItemQuantity.Value),itemBounds.size) + transform.position + itemStackOffset, Quaternion.identity).GetComponent<NetworkObject>();
         instance.Spawn();
+        instance.TrySetParent(transform.parent.GetComponent<NetworkObject>());
+        items.Push(instance);
+
+        ItemQuantity.Value++;
     }
 
-    public void RemoveItem(string itemId)
+    public bool RemoveItem()
     {
-        if (itemId != ItemId.Value) return;
-
-        ItemQuantity.Value--;
-
+        if(IsEmpty) return false;
+        RemoveItem_RPC();
         if (ItemQuantity.Value <= 0)
         {
             ClearItem();
         }
+        return true;
     }
+
+    [Rpc(SendTo.Server)]
+    void RemoveItem_RPC()
+    {
+        ItemQuantity.Value--;
+        items.Pop().Despawn();
+    }
+
+
 
     public void ClearItem()
     {
@@ -74,8 +87,9 @@ public class StockShelfController : NetworkBehaviour {
         ItemId.Value = itemId;
 
         ShopProduct_Item item = (ShopProduct_Item)ItemDictionaryManager.RetrieveItem(ItemId.Value.ToString());
-        CalculateSpawnPositioning(item.Prefab.GetComponent<MeshFilter>().sharedMesh.bounds,item.Stackable);
-        maxItems = (int)(itemStackBounds.x *itemStackBounds.y * itemStackBounds.z)-1;
+        itemBounds = item.Prefab.GetComponent<MeshFilter>().sharedMesh.bounds;
+        CalculateSpawnPositioning(item.Stackable);
+        maxItems = (int)(itemStackBounds.x *itemStackBounds.y * itemStackBounds.z);
         
         OnStockUpdated.Invoke(string.Empty, itemId, ItemQuantity.Value);
     }
@@ -89,13 +103,14 @@ public class StockShelfController : NetworkBehaviour {
         return spawnPos;
     }
 
-    private void CalculateSpawnPositioning(Bounds itemBounds, bool stackable)
+    private void CalculateSpawnPositioning(bool stackable)
     {
-        Bounds shelfBounds = transform.parent.GetComponent<MeshFilter>().sharedMesh.bounds;
+        Bounds shelfBounds = GetComponent<MeshFilter>().sharedMesh.bounds;
 
         itemStackBounds.x = (float)Math.Floor((double)(shelfBounds.size.x / itemBounds.size.x));
         itemStackBounds.y = stackable ? (float)Math.Floor((double)(shelfBounds.size.y / itemBounds.size.y)) : 1;
         itemStackBounds.z = (float)Math.Floor((double)(shelfBounds.center.z / itemBounds.size.z));
+
 
         Vector3 EvenOutOffset = Vector3.zero;
         EvenOutOffset.x = (shelfBounds.size.x % itemBounds.size.x) / 2;
