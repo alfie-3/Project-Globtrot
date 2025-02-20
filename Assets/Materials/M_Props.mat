@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Blue
-  m_Shader: {fileID: -6465566751694194690, guid: a2ace1f002b577a4eb310bb294fcdf11, type: 3}
+  m_Name: M_Props
+  m_Shader: {fileID: -6465566751694194690, guid: c60e5fe6bae29234b91104bee67ff3b3, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -16,8 +16,9 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2450
-  stringTagMap: {}
+  m_CustomRenderQueue: 2000
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses:
   - MOTIONVECTORS
   m_LockedProperties: 
@@ -48,8 +49,16 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Diffuse_Map:
+        m_Texture: {fileID: 2800000, guid: 6c279a9f6c3b8624cb988f5be563db4c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LightingRamp:
+        m_Texture: {fileID: 2800000, guid: 42a0c6d6a708297428fe5f021563aa33, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -80,7 +89,15 @@ Material:
         m_Texture: {fileID: 2800000, guid: 24846c340c8bbaf41841f8435d2175cd, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_2724f6ce0b8544a699a8dd2e39fc4407_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 24846c340c8bbaf41841f8435d2175cd, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_b0285b715d034b4c8f6e5d88fbb62c43_Out_0_Texture2D:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -102,6 +119,8 @@ Material:
     - _Alpha: 1
     - _AlphaClip: 0
     - _AlphaToMask: 0
+    - _BUILTIN_QueueControl: -1
+    - _BUILTIN_QueueOffset: 0
     - _Backlight_Amount: 0.5
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
@@ -129,7 +148,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Smoothness: 0.86
+    - _Smoothness: 0.37
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -143,10 +162,10 @@ Material:
     - _BaseColor: {r: 0.8867924, g: 0.2855177, b: 0.20496619, a: 1}
     - _Color: {r: 0.8867924, g: 0.28551766, b: 0.20496616, a: 1}
     - _DabsTiling: {r: 32, g: 32, b: 0, a: 0}
-    - _Diffuse: {r: 0.25098044, g: 0.7396262, b: 0.8784314, a: 0}
+    - _Diffuse: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _Specular: {r: 10, g: 10, b: 10, a: 0}
+    - _Specular: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &5332570157693437885
