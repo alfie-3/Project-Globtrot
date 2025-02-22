@@ -1,6 +1,4 @@
-using NUnit.Framework;
 using System.Collections.Generic;
-using Unity.Behavior;
 using UnityEditor;
 using UnityEngine;
 
@@ -56,20 +54,20 @@ public class BasicCustomer : MonoBehaviour
 
     public void OnDrawGizmosSelected()
     {
-        if (CurrentSearchingItem != null)
+        if (CurrentSearchingItem.DesiredItem == null) return;
+
+        Gizmos.color = Color.green;
+
+        GUIStyle style = new GUIStyle()
         {
-            Gizmos.color = Color.green;
+            alignment = TextAnchor.MiddleCenter,
+            fontSize = 30,
+            fontStyle = FontStyle.Bold,
+            richText = true
+        };
 
-            GUIStyle style = new GUIStyle()
-            {
-                alignment = TextAnchor.MiddleCenter,
-                fontSize = 30,
-                fontStyle = FontStyle.Bold,
-                richText = true
-            };
+        Handles.Label(transform.position + Vector3.up / 2, $"<color=red> Looking for {CurrentSearchingItem.DesiredItem.ItemID}", style);
 
-            Handles.Label(transform.position + Vector3.up/2, $"<color=red> Looking for {CurrentSearchingItem.DesiredItem.ItemID}", style);
-        }
     }
 }
 

@@ -8,7 +8,13 @@ public class PickUp_Funiture : Pickup_Interactable {
     public PlacableFurniture_Item placableFurniture;
 
     public override void OnInteract(PlayerInteractionManager interactionManager) {
-        //Pickup(interactionManager);
+
+        if (interactionManager.TryGetComponent(out PlayerHoldingManager holdingManager))
+        {
+            if (holdingManager.HoldingItem) return;
+        }
+        else return;
+
         GiveCrate_RPC(placableFurniture.ItemID, interactionManager.NetworkObject);
         RequestRemove_RPC();
     }

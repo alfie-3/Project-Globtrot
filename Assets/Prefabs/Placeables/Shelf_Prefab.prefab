@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8207418299814666127}
   - component: {fileID: 3434331253223454429}
+  - component: {fileID: 6405537119823779212}
   - component: {fileID: 8079455772881474972}
   m_Layer: 8
   m_Name: Shelf_0
@@ -46,6 +47,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+--- !u!33 &6405537119823779212
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1066026095376948521}
+  m_Mesh: {fileID: 7540818223946421522, guid: 5acd9a709852bd64cb71e0988fc8e29d, type: 3}
 --- !u!64 &8079455772881474972
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -79,6 +88,7 @@ GameObject:
   - component: {fileID: 1710024903806943036}
   - component: {fileID: 5673416922781338639}
   - component: {fileID: 1707913436822382061}
+  - component: {fileID: 1701644138332930969}
   m_Layer: 8
   m_Name: Shelf_2
   m_TagString: Untagged
@@ -136,6 +146,14 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 7540818223946421522, guid: 5acd9a709852bd64cb71e0988fc8e29d, type: 3}
+--- !u!33 &1701644138332930969
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2029651076288705171}
+  m_Mesh: {fileID: 7540818223946421522, guid: 5acd9a709852bd64cb71e0988fc8e29d, type: 3}
 --- !u!1 &3462925301739376108
 GameObject:
   m_ObjectHideFlags: 0
@@ -147,6 +165,7 @@ GameObject:
   - component: {fileID: 8792673135641561179}
   - component: {fileID: 6485232478343370261}
   - component: {fileID: 8784142201307799165}
+  - component: {fileID: 6909629066562196125}
   m_Layer: 8
   m_Name: Shelf_3
   m_TagString: Untagged
@@ -204,6 +223,14 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 7540818223946421522, guid: 5acd9a709852bd64cb71e0988fc8e29d, type: 3}
+--- !u!33 &6909629066562196125
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3462925301739376108}
+  m_Mesh: {fileID: 7540818223946421522, guid: 5acd9a709852bd64cb71e0988fc8e29d, type: 3}
 --- !u!1 &5224579390045233786
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,6 +242,7 @@ GameObject:
   - component: {fileID: 5933437298303191996}
   - component: {fileID: 9066564535376510810}
   - component: {fileID: 7786955883678487179}
+  - component: {fileID: 7609154779211122464}
   m_Layer: 8
   m_Name: Shelf_1
   m_TagString: Untagged
@@ -272,6 +300,14 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 7540818223946421522, guid: 5acd9a709852bd64cb71e0988fc8e29d, type: 3}
+--- !u!33 &7609154779211122464
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5224579390045233786}
+  m_Mesh: {fileID: 7540818223946421522, guid: 5acd9a709852bd64cb71e0988fc8e29d, type: 3}
 --- !u!1 &6743719375205197278
 GameObject:
   m_ObjectHideFlags: 0
@@ -306,7 +342,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6743719375205197278}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -386,7 +422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2730705266
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 2730705266
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
@@ -484,6 +520,7 @@ MonoBehaviour:
   - {fileID: 1301744380489902656}
   - {fileID: 7256108697236924269}
   - {fileID: 4821218587554807955}
+  isQueue: 0
 --- !u!65 &9036405591964977949
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -534,6 +571,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6147ddff872833f41b1bccbe0f415f7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  areaOverride: 1
 --- !u!1001 &4138051557714276831
 PrefabInstance:
   m_ObjectHideFlags: 0

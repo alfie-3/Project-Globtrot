@@ -143,4 +143,6 @@ public class PlayerHoldingManager : NetworkBehaviour
         HeldObj = null;
         Rotation = 0;
     }
+
+    public bool HoldingItem => HeldObj != null;
 }

@@ -9,16 +9,33 @@ using UnityEngine.ProBuilder;
 
 public class NavMeshSourceTag : MonoBehaviour
 {
-    public static List<MeshFilter> Mesheses = new();
+    [SerializeField] int areaOverride = 0;
+
+    public static List<NavmeshMeshFilterData> Mesheses = new();
     public static List<NavMeshModifierVolume> Modifiers = new();
 
     public static Action RebuildNavmesh = delegate { };
+
+    NavmeshMeshFilterData meshFilterData;
+
+    public class NavmeshMeshFilterData
+    {
+        public MeshFilter MeshFilter;
+        public int Area;
+
+        public NavmeshMeshFilterData(MeshFilter mesh, int area)
+        {
+            Area = area;
+            MeshFilter = mesh;
+        }
+    }
 
     private void Awake()
     {
         if (TryGetComponent(out MeshFilter meshFilter))
         {
-            Mesheses.Add(meshFilter);
+            meshFilterData = new(meshFilter, areaOverride);
+            Mesheses.Add(meshFilterData);
         }
 
         if (TryGetComponent(out NavMeshModifierVolume meshModifier))
@@ -44,9 +61,9 @@ public class NavMeshSourceTag : MonoBehaviour
             if (!NetworkManager.Singleton.IsServer) return;
         }
 
-        if (TryGetComponent(out MeshFilter meshFilter))
+        if (meshFilterData != null)
         {
-            Mesheses.Remove(meshFilter);
+            Mesheses.Remove(meshFilterData);
         }
 
         if (TryGetComponent(out NavMeshModifierVolume meshModifier))
@@ -63,17 +80,17 @@ public class NavMeshSourceTag : MonoBehaviour
 
         for (int i = 0; i < Mesheses.Count; i++)
         {
-            MeshFilter meshFilter = Mesheses[i];
+            NavmeshMeshFilterData navmeshMeshFilterData = Mesheses[i];
 
-            if (meshFilter == null) continue;
-            if (meshFilter.sharedMesh == null) continue;
+            if (navmeshMeshFilterData.MeshFilter == null) continue;
+            if (navmeshMeshFilterData.MeshFilter.sharedMesh == null) continue;
 
             NavMeshBuildSource buildSource = new NavMeshBuildSource();
             buildSource.shape = NavMeshBuildSourceShape.Mesh;
             
-            buildSource.sourceObject = meshFilter.sharedMesh;
-            buildSource.transform = meshFilter.transform.localToWorldMatrix;
-            buildSource.area = 0;
+            buildSource.sourceObject = navmeshMeshFilterData.MeshFilter.sharedMesh;
+            buildSource.transform = navmeshMeshFilterData.MeshFilter.transform.localToWorldMatrix;
+            buildSource.area = navmeshMeshFilterData.Area;
             sources.Add(buildSource);
         }
 

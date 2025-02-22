@@ -20,9 +20,6 @@ public class LocalNavmeshSurfaceBuilder : MonoBehaviour
     private void Start()
     {
         navMeshData = new NavMeshData();
-        navMeshDataInstance = NavMesh.AddNavMeshData(navMeshData);
-
-        RebuildNavmeshSurface();
     }
 
     public void RebuildNavmeshSurface()
