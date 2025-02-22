@@ -6,7 +6,8 @@ using Unity.Netcode;
 using UnityEngine;
 using static UnityEditor.FilePathAttribute;
 
-public class StockShelfController : NetworkBehaviour {    public NetworkVariable<FixedString32Bytes> ItemId { get; private set; } = new NetworkVariable<FixedString32Bytes>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
+public class StockShelfController : NetworkBehaviour {    
+    public NetworkVariable<FixedString32Bytes> ItemId { get; private set; } = new NetworkVariable<FixedString32Bytes>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
     public bool IsEmpty { get { return ItemQuantity.Value == 0; } }
 
     public NetworkVariable<int> ItemQuantity { get; private set; } = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
@@ -79,7 +80,7 @@ public class StockShelfController : NetworkBehaviour {    public NetworkVariable
     public void ClearItem()
     {
         OnStockUpdated.Invoke(ItemId.Value.ToString(), string.Empty, 0);
-        ItemId.Value = null;
+        ItemId.Value = String.Empty;
     }
 
     public void SetItem(string itemId)
