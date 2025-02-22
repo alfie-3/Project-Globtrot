@@ -11,8 +11,13 @@ public partial class SlotOccupiedNotBySelfCondition : Condition
 
     public override bool IsTrue()
     {
+        //Abort if target value has been destroyed
+        if (Slot.Value == null) return true;
+
         if (Slot.Value.TryGetComponent(out NavMeshSlot slot))
         {
+
+            //Return false if the slot is not occupied or is occupied by slef - return true if slot is occupied by another agent
             if (slot.IsOccupied)
             {
                 if (slot.OccupyingGameObject == null) return false;

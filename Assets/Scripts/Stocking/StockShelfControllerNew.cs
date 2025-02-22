@@ -14,6 +14,7 @@ public class StockShelfControllerNew : NetworkBehaviour {
     [SerializeField] private ItemHolder holder;
 
     private Stack<NetworkObject> items = new Stack<NetworkObject>();
+    public Action<string, string, int> OnStockUpdated = delegate { };
 
     private int maxItems;
 
@@ -40,6 +41,7 @@ public class StockShelfControllerNew : NetworkBehaviour {
         else
             RemoveItem_RPC(items.Count - quantity);
 
+        OnStockUpdated.Invoke(previousStockType, currentStockType, holder.ItemQuantity.Value);
     }
 
     [Rpc(SendTo.Server)]

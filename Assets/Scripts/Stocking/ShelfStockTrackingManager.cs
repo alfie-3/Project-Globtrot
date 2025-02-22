@@ -82,6 +82,11 @@ public class ShelfStockTrackingManager : MonoBehaviour
             if (StockLookupDictionary.TryGetValue(currentStockId, out HashSet<StockShelvesManager> stockShelves))
             {
                 stockShelves.Remove(stockShelf);
+
+                if (stockShelves.Count == 0)
+                {
+                    StockLookupDictionary.Remove(currentStockId);
+                }
             }
         }
     }
