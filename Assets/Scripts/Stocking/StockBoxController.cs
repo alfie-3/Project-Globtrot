@@ -1,6 +1,8 @@
+using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UI;
 using WebSocketSharp;
 
 public class StockBoxController : NetworkBehaviour, IUsePrimary, IUseSecondary
@@ -11,20 +13,30 @@ public class StockBoxController : NetworkBehaviour, IUsePrimary, IUseSecondary
     public bool IsEmpty { get { return ItemId.Value.IsEmpty; }}
 
     [field: SerializeField] public NetworkVariable<int> ItemQuantity { get; private set; } = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
+    [SerializeField] TextMeshProUGUI text;
+
     [SerializeField] int initialQuanitity = 10;
+
 
     public void Awake()
     {
         ItemId.OnValueChanged += SetItem;
+        //ItemQuantity.OnValueChanged += (() => text.text = $"{ItemId.Value.ToString()} \n {ItemQuantity.Value.ToString()}");
+        
+        ItemQuantity.OnValueChanged += (previousValue, newValue) => text.text = $"{ItemId.Value}\n{newValue}";
+
+    }
+    void UpdateText(int oldI, int newI)
+    {
+        text.text = $"{ItemId.Value}\n{newI}";
     }
 
     public override void OnNetworkSpawn()
-    {
+    {                
         base.OnNetworkSpawn();
         
         if (ProductItem != null && IsServer)
         {
-            Debug.Log("Gam");
             AddItemServer_Rpc(ProductItem.ItemID, initialQuanitity);
         }
     }
