@@ -9,7 +9,7 @@ public class NavMeshSlot : MonoBehaviour
     [SerializeField] NavMeshSlot nextNavmeshSlot;
 
     public Action<GameObject, NavMeshSlot, bool> OnOccupiedChange;
-    NavMeshSlotManager slotManager;
+    public NavMeshSlotManager SlotManager { get; private set;}
 
     [SerializeField] float OccupiedCutoffRange = 3;
 
@@ -25,7 +25,7 @@ public class NavMeshSlot : MonoBehaviour
 
     public void SetSlotManager(NavMeshSlotManager slotManager)
     {
-        this.slotManager = slotManager;
+        this.SlotManager = slotManager;
     }
 
     public void SetNextSlot(NavMeshSlot nextSlot)
@@ -49,9 +49,9 @@ public class NavMeshSlot : MonoBehaviour
 
     public bool IsFrontOfQueue()
     {
-        if (slotManager == null) { return false; }
+        if (SlotManager == null) { return false; }
 
-        return slotManager.IsAtFrontOfQueue(this);
+        return SlotManager.IsAtFrontOfQueue(this);
     }
 
     public bool TryGetNextSlot(out NavMeshSlot nextSlot)

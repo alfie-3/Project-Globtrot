@@ -68,7 +68,11 @@ public class ItemHolder : NetworkBehaviour
         {
             ClearItem();
         }
-        OnStockUpdated.Invoke(ItemId.Value.ToString(), ItemId.Value.ToString(), ItemQuantity.Value);
+        else
+        {
+            OnStockUpdated.Invoke(ItemId.Value.ToString(), ItemId.Value.ToString(), ItemQuantity.Value);
+        }
+
         return true;
     }
 

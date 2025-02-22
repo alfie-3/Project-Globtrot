@@ -6,22 +6,30 @@ public class BasicCustomer : MonoBehaviour
 {
     public List<ShoppingListItem> ShoppingList = new List<ShoppingListItem>();
 
-    public ShoppingListItem CurrentSearchingItem;
-
     private void Awake()
     {
         if (ShoppingList.Count <= 0) return;
-
-        CurrentSearchingItem = ShoppingList[Random.Range(0, ShoppingList.Count)];
     }
 
     public bool HasItemsInShoppingList => ShoppingList.Count > 0;
 
-    public void RemoveItemFromShoppingList()
+    public void TakeShoppingListItemsFromShelf(StockShelvesManager shelvesManager)
     {
-        if (CurrentSearchingItem == null) return;
+        for (int i = 0; i < ShoppingList.Count; i++)
+        {
+            int takenAmount = shelvesManager.TakeItemsFromShelf(ShoppingList[i].DesiredItem, ShoppingList[i].QuantityToPurchase);
+            ShoppingList[i].QuantityToPurchase -= takenAmount;
 
-        ShoppingList.Remove(CurrentSearchingItem);
+            if (ShoppingList[i].QuantityToPurchase <= 0)
+                RemoveItemFromShoppingList(ShoppingList[i]);
+        }
+    }
+
+    public void RemoveItemFromShoppingList(ShoppingListItem referenceItem)
+    {
+        if (referenceItem == null) return;
+
+        ShoppingList.Remove(referenceItem);
         return;
     }
 
@@ -30,11 +38,16 @@ public class BasicCustomer : MonoBehaviour
         shelf = null;
         if (ShoppingList.Count <= 0) { return false; }
 
-        if (ShelfStockTrackingManager.TryGetShelfRandom(CurrentSearchingItem.DesiredItem.ItemID, out StockShelvesManager shelfManager))
+        foreach (var item in ShoppingList)
         {
-            shelf = shelfManager;
+            if (ShelfStockTrackingManager.TryGetShelfRandom(item.DesiredItem.ItemID, out StockShelvesManager shelfManager))
+            {
+                shelf = shelfManager;
 
-            return true;
+                return true;
+            }
+
+            return false;
         }
 
         return false;
@@ -50,24 +63,6 @@ public class BasicCustomer : MonoBehaviour
 
         cashRegister = null;
         return false;
-    }
-
-    public void OnDrawGizmosSelected()
-    {
-        if (CurrentSearchingItem.DesiredItem == null) return;
-
-        Gizmos.color = Color.green;
-
-        GUIStyle style = new GUIStyle()
-        {
-            alignment = TextAnchor.MiddleCenter,
-            fontSize = 30,
-            fontStyle = FontStyle.Bold,
-            richText = true
-        };
-
-        Handles.Label(transform.position + Vector3.up / 2, $"<color=red> Looking for {CurrentSearchingItem.DesiredItem.ItemID}", style);
-
     }
 }
 

@@ -24,6 +24,8 @@ public class ShelfStockTrackingManager : MonoBehaviour
 
         if (StockLookupDictionary.TryGetValue(ItemID, out HashSet<StockShelvesManager> stockShelves))
         {
+            if (stockShelves.Count == 0) return false;
+
             stockShelf = stockShelves.ElementAt(random.Next(stockShelves.Count));
             return true;
         }

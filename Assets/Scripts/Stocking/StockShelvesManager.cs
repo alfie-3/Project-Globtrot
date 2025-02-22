@@ -17,11 +17,41 @@ public class StockShelvesManager : NetworkBehaviour
     {
         foreach (StockShelfControllerNew shelf in StockShelves)
         {
-            shelf.OnStockUpdated += UpdateStockTypes;
+            shelf.OnStockUpdated += UpdateStockTypesInformation;
         }
     }
 
-    public void UpdateStockTypes(string previousStockType, string currentStockType, int quantity)
+    public int TakeItemsFromShelf(ShopProduct_Item product, int quantity)
+    {
+        int quantityToTake = quantity;
+
+        foreach(var shelf in StockShelves)
+        {
+            //If shelf does not match product type return
+            if (shelf.Holder.ItemId.Value != product.ItemID) continue;
+
+            //If shelf has no items return
+            if (shelf.Holder.ItemQuantity.Value == 0) continue;
+
+            if (shelf.Holder.ItemQuantity.Value < quantityToTake)
+            {
+                quantityToTake -= shelf.Holder.ItemQuantity.Value;
+                shelf.Holder.RemoveItem(shelf.Holder.ItemQuantity.Value);
+
+                continue;
+            }
+            else
+            {
+                shelf.Holder.RemoveItem(quantity);
+
+                return quantity;
+            }
+        }
+
+        return quantity - quantityToTake;
+    }
+
+    public void UpdateStockTypesInformation(string previousStockType, string currentStockType, int quantity)
     {
         if (currentStockType.IsNullOrEmpty())
         {

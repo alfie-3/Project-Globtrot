@@ -6,16 +6,15 @@ using UnityEngine;
 [Condition(name: "IsNextSlotFree", story: "If next [navmeshslot] is free", category: "Conditions", id: "3bbdd01c0941debd991437ca74c02657")]
 public partial class IsNextSlotFreeCondition : Condition
 {
-    [SerializeReference] public BlackboardVariable<GameObject> Navmeshslot;
+    [SerializeReference] public BlackboardVariable<NavMeshSlot> Navmeshslot;
 
     public override bool IsTrue()
     {
-        if (Navmeshslot.Value.TryGetComponent(out NavMeshSlot slot))
+        if (Navmeshslot.Value == null) { return false; }
+
+        if (Navmeshslot.Value.TryGetNextSlot(out NavMeshSlot nextSlot))
         {
-            if (slot.TryGetNextSlot(out NavMeshSlot nextSlot))
-            {
-                if (!nextSlot.IsOccupied) return true;
-            }
+            if (!nextSlot.IsOccupied) return true;
         }
 
         return false;

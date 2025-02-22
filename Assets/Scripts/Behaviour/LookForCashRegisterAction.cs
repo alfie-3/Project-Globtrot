@@ -10,7 +10,7 @@ using UnityEngine.AI;
 public partial class LookForCashRegisterAction : Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> Agent;
-    [SerializeReference] public BlackboardVariable<GameObject> Slot;
+    [SerializeReference] public BlackboardVariable<NavMeshSlot> Slot;
     BasicCustomer customerManager;
     NavMeshAgent agent;
 
@@ -28,7 +28,7 @@ public partial class LookForCashRegisterAction : Action
             {
                 if (slotManager.TryGetFreeSlot(out NavMeshSlot navMeshSlot ))
                 {
-                    Slot.Value = navMeshSlot.gameObject;
+                    Slot.Value = navMeshSlot;
                     return Status.Success;
                 }
             }

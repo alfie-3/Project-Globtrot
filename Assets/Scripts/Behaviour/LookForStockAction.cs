@@ -10,7 +10,7 @@ using UnityEngine.AI;
 public partial class LookForStockAction : Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> Customer;
-    [SerializeReference] public BlackboardVariable<GameObject> NavmeshSlot;
+    [SerializeReference] public BlackboardVariable<NavMeshSlot> NavmeshSlot;
     BasicCustomer customerManager;
     NavMeshAgent agent;
 
@@ -28,7 +28,7 @@ public partial class LookForStockAction : Action
             {
                 if (navMeshSlotManager.TryGetRandomSlot(out NavMeshSlot slot))
                 {
-                    NavmeshSlot.Value = slot.gameObject;
+                    NavmeshSlot.Value = slot;
                     return Status.Success;
                 }
             }

@@ -11,7 +11,7 @@ using static UnityEditor.FilePathAttribute;
 public class StockShelfControllerNew : NetworkBehaviour {
 
     //public Action<string, string, int> OnStockUpdated = delegate {};
-    [SerializeField] private ItemHolder holder;
+    [field: SerializeField] public ItemHolder Holder { get; private set; }
 
     private Stack<NetworkObject> items = new Stack<NetworkObject>();
     public Action<string, string, int> OnStockUpdated = delegate { };
@@ -24,7 +24,7 @@ public class StockShelfControllerNew : NetworkBehaviour {
 
     private void Awake()
     {
-        holder.OnStockUpdated += UpdateShelf;
+        Holder.OnStockUpdated += UpdateShelf;
     }
 
     public void UpdateShelf(string previousStockType, string currentStockType, int quantity)
@@ -34,14 +34,14 @@ public class StockShelfControllerNew : NetworkBehaviour {
             ShopProduct_Item item = (ShopProduct_Item)ItemDictionaryManager.RetrieveItem(currentStockType);
             itemBounds = item.Prefab.GetComponent<MeshFilter>().sharedMesh.bounds;
             CalculateSpawnPositioning(item.Stackable);
-            holder.SetMaxItems((int)(itemStackBounds.x * itemStackBounds.y * itemStackBounds.z));
+            Holder.SetMaxItems((int)(itemStackBounds.x * itemStackBounds.y * itemStackBounds.z));
         }
         if (quantity > items.Count)
             SpawnItem_RPC(currentStockType, quantity - items.Count);
         else
             RemoveItem_RPC(items.Count - quantity);
 
-        OnStockUpdated.Invoke(previousStockType, currentStockType, holder.ItemQuantity.Value);
+        OnStockUpdated.Invoke(previousStockType, currentStockType, Holder.ItemQuantity.Value);
     }
 
     [Rpc(SendTo.Server)]
@@ -61,9 +61,9 @@ public class StockShelfControllerNew : NetworkBehaviour {
     }
 
     [Rpc(SendTo.Server)]
-    public void RemoveItem_RPC(int quanitity)
+    public void RemoveItem_RPC(int quantity)
     {
-        for (int i = 0; i < quanitity; i++)
+        for (int i = 0; i < quantity; i++)
             items.Pop().Despawn();
     }
 
