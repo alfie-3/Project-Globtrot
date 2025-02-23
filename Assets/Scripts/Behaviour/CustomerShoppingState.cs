@@ -4,7 +4,8 @@ using Unity.Behavior;
 [BlackboardEnum]
 public enum CustomerShoppingState
 {
-    Browsing,
+	Roaming,
+    Shopping,
 	CheckingOut,
 	Leaving
 }

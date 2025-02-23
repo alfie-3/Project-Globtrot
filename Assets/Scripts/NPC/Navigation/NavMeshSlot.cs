@@ -15,7 +15,13 @@ public class NavMeshSlot : MonoBehaviour
 
     private void Update()
     {
-        if (!IsOccupied || OccupyingGameObject == null) return;
+        if (!IsOccupied) return;
+
+        if (OccupyingGameObject == null)
+        {
+            IsOccupied = false;
+            return;
+        }
 
         if (Vector3.Distance(OccupyingGameObject.transform.position, transform.position) > OccupiedCutoffRange)
         {

@@ -64,6 +64,11 @@ public class BasicCustomer : MonoBehaviour
         cashRegister = null;
         return false;
     }
+
+    private void OnDisable()
+    {
+        CustomerSpawnPoint.customersCount--;
+    }
 }
 
 [System.Serializable]

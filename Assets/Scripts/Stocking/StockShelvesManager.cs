@@ -53,27 +53,37 @@ public class StockShelvesManager : NetworkBehaviour
 
     public void UpdateStockTypesInformation(string previousStockType, string currentStockType, int quantity)
     {
-        if (currentStockType.IsNullOrEmpty())
+        if (previousStockType.IsNullOrEmpty())
         {
-            StockedItemInformation.Remove(previousStockType);
-        }
-
-        else if (previousStockType.IsNullOrEmpty())
-        {
-            StockedItemData stockedItemData = new StockedItemData()
+            if (StockedItemInformation.TryGetValue(currentStockType, out StockedItemData stockedItemData))
             {
-                ItemID = currentStockType,
-                ItemQuanitity = quantity
-            };
+                int difference = stockedItemData.ItemQuanitity - quantity;
+                stockedItemData.ItemQuanitity += difference;
+            }
+            else
+            {
+                StockedItemData newStockedItemData = new StockedItemData()
+                {
+                    ItemID = currentStockType,
+                    ItemQuanitity = quantity
+                };
 
-            StockedItemInformation.TryAdd(currentStockType, stockedItemData);
+                StockedItemInformation.Add(currentStockType, newStockedItemData);
+            }
         }
 
         else if (previousStockType.Equals(currentStockType))
         {
             if (StockedItemInformation.TryGetValue(currentStockType, out StockedItemData stockedItemData))
             {
-                stockedItemData.ItemQuanitity = quantity;            }
+                int difference = stockedItemData.ItemQuanitity - quantity;
+                stockedItemData.ItemQuanitity += difference;
+
+                if (stockedItemData.ItemQuanitity <= 0)
+                {
+                    StockedItemInformation.Remove(currentStockType);
+                }
+            }
         }
 
         OnStockShelfUpdated.Invoke(previousStockType, currentStockType, this);
@@ -92,7 +102,7 @@ public class StockShelvesManager : NetworkBehaviour
     }
 }
 
-public struct StockedItemData
+public class StockedItemData
 {
     public string ItemID;
     public int ItemQuanitity;
