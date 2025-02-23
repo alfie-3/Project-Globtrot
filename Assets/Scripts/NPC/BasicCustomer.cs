@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class BasicCustomer : MonoBehaviour
@@ -11,17 +10,25 @@ public class BasicCustomer : MonoBehaviour
         if (ShoppingList.Count <= 0) return;
     }
 
-    public bool HasItemsInShoppingList => ShoppingList.Count > 0;
+    public bool HasItemsInShoppingList()
+    {
+        foreach(var item in ShoppingList)
+        {
+            if (!item.CheckedOff) return true;
+        }
+
+        return false;
+    }
 
     public void TakeShoppingListItemsFromShelf(StockShelvesManager shelvesManager)
     {
         for (int i = 0; i < ShoppingList.Count; i++)
         {
             int takenAmount = shelvesManager.TakeItemsFromShelf(ShoppingList[i].DesiredItem, ShoppingList[i].QuantityToPurchase);
-            ShoppingList[i].QuantityToPurchase -= takenAmount;
+            ShoppingList[i].heldQuantity += takenAmount;
 
-            if (ShoppingList[i].QuantityToPurchase <= 0)
-                RemoveItemFromShoppingList(ShoppingList[i]);
+            if (ShoppingList[i].heldQuantity >= ShoppingList[i].QuantityToPurchase)
+                ShoppingList[i].CheckOffListItem();
         }
     }
 
@@ -65,6 +72,14 @@ public class BasicCustomer : MonoBehaviour
         return false;
     }
 
+    public void PurchaseItems()
+    {
+        foreach (var item in ShoppingList)
+        {
+            MoneyManager.Instance.AddMoney(item.heldQuantity * item.DesiredItem.Price);
+        }
+    }
+
     private void OnDisable()
     {
         CustomerSpawnPoint.customersCount--;
@@ -75,5 +90,14 @@ public class BasicCustomer : MonoBehaviour
 public class ShoppingListItem
 {
     public ShopProduct_Item DesiredItem;
+
+    public bool CheckedOff { get; private set; }
+
     public int QuantityToPurchase;
+    public int heldQuantity;
+
+    public void CheckOffListItem()
+    {
+        CheckedOff = true;
+    }
 }

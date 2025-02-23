@@ -16,7 +16,7 @@ public partial class HasItemsInListCondition : Condition
 
         if (customerManager == null) return false;
 
-        if (customerManager.HasItemsInShoppingList) return true;
+        if (customerManager.HasItemsInShoppingList()) return true;
 
         return false;
     }

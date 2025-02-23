@@ -18,7 +18,7 @@ public class NavMeshSourceTag : MonoBehaviour
 
     NavmeshMeshFilterData meshFilterData;
 
-    [RuntimeInitializeOnLoadMethod]
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void Initialize()
     {
         Mesheses = new List<NavmeshMeshFilterData>();

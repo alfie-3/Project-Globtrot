@@ -64,7 +64,7 @@ public class StockShelvesManager : NetworkBehaviour
         {
             if (StockedItemInformation.TryGetValue(currentStockType, out StockedItemData stockedItemData))
             {
-                int difference = stockedItemData.ItemQuanitity - quantity;
+                int difference = quantity - stockedItemData.ItemQuanitity;
                 stockedItemData.ItemQuanitity += difference;
             }
             else
@@ -83,7 +83,7 @@ public class StockShelvesManager : NetworkBehaviour
         {
             if (StockedItemInformation.TryGetValue(currentStockType, out StockedItemData stockedItemData))
             {
-                int difference = stockedItemData.ItemQuanitity - quantity;
+                int difference = quantity - stockedItemData.ItemQuanitity;
                 stockedItemData.ItemQuanitity += difference;
 
                 if (stockedItemData.ItemQuanitity <= 0)
