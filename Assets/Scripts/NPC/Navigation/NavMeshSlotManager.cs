@@ -7,9 +7,7 @@ public class NavMeshSlotManager : MonoBehaviour
     [SerializeField] protected NavMeshSlot[] NavMeshSlots;
     [SerializeField] bool isQueue;
 
-    HashSet<NavMeshSlot> unoccupiedSlots = new HashSet<NavMeshSlot>();
-
-    static System.Random random = new System.Random();
+    List<NavMeshSlot> unoccupiedSlots = new List<NavMeshSlot>();
 
     private void OnEnable()
     {
@@ -65,7 +63,7 @@ public class NavMeshSlotManager : MonoBehaviour
 
         if (unoccupiedSlots.Count == 0) return false;
 
-        slot = unoccupiedSlots.ElementAt(random.Next(unoccupiedSlots.Count));
+        slot = unoccupiedSlots[Random.Range(0, unoccupiedSlots.Count)];
 
         return true;
 

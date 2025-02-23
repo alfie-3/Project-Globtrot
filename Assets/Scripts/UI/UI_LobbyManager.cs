@@ -25,6 +25,12 @@ public class UI_LobbyManager : MonoBehaviour
         GetComponent<UI_OpenableCanvas>().CanvasOpened += ToggleStartButton;
     }
 
+    private void OnDisable()
+    {
+        SessionManager.PlayerJoined -= AddPlayerCard;
+        SessionManager.PlayerLeft -= RemovePlayerCard;
+    }
+
     public void StartLobby()
     {
         GetComponent<UI_OpenableCanvas>().SetEnabled(true);
@@ -89,5 +95,11 @@ public class UI_LobbyManager : MonoBehaviour
     public void ToggleStartButton(UI_OpenableCanvas _)
     {
         startGameButton.interactable = SessionManager.Session.IsHost;
+    }
+
+    private void OnDestroy()
+    {
+        SessionManager.PlayerJoined -= AddPlayerCard;
+        SessionManager.PlayerLeft -= RemovePlayerCard;
     }
 }

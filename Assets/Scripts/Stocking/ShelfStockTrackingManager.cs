@@ -1,19 +1,19 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using WebSocketSharp;
 
 public class ShelfStockTrackingManager : MonoBehaviour
 {
-    static Dictionary<string, HashSet<StockShelvesManager>> StockLookupDictionary;
-    static System.Random random;
+    static Dictionary<string, List<StockShelvesManager>> StockLookupDictionary;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    public static void Initialize()
+    {
+        StockLookupDictionary = new();
+    }
 
     public void Awake()
     {
-        StockLookupDictionary = new();
-        random = new System.Random();
-
         StockShelvesManager.OnStockShelfUpdated = UpdateShelfInfo;
         StockShelvesManager.OnStockShelfRemoved = RemoveShelf;
     }
@@ -22,11 +22,11 @@ public class ShelfStockTrackingManager : MonoBehaviour
     {
         stockShelf = null;
 
-        if (StockLookupDictionary.TryGetValue(ItemID, out HashSet<StockShelvesManager> stockShelves))
+        if (StockLookupDictionary.TryGetValue(ItemID, out List<StockShelvesManager> stockShelves))
         {
             if (stockShelves.Count == 0) return false;
 
-            stockShelf = stockShelves.ElementAt(random.Next(stockShelves.Count));
+            stockShelf = stockShelves[Random.Range(0, stockShelves.Count)];
             return true;
         }
 
@@ -38,7 +38,7 @@ public class ShelfStockTrackingManager : MonoBehaviour
         closestStockShelf = null;
         float closestDistance = 10000000000;
 
-        if (StockLookupDictionary.TryGetValue(ItemID, out HashSet<StockShelvesManager> stockShelves))
+        if (StockLookupDictionary.TryGetValue(ItemID, out List<StockShelvesManager> stockShelves))
         {
             float currentDistance;
 
@@ -63,7 +63,7 @@ public class ShelfStockTrackingManager : MonoBehaviour
     {
         if (currentStockId.IsNullOrEmpty())
         {
-            if (StockLookupDictionary.TryGetValue(previousStockId, out HashSet<StockShelvesManager> stockShelves))
+            if (StockLookupDictionary.TryGetValue(previousStockId, out List<StockShelvesManager> stockShelves))
             {
                 stockShelves.Remove(stockShelf);
             }
@@ -71,7 +71,7 @@ public class ShelfStockTrackingManager : MonoBehaviour
 
         if (previousStockId.IsNullOrEmpty())
         {
-            StockLookupDictionary.TryAdd(currentStockId, new HashSet<StockShelvesManager>());
+            StockLookupDictionary.TryAdd(currentStockId, new List<StockShelvesManager>());
 
             StockLookupDictionary[currentStockId].Add(stockShelf);
         }
@@ -81,7 +81,7 @@ public class ShelfStockTrackingManager : MonoBehaviour
     {
         foreach (string currentStockId in currentStockIds)
         {
-            if (StockLookupDictionary.TryGetValue(currentStockId, out HashSet<StockShelvesManager> stockShelves))
+            if (StockLookupDictionary.TryGetValue(currentStockId, out List<StockShelvesManager> stockShelves))
             {
                 stockShelves.Remove(stockShelf);
 

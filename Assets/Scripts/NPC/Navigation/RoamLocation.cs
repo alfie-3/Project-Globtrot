@@ -5,6 +5,12 @@ public class RoamLocation : MonoBehaviour
 {
     public static List<RoamLocation> RoamLocations = new();
 
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    public static void Initialize()
+    {
+        RoamLocations = new();
+    }
+
     public void OnEnable()
     {
         RoamLocations.Add(this);

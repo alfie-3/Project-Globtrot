@@ -19,8 +19,15 @@ public static class SessionManager
 
     public static ConnectionState State { get; private set; } = ConnectionState.Disconnected;
 
-    public static Action<string> PlayerJoined = delegate { };
-    public static Action<string> PlayerLeft = delegate { };
+    public static Action<string> PlayerJoined;
+    public static Action<string> PlayerLeft;
+
+    [RuntimeInitializeOnLoadMethod]
+    public static void Initialize()
+    {
+        PlayerJoined = delegate { };
+        PlayerLeft = delegate { };
+    }
 
     public enum ConnectionState
     {

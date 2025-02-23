@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class CashRegister : MonoBehaviour
 {
-    public static HashSet<CashRegister> CashRegisters = new HashSet<CashRegister>();
-    private static System.Random random = new System.Random();
+    public static List<CashRegister> CashRegisters = new();
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    public static void Initialize()
+    {
+        CashRegisters = new List<CashRegister>();
+    }
 
     private void OnEnable()
     {
@@ -23,7 +28,7 @@ public class CashRegister : MonoBehaviour
 
         if (CashRegisters.Count == 0) return false;
 
-        cashRegister = CashRegisters.ElementAt(random.Next(CashRegisters.Count));
+        cashRegister = CashRegisters[Random.Range(0, CashRegisters.Count)];
 
         return true;
     }

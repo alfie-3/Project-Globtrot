@@ -88,4 +88,9 @@ public class LocalNavmeshSurfaceBuilder : MonoBehaviour
             }
         }
     }
+
+    private void OnDestroy()
+    {
+        NavMeshSourceTag.RebuildNavmesh -= RebuildNavmeshSurface;
+    }
 }

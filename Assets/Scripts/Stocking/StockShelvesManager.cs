@@ -10,8 +10,15 @@ public class StockShelvesManager : NetworkBehaviour
     [field: SerializeField] public StockShelfControllerNew[] StockShelves {  get; private set; }
     Dictionary<string, StockedItemData> StockedItemInformation = new Dictionary<string, StockedItemData>();
 
-    public static Action<string, string, StockShelvesManager> OnStockShelfUpdated = delegate { };
-    public static Action<StockShelvesManager, string[]> OnStockShelfRemoved = delegate { };
+    public static Action<string, string, StockShelvesManager> OnStockShelfUpdated;
+    public static Action<StockShelvesManager, string[]> OnStockShelfRemoved;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    public static void Initialize()
+    {
+        OnStockShelfUpdated = delegate { };
+        OnStockShelfRemoved = delegate { };
+    }
 
     private void Awake()
     {

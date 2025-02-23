@@ -3,13 +3,19 @@ using UnityEngine;
 
 public class CustomerSpawnPoint : NetworkBehaviour
 {
-    public static int customersCount = 0;
+    public static int customersCount;
     public int maxCustomers = 50;
     [Space]
     public float customerSpawnRate = 3;
     public bool spawningEnabled = false;
 
     [SerializeField] GameObject customerPrefab;
+
+    [RuntimeInitializeOnLoadMethod]
+    public static void Initialize()
+    {
+        customersCount = 0;
+    }
 
     public override void OnNetworkSpawn()
     {

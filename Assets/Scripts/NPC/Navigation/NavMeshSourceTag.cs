@@ -18,6 +18,15 @@ public class NavMeshSourceTag : MonoBehaviour
 
     NavmeshMeshFilterData meshFilterData;
 
+    [RuntimeInitializeOnLoadMethod]
+    public static void Initialize()
+    {
+        Mesheses = new List<NavmeshMeshFilterData>();
+        Modifiers = new List<NavMeshModifierVolume>();
+
+        RebuildNavmesh = () => { };
+    }
+
     public class NavmeshMeshFilterData
     {
         public MeshFilter MeshFilter;

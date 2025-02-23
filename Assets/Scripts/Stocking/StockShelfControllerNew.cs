@@ -5,7 +5,6 @@ using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using WebSocketSharp;
-using static UnityEditor.FilePathAttribute;
 
 [RequireComponent(typeof(ItemHolder))]
 public class StockShelfControllerNew : NetworkBehaviour {
