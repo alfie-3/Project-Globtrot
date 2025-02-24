@@ -7,7 +7,7 @@ public class UI_BasketProduct : MonoBehaviour
     [SerializeField] TMP_Text productAmount;
     [SerializeField] TMP_Text productName;
     [SerializeField] TMP_Text productPrice;
-    private UI_StockShop shopScript;
+    [SerializeField] UI_Basket basket;
     private int amount = 1;
 
     // updates ui to reflect product details
@@ -33,7 +33,7 @@ public class UI_BasketProduct : MonoBehaviour
         if (ItemDictionaryManager.ItemDict.TryGetValue(productName.text, out ItemBase item) && item is ShopProduct_Item productItem)
         {
             productPrice.text = (productItem.Price * amount).ToString("F2");
-            shopScript.UpdateTotal();
+            basket.UpdateTotal();
         }
     }
 

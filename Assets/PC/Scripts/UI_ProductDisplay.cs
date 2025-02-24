@@ -9,15 +9,15 @@ public class UI_ProductDisplay : MonoBehaviour
     [SerializeField] private TMP_Text productTitle;
     [SerializeField] private TMP_Text productPrice;
     [SerializeField] private TMP_Text quantityText;
+    [SerializeField] private UI_Basket basketScript;
+
     private ShopProduct_Item productData;
 
-    private UI_StockShop ShopScript;
     private int quantity = 1;
 
-    public void Initialize(ShopProduct_Item product, UI_StockShop shopReference)
+    public void Initialize(ShopProduct_Item product)
     {
         productData = product;
-        ShopScript = shopReference;
         SpawnProductUI();
     }
 
@@ -30,11 +30,11 @@ public class UI_ProductDisplay : MonoBehaviour
 
     public void AddToBasket()
     {
-        if (ShopScript != null)
+        if (basketScript != null)
         {
             for (int i = 0; i < quantity; i++)
             {
-                ShopScript.SendToBasket(productData.ItemID);
+                basketScript.SendToBasket(productData.ItemID);
             }
         }
         else
