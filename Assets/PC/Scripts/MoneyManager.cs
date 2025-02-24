@@ -11,7 +11,7 @@ public class MoneyManager : NetworkBehaviour
 
     static public Action<int, int> OnMoneyChanged = delegate { };
 
-    private NetworkVariable<int> currentMoney;
+    private NetworkVariable<int> currentMoney = new();
     public int CurrentMoney => currentMoney.Value;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
