@@ -1,3 +1,4 @@
+using Assets.Scripts.Interfaces;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,13 +10,14 @@ public class PlayerInteractionManager : NetworkBehaviour
     [Space]
     [SerializeField] LayerMask interactableLayer;
 
-    IInteractable currentInteractable;
+    IViewable currentViewable;
 
     private void Awake()
     {
         if (TryGetComponent(out PlayerInputManager inputManager))
         {
             inputManager.OnInteract += Interact;
+            inputManager.OnDismantle += Dismantle;
         }
 
         cameraManager = GetComponentInChildren<PlayerCameraManager>();
@@ -35,26 +37,47 @@ public class PlayerInteractionManager : NetworkBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit, InteractionDistance, interactableLayer, QueryTriggerInteraction.Ignore))
         {
-            if (hit.collider.gameObject.TryGetComponent(out IInteractable interactable))
+            if (hit.collider.gameObject.TryGetComponent(out IViewable viewable))
             {
-                if (interactable != currentInteractable)
-                    interactable.OnView();
+                if (currentViewable != viewable)
+                    viewable.OnView();
 
-                currentInteractable = interactable;
+                currentViewable = viewable;
             }
         }
         else
         {
-            if (currentInteractable != null)
+            if (currentViewable != null)
             {
-                currentInteractable.OnUnview();
-                currentInteractable = null;
+                currentViewable.OnUnview();
+                currentViewable = null;
             }
         }
     }
 
     public void Interact(InputAction.CallbackContext context)
     {
-        currentInteractable?.OnInteract(this);
+        Ray ray = new(cameraManager.CamTransform.position, cameraManager.CamTransform.forward);
+
+        if (Physics.Raycast(ray, out RaycastHit hit, InteractionDistance, interactableLayer, QueryTriggerInteraction.Ignore))
+        {
+            if (hit.collider.gameObject.TryGetComponent(out IInteractable interactable))
+            {
+                interactable.OnInteract(this);
+            }
+        }
+    }
+
+    public void Dismantle(InputAction.CallbackContext context)
+    {
+        Ray ray = new(cameraManager.CamTransform.position, cameraManager.CamTransform.forward);
+
+        if (Physics.Raycast(ray, out RaycastHit hit, InteractionDistance, interactableLayer, QueryTriggerInteraction.Ignore))
+        {
+            if (hit.collider.gameObject.TryGetComponent(out IDismantleable dismantleable))
+            {
+                dismantleable.OnDismantle(this);
+            }
+        }
     }
 }

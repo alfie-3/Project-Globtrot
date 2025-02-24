@@ -79,22 +79,24 @@ public class StockShelvesManager : NetworkBehaviour
             }
         }
 
-        else if (previousStockType.Equals(currentStockType))
+        else if (previousStockType.Equals(currentStockType) || currentStockType.IsNullOrEmpty())
         {
-            if (StockedItemInformation.TryGetValue(currentStockType, out StockedItemData stockedItemData))
+            if (StockedItemInformation.TryGetValue(previousStockType, out StockedItemData stockedItemData))
             {
                 int difference = quantity - stockedItemData.ItemQuanitity;
                 stockedItemData.ItemQuanitity += difference;
 
                 if (stockedItemData.ItemQuanitity <= 0)
                 {
-                    StockedItemInformation.Remove(currentStockType);
+                    StockedItemInformation.Remove(previousStockType);
                 }
             }
         }
 
         OnStockShelfUpdated.Invoke(previousStockType, currentStockType, this);
     }
+
+    public bool ContainsItems => StockedItemInformation.Count > 0;
 
     public void OnDisable()
     {

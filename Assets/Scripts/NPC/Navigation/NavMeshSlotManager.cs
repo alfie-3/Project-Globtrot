@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NavMeshSlotManager : MonoBehaviour
 {
-    [SerializeField] protected NavMeshSlot[] NavMeshSlots;
+    [field: SerializeField] public NavMeshSlot[] NavMeshSlots {  get; private set; }
     [SerializeField] bool isQueue;
 
     List<NavMeshSlot> unoccupiedSlots = new List<NavMeshSlot>();

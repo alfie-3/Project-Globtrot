@@ -21,8 +21,11 @@ public class PlayerInputManager : NetworkBehaviour
 
     //Interaction
     public Action<InputAction.CallbackContext> OnInteract = delegate { };
+    public Action<InputAction.CallbackContext> OnDismantle = delegate { };
+
     public Action<InputAction.CallbackContext> OnPerformPrimary = delegate { };
     public Action<InputAction.CallbackContext> OnPerformSecondary = delegate { };
+
     public Action<InputAction.CallbackContext> OnPerformDrop = delegate { };
     public Action<InputAction.CallbackContext> OnSprint = delegate { };
 
@@ -42,6 +45,8 @@ public class PlayerInputManager : NetworkBehaviour
 
         inputActions.Player.Sprint.started += context => { OnSprint.Invoke(context); };
         inputActions.Player.Sprint.canceled += context => { OnSprint.Invoke(context); };
+
+        inputActions.Player.Dismantle.performed += context => OnDismantle(context);
     }
 
     public override void OnNetworkSpawn()

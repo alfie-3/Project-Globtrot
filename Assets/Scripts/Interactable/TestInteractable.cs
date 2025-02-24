@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Test_Interactable : MonoBehaviour, IInteractable
+public class Test_Interactable : MonoBehaviour, IInteractable, IViewable
 {
     public void OnInteract(PlayerInteractionManager interactionManager)
     {

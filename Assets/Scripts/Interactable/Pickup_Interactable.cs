@@ -59,12 +59,4 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
         NetworkObject.Despawn();
 
     }
-
-    public void OnUnview()
-    {
-    }
-
-    public void OnView()
-    {
-    }
 }

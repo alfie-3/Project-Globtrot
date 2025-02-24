@@ -2,18 +2,27 @@ using Unity.Netcode;
 using UnityEngine;
 using System.Collections;
 using Unity.Collections;
+using Assets.Scripts.Interfaces;
 
-public class PickUp_Funiture : Pickup_Interactable {
+public class PickUp_Funiture : NetworkBehaviour, IDismantleable
+{
 
     public PlacableFurniture_Item placableFurniture;
 
-    public override void OnInteract(PlayerInteractionManager interactionManager) {
+
+    public void OnDismantle(PlayerInteractionManager interactionManager)
+    {
 
         if (interactionManager.TryGetComponent(out PlayerHoldingManager holdingManager))
         {
             if (holdingManager.HoldingItem) return;
         }
         else return;
+
+        if (TryGetComponent(out StockShelvesManager stockShelvesManager))
+        {
+            if (stockShelvesManager.ContainsItems) return;
+        }
 
         GiveCrate_RPC(placableFurniture.ItemID, interactionManager.NetworkObject);
         RequestRemove_RPC();
@@ -59,5 +68,11 @@ public class PickUp_Funiture : Pickup_Interactable {
         }
 
         newInstance.GetComponent<Pickup_Interactable>().OnInteract(holder.GetComponent<PlayerInteractionManager>());
+    }
+
+    [Rpc(SendTo.Server)]
+    public void RequestRemove_RPC()
+    {
+        NetworkObject.Despawn();
     }
 }
