@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 8207418299814666127}
   - component: {fileID: 4880944712373311382}
   - component: {fileID: 8079455772881474972}
-  - component: {fileID: 7369961046621676069}
-  - component: {fileID: 1695837480983236596}
+  - component: {fileID: 4101657264589375061}
+  - component: {fileID: 6238894800860254932}
   m_Layer: 8
   m_Name: Shelf_0
   m_TagString: Untagged
@@ -65,21 +65,7 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 7540818223946421522, guid: 5acd9a709852bd64cb71e0988fc8e29d, type: 3}
---- !u!114 &7369961046621676069
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1066026095376948521}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd3107da8cebc04409369b7e0f4f599d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  <Holder>k__BackingField: {fileID: 1695837480983236596}
---- !u!114 &1695837480983236596
+--- !u!114 &4101657264589375061
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,7 +82,21 @@ MonoBehaviour:
   <ItemQuantity>k__BackingField:
     m_InternalValue: 0
   <maxItems>k__BackingField: 0
-  initialQuanitity: 0
+  initialQuanitity: 10
+--- !u!114 &6238894800860254932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1066026095376948521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fab5b17e554ceb4f8a0a0e7cc7fdfc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  <Holder>k__BackingField: {fileID: 4101657264589375061}
 --- !u!1 &2029651076288705171
 GameObject:
   m_ObjectHideFlags: 0
@@ -108,8 +108,8 @@ GameObject:
   - component: {fileID: 1710024903806943036}
   - component: {fileID: 1707913436822382061}
   - component: {fileID: 4090760395447165384}
-  - component: {fileID: 7765483344452506588}
   - component: {fileID: 5619664017248417264}
+  - component: {fileID: 7765483344452506588}
   m_Layer: 8
   m_Name: Shelf_2
   m_TagString: Untagged
@@ -162,20 +162,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2029651076288705171}
   m_Mesh: {fileID: 7540818223946421522, guid: 5acd9a709852bd64cb71e0988fc8e29d, type: 3}
---- !u!114 &7765483344452506588
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2029651076288705171}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd3107da8cebc04409369b7e0f4f599d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  <Holder>k__BackingField: {fileID: 5619664017248417264}
 --- !u!114 &5619664017248417264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,6 +180,20 @@ MonoBehaviour:
     m_InternalValue: 0
   <maxItems>k__BackingField: 0
   initialQuanitity: 0
+--- !u!114 &7765483344452506588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2029651076288705171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fab5b17e554ceb4f8a0a0e7cc7fdfc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  <Holder>k__BackingField: {fileID: 5619664017248417264}
 --- !u!1 &3462925301739376108
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,8 +205,8 @@ GameObject:
   - component: {fileID: 8792673135641561179}
   - component: {fileID: 8784142201307799165}
   - component: {fileID: 1037612424880236067}
-  - component: {fileID: 1921074736036773019}
   - component: {fileID: 8075090756567525853}
+  - component: {fileID: 1921074736036773019}
   m_Layer: 8
   m_Name: Shelf_3
   m_TagString: Untagged
@@ -259,20 +259,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3462925301739376108}
   m_Mesh: {fileID: 7540818223946421522, guid: 5acd9a709852bd64cb71e0988fc8e29d, type: 3}
---- !u!114 &1921074736036773019
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3462925301739376108}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd3107da8cebc04409369b7e0f4f599d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  <Holder>k__BackingField: {fileID: 8075090756567525853}
 --- !u!114 &8075090756567525853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,6 +277,20 @@ MonoBehaviour:
     m_InternalValue: 0
   <maxItems>k__BackingField: 0
   initialQuanitity: 0
+--- !u!114 &1921074736036773019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3462925301739376108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fab5b17e554ceb4f8a0a0e7cc7fdfc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  <Holder>k__BackingField: {fileID: 8075090756567525853}
 --- !u!1 &5224579390045233786
 GameObject:
   m_ObjectHideFlags: 0
@@ -302,8 +302,8 @@ GameObject:
   - component: {fileID: 5933437298303191996}
   - component: {fileID: 7786955883678487179}
   - component: {fileID: 7400336983387855230}
-  - component: {fileID: 5243518286199078362}
   - component: {fileID: 7700268228000096811}
+  - component: {fileID: 5243518286199078362}
   m_Layer: 8
   m_Name: Shelf_1
   m_TagString: Untagged
@@ -356,20 +356,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5224579390045233786}
   m_Mesh: {fileID: 7540818223946421522, guid: 5acd9a709852bd64cb71e0988fc8e29d, type: 3}
---- !u!114 &5243518286199078362
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5224579390045233786}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd3107da8cebc04409369b7e0f4f599d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  <Holder>k__BackingField: {fileID: 7700268228000096811}
 --- !u!114 &7700268228000096811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,6 +374,20 @@ MonoBehaviour:
     m_InternalValue: 0
   <maxItems>k__BackingField: 0
   initialQuanitity: 0
+--- !u!114 &5243518286199078362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5224579390045233786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fab5b17e554ceb4f8a0a0e7cc7fdfc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  <Holder>k__BackingField: {fileID: 7700268228000096811}
 --- !u!1 &6743719375205197278
 GameObject:
   m_ObjectHideFlags: 0
@@ -580,7 +580,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   <StockShelves>k__BackingField:
-  - {fileID: 7369961046621676069}
+  - {fileID: 0}
   - {fileID: 5243518286199078362}
   - {fileID: 7765483344452506588}
   - {fileID: 1921074736036773019}

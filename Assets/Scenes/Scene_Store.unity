@@ -391,7 +391,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: c600c6c3b6cd5c6428c24b7c5d8894a2, type: 3}
 --- !u!43 &128146559
 Mesh:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 32
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -556,7 +556,7 @@ Mesh:
     path: 
 --- !u!43 &130271251
 Mesh:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 32
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -936,6 +936,8 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 7060676306447648830, guid: d69e17d8142cd904d9110569bf3a91d5, type: 3}
     - {fileID: 295591744965574782, guid: d69e17d8142cd904d9110569bf3a91d5, type: 3}
+    - {fileID: 4696821896766498483, guid: d69e17d8142cd904d9110569bf3a91d5, type: 3}
+    - {fileID: 2604889132797340348, guid: d69e17d8142cd904d9110569bf3a91d5, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -1596,7 +1598,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: c600c6c3b6cd5c6428c24b7c5d8894a2, type: 3}
 --- !u!43 &472669769
 Mesh:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 32
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -1845,7 +1847,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: d69e17d8142cd904d9110569bf3a91d5, type: 3}
 --- !u!43 &606782910
 Mesh:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 32
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -2010,7 +2012,7 @@ Mesh:
     path: 
 --- !u!43 &633913450
 Mesh:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 32
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -2842,7 +2844,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &808388821
 Mesh:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 32
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -3227,7 +3229,7 @@ RectTransform:
   m_Pivot: {x: 0, y: 0}
 --- !u!43 &885281176
 Mesh:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 32
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -7672,7 +7674,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &1331821472
 Mesh:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 32
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -7837,7 +7839,7 @@ Mesh:
     path: 
 --- !u!43 &1358581116
 Mesh:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 32
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -8462,6 +8464,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: StockBox_Prefab (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 2604889132797340348, guid: d69e17d8142cd904d9110569bf3a91d5, type: 3}
+      propertyPath: initialQuanitity
+      value: 64000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2604889132797340348, guid: d69e17d8142cd904d9110569bf3a91d5, type: 3}
+      propertyPath: <maxItems>k__BackingField
+      value: 1231546
+      objectReference: {fileID: 0}
+    - target: {fileID: 2604889132797340348, guid: d69e17d8142cd904d9110569bf3a91d5, type: 3}
+      propertyPath: <ProductItem>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: cef104fbb8f8ede479ead6752d4b3931, type: 2}
     - target: {fileID: 6141729800500547532, guid: d69e17d8142cd904d9110569bf3a91d5, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.663
@@ -9182,7 +9196,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &1664172495
 Mesh:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 32
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -10699,7 +10713,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  <ProductItem>k__BackingField: {fileID: 11400000, guid: cef104fbb8f8ede479ead6752d4b3931, type: 2}
+  <ProductItem>k__BackingField: {fileID: 11400000, guid: 33f6fe96746b25140a6dd1eb8e2976bd, type: 2}
   <ItemQuantity>k__BackingField:
     m_InternalValue: 0
   <maxItems>k__BackingField: 42
@@ -10733,7 +10747,7 @@ MeshCollider:
   m_Mesh: {fileID: -6831440722055496184, guid: 1fd093f4236b72d4ab2066b0ee4967ce, type: 3}
 --- !u!43 &2101920477
 Mesh:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 32
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
