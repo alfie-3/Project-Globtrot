@@ -8,4 +8,5 @@ public class ShopProduct_Item : ItemBase
     [field: SerializeField] public GameObject Prefab { get; private set; }
     [field: SerializeField] public bool Stackable { get; private set; }
     [field: SerializeField] public int MaxInBox { get; private set; }
+    [field: SerializeField] public ItemHolder.ContainerTypes ContanierCompatabilty { get; private set; }
 }

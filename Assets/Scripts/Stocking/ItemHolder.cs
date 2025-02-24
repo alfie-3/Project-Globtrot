@@ -4,6 +4,7 @@ using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using WebSocketSharp;
+using Unity.VisualScripting;
 
 public class ItemHolder : NetworkBehaviour
 {
@@ -12,11 +13,25 @@ public class ItemHolder : NetworkBehaviour
     [field: SerializeField] public ShopProduct_Item ProductItem { get; private set; }
     [field: SerializeField] public NetworkVariable<int> ItemQuantity { get; private set; } = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
     public bool IsEmpty { get { return ItemQuantity.Value == 0; } }
-
     [field: SerializeField] public int maxItems { get; private set; }
+
+
+    [Flags]
+    public enum ContainerTypes {
+        standard = 1,
+        refrigirated = 2,
+        frozen = 4,
+        heated = 8,
+        security = 16
+    }
+
+
+    [field: SerializeField] public ContainerTypes containerType { get; private set; }
 
     [Space(10)]
     [SerializeField] int initialQuanitity = 10;
+
+
 
     public void Awake()
     {
@@ -41,7 +56,8 @@ public class ItemHolder : NetworkBehaviour
         Debug.Log("addeing item");
         if (IsEmpty)
         {
-            if (ItemDictionaryManager.RetrieveItem(itemId.ToString()) is not ShopProduct_Item) return;
+            if (ItemDictionaryManager.RetrieveItem(itemId.ToString()) is not ShopProduct_Item || ((ItemDictionaryManager.RetrieveItem(itemId.ToString()) as ShopProduct_Item).ContanierCompatabilty & containerType) == 0) return;
+
             ItemId.Value = itemId;
         }
         quantity =  Math.Clamp(quantity, 0, maxItems - ItemQuantity.Value);
@@ -97,37 +113,20 @@ public class ItemHolder : NetworkBehaviour
         if (giver.IsEmpty || (!reciver.IsEmpty && giver.ItemId.Value != reciver.ItemId.Value))
             return false;
 
+        string id = giver.ItemId.Value.ToString();
+
+        if (((ItemDictionaryManager.RetrieveItem(id) as ShopProduct_Item).ContanierCompatabilty & reciver.containerType) == 0) return false;
+
         quantity = Math.Min(quantity, giver.ItemQuantity.Value);
         if (!reciver.IsEmpty)
             quantity = Math.Min(quantity, reciver.maxItems - reciver.ItemQuantity.Value);
 
         if (quantity <= 0) return false;
 
-        string id = giver.ItemId.Value.ToString();
+        
         giver.RemoveItem(quantity);
         reciver.AddItemServer_Rpc(id, quantity);
 
-        return true;
-        if (giver.IsEmpty) return false;
-
-        if(!reciver.IsEmpty && giver.ItemId.Value != reciver.ItemId.Value) return false;
-
-        if (quantity != 1)
-        {
-            if (giver.ItemQuantity.Value < quantity) 
-                quantity = giver.ItemQuantity.Value;
-            if(!reciver.IsEmpty)
-                quantity = Math.Clamp(quantity, 0, reciver.maxItems - reciver.ItemQuantity.Value);
-            if (quantity <= 0) return false;
-        }
-        else
-        {
-            if (!reciver.IsEmpty)
-                if (reciver.ItemQuantity.Value >= reciver.maxItems) return false;
-        }
-        //string id = giver.ItemId.Value.ToString();
-        giver.RemoveItem(quantity);
-        reciver.AddItemServer_Rpc(id, quantity);
         return true;
     }
 
