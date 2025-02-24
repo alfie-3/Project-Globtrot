@@ -52,9 +52,11 @@ public class StockShelfControllerNew : NetworkBehaviour {
 
         for (int i = 0; i < quanitity; i++)
         {
-            instance = Instantiate(placeableItem.Prefab, Vector3.Scale(GetSpawnPos(items.Count), itemBounds.size) + transform.position + itemStackOffset, Quaternion.identity).GetComponent<NetworkObject>();
+            instance = Instantiate(placeableItem.Prefab, transform.TransformPoint(Vector3.Scale(GetSpawnPos(items.Count), itemBounds.size) + itemStackOffset), Quaternion.identity).GetComponent<NetworkObject>();
             instance.Spawn();
             instance.TrySetParent(transform.parent.GetComponent<NetworkObject>());
+            //instance.transform.position = 
+            Debug.Log(itemStackOffset);
             items.Push(instance);
         }
     }
@@ -70,8 +72,9 @@ public class StockShelfControllerNew : NetworkBehaviour {
     {
         Vector3 spawnPos = new();
         spawnPos.x = (int)(index % itemStackBounds.x);
-        spawnPos.z = (int)((index / (int)itemStackBounds.x) % (int)itemStackBounds.z);
+        spawnPos.z = ((index / (int)itemStackBounds.x) % (int)itemStackBounds.z);
         spawnPos.y = index / ((int)itemStackBounds.x * (int)itemStackBounds.z);
+        Debug.Log(spawnPos);
         return spawnPos;
     }
 
