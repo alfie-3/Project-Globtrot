@@ -78,7 +78,7 @@ public class UI_StockShop : MonoBehaviour
                 {
                     if (item is ShopProduct_Item productItem)
                     {
-                        float totalPrice = productItem.Price * amountToSpawn;
+                        int totalPrice = productItem.Price * amountToSpawn;
 
                         // check if enough money
                         if (MoneyManager.Instance.CanAfford(totalPrice))
