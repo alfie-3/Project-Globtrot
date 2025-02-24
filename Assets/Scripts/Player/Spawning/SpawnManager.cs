@@ -5,7 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class SpawnManager : NetworkBehaviour
 {
-    [SerializeField] GameObject playerPrefab;
+    [SerializeField] CharacterReferenceData defaultCharacterReference;
+
+    [SerializeField] List<CharacterReferenceData> playerCharacterReferences;
+    Dictionary<string, CharacterReferenceData> playerReferenceDict = new();
 
     [SerializeField] SpawnPoint defaultSpawnPoint;
     [SerializeField] List<SpawnPoint> spawnPoints;
@@ -14,29 +17,36 @@ public class SpawnManager : NetworkBehaviour
 
     public void Awake()
     {
+        NetworkManager.SceneManager.OnLoadComplete += SpawnPlayerOnSceneLoad;
+
+        foreach(CharacterReferenceData playerRef in playerCharacterReferences)
+        {
+            playerReferenceDict.Add(playerRef.PlayerReferenceID, playerRef);
+        }
+    }
+
+    public void SpawnPlayerOnSceneLoad(ulong clientId, string sceneName, LoadSceneMode mode)
+    {
+        if (NetworkManager.Singleton.LocalClientId != clientId) return;
+
+        RequestSpawnPlayer_Rpc(clientId, PlayerProfile.CharacterReferenceData.PlayerReferenceID);
+    }
+
+    [Rpc(SendTo.Server)]
+    public void RequestSpawnPlayer_Rpc(ulong id, string playerCharacterReference)
+    {
         if (!NetworkManager.Singleton.IsServer) return;
 
-        NetworkManager.SceneManager.OnLoadComplete += SpawnPlayers;
-    }
-
-    public void SpawnPlayers(ulong clientId, string sceneName, LoadSceneMode mode)
-    {
-        NetworkManager networkManager = NetworkManager.Singleton;
-
-        foreach (NetworkClient networkClient in networkManager.ConnectedClientsList)
-        {
-            if (networkClient.ClientId != clientId) continue;
-
-            SpawnPlayer(clientId, spawnPoints[spanwedPlayers.Value % spawnPoints.Count]);
-        }
-
+        SpawnPoint spawnPoint = spawnPoints[spanwedPlayers.Value % spawnPoints.Count];
         spanwedPlayers.Value++;
 
-    }
 
-    public void SpawnPlayer(ulong id, SpawnPoint spawnPoint)
-    {
-        NetworkObject player = Instantiate(playerPrefab, spawnPoint.transform.position, Quaternion.identity).GetComponent<NetworkObject>();
+        if (!playerReferenceDict.TryGetValue(playerCharacterReference, out CharacterReferenceData characterReferenceData))
+        {
+            characterReferenceData = defaultCharacterReference;
+        }
+
+        NetworkObject player = Instantiate(characterReferenceData.PlayerPrefab, spawnPoint.transform.position, Quaternion.identity).GetComponent<NetworkObject>();
 
         player.SpawnAsPlayerObject(id);
 

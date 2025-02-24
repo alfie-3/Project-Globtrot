@@ -1,9 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
-using Unity.Netcode;
 using Unity.Services.Multiplayer;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UI_LobbyManager : MonoBehaviour
@@ -61,15 +60,11 @@ public class UI_LobbyManager : MonoBehaviour
 
     public void AddPlayerCard(string playerId)
     {
-        foreach (IReadOnlyPlayer player in SessionManager.Session.Players)
-        {
-            if (player.Id == playerId)
-            {
-                UI_PlayerCard card = Instantiate(playerCardPrefab.gameObject, playerCardHolder).GetComponent<UI_PlayerCard>();
-                playerCardDict.Add(player.Id, card);
-                card.InitCard(player);
-            }
-        }
+        IReadOnlyPlayer player = SessionManager.Session.Players.FirstOrDefault(x => x.Id == playerId);
+
+        UI_PlayerCard card = Instantiate(playerCardPrefab.gameObject, playerCardHolder).GetComponent<UI_PlayerCard>();
+        playerCardDict.Add(player.Id, card);
+        card.InitCard(player);
     }
 
     public void RemovePlayerCard(string playerId)

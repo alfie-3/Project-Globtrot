@@ -1,13 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using Unity.Multiplayer.Widgets;
 using Unity.Netcode;
-using Unity.Netcode.Transports.UTP;
-using Unity.Networking.Transport.Relay;
 using Unity.Services.Authentication;
 using Unity.Services.Multiplayer;
-using Unity.Services.Relay;
-using Unity.Services.Relay.Models;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -22,11 +17,15 @@ public static class SessionManager
     public static Action<string> PlayerJoined;
     public static Action<string> PlayerLeft;
 
-    [RuntimeInitializeOnLoadMethod]
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void Initialize()
     {
+        Session = null;
+
         PlayerJoined = delegate { };
         PlayerLeft = delegate { };
+        State = ConnectionState.Disconnected;
     }
 
     public enum ConnectionState
