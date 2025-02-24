@@ -40,7 +40,7 @@ public class UI_BasketProduct : MonoBehaviour
     // sets reference to shop - so it can keep track
     public void SetShop(UI_StockShop shop, string productID)
     {
-        this.shopScript = shop;
+        //this.shopScript = shop;
         this.productName.text = productID;
     }
 
@@ -56,6 +56,6 @@ public class UI_BasketProduct : MonoBehaviour
 
     public void Trash()
     {
-        shopScript.RemoveItem(this);
+        //shopScript.RemoveItem(this);
     }
 }
