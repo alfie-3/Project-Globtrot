@@ -7,7 +7,7 @@ using WebSocketSharp;
 
 public class StockShelvesManager : NetworkBehaviour
 {
-    [field: SerializeField] public StockShelfControllerNew[] StockShelves {  get; private set; }
+    [field: SerializeField] public StockShelfController[] StockShelves {  get; private set; }
     Dictionary<string, StockedItemData> StockedItemInformation = new Dictionary<string, StockedItemData>();
 
     public static Action<string, string, StockShelvesManager> OnStockShelfUpdated;
@@ -22,7 +22,7 @@ public class StockShelvesManager : NetworkBehaviour
 
     private void Awake()
     {
-        foreach (StockShelfControllerNew shelf in StockShelves)
+        foreach (StockShelfController shelf in StockShelves)
         {
             shelf.OnStockUpdated += UpdateStockTypesInformation;
         }

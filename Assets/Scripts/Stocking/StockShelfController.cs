@@ -4,16 +4,16 @@ using System.Linq;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using WebSocketSharp;
 
-public class StockShelfController : NetworkBehaviour {    
-    public NetworkVariable<FixedString32Bytes> ItemId { get; private set; } = new NetworkVariable<FixedString32Bytes>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
-    public bool IsEmpty { get { return ItemQuantity.Value == 0; } }
+[RequireComponent(typeof(ItemHolder))]
+public class StockShelfController : NetworkBehaviour {
 
-    public NetworkVariable<int> ItemQuantity { get; private set; } = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
-
-    public Action<string, string, int> OnStockUpdated = delegate {};
+    //public Action<string, string, int> OnStockUpdated = delegate {};
+    [field: SerializeField] public ItemHolder Holder { get; private set; }
 
     private Stack<NetworkObject> items = new Stack<NetworkObject>();
+    public Action<string, string, int> OnStockUpdated = delegate { };
 
     private int maxItems;
 
@@ -21,85 +21,60 @@ public class StockShelfController : NetworkBehaviour {
     private Vector3 itemStackOffset;
     private Bounds itemBounds;
 
-
-    [Rpc(SendTo.Server)]
-    public void AddItemServer_Rpc(string itemId, int quanitity = 1)
+    private void Awake()
     {
-        Debug.Log("addeing item");
-        if (IsEmpty)
-        {
-            if (ItemDictionaryManager.RetrieveItem(itemId.ToString()) is not ShopProduct_Item) return;
-            SetItem(itemId);
-        }
-        if (ItemId.Value.ToString() == itemId)
-        {
-            for (int i = 0; i < quanitity; i++)
-                SpawnItem_RPC();
-            OnStockUpdated.Invoke(itemId, itemId, ItemQuantity.Value);
-        }
+        Holder.OnStockUpdated += UpdateShelf;
+    }
 
+    public void UpdateShelf(string previousStockType, string currentStockType, int quantity)
+    {
+        if (!previousStockType.Equals(currentStockType) && !currentStockType.IsNullOrEmpty())
+        {
+            ShopProduct_Item item = (ShopProduct_Item)ItemDictionaryManager.RetrieveItem(currentStockType);
+            itemBounds = item.Prefab.GetComponent<MeshFilter>().sharedMesh.bounds;
+            CalculateSpawnPositioning(item.Stackable);
+            Holder.SetMaxItems((int)(itemStackBounds.x * itemStackBounds.y * itemStackBounds.z));
+        }
+        if (quantity > items.Count)
+            SpawnItem_RPC(currentStockType, quantity - items.Count);
+        else
+            RemoveItem_RPC(items.Count - quantity);
+
+        OnStockUpdated.Invoke(previousStockType, currentStockType, Holder.ItemQuantity.Value);
     }
 
     [Rpc(SendTo.Server)]
-    void SpawnItem_RPC() {
-        if (ItemQuantity.Value == maxItems) return;
-        ShopProduct_Item placeableItem = (ShopProduct_Item)ItemDictionaryManager.RetrieveItem(ItemId.Value.ToString());
-        Debug.Log($"Placing Stock item {ItemId.Value.ToString()}");
-
-
+    void SpawnItem_RPC(string itemid, int quanitity) {
+        ShopProduct_Item placeableItem = (ShopProduct_Item)ItemDictionaryManager.RetrieveItem(itemid);
         if (placeableItem == null) return;
-        NetworkObject instance = Instantiate(placeableItem.Prefab, Vector3.Scale(GetSpawnPos(ItemQuantity.Value),itemBounds.size) + transform.position + itemStackOffset, Quaternion.identity).GetComponent<NetworkObject>();
-        instance.Spawn();
-        instance.TrySetParent(transform.parent.GetComponent<NetworkObject>());
-        items.Push(instance);
+        Debug.Log($"Placing Stock item {itemid} {quanitity} times");
+        NetworkObject instance;
 
-        ItemQuantity.Value++;
-    }
-
-    public bool RemoveItem()
-    {
-        if(IsEmpty) return false;
-        RemoveItem_RPC();
-        if (ItemQuantity.Value <= 0)
+        for (int i = 0; i < quanitity; i++)
         {
-            ClearItem();
+            instance = Instantiate(placeableItem.Prefab, transform.TransformPoint(Vector3.Scale(GetSpawnPos(items.Count), itemBounds.size) + itemStackOffset), Quaternion.identity).GetComponent<NetworkObject>();
+            instance.Spawn();
+            instance.TrySetParent(transform.parent.GetComponent<NetworkObject>());
+            //instance.transform.position = 
+            Debug.Log(itemStackOffset);
+            items.Push(instance);
         }
-        return true;
     }
 
     [Rpc(SendTo.Server)]
-    void RemoveItem_RPC()
+    public void RemoveItem_RPC(int quantity)
     {
-        ItemQuantity.Value--;
-        items.Pop().Despawn();
-    }
-
-
-
-    public void ClearItem()
-    {
-        OnStockUpdated.Invoke(ItemId.Value.ToString(), string.Empty, 0);
-        ItemId.Value = String.Empty;
-    }
-
-    public void SetItem(string itemId)
-    {
-        ItemId.Value = itemId;
-
-        ShopProduct_Item item = (ShopProduct_Item)ItemDictionaryManager.RetrieveItem(ItemId.Value.ToString());
-        itemBounds = item.Prefab.GetComponent<MeshFilter>().sharedMesh.bounds;
-        CalculateSpawnPositioning(item.Stackable);
-        maxItems = (int)(itemStackBounds.x *itemStackBounds.y * itemStackBounds.z);
-        
-        OnStockUpdated.Invoke(string.Empty, itemId, ItemQuantity.Value);
+        for (int i = 0; i < quantity; i++)
+            items.Pop().Despawn();
     }
 
     private Vector3 GetSpawnPos(int index)
     {
         Vector3 spawnPos = new();
         spawnPos.x = (int)(index % itemStackBounds.x);
-        spawnPos.z = (int)((index / (int)itemStackBounds.x) % (int)itemStackBounds.z);
+        spawnPos.z = ((index / (int)itemStackBounds.x) % (int)itemStackBounds.z);
         spawnPos.y = index / ((int)itemStackBounds.x * (int)itemStackBounds.z);
+        Debug.Log(spawnPos);
         return spawnPos;
     }
 
