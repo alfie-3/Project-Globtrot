@@ -1,14 +1,24 @@
 using UnityEngine;
 using TMPro;
+using Unity.Netcode;
+using System;
 
-public class MoneyManager : MonoBehaviour
+public class MoneyManager : NetworkBehaviour
 {
     public static MoneyManager Instance { get; private set; }
 
-    [SerializeField] private TMP_Text moneyText;
-    [SerializeField] private float startingMoney = 100.0f;  // starting money
+    [SerializeField] private int startingMoney = 100;  // starting money
 
-    private float currentMoney;
+    static public Action<int, int> OnMoneyChanged = delegate { };
+
+    private NetworkVariable<int> currentMoney;
+    public int CurrentMoney => currentMoney.Value;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    public static void Initialize()
+    {
+        OnMoneyChanged = delegate { };
+    }
 
     private void Awake()
     {
@@ -21,40 +31,46 @@ public class MoneyManager : MonoBehaviour
         {
             Instance = this;
         }
+
+        currentMoney.OnValueChanged += (prev, current) => { OnMoneyChanged(prev, current); };
     }
 
-    private void Start()
+    public override void OnNetworkSpawn()
     {
-        currentMoney = startingMoney;
-        UpdateMoneyUI();
+        if (!IsServer) return;
+
+        currentMoney.Value = startingMoney;
+
+        OnMoneyChanged.Invoke(CurrentMoney, CurrentMoney);
     }
 
     public bool CanAfford(float price)
     {
-        return currentMoney >= price;
+        return CurrentMoney >= price;
     }
 
-    public void SpendMoney(float amount)
+    public void SpendMoney(int amount)
     {
+        int prev = CurrentMoney;
+
         if (CanAfford(amount))
         {
-            currentMoney -= amount;
-            UpdateMoneyUI();
+            currentMoney.Value -= amount;
         }
         else
         {
             Debug.LogWarning("Not enough money!");
         }
+
+        OnMoneyChanged.Invoke(prev, CurrentMoney);
     }
 
-    public void AddMoney(float amount)
+    public void AddMoney(int amount)
     {
-        currentMoney += amount;
-        UpdateMoneyUI();
-    }
+        int prev = CurrentMoney;
 
-    private void UpdateMoneyUI()
-    {
-        moneyText.text = $"${currentMoney:F2}";
+        currentMoney.Value += amount;
+
+        OnMoneyChanged.Invoke(prev, CurrentMoney);
     }
 }
