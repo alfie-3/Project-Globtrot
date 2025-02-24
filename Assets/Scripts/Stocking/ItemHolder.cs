@@ -88,6 +88,7 @@ public class ItemHolder : NetworkBehaviour
 
         ShopProduct_Item productItem = ItemDictionaryManager.RetrieveItem(itemId.ToString()) is not ShopProduct_Item ? null : (ShopProduct_Item)ItemDictionaryManager.RetrieveItem(itemId.ToString());
         ProductItem = productItem;
+        maxItems = productItem.MaxInBox;
         OnStockUpdated.Invoke(string.Empty, itemId.ToString(), ItemQuantity.Value);
     }
 
