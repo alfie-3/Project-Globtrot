@@ -4,6 +4,12 @@ using UnityEngine;
 public static class PlayerProfile
 {
     public static string PlayerName { get; private set; }
+    public static CharacterReferenceData CharacterReferenceData { get; private set; }
+
+    public static void SetCharacter(CharacterReferenceData character)
+    {
+        CharacterReferenceData = character;
+    }
 
     public static void SetPlayerName(string playerName)
     {
