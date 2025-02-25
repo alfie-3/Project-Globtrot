@@ -44,8 +44,6 @@ public class StockBoxController : NetworkBehaviour, IUsePrimary, IUseSecondary
     public void UseSecondary(PlayerHoldingManager holdingManager)
     {
         Debug.Log("stockboxPri");
-        //Debug.Log(ItemId.Value.ToString());
-        //if (!holder.IsEmpty) return;
 
 
         Ray ray = new(holdingManager.CameraManager.CamTransform.position, holdingManager.CameraManager.CamTransform.forward);

@@ -1,6 +1,8 @@
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 
 public class PlayerHoldingManager : NetworkBehaviour
 {
@@ -19,6 +21,9 @@ public class PlayerHoldingManager : NetworkBehaviour
     public float Rotation { get; private set; }
 
     public PlayerCameraManager CameraManager { get; private set; }
+
+
+    private bool throwing;
 
     private void Awake()
     {
@@ -43,7 +48,6 @@ public class PlayerHoldingManager : NetworkBehaviour
         if (obj == null) return;
         if (obj.PickedUp.Value == true) return;
         if (!obj.TryGetComponent(out NetworkObject nwObject)) return;
-
         HeldObj = nwObject;
 
         if (obj.TryGetComponent(out IOnHeld useableObject))
@@ -55,6 +59,7 @@ public class PlayerHoldingManager : NetworkBehaviour
         {
             rbNWT.WakeUpNearbyObjects();
         }
+        Rotation = obj.transform.rotation.eulerAngles.y;
 
         ItemSocket.BindObject_Rpc(HeldObj);
     }
@@ -101,8 +106,26 @@ public class PlayerHoldingManager : NetworkBehaviour
         if (HeldObj == null) return;
 
         if (!HeldObj.TryGetComponent(out IUseSecondary useableObject)) return;
+        if (context.performed) {
 
-        useableObject.UseSecondary(this);
+            if (context.interaction is HoldInteraction) {
+                Debug.Log("throwing");
+                throwing = true;
+            }
+            if (context.interaction is PressInteraction) {
+                Debug.Log("Normal");
+                useableObject.UseSecondary(this);
+            }
+        } else {
+            if (throwing) {
+                throwing = false;
+                Debug.Log("THROW");
+
+            }
+        }
+        
+
+        
     }
 
     public void PerformDrop(InputAction.CallbackContext context)

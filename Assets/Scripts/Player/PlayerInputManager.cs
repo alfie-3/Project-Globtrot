@@ -39,7 +39,8 @@ public class PlayerInputManager : NetworkBehaviour
 
         inputActions.Player.Interact.performed += context => { OnInteract.Invoke(context); };
         inputActions.Player.PerformPrimary.performed += context => { OnPerformPrimary.Invoke(context); };
-        inputActions.Player.PerformSecondary.performed += context => { OnPerformSecondary.Invoke(context); Debug.Log("time: " + context.duration); };
+        inputActions.Player.PerformSecondary.performed += context => { OnPerformSecondary.Invoke(context); };
+        inputActions.Player.PerformSecondary.canceled += context => { OnPerformSecondary.Invoke(context); Debug.Log("time: " + context.duration); };
         inputActions.Player.Drop.performed += context => { OnPerformDrop.Invoke(context); };
         inputActions.Player.Jump.performed += context => { OnJump.Invoke(); };
 
