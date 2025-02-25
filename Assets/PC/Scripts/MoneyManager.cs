@@ -7,7 +7,7 @@ public class MoneyManager : NetworkBehaviour
 {
     public static MoneyManager Instance { get; private set; }
 
-    [SerializeField] private int startingMoney = 100;  // starting money
+    public int startingMoney = 100;  // starting money
 
     static public Action<int, int> OnMoneyChanged = delegate { };
 

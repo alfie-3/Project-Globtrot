@@ -43,7 +43,7 @@ public class UI_Basket : MonoBehaviour
 
             UI_BasketProduct UIProductScript = UIProduct.GetComponent<UI_BasketProduct>();
             UIProductScript.UpdateProduct(productName, 1); 
-            //UIProductScript.SetShop(this, productName);
+            UIProductScript.SetShop(this, productName);
 
             basket.Add(UIProduct);
             UpdateBasket();
@@ -75,7 +75,7 @@ public class UI_Basket : MonoBehaviour
 
                             for (int i = 0; i < amountToSpawn; i++)
                             {
-                                //SummonProduct(productName);
+                                shopScript.SummonProduct(productName);
                             }
 
                             UIproductScript.Trash();  // remove from basket after purchase

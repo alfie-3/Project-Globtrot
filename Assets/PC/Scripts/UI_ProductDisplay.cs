@@ -9,14 +9,15 @@ public class UI_ProductDisplay : MonoBehaviour
     [SerializeField] private TMP_Text productTitle;
     [SerializeField] private TMP_Text productPrice;
     [SerializeField] private TMP_Text quantityText;
-    [SerializeField] private UI_Basket basketScript;
+    private UI_Basket basketScript;
 
     private ShopProduct_Item productData;
 
     private int quantity = 1;
 
-    public void Initialize(ShopProduct_Item product)
+    public void Initialize(ShopProduct_Item product, UI_Basket basket)
     {
+        basketScript = basket;
         productData = product;
         SpawnProductUI();
     }

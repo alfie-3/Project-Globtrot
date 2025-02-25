@@ -27,11 +27,11 @@ public class UI_StockShop : MonoBehaviour
         {
             productPrefabs.Add(productName, productPrefab);
         }
-        currentMoneyTXT.text = moneyScript.CurrentMoney.ToString();
+        currentMoneyTXT.text = moneyScript.startingMoney.ToString();
     }
 
     // spawns product in spawn area
-    private void SummonProduct(string productName)
+    public void SummonProduct(string productName)
     {
         if (!productPrefabs.ContainsKey(productName)) return;
 

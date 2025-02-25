@@ -8,6 +8,7 @@ public class ProductManager : MonoBehaviour
 {
     [SerializeField] private GameObject productUIPrefab;
     [SerializeField] private UI_StockShop ShopScript;
+    [SerializeField] private UI_Basket basketScript;
     [SerializeField] private List<Transform> panelParents = new List<Transform>();
     private List<Transform> basePanels = new List<Transform>(); 
 
@@ -46,7 +47,7 @@ public class ProductManager : MonoBehaviour
             {
                 GameObject productUIObj = Instantiate(productUIPrefab, basePanels[i].position, Quaternion.identity, basePanels[i]);
                 UI_ProductDisplay displayScript = productUIObj.GetComponent<UI_ProductDisplay>();
-                displayScript.Initialize(allProducts[i]);
+                displayScript.Initialize(allProducts[i], basketScript);
             }
             else
             {
