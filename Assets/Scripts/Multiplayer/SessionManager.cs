@@ -51,7 +51,11 @@ public static class SessionManager
 
     public static async Task<TaskResult> HostSession()
     {
-        if (State == ConnectionState.Connected) return TaskResult.Faliure;
+        if (State == ConnectionState.Connected)
+        {
+            Debug.Log("Already connected");
+            return TaskResult.Faliure;
+        }
 
         //Signs in the player, returns out if sign in fails
         TaskResult playerSignInResult = await SignInPlayer();
