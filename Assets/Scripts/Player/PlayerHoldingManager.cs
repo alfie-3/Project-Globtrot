@@ -48,7 +48,7 @@ public class PlayerHoldingManager : NetworkBehaviour
         if (obj == null) return;
         if (obj.PickedUp.Value == true) return;
         if (!obj.TryGetComponent(out NetworkObject nwObject)) return;
-
+        Debug.Log(obj.transform.rotation.y);
         HeldObj = nwObject;
 
         if (obj.TryGetComponent(out IOnHeld useableObject))
@@ -60,6 +60,9 @@ public class PlayerHoldingManager : NetworkBehaviour
         {
             rbNWT.WakeUpNearbyObjects();
         }
+        Rotation = obj.transform.rotation.y;
+        Debug.Log(obj.transform.rotation.y);
+        Debug.Log(Rotation);
 
         ItemSocket.BindObject_Rpc(HeldObj);
     }
@@ -114,16 +117,18 @@ public class PlayerHoldingManager : NetworkBehaviour
             }
             if (context.interaction is PressInteraction) {
                 Debug.Log("Normal");
+                useableObject.UseSecondary(this);
             }
         } else {
             if (throwing) {
                 throwing = false;
                 Debug.Log("THROW");
+
             }
         }
         
 
-        useableObject.UseSecondary(this);
+        
     }
 
     public void PerformDrop(InputAction.CallbackContext context)
@@ -162,7 +167,7 @@ public class PlayerHoldingManager : NetworkBehaviour
     public void ClearItem()
     {
         HeldObj = null;
-        //Rotation = 0;
+        Rotation = 0;
     }
 
     public bool HoldingItem => HeldObj != null;
