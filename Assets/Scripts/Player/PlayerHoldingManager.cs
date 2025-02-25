@@ -48,7 +48,6 @@ public class PlayerHoldingManager : NetworkBehaviour
         if (obj == null) return;
         if (obj.PickedUp.Value == true) return;
         if (!obj.TryGetComponent(out NetworkObject nwObject)) return;
-        Debug.Log(obj.transform.rotation.y);
         HeldObj = nwObject;
 
         if (obj.TryGetComponent(out IOnHeld useableObject))
@@ -60,9 +59,7 @@ public class PlayerHoldingManager : NetworkBehaviour
         {
             rbNWT.WakeUpNearbyObjects();
         }
-        Rotation = obj.transform.rotation.y;
-        Debug.Log(obj.transform.rotation.y);
-        Debug.Log(Rotation);
+        Rotation = obj.transform.rotation.eulerAngles.y;
 
         ItemSocket.BindObject_Rpc(HeldObj);
     }

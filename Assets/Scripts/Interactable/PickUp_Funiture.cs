@@ -14,7 +14,6 @@ public class PickUp_Funiture : Pickup_Interactable {
             if (holdingManager.HoldingItem) return;
         }
         else return;
-
         GiveCrate_RPC(placableFurniture.ItemID, interactionManager.NetworkObject);
         RequestRemove_RPC();
     }
@@ -28,8 +27,7 @@ public class PickUp_Funiture : Pickup_Interactable {
         PlacableFurniture_Item placeableItem = ItemDictionaryManager.RetrieveItem("Crate") is not PlacableFurniture_Item ? null : (PlacableFurniture_Item)ItemDictionaryManager.RetrieveItem("Crate");
 
         if (placeableItem == null) return;
-        Debug.Log(transform.rotation.y);
-        NetworkObject instance = Instantiate(placeableItem.FurniturePrefab, obj.transform.position, Quaternion.Euler(0,transform.rotation.y,0)).GetComponent<NetworkObject>();
+        NetworkObject instance = Instantiate(placeableItem.FurniturePrefab, obj.transform.position, transform.rotation).GetComponent<NetworkObject>();
         instance.Spawn();
 
         instance.GetComponent<FurnitureBoxController>().SetItem_Rpc(itemID);
