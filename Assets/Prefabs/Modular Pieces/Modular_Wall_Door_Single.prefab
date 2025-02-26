@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6083559957521711571}
   - component: {fileID: 8325417131731563801}
   - component: {fileID: 9151818749148544058}
+  - component: {fileID: 3279060109385817659}
   m_Layer: 0
   m_Name: Modular_Wall_Door_Single
   m_TagString: Untagged
@@ -100,3 +101,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   areaOverride: 1
+--- !u!64 &3279060109385817659
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7532603207774639308}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2479540438735247158, guid: 67c96bb13de7525468189e848e8b6108, type: 3}

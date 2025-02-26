@@ -2,28 +2,18 @@ using Unity.Netcode;
 using UnityEngine;
 using System.Collections;
 using Unity.Collections;
-using Assets.Scripts.Interfaces;
 
-public class PickUp_Funiture : NetworkBehaviour, IDismantleable
-{
+public class PickUp_Funiture : Pickup_Interactable {
 
     public PlacableFurniture_Item placableFurniture;
 
-
-    public void OnDismantle(PlayerInteractionManager interactionManager)
-    {
+    public override void OnInteract(PlayerInteractionManager interactionManager) {
 
         if (interactionManager.TryGetComponent(out PlayerHoldingManager holdingManager))
         {
             if (holdingManager.HoldingItem) return;
         }
         else return;
-
-        if (TryGetComponent(out StockShelvesManager stockShelvesManager))
-        {
-            if (stockShelvesManager.ContainsItems) return;
-        }
-
         GiveCrate_RPC(placableFurniture.ItemID, interactionManager.NetworkObject);
         RequestRemove_RPC();
     }
@@ -37,7 +27,7 @@ public class PickUp_Funiture : NetworkBehaviour, IDismantleable
         PlacableFurniture_Item placeableItem = ItemDictionaryManager.RetrieveItem("Crate") is not PlacableFurniture_Item ? null : (PlacableFurniture_Item)ItemDictionaryManager.RetrieveItem("Crate");
 
         if (placeableItem == null) return;
-        NetworkObject instance = Instantiate(placeableItem.FurniturePrefab, obj.transform.position, Quaternion.identity).GetComponent<NetworkObject>();
+        NetworkObject instance = Instantiate(placeableItem.FurniturePrefab, obj.transform.position, transform.rotation).GetComponent<NetworkObject>();
         instance.Spawn();
 
         instance.GetComponent<FurnitureBoxController>().SetItem_Rpc(itemID);
@@ -68,11 +58,5 @@ public class PickUp_Funiture : NetworkBehaviour, IDismantleable
         }
 
         newInstance.GetComponent<Pickup_Interactable>().OnInteract(holder.GetComponent<PlayerInteractionManager>());
-    }
-
-    [Rpc(SendTo.Server)]
-    public void RequestRemove_RPC()
-    {
-        NetworkObject.Despawn();
     }
 }
