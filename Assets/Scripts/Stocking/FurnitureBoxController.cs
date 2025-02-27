@@ -53,7 +53,7 @@ public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate
 
         if (Physics.Raycast(ray, out RaycastHit hit, PLACABLE_DISTANCE, LayerMask.GetMask("Placeable")))
         {
-            Vector3 position = grid.HitToGrid(hit.point);
+            Vector3 position = holdingManager.Snapping ? grid.HitToGrid(hit.point) : hit.point;
             if (Physics.OverlapBox(position + holoMesh.bounds.center, holoMesh.bounds.size * 0.48f, Quaternion.Euler(0, holdingManager.Rotation, 0)).Length == 0)
                 holdingManager.PlaceItem_Rpc(NetworkObject, furnitureItem.ItemID, position, Quaternion.Euler(0, holdingManager.Rotation, 0));
         }
@@ -67,21 +67,12 @@ public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate
         Ray ray = new(holdingManager.CameraManager.CamTransform.position, holdingManager.CameraManager.CamTransform.forward);
         if (Physics.Raycast(ray, out RaycastHit hit, PLACABLE_DISTANCE, LayerMask.GetMask("Placeable")))
         {
-            Vector3 position = grid.HitToGrid(hit.point);
+            Vector3 position = holdingManager.Snapping ? grid.HitToGrid(hit.point) : hit.point;
             HologramMat.SetFloat("_OverlappingColliders", Physics.OverlapBox(position+ holoMesh.bounds.center, holoMesh.bounds.size * 0.48f, Quaternion.Euler(0, holdingManager.Rotation, 0)).Length);
             Graphics.RenderMesh(renderParams, holoMesh, 0, Matrix4x4.TRS(position, Quaternion.Euler(0, holdingManager.Rotation, 0), Vector3.one));
         }
     }
 
-
-    /*Vector3 HitToGrid(Vector3 hitPosition)
-    {
-        Vector3 position = hitPosition;// + (grid.cellSize * 0.5f);
-        Vector3 gridPos = grid.WorldToCell(position);
-        position = Vector3.Scale(gridPos, grid.cellSize) + (grid.cellSize * 0.5f);
-        position = new Vector3(position.x, hitPosition.y, position.z);
-        return position;
-    }*/
 
 
     void OnDrawGizmosSelected() {

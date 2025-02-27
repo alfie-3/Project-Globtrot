@@ -180,6 +180,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Snapping"",
+                    ""type"": ""Button"",
+                    ""id"": ""c4d846e7-f7af-49e8-97ac-3dd3d160da2f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -543,6 +552,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Dismantle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""112f0918-8dc4-4bd1-827e-719fce62bf4a"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Snapping"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1160,6 +1180,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Scroll = m_Player.FindAction("Scroll", throwIfNotFound: true);
         m_Player_Drop = m_Player.FindAction("Drop", throwIfNotFound: true);
         m_Player_Dismantle = m_Player.FindAction("Dismantle", throwIfNotFound: true);
+        m_Player_Snapping = m_Player.FindAction("Snapping", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1264,6 +1285,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Scroll;
     private readonly InputAction m_Player_Drop;
     private readonly InputAction m_Player_Dismantle;
+    private readonly InputAction m_Player_Snapping;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1315,6 +1337,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Dismantle".
         /// </summary>
         public InputAction @Dismantle => m_Wrapper.m_Player_Dismantle;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Snapping".
+        /// </summary>
+        public InputAction @Snapping => m_Wrapper.m_Player_Snapping;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1371,6 +1397,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Dismantle.started += instance.OnDismantle;
             @Dismantle.performed += instance.OnDismantle;
             @Dismantle.canceled += instance.OnDismantle;
+            @Snapping.started += instance.OnSnapping;
+            @Snapping.performed += instance.OnSnapping;
+            @Snapping.canceled += instance.OnSnapping;
         }
 
         /// <summary>
@@ -1412,6 +1441,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Dismantle.started -= instance.OnDismantle;
             @Dismantle.performed -= instance.OnDismantle;
             @Dismantle.canceled -= instance.OnDismantle;
+            @Snapping.started -= instance.OnSnapping;
+            @Snapping.performed -= instance.OnSnapping;
+            @Snapping.canceled -= instance.OnSnapping;
         }
 
         /// <summary>
@@ -1793,6 +1825,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnDismantle(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Snapping" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSnapping(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

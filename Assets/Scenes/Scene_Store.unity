@@ -1871,7 +1871,7 @@ Grid:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 536524142}
   m_Enabled: 1
-  m_CellSize: {x: 1, y: 0, z: 1}
+  m_CellSize: {x: 0.5, y: 0, z: 0.5}
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
@@ -1903,7 +1903,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectInMiddleOfCell: 1
-  gridOffset: {x: 0, y: 0, z: 0}
+  gridOffset: {x: 0.25, y: 0, z: 0.25}
   GizmoVec: {x: 12, y: 12}
 --- !u!43 &606782910
 Mesh:
@@ -8152,7 +8152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 726bbc23fe7610942855e3a68c572950, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GizmoVec: {x: 0, y: 0}
 --- !u!4 &1446795360
 Transform:
   m_ObjectHideFlags: 0

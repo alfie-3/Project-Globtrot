@@ -1,8 +1,10 @@
 using Unity.Netcode;
+using Unity.Netcode.Components;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
+using UnityEngine.Windows;
 
 public class PlayerHoldingManager : NetworkBehaviour
 {
@@ -14,14 +16,27 @@ public class PlayerHoldingManager : NetworkBehaviour
 
     //Dropping
     [Space]
+    [Header("Dropping")]
     [SerializeField] float dropDistance = 2.5f;
     [SerializeField] float dropHeight = 0.5f;
     [SerializeField] LayerMask dropObjectLayerMask;
 
+    //Rotation & Snapping
+    [Header("Rotation")]
+    [SerializeField] float snappingRotationInterval = 22.5f;
+    [SerializeField] float nonSnappintRotationInterval = 8f;
+
+    [Header("Rotation")]
+    [SerializeField] float initailThrowForce = 8f;
+    [SerializeField] float throwForceGrowthRate = 8f;
+
     public float Rotation { get; private set; }
+    public bool Snapping { get; private set; }
+
 
     public PlayerCameraManager CameraManager { get; private set; }
 
+    
 
     private bool throwing;
 
@@ -33,6 +48,8 @@ public class PlayerHoldingManager : NetworkBehaviour
         playerInputManager.OnPerformSecondary += PerformSecondary;
         playerInputManager.OnRotate += PerformRotate;
         playerInputManager.OnPerformDrop += PerformDrop;
+
+        playerInputManager.OnSnapToggle += SnapToggle;
 
         CameraManager = GetComponentInChildren<PlayerCameraManager>();
     }
@@ -82,6 +99,15 @@ public class PlayerHoldingManager : NetworkBehaviour
         }
     }
 
+    [Rpc(SendTo.Server)]
+    public void ThrowObject_RPC(NetworkObjectReference item)
+    {
+        if (item.TryGet(out NetworkObject networkObject))
+        {
+            networkObject.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
+        }
+    }
+
     public void Update()
     {
         if (HeldObj == null) return;
@@ -90,6 +116,11 @@ public class PlayerHoldingManager : NetworkBehaviour
         {
             update.OnUpdate(this);
         }
+
+        /*if (throwing)
+        {
+            Debug.DrawRay(HeldObj.transform.position, ((CameraManager.CamTransform.forward * 16f) - HeldObj.transform.position));
+        }*/
     }
 
     public void PerformPrimary(InputAction.CallbackContext context)
@@ -106,21 +137,32 @@ public class PlayerHoldingManager : NetworkBehaviour
         if (HeldObj == null) return;
 
         if (!HeldObj.TryGetComponent(out IUseSecondary useableObject)) return;
+        IOnDrop onDrop = null;
         if (context.performed) {
 
             if (context.interaction is HoldInteraction) {
-                Debug.Log("throwing");
+                if (!HeldObj.TryGetComponent(out onDrop)) return;
                 throwing = true;
             }
             if (context.interaction is PressInteraction) {
-                Debug.Log("Normal");
                 useableObject.UseSecondary(this);
             }
         } else {
-            if (throwing) {
+            if (throwing)
+            {
                 throwing = false;
-                Debug.Log("THROW");
+                if (!HeldObj.TryGetComponent(out onDrop)) return;
+                NetworkObject obj = HeldObj;
 
+                onDrop.OnDrop(this);
+                ItemSocket.ClearObjectBinding_Rpc(CameraManager.CamTransform.position + CameraManager.CamTransform.forward, ItemSocket.transform.rotation);
+
+                obj.GetComponent<RigidbodyNetworkTransform>().SetLinearVelocity_Rpc(Vector3.zero);
+                Vector3 force = CameraManager.CamTransform.forward;
+                force *= initailThrowForce;
+                force += CameraManager.CamTransform.forward * (float)context.duration * throwForceGrowthRate;
+
+                obj.GetComponent<RigidbodyNetworkTransform>().AddForce_Rpc(force, ForceMode.Impulse);
             }
         }
         
@@ -152,7 +194,19 @@ public class PlayerHoldingManager : NetworkBehaviour
     {
         if (HeldObj == null) return;
 
-        Rotation += dir * 22.5f;
+        Rotation += dir * (Snapping ? snappingRotationInterval : nonSnappintRotationInterval);
+    }
+
+    public void SnapToggle(InputAction.CallbackContext context)
+    {
+        Snapping = !Snapping;
+        if (Snapping)
+        {
+            float output = Mathf.Round(Rotation / snappingRotationInterval);
+            if (output == 0 && Rotation > 0) output += 1;
+            output *= snappingRotationInterval;
+            Rotation = output;
+        }
     }
 
     [Rpc(SendTo.Everyone)]

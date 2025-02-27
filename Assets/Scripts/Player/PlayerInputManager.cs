@@ -19,6 +19,8 @@ public class PlayerInputManager : NetworkBehaviour
     public Vector2 ScrollInput { get; private set; }
     public Action<float> OnRotate = delegate { };
 
+    public Action<InputAction.CallbackContext> OnSnapToggle = delegate { };
+
     //Interaction
     public Action<InputAction.CallbackContext> OnInteract = delegate { };
     public Action<InputAction.CallbackContext> OnDismantle = delegate { };
@@ -45,9 +47,10 @@ public class PlayerInputManager : NetworkBehaviour
         inputActions.Player.Jump.performed += context => { OnJump.Invoke(); };
 
         inputActions.Player.Sprint.started += context => { OnSprint.Invoke(context); };
-        inputActions.Player.Sprint.canceled += context => { OnSprint.Invoke(context); };
+        inputActions.Player.Sprint.canceled += context => OnSprint.Invoke(context);
 
         inputActions.Player.Dismantle.performed += context => OnDismantle(context);
+        inputActions.Player.Snapping.performed += context => OnSnapToggle(context);
     }
 
     public override void OnNetworkSpawn()
@@ -77,7 +80,7 @@ public class PlayerInputManager : NetworkBehaviour
     {
         MovementInput = inputActions.Player.Move.ReadValue<Vector2>();
         ScrollInput = inputActions.Player.Scroll.ReadValue<Vector2>();
-
+         
         if (ScrollInput.y != 0)
             OnRotate.Invoke(ScrollInput.y);
     }
