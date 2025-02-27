@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Behavior;
+using Unity.Netcode;
 using UnityEngine;
 
-public class CashRegister : MonoBehaviour, IInteractable
+public class CashRegister : NetworkBehaviour, IInteractable
 {
     public static List<CashRegister> CashRegisters = new();
     [field: SerializeField] public NavMeshSlotManager Queue { get; private set; }
@@ -37,10 +38,11 @@ public class CashRegister : MonoBehaviour, IInteractable
 
     public void OnInteract(PlayerInteractionManager interactionManager)
     {
-        ProcessCustomer();
+        ProcessCustomer_Rpc();
     }
 
-    public void ProcessCustomer()
+    [Rpc(SendTo.Server)]
+    public void ProcessCustomer_Rpc()
     {
         if (Queue.NavMeshSlots[0].OccupyingGameObject == null) return;
 
