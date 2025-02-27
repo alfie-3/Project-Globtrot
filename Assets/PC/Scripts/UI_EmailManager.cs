@@ -17,28 +17,30 @@ public class UI_EmailManager : MonoBehaviour
     [SerializeField] private List<Email> emailList; 
     private List<GameObject> emailButtons = new List<GameObject>(); 
 
-    private void Start()
-    {
-        DisplayEmails(); 
-    }
+    private int nextEmailIndex = 0;
 
-    //display all emails
-    private void DisplayEmails()
+    //instead of displaying all emails this function will call the next email in the list instead
+    public void SummonNextEmail()
     {
-        Vector3 nextPos = spawnPoint.position;
-
-        foreach (var email in emailList)
+        if (nextEmailIndex >= emailList.Count)
         {
-            GameObject emailButton = Instantiate(emailButtonPrefab, spawnPoint);
-            emailButton.GetComponent<UI_EmailButton>().Setup(email);
-
-            emailButton.transform.position = nextPos;
-            nextPos.y -= emailSpacing; 
-            emailButtons.Add(emailButton);
+            Debug.Log("No more emails to summon.");
+            return;
         }
+
+        Vector3 nextPos = spawnPoint.position - new Vector3(0, emailSpacing * emailButtons.Count, 0);
+
+        Email emailScript = emailList[nextEmailIndex];
+        GameObject emailButton = Instantiate(emailButtonPrefab, spawnPoint);
+        emailButton.GetComponent<UI_EmailButton>().Setup(emailScript);
+
+        emailButton.transform.position = nextPos;
+        emailButtons.Add(emailButton);
+
+        nextEmailIndex++; 
     }
 
-    //function for button to display email content
+    // function for button to display email content
     public void Display(Email email)
     {
         emailSubjectText.text = email.subject;
