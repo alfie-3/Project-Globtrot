@@ -107,6 +107,8 @@ public class UI_Basket : MonoBehaviour
     {
         for (int i = 0; i < basket.Count; i++)
         {
+            if (basket[i] == null) continue;  
+
             Vector3 targetPos = basketStartPos.localPosition - new Vector3(0, spacingY * i, 0);
             if(basket[i]) StartCoroutine(BasketUP(basket[i].transform, targetPos));
             UpdateTotal();
@@ -122,6 +124,8 @@ public class UI_Basket : MonoBehaviour
 
         while (elapsedTime < duration)
         {
+            if (obj == null) yield break; 
+
             elapsedTime += Time.deltaTime;
             float t = Mathf.Clamp01(elapsedTime / duration);
 

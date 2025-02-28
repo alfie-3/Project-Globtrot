@@ -1796,6 +1796,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1334367605}
     - target: {fileID: 5233763347933528610, guid: f6fc4ecb9d2f47a418d35c9be5351a12, type: 3}
+      propertyPath: emailSpacing
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5233763347933528610, guid: f6fc4ecb9d2f47a418d35c9be5351a12, type: 3}
       propertyPath: emailSenderText
       value: 
       objectReference: {fileID: 1334367603}
@@ -1816,20 +1820,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1189223093}
     - target: {fileID: 8056839935957348006, guid: f6fc4ecb9d2f47a418d35c9be5351a12, type: 3}
+      propertyPath: moneyScript
+      value: 
+      objectReference: {fileID: 543496617}
+    - target: {fileID: 8056839935957348006, guid: f6fc4ecb9d2f47a418d35c9be5351a12, type: 3}
       propertyPath: currentMoneyTXT
       value: 
       objectReference: {fileID: 750609102}
     - target: {fileID: 8396363660907128696, guid: f6fc4ecb9d2f47a418d35c9be5351a12, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -39.387844
       objectReference: {fileID: 0}
     - target: {fileID: 8396363660907128696, guid: f6fc4ecb9d2f47a418d35c9be5351a12, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.414
       objectReference: {fileID: 0}
     - target: {fileID: 8396363660907128696, guid: f6fc4ecb9d2f47a418d35c9be5351a12, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -48.087555
       objectReference: {fileID: 0}
     - target: {fileID: 8396363660907128696, guid: f6fc4ecb9d2f47a418d35c9be5351a12, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1860,7 +1868,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 8778708285700209810, guid: f6fc4ecb9d2f47a418d35c9be5351a12, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f6fc4ecb9d2f47a418d35c9be5351a12, type: 3}
@@ -1878,6 +1887,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 562d815c763ede048922f580673771fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &359700373 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1037869383803370313, guid: f6fc4ecb9d2f47a418d35c9be5351a12, type: 3}
+  m_PrefabInstance: {fileID: 359700369}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3115c4426baf7b64e888b92bd06f1bba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &385618876
@@ -3741,6 +3761,18 @@ PrefabInstance:
     - target: {fileID: 3053279900404326267, guid: 74e6716ee2da93246a32ecc2d1069292, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: UI_Basket, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3186913054257357862, guid: 74e6716ee2da93246a32ecc2d1069292, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3186913054257357862, guid: 74e6716ee2da93246a32ecc2d1069292, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 359700373}
+    - target: {fileID: 3186913054257357862, guid: 74e6716ee2da93246a32ecc2d1069292, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ResetCamera
       objectReference: {fileID: 0}
     - target: {fileID: 3465243233067359566, guid: 74e6716ee2da93246a32ecc2d1069292, type: 3}
       propertyPath: m_IsActive

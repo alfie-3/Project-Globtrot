@@ -34,6 +34,9 @@ public class PCHandler : MonoBehaviour
         canvasGroup.interactable = true; 
         canvasGroup.blocksRaycasts = true; 
 
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
     }
 
     public void ResetCamera()
@@ -44,6 +47,9 @@ public class PCHandler : MonoBehaviour
         canvasGroup.alpha = 0; 
         canvasGroup.interactable = false; 
         canvasGroup.blocksRaycasts = false; 
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
 
     }
 
