@@ -43,6 +43,8 @@ public class PricegunHandler : NetworkBehaviour, IUsePrimary, IUseSecondary, IUp
 
     public void UpdatePricing()
     {
+        if (currentShelfController.Holder.IsEmpty) return;
+
         ShopProduct_Item shopItem = (ShopProduct_Item)ItemDictionaryManager.RetrieveItem(currentShelfController.Holder.ItemId.Value.ToString());
         if (shopItem == null) return;
 
