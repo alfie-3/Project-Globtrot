@@ -94,6 +94,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Snapping",
+                    "type": "Button",
+                    "id": "c4d846e7-f7af-49e8-97ac-3dd3d160da2f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -457,6 +466,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Dismantle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "112f0918-8dc4-4bd1-827e-719fce62bf4a",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Snapping",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
