@@ -136,16 +136,22 @@ public class PlayerHoldingManager : NetworkBehaviour
             useableObject.OnDrop(this);
 
         Ray ray = new(CameraManager.CamTransform.position, CameraManager.CamTransform.forward);
+        Ray secondaryRay = new(CameraManager.CamTransform.position + (CameraManager.CamTransform.forward * dropDistance), Vector3.down);
 
-        Vector3 dropPos = CameraManager.CamTransform.position + CameraManager.CamTransform.forward * dropDistance;
+        Vector3 dropPos = CameraManager.CamTransform.position + (CameraManager.CamTransform.forward * dropDistance);
 
         if (Physics.Raycast(ray, out RaycastHit hit, dropDistance, dropObjectLayerMask, QueryTriggerInteraction.Ignore))
         {
             dropPos = hit.point;
             dropPos.y += dropHeight;
         }
+        else if (Physics.Raycast(secondaryRay, out RaycastHit secondaryHit, dropHeight * 2, dropObjectLayerMask, QueryTriggerInteraction.Ignore))
+        {
+            dropPos = secondaryHit.point;
+            dropPos.y += dropHeight;
+        }
 
-        ItemSocket.ClearObjectBinding_Rpc(dropPos, ItemSocket.transform.rotation);
+        ItemSocket.ClearObjectBinding_Rpc(dropPos, ItemSocket.transform.rotation, true);
     }
 
     public void PerformRotate(float dir)

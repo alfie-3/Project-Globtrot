@@ -43,6 +43,13 @@ public class StockShelfController : NetworkBehaviour {
         OnStockUpdated.Invoke(previousStockType, currentStockType, Holder.ItemQuantity.Value);
     }
 
+    public void SetItemPricing()
+    {
+        if (Holder.IsEmpty) return;
+
+        Holder.ProductItem.SetSellPrice(400);
+    }
+
     [Rpc(SendTo.Server)]
     void SpawnItem_RPC(string itemid, int quanitity) {
         ShopProduct_Item placeableItem = (ShopProduct_Item)ItemDictionaryManager.RetrieveItem(itemid);

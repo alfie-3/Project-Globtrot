@@ -10,21 +10,28 @@ public class PriceTag : MonoBehaviour
 
     private void OnEnable()
     {
-        referenceShelf.OnStockUpdated += UpdateText;
+        referenceShelf.OnStockUpdated += OnStockUpdated;
 
         text.text = "-";
     }
 
     private void OnDisable()
     {
-        referenceShelf.OnStockUpdated -= UpdateText;
+        referenceShelf.OnStockUpdated -= OnStockUpdated;
     }
 
-    public void UpdateText(string prev, string current, int quantity)
+    public void OnStockUpdated(string prev, string current, int quantity)
     {
         if (current.IsNullOrEmpty())
         {
             text.text = "-";
+
+            if (prev.IsNullOrEmpty()) return;
+
+            ShopProduct_Item shopItem = (ShopProduct_Item)ItemDictionaryManager.RetrieveItem(prev);
+            if (shopItem == null) return;
+
+            shopItem.Pricing.OnPriceUpdated -= UpdatePrice;
         }
 
         if (prev != current)
@@ -32,7 +39,18 @@ public class PriceTag : MonoBehaviour
             ShopProduct_Item shopItem = (ShopProduct_Item)ItemDictionaryManager.RetrieveItem(current);
             if (shopItem == null) return;
 
-            text.text = MoneyFormatter.FormatPriceInt(shopItem.Price);
+            UpdatePrice(shopItem.GetCurrentSellPrice());
+            shopItem.Pricing.OnPriceUpdated += UpdatePrice;
         }
+    }
+
+    public void UpdatePrice(int _, int currentPrice)
+    {
+        text.text = MoneyFormatter.FormatPriceInt(currentPrice);
+    }
+
+    public void UpdatePrice(int currentPrice)
+    {
+        text.text = MoneyFormatter.FormatPriceInt(currentPrice);
     }
 }

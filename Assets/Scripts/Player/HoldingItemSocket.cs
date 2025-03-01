@@ -33,7 +33,7 @@ public class HoldingItemSocket : NetworkBehaviour
     }
 
     [Rpc(SendTo.Everyone)]
-    public void ClearObjectBinding_Rpc(Vector3 position, Quaternion rotation)
+    public void ClearObjectBinding_Rpc(Vector3 position, Quaternion rotation, bool resetVelocity = false)
     {
         if (boundObject == null) return;
         if (!boundObject.TryGetComponent(out NetworkTransform networkTransform)) return;
@@ -48,7 +48,10 @@ public class HoldingItemSocket : NetworkBehaviour
             if (!IsLocalPlayer || IsServer)
             {
                 if (IsServer)
+                {
                     networkTransform.Teleport(position, rotation, boundObject.transform.localScale);
+                    if (resetVelocity) rbNWT.Rigidbody.linearVelocity = Vector3.zero;
+                }
 
                 rbNWT.IsSocketed = false;
                 rbNWT.NetworkRigidbody.ApplyCurrentTransform();

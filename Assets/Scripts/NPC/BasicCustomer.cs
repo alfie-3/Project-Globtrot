@@ -76,7 +76,7 @@ public class BasicCustomer : MonoBehaviour
     {
         foreach (var item in ShoppingList)
         {
-            MoneyManager.Instance.AddMoney(item.heldQuantity * item.DesiredItem.Price);
+            MoneyManager.Instance.AddMoney(item.heldQuantity * item.DesiredItem.GetCurrentSellPrice());
         }
     }
 

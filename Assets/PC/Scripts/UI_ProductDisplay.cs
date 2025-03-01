@@ -26,7 +26,7 @@ public class UI_ProductDisplay : MonoBehaviour
     {
         productImage.sprite = productData.ProductImage;
         productTitle.text = productData.ItemID;
-        productPrice.text = $"${productData.Price:F2}";
+        productPrice.text = $"${productData.GetCurrentPurchasePrice():F2}";
     }
 
     public void AddToBasket()
