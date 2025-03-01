@@ -12,17 +12,17 @@ public class ShopProduct_Item : ItemBase, IItemPrice
     [field: SerializeField] public int MaxInBox { get; private set; }
     [field: SerializeField] public ItemHolder.ContainerTypes ContanierCompatabilty { get; private set; }
 
-    public int GetCurrentPurchasePrice()
+    public double GetCurrentPurchasePrice()
     {
         return Pricing.GetCurrentPurchasePrice(ItemID);
     }
 
-    public int GetCurrentSellPrice()
+    public double GetCurrentSellPrice()
     {
         return Pricing.GetCurrentSellPrice(ItemID);
     }
 
-    public void SetSellPrice(int newPrice)
+    public void SetSellPrice(double newPrice)
     {
         Pricing.SetSellPrice(ItemID, newPrice);
     }

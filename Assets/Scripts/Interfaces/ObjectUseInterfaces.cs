@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public interface IUsePrimary
 {
@@ -18,6 +19,11 @@ public interface IOnHeld
 public interface IOnDrop
 {
     public void OnDrop( PlayerHoldingManager manager);
+}
+
+public interface IScroll
+{
+    public void OnScroll(PlayerHoldingManager manager, InputAction.CallbackContext context);
 }
 
 public interface IUpdate

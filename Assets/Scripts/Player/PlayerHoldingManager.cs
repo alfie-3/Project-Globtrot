@@ -26,7 +26,7 @@ public class PlayerHoldingManager : NetworkBehaviour
     [SerializeField] float snappingRotationInterval = 22.5f;
     [SerializeField] float nonSnappintRotationInterval = 8f;
 
-    [Header("Rotation")]
+    [Header("Throwing")]
     [SerializeField] float initailThrowForce = 8f;
     [SerializeField] float throwForceGrowthRate = 8f;
 
@@ -35,9 +35,6 @@ public class PlayerHoldingManager : NetworkBehaviour
 
 
     public PlayerCameraManager CameraManager { get; private set; }
-
-    
-
     private bool throwing;
 
     private void Awake()
@@ -46,7 +43,7 @@ public class PlayerHoldingManager : NetworkBehaviour
 
         playerInputManager.OnPerformPrimary += PerformPrimary;
         playerInputManager.OnPerformSecondary += PerformSecondary;
-        playerInputManager.OnRotate += PerformRotate;
+        playerInputManager.OnScroll += PerformScroll;
         playerInputManager.OnPerformDrop += PerformDrop;
 
         playerInputManager.OnSnapToggle += SnapToggle;
@@ -116,11 +113,6 @@ public class PlayerHoldingManager : NetworkBehaviour
         {
             update.OnUpdate(this);
         }
-
-        /*if (throwing)
-        {
-            Debug.DrawRay(HeldObj.transform.position, ((CameraManager.CamTransform.forward * 16f) - HeldObj.transform.position));
-        }*/
     }
 
     public void PerformPrimary(InputAction.CallbackContext context)
@@ -165,9 +157,6 @@ public class PlayerHoldingManager : NetworkBehaviour
                 obj.GetComponent<RigidbodyNetworkTransform>().AddForce_Rpc(force, ForceMode.Impulse);
             }
         }
-        
-
-        
     }
 
     public void PerformDrop(InputAction.CallbackContext context)
@@ -196,11 +185,18 @@ public class PlayerHoldingManager : NetworkBehaviour
         ItemSocket.ClearObjectBinding_Rpc(dropPos, ItemSocket.transform.rotation, true);
     }
 
-    public void PerformRotate(float dir)
+    public void PerformScroll(InputAction.CallbackContext context)
     {
         if (HeldObj == null) return;
 
+        float dir = context.ReadValue<float>() > 0 ? 1 : -1;
+
         Rotation += dir * (Snapping ? snappingRotationInterval : nonSnappintRotationInterval);
+
+        if (HeldObj.TryGetComponent(out IScroll scroll))
+        {
+            scroll.OnScroll(this, context);
+        }
     }
 
     public void SnapToggle(InputAction.CallbackContext context)

@@ -4,35 +4,32 @@ using UnityEngine;
 [System.Serializable]
 public class ItemPrice
 {
-    [field: SerializeField] public int BasePrice { get; private set; }
+    [field: SerializeField] public double BasePrice { get; private set; }
 
-    public int GetCurrentSellPrice(string id)
+    public double GetCurrentSellPrice(string id)
     {
         return StockPricingManager.GetPricingData(id).CurrentSellPrice;
     }
 
-    public int GetCurrentPurchasePrice(string id)
+    public double GetCurrentPurchasePrice(string id)
     {
         return StockPricingManager.GetPricingData(id).CurrentPurchasePrice;
     }
 
-    public void SetSellPrice(string id, int newPrice)
+    public void SetSellPrice(string id, double newPrice)
     {
-        int oldPrice = GetCurrentSellPrice(id);
-
         StockPricingManager.SetSellPrice(id, newPrice);
-
-        OnPriceUpdated.Invoke(oldPrice, newPrice);
+        StockPricingManager.Instance.ReplicatePricingInformation(id);
     }
 
-    public Action<int, int> OnPriceUpdated;
+    public Action<double, double> OnPriceUpdated;
 }
 
 public interface IItemPrice
 {
-    public int GetCurrentPurchasePrice();
+    public double GetCurrentPurchasePrice();
 
-    public int GetCurrentSellPrice();
+    public double GetCurrentSellPrice();
 
-    public void SetSellPrice(int newPrice);
+    public void SetSellPrice(double newPrice);
 }

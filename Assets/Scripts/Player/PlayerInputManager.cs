@@ -17,7 +17,7 @@ public class PlayerInputManager : NetworkBehaviour
 
     //Rotating
     public Vector2 ScrollInput { get; private set; }
-    public Action<float> OnRotate = delegate { };
+    public Action<InputAction.CallbackContext> OnScroll = delegate { };
 
     public Action<InputAction.CallbackContext> OnSnapToggle = delegate { };
 
@@ -49,6 +49,8 @@ public class PlayerInputManager : NetworkBehaviour
         inputActions.Player.Sprint.started += context => { OnSprint.Invoke(context); };
         inputActions.Player.Sprint.canceled += context => OnSprint.Invoke(context);
 
+        inputActions.Player.Scroll.performed += context => { OnScroll.Invoke(context); };
+
         inputActions.Player.Dismantle.performed += context => OnDismantle(context);
         inputActions.Player.Snapping.performed += context => OnSnapToggle(context);
     }
@@ -79,10 +81,6 @@ public class PlayerInputManager : NetworkBehaviour
     private void Update()
     {
         MovementInput = inputActions.Player.Move.ReadValue<Vector2>();
-        ScrollInput = inputActions.Player.Scroll.ReadValue<Vector2>();
-         
-        if (ScrollInput.y != 0)
-            OnRotate.Invoke(ScrollInput.y);
     }
 
     //Used for converting movement direction to be relative to chamera direction

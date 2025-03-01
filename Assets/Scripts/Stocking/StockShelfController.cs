@@ -43,11 +43,11 @@ public class StockShelfController : NetworkBehaviour {
         OnStockUpdated.Invoke(previousStockType, currentStockType, Holder.ItemQuantity.Value);
     }
 
-    public void SetItemPricing()
+    public void SetItemPricing(double desiredPrice)
     {
         if (Holder.IsEmpty) return;
 
-        Holder.ProductItem.SetSellPrice(400);
+        Holder.ProductItem.SetSellPrice(desiredPrice);
     }
 
     [Rpc(SendTo.Server)]

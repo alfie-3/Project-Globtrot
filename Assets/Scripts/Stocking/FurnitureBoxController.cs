@@ -14,11 +14,12 @@ public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate
     public const float PLACABLE_DISTANCE = 5;
 
     GridController grid;
-    private void Awake() {
+    private void Start() {
         renderParams = new RenderParams(HologramMat);
         
         if (furnitureItem != null)
             PopulateItem(furnitureItem);
+
         grid = GridController.Instance;
     }
 

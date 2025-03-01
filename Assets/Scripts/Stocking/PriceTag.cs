@@ -44,12 +44,12 @@ public class PriceTag : MonoBehaviour
         }
     }
 
-    public void UpdatePrice(int _, int currentPrice)
+    public void UpdatePrice(double _, double currentPrice)
     {
         text.text = MoneyFormatter.FormatPriceInt(currentPrice);
     }
 
-    public void UpdatePrice(int currentPrice)
+    public void UpdatePrice(double currentPrice)
     {
         text.text = MoneyFormatter.FormatPriceInt(currentPrice);
     }

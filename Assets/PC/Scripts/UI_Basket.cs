@@ -66,7 +66,7 @@ public class UI_Basket : MonoBehaviour
                 {
                     if (item is ShopProduct_Item productItem)
                     {
-                        int totalPrice = productItem.GetCurrentPurchasePrice() * amountToSpawn;
+                        double totalPrice = productItem.GetCurrentPurchasePrice() * amountToSpawn;
 
                         // check if enough money
                         if (MoneyManager.Instance.CanAfford(totalPrice))
@@ -135,7 +135,7 @@ public class UI_Basket : MonoBehaviour
     // update total price
     public void UpdateTotal()
     {
-        float total = 0.0f;
+        double total = 0.0f;
 
         foreach (GameObject item in basket)
         {

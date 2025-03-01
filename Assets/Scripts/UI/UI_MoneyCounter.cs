@@ -12,9 +12,9 @@ public class UI_MoneyCounter : MonoBehaviour
         MoneyManager.OnMoneyChanged += UpdateCounter;
     }
 
-    private void UpdateCounter(int prev, int current)
+    private void UpdateCounter(double prev, double current)
     {
-        text.text = current.ToString();
+        text.text = MoneyFormatter.FormatPriceInt(current);
     }
 
     public void OnDestroy()
