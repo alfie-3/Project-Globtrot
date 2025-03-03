@@ -3,7 +3,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate, IScroll, IOnCtrl
+public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate, IScroll, IOnCtrl, IOnHeld
 {
     [SerializeField]
     private PlacableFurniture_Item furnitureItem;
@@ -50,6 +50,10 @@ public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate, IS
         {
             holoMesh = meshFilter.sharedMesh;
         }
+    }
+
+    public void OnHeld (PlayerHoldingManager holdingManager) {
+        snappingEnabled = holdingManager.SnappingEnabled;
     }
 
     public void UsePrimary(PlayerHoldingManager holdingManager)
