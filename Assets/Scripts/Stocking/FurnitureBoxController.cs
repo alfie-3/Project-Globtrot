@@ -21,10 +21,10 @@ public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate, IS
     private float rotation;
     private bool snappingEnabled;
 
-
     public const float PLACABLE_DISTANCE = 5;
 
     GridController grid;
+
     private void Awake() {
         renderParams = new RenderParams(HologramMat);
 

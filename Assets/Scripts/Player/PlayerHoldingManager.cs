@@ -186,10 +186,12 @@ public class PlayerHoldingManager : NetworkBehaviour
             scroll.OnScroll(this, context);
         }
     }
-    public void PerformCtrl(InputAction.CallbackContext context) {
+    public void PerformCtrl(InputAction.CallbackContext context) 
+    {
         if (HeldObj == null) return;
 
-        if (HeldObj.TryGetComponent(out IOnCtrl ctrl)) {
+        if (HeldObj.TryGetComponent(out IOnCtrl ctrl)) 
+        {
             ctrl.OnCtrl(this);
         }
     }

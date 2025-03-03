@@ -3,8 +3,9 @@ using UnityEngine;
 
 public class MessController : NetworkBehaviour
 {
-    [SerializeField] int sweepsRequired = 3;
+    [field: SerializeField] int sweepsRequired = 3;
     public NetworkVariable<int> CurrentSweepState = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
+    public bool Cleaned { get; private set; }
 
     [SerializeField] ParticleSystem SweepParticle;
 
@@ -38,6 +39,7 @@ public class MessController : NetworkBehaviour
 
     private void Clean()
     {
+        Cleaned = true;
         if (SweepParticle != null)
         {
             SweepParticle.transform.parent = null;
