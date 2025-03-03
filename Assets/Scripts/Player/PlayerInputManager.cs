@@ -19,7 +19,7 @@ public class PlayerInputManager : NetworkBehaviour
     public Vector2 ScrollInput { get; private set; }
     public Action<InputAction.CallbackContext> OnScroll = delegate { };
 
-    public Action<InputAction.CallbackContext> OnSnapToggle = delegate { };
+    public Action<InputAction.CallbackContext> OnPerformCtrl = delegate { };
 
     //Interaction
     public Action<InputAction.CallbackContext> OnInteract = delegate { };
@@ -39,20 +39,20 @@ public class PlayerInputManager : NetworkBehaviour
         inputActions = new();
         cameraManager = GetComponentInChildren<PlayerCameraManager>();
 
-        inputActions.Player.Interact.performed += context => { OnInteract.Invoke(context); };
-        inputActions.Player.PerformPrimary.performed += context => { OnPerformPrimary.Invoke(context); };
-        inputActions.Player.PerformSecondary.performed += context => { OnPerformSecondary.Invoke(context); };
-        inputActions.Player.PerformSecondary.canceled += context => { OnPerformSecondary.Invoke(context); Debug.Log("time: " + context.duration); };
-        inputActions.Player.Drop.performed += context => { OnPerformDrop.Invoke(context); };
-        inputActions.Player.Jump.performed += context => { OnJump.Invoke(); };
+        inputActions.Player.Interact.performed += context => OnInteract.Invoke(context);
+        inputActions.Player.PerformPrimary.performed += context => OnPerformPrimary.Invoke(context);
+        inputActions.Player.PerformSecondary.performed += context => OnPerformSecondary.Invoke(context);
+        inputActions.Player.PerformSecondary.canceled += context => { OnPerformSecondary.Invoke(context); /*Debug.Log("time: " + context.duration);*/ };
+        inputActions.Player.Drop.performed += context => OnPerformDrop.Invoke(context);
+        inputActions.Player.Jump.performed += context => OnJump.Invoke();
 
-        inputActions.Player.Sprint.started += context => { OnSprint.Invoke(context); };
+        inputActions.Player.Sprint.started += context => OnSprint.Invoke(context);
         inputActions.Player.Sprint.canceled += context => OnSprint.Invoke(context);
 
-        inputActions.Player.Scroll.performed += context => { OnScroll.Invoke(context); };
+        inputActions.Player.Scroll.performed += context => OnScroll.Invoke(context);
 
         inputActions.Player.Dismantle.performed += context => OnDismantle(context);
-        inputActions.Player.Snapping.performed += context => OnSnapToggle(context);
+        inputActions.Player.Snapping.performed += context => OnPerformCtrl(context);
     }
 
     public override void OnNetworkSpawn()

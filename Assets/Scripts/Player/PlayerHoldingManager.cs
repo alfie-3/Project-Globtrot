@@ -21,19 +21,13 @@ public class PlayerHoldingManager : NetworkBehaviour
     [SerializeField] float dropHeight = 0.5f;
     [SerializeField] LayerMask dropObjectLayerMask;
 
-    //Rotation & Snapping
-    [Header("Rotation")]
-    [SerializeField] float snappingRotationInterval = 22.5f;
-    [SerializeField] float nonSnappintRotationInterval = 8f;
-
     [Header("Throwing")]
     [SerializeField] float initailThrowForce = 8f;
     [SerializeField] float throwForceGrowthRate = 8f;
 
-    public float Rotation { get; private set; }
-    public bool Snapping { get; private set; }
-
-
+    [HideInInspector]
+    public bool SnappingEnabled;// { get; private set; }
+    
     public PlayerCameraManager CameraManager { get; private set; }
     private bool throwing;
 
@@ -46,7 +40,7 @@ public class PlayerHoldingManager : NetworkBehaviour
         playerInputManager.OnScroll += PerformScroll;
         playerInputManager.OnPerformDrop += PerformDrop;
 
-        playerInputManager.OnSnapToggle += SnapToggle;
+        playerInputManager.OnPerformCtrl += PerformCtrl;
 
         CameraManager = GetComponentInChildren<PlayerCameraManager>();
     }
@@ -73,7 +67,6 @@ public class PlayerHoldingManager : NetworkBehaviour
         {
             rbNWT.WakeUpNearbyObjects();
         }
-        Rotation = obj.transform.rotation.eulerAngles.y;
 
         ItemSocket.BindObject_Rpc(HeldObj);
     }
@@ -129,11 +122,10 @@ public class PlayerHoldingManager : NetworkBehaviour
         if (HeldObj == null) return;
 
         if (!HeldObj.TryGetComponent(out IUseSecondary useableObject)) return;
-        IOnDrop onDrop = null;
         if (context.performed) {
 
             if (context.interaction is HoldInteraction) {
-                if (!HeldObj.TryGetComponent(out onDrop)) return;
+                if (!HeldObj.TryGetComponent(out IOnDrop onDrop)) return;
                 throwing = true;
             }
             if (context.interaction is PressInteraction) {
@@ -143,7 +135,7 @@ public class PlayerHoldingManager : NetworkBehaviour
             if (throwing)
             {
                 throwing = false;
-                if (!HeldObj.TryGetComponent(out onDrop)) return;
+                if (!HeldObj.TryGetComponent(out IOnDrop onDrop)) return;
                 NetworkObject obj = HeldObj;
 
                 onDrop.OnDrop(this);
@@ -189,27 +181,19 @@ public class PlayerHoldingManager : NetworkBehaviour
     {
         if (HeldObj == null) return;
 
-        float dir = context.ReadValue<float>() > 0 ? 1 : -1;
-
-        Rotation += dir * (Snapping ? snappingRotationInterval : nonSnappintRotationInterval);
-
         if (HeldObj.TryGetComponent(out IScroll scroll))
         {
             scroll.OnScroll(this, context);
         }
     }
+    public void PerformCtrl(InputAction.CallbackContext context) {
+        if (HeldObj == null) return;
 
-    public void SnapToggle(InputAction.CallbackContext context)
-    {
-        Snapping = !Snapping;
-        if (Snapping)
-        {
-            float output = Mathf.Round(Rotation / snappingRotationInterval);
-            if (output == 0 && Rotation > 0) output += 1;
-            output *= snappingRotationInterval;
-            Rotation = output;
+        if (HeldObj.TryGetComponent(out IOnCtrl ctrl)) {
+            ctrl.OnCtrl(this);
         }
     }
+
 
     [Rpc(SendTo.Everyone)]
     public void RequestClearItem_Rpc()
@@ -220,7 +204,6 @@ public class PlayerHoldingManager : NetworkBehaviour
     public void ClearItem()
     {
         HeldObj = null;
-        Rotation = 0;
     }
 
     public bool HoldingItem => HeldObj != null;

@@ -30,3 +30,8 @@ public interface IUpdate
 {
     public void OnUpdate(PlayerHoldingManager manager);
 }
+
+public interface IOnCtrl 
+{
+    public void OnCtrl(PlayerHoldingManager manager);
+}

@@ -30,7 +30,7 @@ public class PickUp_Funiture : Pickup_Interactable {
         NetworkObject instance = Instantiate(placeableItem.FurniturePrefab, obj.transform.position, transform.rotation).GetComponent<NetworkObject>();
         instance.Spawn();
 
-        instance.GetComponent<FurnitureBoxController>().SetItem_Rpc(itemID);
+        instance.GetComponent<FurnitureBoxController>().SetItem_Rpc(itemID, transform.rotation.eulerAngles.y);
 
         RpcSendParams sendParams = new RpcSendParams()
         {

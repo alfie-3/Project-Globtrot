@@ -1,39 +1,46 @@
+using Unity.Multiplayer.Center.NetcodeForGameObjectsExample.DistributedAuthority;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate
+public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate, IScroll, IOnCtrl
 {
     [SerializeField]
     private PlacableFurniture_Item furnitureItem;
 
     [SerializeField] private Material HologramMat;
 
+    //Rotation & Snapping
+    [Header("Rotation")]
+    [SerializeField] float snappingRotationInterval = 22.5f;
+    [SerializeField] float nonSnappintRotationInterval = 8f;
+
     private Mesh holoMesh;
     private RenderParams renderParams;
+
+    private float rotation;
+    private bool snappingEnabled;
+
 
     public const float PLACABLE_DISTANCE = 5;
 
     GridController grid;
-    private void Start() {
+    private void Awake() {
         renderParams = new RenderParams(HologramMat);
-        
+
         if (furnitureItem != null)
             PopulateItem(furnitureItem);
 
         grid = GridController.Instance;
     }
 
-    public void Init(Grid grid)
-    {
-         
-    }
-
     [Rpc(SendTo.Everyone)]
-    public void SetItem_Rpc(string itemID)
+    public void SetItem_Rpc(string itemID, float rotation = 0)
     {
         furnitureItem = ItemDictionaryManager.RetrieveItem(itemID) is not PlacableFurniture_Item ? null : (PlacableFurniture_Item)ItemDictionaryManager.RetrieveItem(itemID);
         if (furnitureItem == null) return;
 
+        this.rotation = rotation;
         PopulateItem(furnitureItem);
     }
 
@@ -54,12 +61,29 @@ public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate
 
         if (Physics.Raycast(ray, out RaycastHit hit, PLACABLE_DISTANCE, LayerMask.GetMask("Placeable")))
         {
-            Vector3 position = holdingManager.Snapping ? grid.HitToGrid(hit.point) : hit.point;
-            if (Physics.OverlapBox(position + holoMesh.bounds.center, holoMesh.bounds.size * 0.48f, Quaternion.Euler(0, holdingManager.Rotation, 0)).Length == 0)
-                holdingManager.PlaceItem_Rpc(NetworkObject, furnitureItem.ItemID, position, Quaternion.Euler(0, holdingManager.Rotation, 0));
+            Vector3 position = snappingEnabled ? grid.HitToGrid(hit.point) : hit.point;
+            if (Physics.OverlapBox(position + holoMesh.bounds.center, holoMesh.bounds.size * 0.48f, Quaternion.Euler(0, rotation, 0)).Length == 0)
+                holdingManager.PlaceItem_Rpc(NetworkObject, furnitureItem.ItemID, position, Quaternion.Euler(0, rotation, 0));
         }
     }
 
+    public void OnScroll(PlayerHoldingManager manager, InputAction.CallbackContext context) 
+    {
+        if (furnitureItem == null) return;
+
+        float dir = context.ReadValue<float>() > 0 ? 1 : -1;
+
+        rotation += dir * (snappingEnabled ? snappingRotationInterval : nonSnappintRotationInterval);
+
+    }
+
+    public void OnCtrl(PlayerHoldingManager manager) {
+        snappingEnabled = !snappingEnabled;
+        manager.SnappingEnabled = snappingEnabled;
+        if (snappingEnabled)  rotation = Snapping.Snap(rotation, snappingRotationInterval);
+    }
+
+    
     public void OnUpdate(PlayerHoldingManager holdingManager)
     {
         if (furnitureItem == null) return;
@@ -68,9 +92,9 @@ public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate
         Ray ray = new(holdingManager.CameraManager.CamTransform.position, holdingManager.CameraManager.CamTransform.forward);
         if (Physics.Raycast(ray, out RaycastHit hit, PLACABLE_DISTANCE, LayerMask.GetMask("Placeable")))
         {
-            Vector3 position = holdingManager.Snapping ? grid.HitToGrid(hit.point) : hit.point;
-            HologramMat.SetFloat("_OverlappingColliders", Physics.OverlapBox(position+ holoMesh.bounds.center, holoMesh.bounds.size * 0.48f, Quaternion.Euler(0, holdingManager.Rotation, 0)).Length);
-            Graphics.RenderMesh(renderParams, holoMesh, 0, Matrix4x4.TRS(position, Quaternion.Euler(0, holdingManager.Rotation, 0), Vector3.one));
+            Vector3 position = snappingEnabled ? grid.HitToGrid(hit.point) : hit.point;
+            HologramMat.SetFloat("_OverlappingColliders", Physics.OverlapBox(position+ holoMesh.bounds.center, holoMesh.bounds.size * 0.48f, Quaternion.Euler(0, rotation, 0)).Length);
+            Graphics.RenderMesh(renderParams, holoMesh, 0, Matrix4x4.TRS(position, Quaternion.Euler(0, rotation, 0), Vector3.one));
         }
     }
 
