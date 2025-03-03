@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Unity.Netcode;
 using Unity.Services.Multiplayer;
 using UnityEngine;
 using UnityEngine.Events;
@@ -50,6 +51,22 @@ public class QuickSession : MonoBehaviour
             State = ConnectionState.Disconnected;
             Debug.Log(e);
             OnDisconnect?.Invoke();
+
+            return;
+        }
+
+        TrySpawn();
+    }
+
+    public void TrySpawn()
+    {
+        GameObject foundGO = GameObject.FindGameObjectWithTag("SpawnManager");
+
+        if (foundGO == null) return;
+
+        if (foundGO.TryGetComponent(out SpawnManager spawnManager))
+        {
+            spawnManager.RequestSpawnPlayer_Rpc(NetworkManager.Singleton.LocalClientId, PlayerProfile.CharacterReferenceData.PlayerReferenceID);
         }
     }
 }

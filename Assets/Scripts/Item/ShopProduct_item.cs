@@ -12,11 +12,19 @@ public class ShopProduct_Item : ItemBase, IItemPrice
     [field: SerializeField] public int MaxInBox { get; private set; }
     [field: SerializeField] public ItemHolder.ContainerTypes ContanierCompatabilty { get; private set; }
 
+    /// <summary>
+    /// Price that PLAYERS purchase products at.
+    /// </summary>
+    /// <returns></returns>
     public double GetCurrentPurchasePrice()
     {
         return Pricing.GetCurrentPurchasePrice(ItemID);
     }
 
+    /// <summary>
+    /// Price that CUSTOMERS purchase products at.
+    /// </summary>
+    /// <returns></returns>
     public double GetCurrentSellPrice()
     {
         return Pricing.GetCurrentSellPrice(ItemID);

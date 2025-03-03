@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using WebSocketSharp;
 
-public class ShelfStockTrackingManager : MonoBehaviour
+public static class ShelfStockTrackingManager
 {
     static Dictionary<string, List<StockShelvesManager>> StockLookupDictionary;
 
@@ -12,7 +12,8 @@ public class ShelfStockTrackingManager : MonoBehaviour
         StockLookupDictionary = new();
     }
 
-    public void Awake()
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+    public static void InitializeAfterLoad()
     {
         StockShelvesManager.OnStockShelfUpdated = UpdateShelfInfo;
         StockShelvesManager.OnStockShelfRemoved = RemoveShelf;

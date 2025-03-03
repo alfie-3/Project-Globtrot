@@ -109,6 +109,12 @@ public class StockShelvesManager : NetworkBehaviour
 
         OnStockShelfRemoved.Invoke(this, storedItemTypes.ToArray());
     }
+
+    private void OnApplicationQuit()
+    {
+        OnStockShelfUpdated = delegate { };
+        OnStockShelfRemoved = delegate { };
+    }
 }
 
 public class StockedItemData

@@ -25,19 +25,14 @@ public class BasicCustomer : MonoBehaviour
         for (int i = 0; i < ShoppingList.Count; i++)
         {
             int takenAmount = shelvesManager.TakeItemsFromShelf(ShoppingList[i].DesiredItem, ShoppingList[i].QuantityToPurchase);
+
             ShoppingList[i].heldQuantity += takenAmount;
+
+            ShoppingList[i].ListItemValue += ShoppingList[i].DesiredItem.GetCurrentSellPrice() * takenAmount;
 
             if (ShoppingList[i].heldQuantity >= ShoppingList[i].QuantityToPurchase)
                 ShoppingList[i].CheckOffListItem();
         }
-    }
-
-    public void RemoveItemFromShoppingList(ShoppingListItem referenceItem)
-    {
-        if (referenceItem == null) return;
-
-        ShoppingList.Remove(referenceItem);
-        return;
     }
 
     public bool TryGetShoppingListShelf(out StockShelvesManager shelf)
@@ -76,7 +71,7 @@ public class BasicCustomer : MonoBehaviour
     {
         foreach (var item in ShoppingList)
         {
-            MoneyManager.Instance.AddMoney(item.heldQuantity * item.DesiredItem.GetCurrentSellPrice());
+            MoneyManager.Instance.AddMoney(item.heldQuantity * item.ListItemValue);
         }
     }
 
@@ -95,6 +90,8 @@ public class ShoppingListItem
 
     public int QuantityToPurchase;
     public int heldQuantity;
+
+    public double ListItemValue;
 
     public void CheckOffListItem()
     {

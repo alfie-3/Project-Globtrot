@@ -18,13 +18,31 @@ public class CustomerSpawnPoint : NetworkBehaviour
         customersCount = 0;
     }
 
-    public override void OnNetworkSpawn()
+    private void OnEnable()
     {
-        base.OnNetworkSpawn();
+        GameStateManager.OnShopOpenChanged += ToggleSpawning;
+    }
 
+    private void OnDisable()
+    {
+        GameStateManager.OnShopOpenChanged -= ToggleSpawning;
+    }
+
+    public void ToggleSpawning(bool toggle)
+    {
         if (!IsServer) return;
 
-        InvokeRepeating(nameof(SpawnCustomersRepeating), 0, customerSpawnRate);
+
+        if (toggle)
+        {
+            spawningEnabled = true;
+            InvokeRepeating(nameof(SpawnCustomersRepeating), 0, customerSpawnRate);
+        }
+        else
+        {
+            spawningEnabled = false;
+            CancelInvoke(nameof(SpawnCustomersRepeating));
+        }
     }
 
     public void SpawnCustomersRepeating()
@@ -42,6 +60,13 @@ public class CustomerSpawnPoint : NetworkBehaviour
         NetworkObject customer = Instantiate(customerPrefab, transform.position, transform.rotation).GetComponent<NetworkObject>();
         customer.Spawn();
         customersCount++;
+    }
+
+    private new void OnDestroy()
+    {
+        base.OnDestroy();
+
+        GameStateManager.OnShopOpenChanged -= ToggleSpawning;
     }
 }
 
