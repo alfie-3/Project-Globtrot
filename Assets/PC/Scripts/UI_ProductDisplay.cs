@@ -20,6 +20,27 @@ public class UI_ProductDisplay : MonoBehaviour
         basketScript = basket;
         productData = product;
         SpawnProductUI();
+        UpdateQuantityUI();
+
+    }
+    private void IncreaseQuantity()
+    {
+        quantity++;
+        UpdateQuantityUI();
+    }
+
+    private void DecreaseQuantity()
+    {
+        if (quantity > 1)
+        {
+            quantity--;
+            UpdateQuantityUI();
+        }
+    }
+
+    private void UpdateQuantityUI()
+    {
+        quantityText.text = quantity.ToString();
     }
 
     private void SpawnProductUI()

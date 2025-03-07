@@ -33,6 +33,7 @@ public class MoneyManager : NetworkBehaviour
         }
 
         currentMoney.OnValueChanged += (prev, current) => { OnMoneyChanged(prev, current); };
+        currentMoney.Value+= startingMoney;
     }
 
     public override void OnNetworkSpawn()

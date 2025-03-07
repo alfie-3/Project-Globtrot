@@ -11,7 +11,6 @@ public class UI_StockShop : MonoBehaviour
     [SerializeField] private List<GameObject> spawnedProducts = new List<GameObject>();
 
     [SerializeField] private MoneyManager moneyScript;
-    [SerializeField] private TMP_Text currentMoneyTXT; 
     [SerializeField] private Transform spawnArea; // where purchased products will appear 
 
     
@@ -27,7 +26,6 @@ public class UI_StockShop : MonoBehaviour
         {
             productPrefabs.Add(productName, productPrefab);
         }
-        currentMoneyTXT.text = moneyScript.startingMoney.ToString();
     }
 
     // spawns product in spawn area

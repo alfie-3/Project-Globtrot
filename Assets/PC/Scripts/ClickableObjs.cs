@@ -7,13 +7,15 @@ public class ClickableObjs : MonoBehaviour
 {
     [SerializeField] private bool isPowerButton = false;
     [SerializeField] private bool isScreen = false;
-    [SerializeField] PCHandler zoomScript;
-    bool on = false;
-    public void OnClick()
+    [SerializeField] private PCHandler pcScript;
+    
+    private bool on = false;
+
+    public void OnInteract(PlayerInteractionManager interactionManager)
     {
-        if(isScreen)
+        if (isScreen)
         {
-            zoomScript.ZoomToScreen();
+            pcScript.ZoomToScreen();
         }
 
         if(isPowerButton)
@@ -22,13 +24,13 @@ public class ClickableObjs : MonoBehaviour
             if (on)
             {
                 buttonMat.SetColor("_BaseColor", Color.red);
-                zoomScript.TurnOff();
+                pcScript.TurnOff();
                 on = false;
             }
             else
             {
                 buttonMat.SetColor("_BaseColor", Color.green);
-                zoomScript.TurnOn();   
+                pcScript.TurnOn();
                 on = true;
             }
         }

@@ -72,7 +72,7 @@ public class UI_Basket : MonoBehaviour
                         if (MoneyManager.Instance.CanAfford(totalPrice))
                         {
                             MoneyManager.Instance.SpendMoney(totalPrice);
-
+                            
                             for (int i = 0; i < amountToSpawn; i++)
                             {
                                 shopScript.SummonProduct(productName);
@@ -88,6 +88,8 @@ public class UI_Basket : MonoBehaviour
                 }
             }
         }
+        UpdateTotal();
+
     }
 
 

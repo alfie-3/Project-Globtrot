@@ -14,7 +14,7 @@ public class ClickHandling : MonoBehaviour
             {
                 if (hit.collider.CompareTag("Clickable")) 
                 {
-                    hit.collider.GetComponent<ClickableObjs>()?.OnClick();
+                    // hit.collider.GetComponent<ClickableObjs>()?.OnClick();
                 }
             }
         }

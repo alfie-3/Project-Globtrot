@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 public class PCHandler : MonoBehaviour
 {
-    [SerializeField] private Animator camAnimator;
+    // [SerializeField] private Animator camAnimator;
     [SerializeField] private GameObject screen;
     [SerializeField] private GameObject screenObj;
     [SerializeField] private GameObject screenOffObj;
@@ -22,7 +22,7 @@ public class PCHandler : MonoBehaviour
         if (isZoomed) return;
 
         isZoomed = true;
-        camAnimator.SetTrigger("doZoom"); 
+        // camAnimator.SetTrigger("doZoom"); 
         StartCoroutine(ActivateUIScreen());
     }
 
@@ -34,16 +34,22 @@ public class PCHandler : MonoBehaviour
         canvasGroup.interactable = true; 
         canvasGroup.blocksRaycasts = true; 
 
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
     }
 
     public void ResetCamera()
     {
         isZoomed = false;
-        camAnimator.SetTrigger("undoZoom"); 
+        // camAnimator.SetTrigger("undoZoom"); 
         CanvasGroup canvasGroup = screen.GetComponent<CanvasGroup>();
         canvasGroup.alpha = 0; 
         canvasGroup.interactable = false; 
         canvasGroup.blocksRaycasts = false; 
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
 
     }
 

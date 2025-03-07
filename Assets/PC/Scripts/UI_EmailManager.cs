@@ -16,8 +16,9 @@ public class UI_EmailManager : MonoBehaviour
 
     [SerializeField] private List<Email> emailList; 
     private List<GameObject> emailButtons = new List<GameObject>(); 
-
     private int nextEmailIndex = 0;
+    private bool isMinimised = true;
+    private float originalEmailSpacing;
 
     //instead of displaying all emails this function will call the next email in the list instead
     public void SummonNextEmail()
@@ -37,6 +38,8 @@ public class UI_EmailManager : MonoBehaviour
         emailButton.transform.position = nextPos;
         emailButtons.Add(emailButton);
 
+        originalEmailSpacing = emailSpacing;
+
         nextEmailIndex++; 
     }
 
@@ -46,5 +49,20 @@ public class UI_EmailManager : MonoBehaviour
         emailSubjectText.text = email.subject;
         emailSenderText.text = $"From: {email.sender}";
         emailContentText.text = email.content;
+    }
+
+    public void ChangeSpacing()
+    {
+        if(isMinimised)
+        {
+            emailSpacing = emailSpacing*1.75f;
+            isMinimised = false;
+        }
+        else if(isMinimised == false)
+        {
+            emailSpacing = originalEmailSpacing;
+            isMinimised = true;
+        }
+
     }
 }
