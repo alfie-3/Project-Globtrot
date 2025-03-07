@@ -1,36 +1,36 @@
-using Unity.VisualScripting;
 using UnityEngine;
-using System.Collections;
-using UnityEngine.InputSystem.LowLevel;
 
-public class ClickableObjs : MonoBehaviour
+public class ClickableObjs : MonoBehaviour, IInteractable
 {
     [SerializeField] private bool isPowerButton = false;
     [SerializeField] private bool isScreen = false;
-    [SerializeField] private PCHandler pcScript;
+    [SerializeField] private PCHandler zoomScript;
     
     private bool on = false;
 
     public void OnInteract(PlayerInteractionManager interactionManager)
     {
+        Debug.Log("Interacted");
         if (isScreen)
         {
-            pcScript.ZoomToScreen();
+            Debug.Log("Opening Screen");
+            zoomScript.ZoomToScreen();
         }
 
-        if(isPowerButton)
+        if (isPowerButton)
         {
-            Material buttonMat = gameObject.GetOrAddComponent<Renderer>().material;
+            Debug.Log("Switching button");
+            Material buttonMat = GetComponent<Renderer>().material;
             if (on)
             {
                 buttonMat.SetColor("_BaseColor", Color.red);
-                pcScript.TurnOff();
+                zoomScript.TurnOff();
                 on = false;
             }
             else
             {
                 buttonMat.SetColor("_BaseColor", Color.green);
-                pcScript.TurnOn();
+                zoomScript.TurnOn();
                 on = true;
             }
         }

@@ -126,8 +126,7 @@ public class UI_Basket : MonoBehaviour
         {
             elapsedTime += Time.deltaTime;
             float t = Mathf.Clamp01(elapsedTime / duration);
-
-            obj.localPosition = Vector3.Lerp(startPos, targetPos, t);
+            if(obj!= null) obj.localPosition = Vector3.Lerp(startPos, targetPos, t);
 
             yield return null;
         }
