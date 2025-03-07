@@ -3,15 +3,12 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data.Common;
 
 public class UI_EmailManager : MonoBehaviour
 {
-    public int StartingEmails = 1;
     [SerializeField] private GameObject emailButtonPrefab; 
     [SerializeField] private Transform spawnPoint;          
-    [SerializeField] private float emailSpacing = 50.0f;    
-    private float originalEmailSpacing;
+    [SerializeField] private float emailSpacing = 50f;    
 
     [SerializeField] private TextMeshProUGUI emailSubjectText;  
     [SerializeField] private TextMeshProUGUI emailSenderText;   
@@ -19,47 +16,37 @@ public class UI_EmailManager : MonoBehaviour
 
     [SerializeField] private List<Email> emailList; 
     private List<GameObject> emailButtons = new List<GameObject>(); 
-    private int index = 0;
-    private Vector3 nextPos;
+    private int nextEmailIndex = 0;
     private bool isMinimised = true;
+    private float originalEmailSpacing;
 
-    private void Start()
-    {
-        for(int i = 0; i < StartingEmails; i++)
-        {
-            DisplayEmail();
-        }
-        originalEmailSpacing = emailSpacing;
-    }
-
-    // instead of displaying all emails this function will call the next email in the list instead
+    //instead of displaying all emails this function will call the next email in the list instead
     public void SummonNextEmail()
     {
-        if (index >= emailList.Count)
+        if (nextEmailIndex >= emailList.Count)
         {
             Debug.Log("No more emails to summon.");
             return;
         }
-        DisplayEmail();
-    }
 
-    // display singular email
-    private void DisplayEmail()
-    {
-        nextPos = spawnPoint.position - new Vector3(0, emailSpacing * emailButtons.Count, 0);
-        Email emailScript = emailList[index];
+        Vector3 nextPos = spawnPoint.position - new Vector3(0, emailSpacing * emailButtons.Count, 0);
+
+        Email emailScript = emailList[nextEmailIndex];
         GameObject emailButton = Instantiate(emailButtonPrefab, spawnPoint);
         emailButton.GetComponent<UI_EmailButton>().Setup(emailScript);
 
         emailButton.transform.position = nextPos;
         emailButtons.Add(emailButton);
-        index++; 
+
+        originalEmailSpacing = emailSpacing;
+
+        nextEmailIndex++; 
     }
 
     // function for button to display email content
     public void Display(Email email)
     {
-        emailSubjectText.text = $"Subject: {email.subject}";
+        emailSubjectText.text = email.subject;
         emailSenderText.text = $"From: {email.sender}";
         emailContentText.text = email.content;
     }
@@ -77,6 +64,5 @@ public class UI_EmailManager : MonoBehaviour
             isMinimised = true;
         }
 
-        Debug.Log(emailSpacing);
     }
 }

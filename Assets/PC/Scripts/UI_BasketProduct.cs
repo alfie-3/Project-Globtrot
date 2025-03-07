@@ -19,7 +19,7 @@ public class UI_BasketProduct : MonoBehaviour
 
         if (ItemDictionaryManager.ItemDict.TryGetValue(newName, out ItemBase item) && item is ShopProduct_Item productItem)
         {
-            productPrice.text = (productItem.Price * amount).ToString("F2");
+            productPrice.text = (productItem.GetCurrentPurchasePrice() * amount).ToString("F2");
         }
     }
 
@@ -32,7 +32,7 @@ public class UI_BasketProduct : MonoBehaviour
         // update total price when amount changes
         if (ItemDictionaryManager.ItemDict.TryGetValue(productName.text, out ItemBase item) && item is ShopProduct_Item productItem)
         {
-            productPrice.text = (productItem.Price * amount).ToString("F2");
+            productPrice.text = (productItem.GetCurrentPurchasePrice() * amount).ToString("F2");
             basketScript.UpdateTotal();
         }
     }

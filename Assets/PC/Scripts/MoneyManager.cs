@@ -7,12 +7,12 @@ public class MoneyManager : NetworkBehaviour
 {
     public static MoneyManager Instance { get; private set; }
 
-    public int startingMoney = 100;  // starting money
+    public double startingMoney = 100;  // starting money
 
-    static public Action<int, int> OnMoneyChanged = delegate { };
+    static public Action<double, double> OnMoneyChanged = delegate { };
 
-    private NetworkVariable<int> currentMoney = new();
-    public int CurrentMoney => currentMoney.Value;
+    private NetworkVariable<double> currentMoney = new();
+    public double CurrentMoney => currentMoney.Value;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void Initialize()
@@ -45,14 +45,14 @@ public class MoneyManager : NetworkBehaviour
         OnMoneyChanged.Invoke(CurrentMoney, CurrentMoney);
     }
 
-    public bool CanAfford(float price)
+    public bool CanAfford(double price)
     {
         return CurrentMoney >= price;
     }
 
-    public void SpendMoney(int amount)
+    public void SpendMoney(double amount)
     {
-        int prev = CurrentMoney;
+        double prev = CurrentMoney;
 
         if (CanAfford(amount))
         {
@@ -66,9 +66,9 @@ public class MoneyManager : NetworkBehaviour
         OnMoneyChanged.Invoke(prev, CurrentMoney);
     }
 
-    public void AddMoney(int amount)
+    public void AddMoney(double amount)
     {
-        int prev = CurrentMoney;
+        double prev = CurrentMoney;
 
         currentMoney.Value += amount;
 

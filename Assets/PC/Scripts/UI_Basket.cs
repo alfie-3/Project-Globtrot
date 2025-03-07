@@ -66,13 +66,13 @@ public class UI_Basket : MonoBehaviour
                 {
                     if (item is ShopProduct_Item productItem)
                     {
-                        int totalPrice = productItem.Price * amountToSpawn;
+                        double totalPrice = productItem.GetCurrentPurchasePrice() * amountToSpawn;
 
                         // check if enough money
                         if (MoneyManager.Instance.CanAfford(totalPrice))
                         {
                             MoneyManager.Instance.SpendMoney(totalPrice);
-
+                            
                             for (int i = 0; i < amountToSpawn; i++)
                             {
                                 shopScript.SummonProduct(productName);
@@ -88,6 +88,8 @@ public class UI_Basket : MonoBehaviour
                 }
             }
         }
+        UpdateTotal();
+
     }
 
 
@@ -107,8 +109,6 @@ public class UI_Basket : MonoBehaviour
     {
         for (int i = 0; i < basket.Count; i++)
         {
-            if (basket[i] == null) continue;  
-
             Vector3 targetPos = basketStartPos.localPosition - new Vector3(0, spacingY * i, 0);
             if(basket[i]) StartCoroutine(BasketUP(basket[i].transform, targetPos));
             UpdateTotal();
@@ -124,8 +124,6 @@ public class UI_Basket : MonoBehaviour
 
         while (elapsedTime < duration)
         {
-            if (obj == null) yield break; 
-
             elapsedTime += Time.deltaTime;
             float t = Mathf.Clamp01(elapsedTime / duration);
 
@@ -139,7 +137,7 @@ public class UI_Basket : MonoBehaviour
     // update total price
     public void UpdateTotal()
     {
-        float total = 0.0f;
+        double total = 0.0f;
 
         foreach (GameObject item in basket)
         {
@@ -153,7 +151,7 @@ public class UI_Basket : MonoBehaviour
                 {
                     if (itemData is ShopProduct_Item productItem)
                     {
-                        total += productItem.Price * amount;
+                        total += productItem.GetCurrentPurchasePrice() * amount;
                     }
                 }
             }
