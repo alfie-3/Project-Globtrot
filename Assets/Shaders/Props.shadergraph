@@ -44,6 +44,9 @@
         },
         {
             "m_Id": "6e1c9057cb544ca786124f5a89899ee1"
+        },
+        {
+            "m_Id": "5513d08895344032b290a037f9b3af6e"
         }
     ],
     "m_Keywords": [],
@@ -3462,7 +3465,7 @@
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
     "m_Value": 1.0,
-    "m_FloatType": 0,
+    "m_FloatType": 1,
     "m_RangeValues": {
         "x": 0.0,
         "y": 1.0
@@ -4617,7 +4620,7 @@
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
     "m_Value": 0.5,
-    "m_FloatType": 0,
+    "m_FloatType": 1,
     "m_RangeValues": {
         "x": 0.0,
         "y": 1.0
@@ -6174,6 +6177,36 @@
         }
     ],
     "m_SerializableMode": 0
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.Texture2DShaderProperty",
+    "m_ObjectId": "5513d08895344032b290a037f9b3af6e",
+    "m_Guid": {
+        "m_GuidSerialized": "0d277c38-3132-4314-ac7c-ea7704996d48"
+    },
+    "m_Name": "Roughness Texture",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "Roughness Texture",
+    "m_DefaultReferenceName": "_Roughness_Texture",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_DismissedVersion": 0,
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": {
+        "m_SerializedTexture": "",
+        "m_Guid": ""
+    },
+    "isMainTexture": false,
+    "useTilingAndOffset": false,
+    "m_Modifiable": true,
+    "m_DefaultType": 0
 }
 
 {
@@ -13789,6 +13822,9 @@
         },
         {
             "m_Id": "3d8308724bcc45e5867a2f41cbbb7e81"
+        },
+        {
+            "m_Id": "5513d08895344032b290a037f9b3af6e"
         },
         {
             "m_Id": "077e6d2e4f9d4c20b3bebd3746fb522e"
