@@ -2,6 +2,7 @@ using Unity.Multiplayer.Center.NetcodeForGameObjectsExample.DistributedAuthority
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.ProBuilder.MeshOperations;
 
 public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate, IScroll, IOnCtrl, IOnHeld
 {
@@ -31,6 +32,11 @@ public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate, IS
         if (furnitureItem != null)
             PopulateItem(furnitureItem);
 
+        
+    }
+    private void Start()
+
+    {
         grid = GridController.Instance;
     }
 
@@ -52,7 +58,7 @@ public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate, IS
         }
     }
 
-    public void OnHeld (PlayerHoldingManager holdingManager) {
+    public void OnHeld(PlayerHoldingManager holdingManager) {
         snappingEnabled = holdingManager.SnappingEnabled;
     }
 
@@ -84,7 +90,8 @@ public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate, IS
     public void OnCtrl(PlayerHoldingManager manager) {
         snappingEnabled = !snappingEnabled;
         manager.SnappingEnabled = snappingEnabled;
-        if (snappingEnabled)  rotation = Snapping.Snap(rotation, snappingRotationInterval);
+        grid.SetVisabiltay(!snappingEnabled, manager.NetworkObject.OwnerClientId);
+        if (snappingEnabled) rotation = Snapping.Snap(rotation, snappingRotationInterval); 
     }
 
     
