@@ -11,7 +11,7 @@ public partial class LookForStockAction : Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> Customer;
     [SerializeReference] public BlackboardVariable<NavMeshSlot> NavmeshSlot;
-    BasicCustomer customerManager;
+    CustomerShoppingManager customerManager;
     NavMeshAgent agent;
 
     protected override Status OnStart()

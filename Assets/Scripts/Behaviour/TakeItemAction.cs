@@ -11,7 +11,7 @@ public partial class TakeItemAction : Action
     [SerializeReference] public BlackboardVariable<GameObject> Customer;
     [SerializeReference] public BlackboardVariable<NavMeshSlot> Shelf;
 
-    private BasicCustomer customerManager;
+    private CustomerShoppingManager customerManager;
 
     protected override Status OnStart()
     {

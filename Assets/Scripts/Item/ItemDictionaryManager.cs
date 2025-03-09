@@ -6,12 +6,7 @@ public static class ItemDictionaryManager
     static Dictionary<string, ItemBase> ITEM_DICT;
     public static IReadOnlyDictionary<string, ItemBase> ItemDict => ITEM_DICT;
 
-    [RuntimeInitializeOnLoadMethod]
-    public static void Intialize()
-    {
-        ITEM_DICT = new Dictionary<string, ItemBase>();
-    }
-
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void RegisterItems()
     {
         ITEM_DICT = new Dictionary<string, ItemBase>();

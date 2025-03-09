@@ -8,7 +8,7 @@ public partial class HasItemsInListCondition : Condition
 {
     [SerializeReference] public BlackboardVariable<GameObject> Customer;
 
-    private BasicCustomer customerManager;
+    private CustomerShoppingManager customerManager;
 
     public override bool IsTrue()
     {

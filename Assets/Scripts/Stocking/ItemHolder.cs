@@ -53,7 +53,6 @@ public class ItemHolder : NetworkBehaviour
     public void AddItemServer_Rpc(string itemId, int quantity = 1)
     {
         
-        Debug.Log("addeing item");
         if (IsEmpty)
         {
             if (ItemDictionaryManager.RetrieveItem(itemId.ToString()) is not ShopProduct_Item || ((ItemDictionaryManager.RetrieveItem(itemId.ToString()) as ShopProduct_Item).ContanierCompatabilty & containerType) == 0) return;

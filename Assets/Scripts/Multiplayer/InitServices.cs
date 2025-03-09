@@ -9,6 +9,5 @@ public class InitServices : MonoBehaviour
     async void Start()
     {
         await UnityServices.InitializeAsync();
-        ItemDictionaryManager.RegisterItems();
     }
 }

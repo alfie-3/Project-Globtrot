@@ -46,7 +46,7 @@ public class CashRegister : NetworkBehaviour, IInteractable
     {
         if (Queue.NavMeshSlots[0].OccupyingGameObject == null) return;
 
-        if (!Queue.NavMeshSlots[0].OccupyingGameObject.TryGetComponent(out BasicCustomer customer)) return;
+        if (!Queue.NavMeshSlots[0].OccupyingGameObject.TryGetComponent(out CustomerShoppingManager customer)) return;
 
         if (customer.TryGetComponent(out BehaviorGraphAgent behaviourGraph))
         {

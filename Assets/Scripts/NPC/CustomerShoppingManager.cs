@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BasicCustomer : MonoBehaviour
+public class CustomerShoppingManager : MonoBehaviour
 {
-    public List<ShoppingListItem> ShoppingList = new List<ShoppingListItem>();
+    public List<ShoppingListItem> ShoppingList;
 
     private void Awake()
     {
-        if (ShoppingList.Count <= 0) return;
+        ShoppingList = ShoppingListGenerator.GenerateShoppingList();
     }
 
     public bool HasItemsInShoppingList()
@@ -96,5 +96,11 @@ public class ShoppingListItem
     public void CheckOffListItem()
     {
         CheckedOff = true;
+    }
+
+    public ShoppingListItem(ShopProduct_Item desiredItem, int quantity)
+    {
+        DesiredItem = desiredItem;
+        QuantityToPurchase = quantity;
     }
 }

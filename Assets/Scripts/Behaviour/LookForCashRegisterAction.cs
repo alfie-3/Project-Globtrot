@@ -11,7 +11,7 @@ public partial class LookForCashRegisterAction : Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> Agent;
     [SerializeReference] public BlackboardVariable<NavMeshSlot> Slot;
-    BasicCustomer customerManager;
+    CustomerShoppingManager customerManager;
     NavMeshAgent agent;
 
     protected override Status OnStart()
