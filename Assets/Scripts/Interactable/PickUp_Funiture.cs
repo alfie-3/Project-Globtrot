@@ -14,6 +14,12 @@ public class PickUp_Funiture : Pickup_Interactable {
             if (holdingManager.HoldingItem) return;
         }
         else return;
+
+        if (TryGetComponent(out StockShelvesManager stockShelvesManager))
+        {
+            if (stockShelvesManager.ContainsItems) return;
+        }
+
         GiveCrate_RPC(placableFurniture.ItemID, interactionManager.NetworkObject);
         RequestRemove_RPC();
     }
