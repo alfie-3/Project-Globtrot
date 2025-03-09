@@ -98,6 +98,11 @@ public class StockShelvesManager : NetworkBehaviour
 
     public bool ContainsItems => StockedItemInformation.Count > 0;
 
+    public bool ContainsItem(ShopProduct_Item item)
+    {
+        return StockedItemInformation.ContainsKey(item.ItemID);
+    }
+
     public void OnDisable()
     {
         HashSet<string> storedItemTypes = new();

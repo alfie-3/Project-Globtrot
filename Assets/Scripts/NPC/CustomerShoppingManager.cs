@@ -22,16 +22,23 @@ public class CustomerShoppingManager : MonoBehaviour
 
     public void TakeShoppingListItemsFromShelf(StockShelvesManager shelvesManager)
     {
-        for (int i = 0; i < ShoppingList.Count; i++)
+        foreach (ShoppingListItem item in ShoppingList)
         {
-            int takenAmount = shelvesManager.TakeItemsFromShelf(ShoppingList[i].DesiredItem, ShoppingList[i].QuantityToPurchase);
+            if (item.DesiredItem.GetCurrentSellPrice() > item.DesiredItem.GetCurrentPurchasePrice() * 2)
+            {
+                Debug.Log("Item too expensive");
+                item.CheckOffListItem();
+                continue;
+            }
 
-            ShoppingList[i].heldQuantity += takenAmount;
+            int takenAmount = shelvesManager.TakeItemsFromShelf(item.DesiredItem, item.QuantityToPurchase);
 
-            ShoppingList[i].ListItemValue += ShoppingList[i].DesiredItem.GetCurrentSellPrice() * takenAmount;
+            item.heldQuantity += takenAmount;
 
-            if (ShoppingList[i].heldQuantity >= ShoppingList[i].QuantityToPurchase)
-                ShoppingList[i].CheckOffListItem();
+            item.ListItemValue += item.DesiredItem.GetCurrentSellPrice() * takenAmount;
+
+            if (item.heldQuantity >= item.QuantityToPurchase)
+                item.CheckOffListItem();
         }
     }
 

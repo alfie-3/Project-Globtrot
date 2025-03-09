@@ -1,4 +1,6 @@
+using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Shop Product", menuName = "Items/Shop Product")]
@@ -9,7 +11,8 @@ public class ShopProduct_Item : ItemBase, IItemPrice
     [field: Space]
     [field: SerializeField] public bool Stackable { get; private set; }
     [field: SerializeField] public int MaxInBox { get; private set; }
-    [field: SerializeField] public WeightedProductSelectionItem[] WeightedQuantitySelection = new WeightedProductSelectionItem[0];
+    [field: SerializeField] private List<WeightedProductSelectionItem> weightedRandomCustomerPickupChance;
+    public WeightedRandomBag<int> WeightedQuantitySelection = new();
     [field: Space]
     [field: SerializeField] public ItemHolder.ContainerTypes ContanierCompatabilty { get; private set; }
     [field: SerializeField] public ProductCategory Category { get; private set; } 
@@ -37,17 +40,27 @@ public class ShopProduct_Item : ItemBase, IItemPrice
     {
         Pricing.SetSellPrice(ItemID, newPrice);
     }
+
+    public override void Init()
+    {
+        base.Init();
+
+        foreach (WeightedProductSelectionItem weightedProductSelectionItem in weightedRandomCustomerPickupChance)
+        {
+            WeightedQuantitySelection.AddEntry(weightedProductSelectionItem.Quantity, weightedProductSelectionItem.Weight);
+        }
+    }
 }
 
 [System.Serializable]
 public struct WeightedProductSelectionItem
 {
     public int Quantity;
-    public int Entries;
+    public double Weight;
 
-    public WeightedProductSelectionItem(int quantity, int entries)
+    public WeightedProductSelectionItem(int quantity, double weight)
     {
         Quantity = quantity;
-        Entries = entries;
+        Weight = weight;
     }
 }

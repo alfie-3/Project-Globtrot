@@ -22,4 +22,5 @@ public abstract class ItemBase : ScriptableObject
         ItemIcon = icon;
     }
 
+    public virtual void Init() { }
 }

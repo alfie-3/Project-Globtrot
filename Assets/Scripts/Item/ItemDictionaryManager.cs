@@ -29,6 +29,8 @@ public static class ItemDictionaryManager
         {
             Debug.Log($"Error loading the item - {item.name}");
         }
+
+        item.Init();
     }
 
     public static ItemBase RetrieveItem(string key)

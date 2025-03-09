@@ -18,6 +18,16 @@ public class SimpleVolumeEditor : Editor
     SerializedProperty m_Size;
     SerializedProperty m_Offset;
 
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    public static void Init()
+    {
+        kGizmoHandleColor = new Color(0xFF / 255f, 0xE5 / 255f, 0xAA / 255f, 0xFF / 255f);
+        kGizmoBoxColor = new Color(0xFF / 255f, 0xE5 / 255f, 0x94 / 255f, 0x80 / 255f);
+
+        sizeText = EditorGUIUtility.TrTextContent("Box Size", "The size of the Volume.");
+        offsetText = EditorGUIUtility.TrTextContent("Box Offset", "The offset relative to the Game Object's Transform.");
+    }
+
     public void OnEnable()
     {
         m_Size = serializedObject.FindProperty("m_Size");
