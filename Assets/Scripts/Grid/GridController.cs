@@ -1,3 +1,5 @@
+using System;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -34,7 +36,23 @@ public class GridController : MonoBehaviour
         return position - gridOffset;
     }
 
-    void OnDrawGizmosSelected()
+    public void SetVisabiltay(bool visibilaty, ulong clientID)
+    {
+
+        SetVisibilaty_RPC(visibilaty, clientID,transform.GetChild(0).GetComponent<NetworkObject>());
+    }
+    [Rpc(SendTo.Server)]
+    private void SetVisibilaty_RPC(bool visibilaty, ulong clientID, NetworkObjectReference gridReference)
+    {
+        gridReference.TryGet(out NetworkObject @object);
+        if (visibilaty)
+            @object.NetworkShow(clientID); 
+        else
+            @object.NetworkHide(clientID);
+    }
+
+
+void OnDrawGizmosSelected()
     {
 
 #if UNITY_EDITOR
