@@ -20,10 +20,14 @@ MonoBehaviour:
   <Prefab>k__BackingField: {fileID: 1647032077398859466, guid: c1eb8c503f20d1649bb9c0ac784fbc69, type: 3}
   <Stackable>k__BackingField: 1
   <MaxInBox>k__BackingField: 16
-  WeightedQuantitySelection:
+  weightedRandomCustomerPickupChance:
   - Quantity: 1
-    Entries: 6
+    Weight: 5
   - Quantity: 2
-    Entries: 2
+    Weight: 3
+  - Quantity: 3
+    Weight: 1
+  - Quantity: 5
+    Weight: 0.1
   <ContanierCompatabilty>k__BackingField: 10
   <Category>k__BackingField: 1
