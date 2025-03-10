@@ -108,7 +108,34 @@ public class PlayerHoldingManager : NetworkBehaviour
         }
     }
 
+    /*public void PerformPrimary(InputAction.CallbackContext context)
+    {
+        if (HeldObj == null) return;
+
+        if (!HeldObj.TryGetComponent(out IUsePrimary useableObject)) return;
+
+        useableObject.UsePrimary(this);
+    }*/
+    private bool primHeld = false;
+    //System.Action ham = () => UsePrimaryOnHeldObject;
     public void PerformPrimary(InputAction.CallbackContext context)
+    {
+
+        if (context.performed)
+        {
+            if (context.interaction is HoldInteraction)
+                primHeld = true; NetworkManager.NetworkTickSystem.Tick += UsePrimaryOnHeldObject;
+            if (context.interaction is PressInteraction)
+                UsePrimaryOnHeldObject();
+        }
+        else
+        {
+            if (primHeld)
+                primHeld = false; NetworkManager.NetworkTickSystem.Tick -= UsePrimaryOnHeldObject;
+        }
+    }
+
+    public void UsePrimaryOnHeldObject()
     {
         if (HeldObj == null) return;
 
@@ -116,25 +143,31 @@ public class PlayerHoldingManager : NetworkBehaviour
 
         useableObject.UsePrimary(this);
     }
-
+    private void ticky()
+    {
+        Debug.Log("ham");
+    }
     public void PerformSecondary(InputAction.CallbackContext context)
     {
         if (HeldObj == null) return;
 
-        if (!HeldObj.TryGetComponent(out IUseSecondary useableObject)) return;
         if (context.performed) {
 
             if (context.interaction is HoldInteraction) {
                 if (!HeldObj.TryGetComponent(out IOnDrop onDrop)) return;
                 throwing = true;
+                NetworkManager.NetworkTickSystem.Tick += ticky;
             }
             if (context.interaction is PressInteraction) {
+                if (!HeldObj.TryGetComponent(out IUseSecondary useableObject)) return;
                 useableObject.UseSecondary(this);
             }
         } else {
+
             if (throwing)
             {
                 throwing = false;
+                NetworkManager.NetworkTickSystem.Tick -= ticky;
                 if (!HeldObj.TryGetComponent(out IOnDrop onDrop)) return;
                 NetworkObject obj = HeldObj;
 

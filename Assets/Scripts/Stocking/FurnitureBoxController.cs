@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.ProBuilder.MeshOperations;
 
-public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate, IScroll, IOnCtrl, IOnHeld
+public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate, IScroll, IOnCtrl, IOnHeld, IOnDrop
 {
     [SerializeField]
     private PlacableFurniture_Item furnitureItem;
@@ -31,8 +31,8 @@ public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate, IS
 
         if (furnitureItem != null)
             PopulateItem(furnitureItem);
+        grid = GridController.Instance;
 
-        
     }
     private void Start()
 
@@ -73,7 +73,10 @@ public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate, IS
         {
             Vector3 position = snappingEnabled ? grid.HitToGrid(hit.point) : hit.point;
             if (Physics.OverlapBox(position + holoMesh.bounds.center, holoMesh.bounds.size * 0.48f, Quaternion.Euler(0, rotation, 0)).Length == 0)
+            {
+                grid.SetVisabiltay(false);
                 holdingManager.PlaceItem_Rpc(NetworkObject, furnitureItem.ItemID, position, Quaternion.Euler(0, rotation, 0));
+            }
         }
     }
 
@@ -109,6 +112,10 @@ public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate, IS
         }
     }
 
+    public void OnDrop(PlayerHoldingManager holdingManager)
+    {
+        grid.SetVisabiltay(false);
+    }
 
 
     void OnDrawGizmosSelected() {
