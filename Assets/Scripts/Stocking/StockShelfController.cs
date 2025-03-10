@@ -59,7 +59,7 @@ public class StockShelfController : NetworkBehaviour {
 
         for (int i = 0; i < quanitity; i++)
         {
-            instance = Instantiate(placeableItem.Prefab, transform.TransformPoint(Vector3.Scale(GetSpawnPos(items.Count), itemBounds.size) + itemStackOffset), Quaternion.identity).GetComponent<NetworkObject>();
+            instance = Instantiate(placeableItem.Prefab, transform.TransformPoint(Vector3.Scale(GetSpawnPos(items.Count), itemBounds.size) + itemStackOffset), transform.rotation).GetComponent<NetworkObject>();
             instance.Spawn();
             instance.TrySetParent(transform.parent.GetComponent<NetworkObject>());
             //instance.transform.position = 

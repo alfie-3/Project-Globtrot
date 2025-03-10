@@ -19,13 +19,9 @@ public class StockBoxController : NetworkBehaviour, IUsePrimary, IUseSecondary
         holder.ItemQuantity.OnValueChanged += (previousValue, newValue) => text.text = $"{holder.ItemId.Value}\n{newValue}";
 
     }
-    void UpdateText(int oldI, int newI)
-    {
-        text.text = $"{holder.ItemId.Value}\n{newI}";
-    }
 
     public void UsePrimary(PlayerHoldingManager holdingManager) {
-        Debug.Log("stockboxPri");
+        //Debug.Log("stockboxPri");
         //Debug.Log(ItemId.Value.ToString());
         if (holder.IsEmpty) return;
 
