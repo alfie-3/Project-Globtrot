@@ -90,7 +90,7 @@ public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate, IS
     public void OnCtrl(PlayerHoldingManager manager) {
         snappingEnabled = !snappingEnabled;
         manager.SnappingEnabled = snappingEnabled;
-        grid.SetVisabiltay(!snappingEnabled, manager.NetworkObject.OwnerClientId);
+        grid.SetVisabiltay(snappingEnabled);
         if (snappingEnabled) rotation = Snapping.Snap(rotation, snappingRotationInterval); 
     }
 

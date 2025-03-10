@@ -36,19 +36,9 @@ public class GridController : MonoBehaviour
         return position - gridOffset;
     }
 
-    public void SetVisabiltay(bool visibilaty, ulong clientID)
+    public void SetVisabiltay(bool visibilaty)
     {
-
-        SetVisibilaty_RPC(visibilaty, clientID,transform.GetChild(0).GetComponent<NetworkObject>());
-    }
-    [Rpc(SendTo.Server)]
-    private void SetVisibilaty_RPC(bool visibilaty, ulong clientID, NetworkObjectReference gridReference)
-    {
-        gridReference.TryGet(out NetworkObject @object);
-        if (visibilaty)
-            @object.NetworkShow(clientID); 
-        else
-            @object.NetworkHide(clientID);
+        transform.GetChild(0).GetComponent<Renderer>().enabled = visibilaty;
     }
 
 
