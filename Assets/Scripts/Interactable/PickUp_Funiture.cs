@@ -2,12 +2,14 @@ using Unity.Netcode;
 using UnityEngine;
 using System.Collections;
 using Unity.Collections;
+using Assets.Scripts.Interfaces;
 
-public class PickUp_Funiture : Pickup_Interactable {
-
+public class PickUp_Funiture : Pickup_Interactable,  IDismantleable// : Pickup_Interactable {
+{
     public PlacableFurniture_Item placableFurniture;
 
-    public override void OnInteract(PlayerInteractionManager interactionManager) {
+    public override void OnInteract(PlayerInteractionManager interactionManager) { }
+    public void OnDismantle(PlayerInteractionManager interactionManager) {
 
         if (interactionManager.TryGetComponent(out PlayerHoldingManager holdingManager))
         {

@@ -108,7 +108,27 @@ public class PlayerHoldingManager : NetworkBehaviour
         }
     }
 
+    private bool primHeld = false;
     public void PerformPrimary(InputAction.CallbackContext context)
+    {
+
+        if (context.performed)
+        {
+            if (context.interaction is HoldInteraction){
+                primHeld = true; NetworkManager.NetworkTickSystem.Tick += UsePrimaryOnHeldObject;
+            }
+            if (context.interaction is PressInteraction)
+                UsePrimaryOnHeldObject();
+        }
+        else
+        {
+            if (primHeld) {
+                primHeld = false; NetworkManager.NetworkTickSystem.Tick -= UsePrimaryOnHeldObject;
+            }
+        }
+    }
+
+    public void UsePrimaryOnHeldObject()
     {
         if (HeldObj == null) return;
 
@@ -116,12 +136,10 @@ public class PlayerHoldingManager : NetworkBehaviour
 
         useableObject.UsePrimary(this);
     }
-
     public void PerformSecondary(InputAction.CallbackContext context)
     {
         if (HeldObj == null) return;
 
-        if (!HeldObj.TryGetComponent(out IUseSecondary useableObject)) return;
         if (context.performed) {
 
             if (context.interaction is HoldInteraction) {
@@ -129,9 +147,11 @@ public class PlayerHoldingManager : NetworkBehaviour
                 throwing = true;
             }
             if (context.interaction is PressInteraction) {
+                if (!HeldObj.TryGetComponent(out IUseSecondary useableObject)) return;
                 useableObject.UseSecondary(this);
             }
         } else {
+
             if (throwing)
             {
                 throwing = false;

@@ -87,16 +87,16 @@ public class StockShelfController : NetworkBehaviour {
 
     private void CalculateSpawnPositioning(bool stackable)
     {
-        Vector3 shelfBounds = GetComponent<SimpleVolume>().m_Size;
+        Bounds shelfBounds = GetComponent<MeshFilter>().sharedMesh.bounds;
 
-        itemStackBounds.x = (float)Math.Floor((double)(shelfBounds.x / itemBounds.size.x));
-        itemStackBounds.y = stackable ? (float)Math.Floor((double)(shelfBounds.y / itemBounds.size.y)) : 1;
-        itemStackBounds.z = (float)Math.Floor((double)(shelfBounds.z / itemBounds.size.z));
+        itemStackBounds.x = (float)Math.Floor((double)(shelfBounds.size.x / itemBounds.size.x));
+        itemStackBounds.y = stackable ? (float)Math.Floor((double)(shelfBounds.size.y / itemBounds.size.y)) : 1;
+        itemStackBounds.z = (float)Math.Floor((double)(shelfBounds.max.z / itemBounds.size.z));
 
 
         Vector3 EvenOutOffset = Vector3.zero;
-        EvenOutOffset.x = (shelfBounds.x % itemBounds.size.x) / 2;
-        EvenOutOffset.z = (shelfBounds.z % itemBounds.size.z) / 2;
+        EvenOutOffset.x = (shelfBounds.size.x % itemBounds.size.x) / 2;
+        EvenOutOffset.z = (shelfBounds.size.z % itemBounds.size.z) / 2;
 
         itemStackOffset = ((itemBounds.size * 0.5f) - itemBounds.center) + EvenOutOffset;
 

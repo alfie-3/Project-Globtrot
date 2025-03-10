@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.ProBuilder.MeshOperations;
 
-public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate, IScroll, IOnCtrl, IOnHeld
+public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate, IScroll, IOnCtrl, IOnHeld, IOnDrop
 {
     [SerializeField]
     private PlacableFurniture_Item furnitureItem;
@@ -31,8 +31,8 @@ public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate, IS
 
         if (furnitureItem != null)
             PopulateItem(furnitureItem);
+        grid = GridController.Instance;
 
-        
     }
     private void Start()
 
@@ -60,6 +60,7 @@ public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate, IS
 
     public void OnHeld(PlayerHoldingManager holdingManager) {
         snappingEnabled = holdingManager.SnappingEnabled;
+        grid.SetVisabiltay(snappingEnabled);
     }
 
     public void UsePrimary(PlayerHoldingManager holdingManager)
@@ -72,8 +73,11 @@ public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate, IS
         if (Physics.Raycast(ray, out RaycastHit hit, PLACABLE_DISTANCE, LayerMask.GetMask("Placeable")))
         {
             Vector3 position = snappingEnabled ? grid.HitToGrid(hit.point) : hit.point;
-            if (Physics.OverlapBox(position + holoMesh.bounds.center, holoMesh.bounds.size * 0.48f, Quaternion.Euler(0, rotation, 0)).Length == 0)
+            if (Physics.OverlapBox(position + holoMesh.bounds.center + furnitureItem.FurniturePrefab.transform.position, holoMesh.bounds.size * 0.48f, Quaternion.Euler(0, rotation, 0)).Length == 0)
+            {
+                grid.SetVisabiltay(false);
                 holdingManager.PlaceItem_Rpc(NetworkObject, furnitureItem.ItemID, position, Quaternion.Euler(0, rotation, 0));
+            }
         }
     }
 
@@ -104,18 +108,30 @@ public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate, IS
         if (Physics.Raycast(ray, out RaycastHit hit, PLACABLE_DISTANCE, LayerMask.GetMask("Placeable")))
         {
             Vector3 position = snappingEnabled ? grid.HitToGrid(hit.point) : hit.point;
-            HologramMat.SetFloat("_OverlappingColliders", Physics.OverlapBox(position+ holoMesh.bounds.center, holoMesh.bounds.size * 0.48f, Quaternion.Euler(0, rotation, 0)).Length);
-            Graphics.RenderMesh(renderParams, holoMesh, 0, Matrix4x4.TRS(position, Quaternion.Euler(0, rotation, 0), Vector3.one));
+            HologramMat.SetFloat("_OverlappingColliders", Physics.OverlapBox(position+ holoMesh.bounds.center + furnitureItem.FurniturePrefab.transform.position, holoMesh.bounds.size * 0.48f, Quaternion.Euler(0, rotation, 0)).Length);
+            gizmoPos = position + holoMesh.bounds.center + furnitureItem.FurniturePrefab.transform.position;
+            //Gizmos.draw
+            foreach (MeshRenderer mesh in furnitureItem.FurniturePrefab.GetComponentsInChildren<MeshRenderer>())
+            {
+                if (!mesh.TryGetComponent<MeshFilter>(out MeshFilter filter)) continue;
+                Graphics.RenderMesh(renderParams, filter.sharedMesh, 0, Matrix4x4.TRS(position+mesh.transform.position, mesh.transform.rotation * Quaternion.Euler(0, rotation, 0), Vector3.one));
+            }
+
+            //Graphics.RenderMesh(renderParams, holoMesh, 0, Matrix4x4.TRS(position, Quaternion.Euler(0, rotation, 0), Vector3.one));
         }
     }
 
+    public void OnDrop(PlayerHoldingManager holdingManager)
+    {
+        grid.SetVisabiltay(false);
+    }
 
-
+    Vector3 gizmoPos = Vector3.zero;
     void OnDrawGizmosSelected() {
         if (holoMesh == null) return;
 
         // Draw a yellow cube at the transform position
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube(transform.position+holoMesh.bounds.center, holoMesh.bounds.max);
+        Gizmos.DrawWireCube(gizmoPos, holoMesh.bounds.size * 0.48f);
     }
 }
