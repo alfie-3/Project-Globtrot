@@ -679,10 +679,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -168.00009155273438,
-            "y": -515.9999389648438,
-            "width": 208.00009155273438,
-            "height": 314.9999084472656
+            "x": -167.9999542236328,
+            "y": -517.0000610351563,
+            "width": 207.9999542236328,
+            "height": 315.0
         }
     },
     "m_Slots": [
@@ -803,31 +803,6 @@
 }
 
 {
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
-    "m_ObjectId": "47b4913ac7a043f0afebe511b4f06e1c",
-    "m_Id": 0,
-    "m_DisplayName": "Specular",
-    "m_SlotType": 0,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "Specular",
-    "m_StageCapability": 3,
-    "m_Value": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0,
-        "w": 0.0
-    },
-    "m_DefaultValue": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0,
-        "w": 0.0
-    },
-    "m_Labels": []
-}
-
-{
     "m_SGVersion": 1,
     "m_Type": "UnityEditor.ShaderGraph.ViewDirectionNode",
     "m_ObjectId": "4a3579092c7a45ffaca5bf510373849d",
@@ -861,31 +836,6 @@
         "m_SerializableColors": []
     },
     "m_Space": 2
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
-    "m_ObjectId": "4d739330860442cb8ed9d2343f0153bb",
-    "m_Id": 3,
-    "m_DisplayName": "Colour",
-    "m_SlotType": 0,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "Colour",
-    "m_StageCapability": 3,
-    "m_Value": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0,
-        "w": 0.0
-    },
-    "m_DefaultValue": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0,
-        "w": 0.0
-    },
-    "m_Labels": []
 }
 
 {
@@ -1265,7 +1215,7 @@
     "m_Group": {
         "m_Id": ""
     },
-    "m_Name": "DirectSpecularTest (Custom Function)",
+    "m_Name": "DirectSpecular (Custom Function)",
     "m_DrawState": {
         "m_Expanded": true,
         "m_Position": {
@@ -1278,7 +1228,7 @@
     },
     "m_Slots": [
         {
-            "m_Id": "47b4913ac7a043f0afebe511b4f06e1c"
+            "m_Id": "ed81f7c6e785426f8f1f8755ec582283"
         },
         {
             "m_Id": "5f1e61e11a8d41c6b5833cf264a4f4f7"
@@ -1287,7 +1237,7 @@
             "m_Id": "60bf9ee6ca104687914cf38f2b5b444c"
         },
         {
-            "m_Id": "4d739330860442cb8ed9d2343f0153bb"
+            "m_Id": "a8ee19e964884291a733ffbc49a412b1"
         },
         {
             "m_Id": "f6b4fffaca22431b8109fa551c3bcb11"
@@ -1311,8 +1261,8 @@
         "m_SerializableColors": []
     },
     "m_SourceType": 0,
-    "m_FunctionName": "DirectSpecularTest",
-    "m_FunctionSource": "b9d4f86a5ad5479469f25c09af6ce0ad",
+    "m_FunctionName": "DirectSpecular",
+    "m_FunctionSource": "a0e7869be4cb4da40890aa3b2607ddac",
     "m_FunctionSourceUsePragmas": true,
     "m_FunctionBody": "void DirectSpecular_float(float3 Specular, float Smoothness, float3 Direction, float3 Color, float3 WorldNormal, float3 WorldView, out float3 Out)\n{\n\t#if SHADERGRAPH_PREVIEW\n\t\tOut = 0;\n\t#else\n\t\tSmoothness = exp2(10 * Smoothness + 1);\n\t\tWorldNormal = normalize(WorldNormal);\n\t\tWorldView = SafeNormalize(WorldView);\n\t\tOut = LightingSpecular(Color, Direction, WorldNormal, WorldView, float4(Specular, 0), Smoothness);\n\t#endif\n}"
 }
@@ -1433,6 +1383,29 @@
     "m_PropertyIds": [],
     "m_Dropdowns": [],
     "m_DropdownSelectedEntries": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector3MaterialSlot",
+    "m_ObjectId": "a8ee19e964884291a733ffbc49a412b1",
+    "m_Id": 3,
+    "m_DisplayName": "Colour",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Colour",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "m_Labels": []
 }
 
 {
@@ -1805,6 +1778,29 @@
         "m_SerializableColors": []
     },
     "IsFirstSlotValid": true
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector3MaterialSlot",
+    "m_ObjectId": "ed81f7c6e785426f8f1f8755ec582283",
+    "m_Id": 0,
+    "m_DisplayName": "Specular",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Specular",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "m_Labels": []
 }
 
 {

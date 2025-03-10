@@ -57,3 +57,13 @@ void AdditionalLights_float(float3 SpecColor, float Smoothness, float3 WorldPosi
     Diffuse = diffuseColor;
     Specular = specularColor;
 }
+
+void Shadowmask_half(float2 lightmapUV, out half4 Shadowmask)
+{
+#ifdef SHADERGRAPH_PREVIEW
+		Shadowmask = half4(1,1,1,1);
+#else
+    OUTPUT_LIGHTMAP_UV(lightmapUV, unity_LightmapST, lightmapUV);
+    Shadowmask = SAMPLE_SHADOWMASK(lightmapUV);
+#endif
+}
