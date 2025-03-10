@@ -123,15 +123,17 @@ public class PlayerHoldingManager : NetworkBehaviour
 
         if (context.performed)
         {
-            if (context.interaction is HoldInteraction)
+            if (context.interaction is HoldInteraction){
                 primHeld = true; NetworkManager.NetworkTickSystem.Tick += UsePrimaryOnHeldObject;
+            }
             if (context.interaction is PressInteraction)
                 UsePrimaryOnHeldObject();
         }
         else
         {
-            if (primHeld)
+            if (primHeld) {
                 primHeld = false; NetworkManager.NetworkTickSystem.Tick -= UsePrimaryOnHeldObject;
+            }
         }
     }
 
