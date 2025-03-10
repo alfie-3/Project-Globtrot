@@ -44,7 +44,11 @@ public class ItemHolder : NetworkBehaviour
 
         if (ProductItem != null && IsServer)
         {
+            int num = maxItems;
             AddItemServer_Rpc(ProductItem.ItemID, initialQuanitity);
+            Debug.Log(num);
+            maxItems = num;
+            ItemQuantity.Value = initialQuanitity;
         }
     }
 
