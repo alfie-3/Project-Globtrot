@@ -24,7 +24,7 @@ class ShelfDataCreaterEditor: Editor
 
             shelfData.stackBounds.x = (float)Math.Floor((double)(shelfData.transform.parent.GetComponent<MeshFilter>().sharedMesh.bounds.size.x / shelfData.objectBounds.x));
             shelfData.stackBounds.y = (float)Math.Floor((double)(shelfData.transform.parent.GetComponent<MeshFilter>().sharedMesh.bounds.size.y / shelfData.objectBounds.y));
-            shelfData.stackBounds.z = (float)Math.Floor((double)(shelfData.transform.parent.GetComponent<MeshFilter>().sharedMesh.bounds.center.z / shelfData.objectBounds.z));
+            shelfData.stackBounds.z = (float)Math.Floor((double)(shelfData.transform.parent.GetComponent<MeshFilter>().sharedMesh.bounds.max.z / shelfData.objectBounds.z));
 
             shelfData.transform.localPosition = shelfData.offset + shelfData.EvenOutOffset;
             //Debug.Log(shelfData.transform.parent.GetComponent<MeshFilter>().sharedMesh.bounds.size);
