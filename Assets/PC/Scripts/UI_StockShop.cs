@@ -51,7 +51,7 @@ public class UI_StockShop : MonoBehaviour
             {
                 if (itemData is ShopProduct_Item productItem)
                 {
-                    itemHolder.SetProductItem(productItem);
+                    itemHolder.AddItemServer_Rpc(itemData.ItemID, productItem.MaxInBox);
                 }
             }
         }
