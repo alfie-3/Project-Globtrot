@@ -23,7 +23,6 @@ public class ClickableObjs : MonoBehaviour, IInteractable
     {
         if (isPowerButton)
         {
-            Debug.Log("Switching button");
             Material buttonMat = onIndicator.GetComponent<Renderer>().material;
             if (on)
             {

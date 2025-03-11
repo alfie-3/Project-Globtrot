@@ -43,7 +43,6 @@ public class UI_Window : MonoBehaviour, IPointerDownHandler, IDragHandler
     public void OnPointerDown(PointerEventData eventData)
     {
         windowManagerScript.BringToFront(this);
-        Debug.Log(this.name + " Clicked");
     }
 
     public void OnDrag(PointerEventData eventData)
