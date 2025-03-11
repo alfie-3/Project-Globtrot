@@ -6,6 +6,7 @@ using Assets.Scripts.Interfaces;
 
 public class PickUp_Funiture : Pickup_Interactable,  IDismantleable// : Pickup_Interactable {
 {
+    const string CrateID = "crate";
     public PlacableFurniture_Item placableFurniture;
 
     public override void OnInteract(PlayerInteractionManager interactionManager) { }
@@ -32,7 +33,7 @@ public class PickUp_Funiture : Pickup_Interactable,  IDismantleable// : Pickup_I
         if (!holderReference.TryGet(out NetworkObject obj))
             return;
 
-        PlacableFurniture_Item placeableItem = ItemDictionaryManager.RetrieveItem("Crate") is not PlacableFurniture_Item ? null : (PlacableFurniture_Item)ItemDictionaryManager.RetrieveItem("Crate");
+        PlacableFurniture_Item placeableItem = ItemDictionaryManager.RetrieveItem(CrateID) is not PlacableFurniture_Item ? null : (PlacableFurniture_Item)ItemDictionaryManager.RetrieveItem(CrateID);
 
         if (placeableItem == null) return;
         NetworkObject instance = Instantiate(placeableItem.FurniturePrefab, obj.transform.position, transform.rotation).GetComponent<NetworkObject>();

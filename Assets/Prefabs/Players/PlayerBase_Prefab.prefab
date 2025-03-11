@@ -315,6 +315,7 @@ GameObject:
   - component: {fileID: 6292008950873804373}
   - component: {fileID: 3297204459110454619}
   - component: {fileID: 6176468324834789802}
+  - component: {fileID: 6672524378739762288}
   m_Layer: 3
   m_Name: PlayerBase_Prefab
   m_TagString: Untagged
@@ -468,18 +469,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Controller>k__BackingField: {fileID: 8877675575019304611}
-  <BaseMovementSpeed>k__BackingField: 5
-  JumpVelocity: {x: 3.6, y: 1.5}
+  <BaseMovementSpeed>k__BackingField: 100
+  <AirMovementMultiplier>k__BackingField: 0.01
+  JumpVelocity: {x: 1.67, y: 1.5}
   slideSpeed: 2.93
   groundCheckRadius: 0.19
   groundCheckOffset: 0.03
   groundLayer:
     serializedVersion: 2
     m_Bits: 65
-  externalForceVelocity: {x: 0, y: 0, z: 0}
+  forcesVelocity: {x: 0, y: 0, z: 0}
   gravity: -23.4
   <Weight>k__BackingField: 5
   friction: 10.46
+  airResistance: 1
 --- !u!114 &6292008950873804373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -519,10 +522,9 @@ MonoBehaviour:
   dropObjectLayerMask:
     serializedVersion: 2
     m_Bits: 65
-  snappingRotationInterval: 22.5
-  nonSnappintRotationInterval: 8
   initailThrowForce: 8
   throwForceGrowthRate: 8
+  SnappingEnabled: 0
 --- !u!114 &6176468324834789802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -537,6 +539,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   PlayerUI: {fileID: 3865453612026783338, guid: bea301bced95100448516c0460b1aa48, type: 3}
+--- !u!114 &6672524378739762288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5789001657597990608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94ba25758265dca4cbb7fea364f34189, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  networkAnimaor: {fileID: 0}
 --- !u!1 &6643954352295865263
 GameObject:
   m_ObjectHideFlags: 0

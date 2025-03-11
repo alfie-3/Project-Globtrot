@@ -38,6 +38,7 @@ public class GridController : MonoBehaviour
 
     public void SetVisabiltay(bool visibilaty)
     {
+        if (transform.childCount == 0) return;
         transform.GetChild(0).GetComponent<Renderer>().enabled = visibilaty;
     }
 

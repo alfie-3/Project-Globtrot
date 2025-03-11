@@ -56,6 +56,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
       objectReference: {fileID: 2100000, guid: 90b6547309eb79747bf652141cd712d2, type: 2}
+    - target: {fileID: -6837952376487968179, guid: ef84e3fb69bc2224a8afc004bd9ab1e5, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: aa646c48e8f60e340a912e0404798e28, type: 2}
     - target: {fileID: 919132149155446097, guid: ef84e3fb69bc2224a8afc004bd9ab1e5, type: 3}
       propertyPath: m_Name
       value: Employee_Fish
@@ -72,11 +76,63 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[2]'
       value: 
       objectReference: {fileID: 2100000, guid: aa646c48e8f60e340a912e0404798e28, type: 2}
+    - target: {fileID: 8622693970272511305, guid: ef84e3fb69bc2224a8afc004bd9ab1e5, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 63a43e1ea5a1dbf43aeb0988bf7a6d1d, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ef84e3fb69bc2224a8afc004bd9ab1e5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5682536121742263018}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ef84e3fb69bc2224a8afc004bd9ab1e5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 660513429667299189}
   m_SourcePrefab: {fileID: 100100000, guid: ef84e3fb69bc2224a8afc004bd9ab1e5, type: 3}
+--- !u!1 &1412637020127229844 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ef84e3fb69bc2224a8afc004bd9ab1e5, type: 3}
+  m_PrefabInstance: {fileID: 2259637352705215173}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &5682536121742263018
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1412637020127229844}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: a2af9e43a47b6504c8b1a1a36b6de121, type: 3}
+  m_Controller: {fileID: 9100000, guid: 310c6e104e6489749be3f9e69d278d9c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &660513429667299189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1412637020127229844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  TransitionStateInfoList: []
+  m_Animator: {fileID: 5682536121742263018}
 --- !u!4 &1788317515744521518 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ef84e3fb69bc2224a8afc004bd9ab1e5, type: 3}
@@ -181,6 +237,18 @@ PrefabInstance:
     - target: {fileID: 5789001657597990608, guid: 4b7247f5af1116e4b967d8258554cb00, type: 3}
       propertyPath: m_Name
       value: PlayerFish_Prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 6672524378739762288, guid: 4b7247f5af1116e4b967d8258554cb00, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 5682536121742263018}
+    - target: {fileID: 6672524378739762288, guid: 4b7247f5af1116e4b967d8258554cb00, type: 3}
+      propertyPath: networkAnimaor
+      value: 
+      objectReference: {fileID: 660513429667299189}
+    - target: {fileID: 8877675575019304611, guid: 4b7247f5af1116e4b967d8258554cb00, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

@@ -56,6 +56,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
       objectReference: {fileID: 2100000, guid: 4518b9fca8c7d3546ae8aaa253ce133f, type: 2}
+    - target: {fileID: -6837952376487968179, guid: f5cffb59ce2823e498f9d8be543817af, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: aa646c48e8f60e340a912e0404798e28, type: 2}
     - target: {fileID: -5301614790092820369, guid: f5cffb59ce2823e498f9d8be543817af, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -72,16 +76,68 @@ PrefabInstance:
       propertyPath: m_Name
       value: Employee_Robot
       objectReference: {fileID: 0}
+    - target: {fileID: 2874680651684742339, guid: f5cffb59ce2823e498f9d8be543817af, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 4518b9fca8c7d3546ae8aaa253ce133f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f5cffb59ce2823e498f9d8be543817af, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 659907890561213954}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f5cffb59ce2823e498f9d8be543817af, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1792162230189717366}
   m_SourcePrefab: {fileID: 100100000, guid: f5cffb59ce2823e498f9d8be543817af, type: 3}
 --- !u!4 &1655022232785316855 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f5cffb59ce2823e498f9d8be543817af, type: 3}
   m_PrefabInstance: {fileID: 1260278433153780764}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2142589030829306189 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f5cffb59ce2823e498f9d8be543817af, type: 3}
+  m_PrefabInstance: {fileID: 1260278433153780764}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &659907890561213954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2142589030829306189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  TransitionStateInfoList: []
+  m_Animator: {fileID: 1792162230189717366}
+--- !u!95 &1792162230189717366
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2142589030829306189}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: a2af9e43a47b6504c8b1a1a36b6de121, type: 3}
+  m_Controller: {fileID: 9100000, guid: 310c6e104e6489749be3f9e69d278d9c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &7973270921243190403
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -182,6 +238,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerRobot_Prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 6672524378739762288, guid: 4b7247f5af1116e4b967d8258554cb00, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 1792162230189717366}
+    - target: {fileID: 6672524378739762288, guid: 4b7247f5af1116e4b967d8258554cb00, type: 3}
+      propertyPath: networkAnimaor
+      value: 
+      objectReference: {fileID: 659907890561213954}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 7334606307374323335, guid: 4b7247f5af1116e4b967d8258554cb00, type: 3}
