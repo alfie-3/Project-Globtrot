@@ -1,8 +1,9 @@
 
+using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
 
-public class PlayerAnimationController : MonoBehaviour
+public class PlayerAnimationController : NetworkBehaviour
 {
     CharacterMovement characterMovement;
 
@@ -17,6 +18,7 @@ public class PlayerAnimationController : MonoBehaviour
     private void Update()
     {
         if (animator == null) return;
+        if (!IsOwner) return;
 
         animator.SetFloat("Velocity", characterMovement.CurrentVelocity);
     }
