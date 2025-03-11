@@ -70,9 +70,7 @@ public class ItemHolder : NetworkBehaviour
             ItemQuantity.Value += quantity;
             OnStockUpdated.Invoke(itemId, itemId, ItemQuantity.Value);
         }
-
     }
-
 
     public bool RemoveItem(int quantity = 1)
     {
@@ -136,4 +134,19 @@ public class ItemHolder : NetworkBehaviour
 
 
     public void SetMaxItems(int max) { maxItems = max; }
+
+
+    public void SetProductItem(ShopProduct_Item productItem)
+    {
+        SetProductItemServer_Rpc(productItem.ItemID, productItem.MaxInBox);
+    }
+
+    [Rpc(SendTo.Server)]
+    private void SetProductItemServer_Rpc(string itemId, int max)
+    {
+        ProductItem = ItemDictionaryManager.RetrieveItem(itemId) as ShopProduct_Item;
+        maxItems = max;
+        initialQuanitity = max;
+        ItemId.Value = itemId;
+    }
 }

@@ -1,5 +1,6 @@
 using TMPro;
 using Unity.Collections;
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
@@ -52,4 +53,24 @@ public class StockBoxController : NetworkBehaviour, IUsePrimary, IUseSecondary
             }
         }
     }
+
+    private IEnumerator DelayedTextUpdate()
+    {
+        yield return new WaitForSeconds(0.5f); 
+        text.text = $"{holder.ItemId.Value}\n{holder.ItemQuantity.Value}";
+
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+
+        StartCoroutine(DelayedTextUpdate());
+
+        holder.ItemQuantity.OnValueChanged += (previousValue, newValue) =>
+        {
+            text.text = $"{holder.ItemId.Value}\n{newValue}";
+        };
+    }
+
 }
