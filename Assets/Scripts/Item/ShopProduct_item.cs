@@ -16,6 +16,7 @@ public class ShopProduct_Item : ItemBase, IItemPrice
     [field: Space]
     [field: SerializeField] public ItemHolder.ContainerTypes ContanierCompatabilty { get; private set; }
     [field: SerializeField] public ProductCategory Category { get; private set; } 
+    [field: SerializeField] public float SalePercentage = 0.25f;
 
 
     /// <summary>
@@ -24,7 +25,10 @@ public class ShopProduct_Item : ItemBase, IItemPrice
     /// <returns></returns>
     public double GetCurrentPurchasePrice()
     {
-        return Pricing.GetCurrentPurchasePrice(ItemID);
+        double price = Pricing.GetCurrentPurchasePrice(ItemID);
+        price = price * MaxInBox;
+        price = price - (price* SalePercentage);
+        return price;
     }
 
     /// <summary>
