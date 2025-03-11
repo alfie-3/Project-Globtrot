@@ -46,7 +46,7 @@ public class UI_ProductDisplay : MonoBehaviour
     private void SpawnProductUI()
     {
         productImage.sprite = productData.ItemIcon;
-        productTitle.text = productData.ItemID;
+        productTitle.text = productData.ItemName;
         productPrice.text = $"${productData.GetCurrentPurchasePrice():F2}";
     }
 
