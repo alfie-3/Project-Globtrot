@@ -44,7 +44,6 @@ public class CustomerSpawnPoint : NetworkBehaviour
             CancelInvoke(nameof(SpawnCustomersRepeating));
         }
     }
-
     public void SpawnCustomersRepeating()
     {
         if (customersCount >= maxCustomers) return;

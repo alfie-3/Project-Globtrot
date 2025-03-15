@@ -6,6 +6,7 @@ public class NavMeshSlotManager : MonoBehaviour
 {
     [field: SerializeField] public NavMeshSlot[] NavMeshSlots {  get; private set; }
     [SerializeField] bool isQueue;
+    [SerializeField] GameObject Indicator;
 
     List<NavMeshSlot> unoccupiedSlots = new List<NavMeshSlot>();
 
@@ -40,6 +41,7 @@ public class NavMeshSlotManager : MonoBehaviour
             unoccupiedSlots.Remove(slot);
         else
             unoccupiedSlots.Add(slot);
+        Indicator.SetActive(unoccupiedSlots.Count == 0);
     }
 
     public bool TryGetFreeSlot(out NavMeshSlot navMeshSlot)
