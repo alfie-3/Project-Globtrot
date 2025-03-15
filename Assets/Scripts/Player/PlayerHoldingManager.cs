@@ -63,6 +63,11 @@ public class PlayerHoldingManager : NetworkBehaviour
             useableObject.OnHeld(this);
         }
 
+        foreach (IKTargetPoint targetPoint in HeldObj.GetComponentsInChildren<IKTargetPoint>())
+        {
+            targetPoint.SetConstraint(this);
+        }
+
         if (obj.TryGetComponent(out RigidbodyNetworkTransform rbNWT))
         {
             rbNWT.WakeUpNearbyObjects();
@@ -174,6 +179,11 @@ public class PlayerHoldingManager : NetworkBehaviour
     public void PerformDrop(InputAction.CallbackContext context)
     {
         if (HeldObj == null) return;
+
+        foreach (IKTargetPoint targetPoint in HeldObj.GetComponentsInChildren<IKTargetPoint>())
+        {
+            targetPoint.RemoveConstraint(this);
+        }
 
         if (HeldObj.TryGetComponent(out IOnDrop useableObject))
             useableObject.OnDrop(this);
