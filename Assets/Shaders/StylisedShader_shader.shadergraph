@@ -336,6 +336,9 @@
         },
         {
             "m_Id": "6cb148d4a2e649299f5458f520d76a90"
+        },
+        {
+            "m_Id": "dd874f0cb4f74462a395c7ce21dfec27"
         }
     ],
     "m_GroupDatas": [
@@ -1451,6 +1454,20 @@
         {
             "m_OutputSlot": {
                 "m_Node": {
+                    "m_Id": "dd874f0cb4f74462a395c7ce21dfec27"
+                },
+                "m_SlotId": 0
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "a4658e2d9085476c8fc840908a915275"
+                },
+                "m_SlotId": 0
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
                     "m_Id": "e00540a05ea847b9b08069335eed0a2b"
                 },
                 "m_SlotId": 0
@@ -1786,6 +1803,30 @@
         "z": 0.0
     },
     "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.PositionMaterialSlot",
+    "m_ObjectId": "02979e92f0cd45a39853fd8ed3668567",
+    "m_Id": 2,
+    "m_DisplayName": "View Space Position",
+    "m_SlotType": 0,
+    "m_Hidden": true,
+    "m_ShaderOutputName": "ViewSpacePosition",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "m_Labels": [],
+    "m_Space": 1
 }
 
 {
@@ -3118,7 +3159,7 @@
     "m_ObjectId": "2219b61dac35416a89c529f109ee0ef8",
     "m_Title": "Specular Highlight",
     "m_Position": {
-        "x": -615.9998779296875,
+        "x": -789.0,
         "y": 1027.0
     }
 }
@@ -3731,7 +3772,7 @@
     "m_Title": "NdotL",
     "m_Position": {
         "x": -515.0,
-        "y": 236.99998474121095
+        "y": 237.0
     }
 }
 
@@ -4105,7 +4146,7 @@
     "m_ObjectId": "38ec2624fa1d44a5936126041d506699",
     "m_Title": "Backlight (Fresnel)",
     "m_Position": {
-        "x": -647.9998779296875,
+        "x": -648.0,
         "y": 2249.0
     }
 }
@@ -7171,7 +7212,7 @@
     "m_Title": "Gradient bits idk",
     "m_Position": {
         "x": 1305.0,
-        "y": 1564.0001220703125
+        "y": 1564.0
     }
 }
 
@@ -9033,7 +9074,7 @@
     "m_Title": "Final Specular",
     "m_Position": {
         "x": 701.0,
-        "y": -300.0000305175781
+        "y": -300.0
     }
 }
 
@@ -9889,6 +9930,29 @@
         "z": 0.0,
         "w": 0.0
     }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector3MaterialSlot",
+    "m_ObjectId": "b0bddc7e9aa04a7a8240d4fc08b22845",
+    "m_Id": 0,
+    "m_DisplayName": "Out",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Out",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "m_Labels": []
 }
 
 {
@@ -11752,6 +11816,45 @@
         "e32": 0.0,
         "e33": 1.0
     }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.ViewVectorNode",
+    "m_ObjectId": "dd874f0cb4f74462a395c7ce21dfec27",
+    "m_Group": {
+        "m_Id": "2219b61dac35416a89c529f109ee0ef8"
+    },
+    "m_Name": "View Vector",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": -764.0,
+            "y": 1549.0,
+            "width": 208.0,
+            "height": 315.0
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "b0bddc7e9aa04a7a8240d4fc08b22845"
+        },
+        {
+            "m_Id": "02979e92f0cd45a39853fd8ed3668567"
+        }
+    ],
+    "synonyms": [
+        "eye vector"
+    ],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_Space": 1
 }
 
 {

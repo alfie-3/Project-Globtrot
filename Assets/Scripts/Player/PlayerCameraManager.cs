@@ -27,7 +27,6 @@ public class PlayerCameraManager : NetworkBehaviour
         CinemachineCamera camera = Instantiate(camPrefab);
 
         camera.Follow = Viewpoint;
-        camera.LookAt = Viewpoint;
         CamTransform = camera.transform;
         camera.enabled = true;
 
