@@ -63,7 +63,7 @@ public class StockShelfController : NetworkBehaviour {
             instance.Spawn();
             instance.TrySetParent(transform.parent.GetComponent<NetworkObject>());
             //instance.transform.position = 
-            Debug.Log(itemStackOffset);
+            //Debug.Log(itemStackOffset);
             items.Push(instance);
         }
     }
@@ -81,7 +81,7 @@ public class StockShelfController : NetworkBehaviour {
         spawnPos.x = (int)(index % itemStackBounds.x);
         spawnPos.z = ((index / (int)itemStackBounds.x) % (int)itemStackBounds.z);
         spawnPos.y = index / ((int)itemStackBounds.x * (int)itemStackBounds.z);
-        Debug.Log(spawnPos);
+        //Debug.Log(spawnPos);
         return spawnPos;
     }
 
