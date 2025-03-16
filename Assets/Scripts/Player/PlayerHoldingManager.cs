@@ -63,17 +63,13 @@ public class PlayerHoldingManager : NetworkBehaviour
             useableObject.OnHeld(this);
         }
 
-        foreach (IKTargetPoint targetPoint in HeldObj.GetComponentsInChildren<IKTargetPoint>())
-        {
-            targetPoint.SetConstraint(this);
-        }
-
         if (obj.TryGetComponent(out RigidbodyNetworkTransform rbNWT))
         {
             rbNWT.WakeUpNearbyObjects();
         }
 
         ItemSocket.BindObject_Rpc(HeldObj);
+        GetComponentInChildren<IKTargetsManager>().ConstrainIKToObject_Rpc(HeldObj);
     }
 
     [Rpc(SendTo.Server)]
@@ -163,6 +159,8 @@ public class PlayerHoldingManager : NetworkBehaviour
                 if (!HeldObj.TryGetComponent(out IOnDrop onDrop)) return;
                 NetworkObject obj = HeldObj;
 
+                GetComponentInChildren<IKTargetsManager>().ClearIKToObject_Rpc(HeldObj);
+
                 onDrop.OnDrop(this);
                 ItemSocket.ClearObjectBinding_Rpc(CameraManager.CamTransform.position + CameraManager.CamTransform.forward, ItemSocket.transform.rotation);
 
@@ -180,10 +178,7 @@ public class PlayerHoldingManager : NetworkBehaviour
     {
         if (HeldObj == null) return;
 
-        foreach (IKTargetPoint targetPoint in HeldObj.GetComponentsInChildren<IKTargetPoint>())
-        {
-            targetPoint.RemoveConstraint(this);
-        }
+        GetComponentInChildren<IKTargetsManager>().ClearIKToObject_Rpc(HeldObj);
 
         if (HeldObj.TryGetComponent(out IOnDrop useableObject))
             useableObject.OnDrop(this);

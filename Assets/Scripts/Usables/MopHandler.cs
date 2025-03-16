@@ -21,7 +21,6 @@ public class MopHandler : NetworkBehaviour, IUsePrimary, IUseSecondary, IOnHeld
 
     public void OnHeld(PlayerHoldingManager _)
     {
-        Debug.Log("Mop Equiped");
     }
 
     public void UsePrimary(PlayerHoldingManager holdingManager)

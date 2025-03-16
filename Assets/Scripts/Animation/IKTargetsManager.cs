@@ -1,7 +1,8 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class IKTargetsManager : MonoBehaviour
+public class IKTargetsManager : NetworkBehaviour
 {
     public TwoBoneIKConstraint LeftHandIK;
     public TwoBoneIKConstraint RightHandIK;
@@ -24,6 +25,30 @@ public class IKTargetsManager : MonoBehaviour
                 RightHandIK.data.target.GetComponent<TargetPositionAnchor>().SetAnchor(target);
                 RightHandIK.weight = weight;
                 break;
+        }
+    }
+
+    [Rpc(SendTo.Everyone)]
+    public void ConstrainIKToObject_Rpc(NetworkObjectReference networkObjectReference)
+    {
+        if (networkObjectReference.TryGet(out NetworkObject bindingObject))
+        {
+            foreach (IKTargetPoint targetPoint in bindingObject.GetComponentsInChildren<IKTargetPoint>())
+            {
+                targetPoint.SetConstraint(GetComponentInChildren<IKTargetsManager>());
+            }
+        }
+    }
+
+    [Rpc(SendTo.Everyone)]
+    public void ClearIKToObject_Rpc(NetworkObjectReference networkObjectReference)
+    {
+        if (networkObjectReference.TryGet(out NetworkObject bindingObject))
+        {
+            foreach (IKTargetPoint targetPoint in bindingObject.GetComponentsInChildren<IKTargetPoint>())
+            {
+                targetPoint.RemoveConstraint(GetComponentInChildren<IKTargetsManager>());
+            }
         }
     }
 }

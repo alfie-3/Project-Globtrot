@@ -5,13 +5,13 @@ public class IKTargetPoint : MonoBehaviour
 {
     [SerializeField] private IKTargetsManager.IKCONSTRAINT constraint;
 
-    public void SetConstraint(PlayerHoldingManager manager)
+    public void SetConstraint(IKTargetsManager manager)
     {
-        manager.GetComponentInChildren<IKTargetsManager>().BindTargetToAnchor(constraint, transform, 1);
+        manager.BindTargetToAnchor(constraint, transform, 1);
     }
 
-    public void RemoveConstraint(PlayerHoldingManager manager)
+    public void RemoveConstraint(IKTargetsManager manager)
     {
-        manager.GetComponentInChildren<IKTargetsManager>().BindTargetToAnchor(constraint, null, 0);
+        manager.BindTargetToAnchor(constraint, null, 0);
     }
 }
