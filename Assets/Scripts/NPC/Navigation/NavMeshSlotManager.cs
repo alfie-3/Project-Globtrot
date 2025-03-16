@@ -47,6 +47,7 @@ public class NavMeshSlotManager : MonoBehaviour
     }
     [Rpc(SendTo.Everyone)]
     void ToggleIndicator_RPC(bool status) {
+        if (Indicator == null) return;
         Indicator.SetActive(unoccupiedSlots.Count == 0);
     }
 
