@@ -4,15 +4,33 @@ using Unity.Behavior;
 using Unity.Netcode;
 using UnityEngine;
 
-public class CashRegister : NetworkBehaviour, IInteractable
-{
+public class CashRegister : NetworkBehaviour, IInteractable {
     public static List<CashRegister> CashRegisters = new();
+
     [field: SerializeField] public NavMeshSlotManager Queue { get; private set; }
+
+
+    [SerializeField] GameObject Indicator;
+    public NetworkVariable<bool> CustomerInQueue { get; private set; }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void Initialize()
     {
         CashRegisters = new List<CashRegister>();
+    }
+
+    private void Awake() {
+        CustomerInQueue = new NetworkVariable<bool>();
+        Queue.NavMeshSlots[0].OnOccupiedChange += OnQueuetFrontOccupiedChanged;
+        CustomerInQueue.OnValueChanged += UpdateIndicator;
+    }
+
+    private void UpdateIndicator(bool previousValue, bool newValue) {
+        Indicator.SetActive(newValue);
+    }
+
+    private void OnQueuetFrontOccupiedChanged(GameObject @object, NavMeshSlot slot, bool arg3) {
+        CustomerInQueue.Value = arg3;
     }
 
     private void OnEnable()
@@ -55,13 +73,5 @@ public class CashRegister : NetworkBehaviour, IInteractable
             customerProcessed.Value.SendEventMessage();
             customer.PurchaseItems();
         }
-    }
-
-    public void OnView()
-    {
-    }
-
-    public void OnUnview()
-    {
     }
 }
