@@ -1,12 +1,23 @@
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.WSA;
 
 public class MopHandler : NetworkBehaviour, IUsePrimary, IUseSecondary, IOnHeld
 {
+    
     [SerializeField] float sweepDistance = 5f;
     [SerializeField] int sweepPower = 1;
     [SerializeField] int capacity = 4;
-    int fullness = 0;
+    [field: SerializeField] public NetworkVariable<int> fullness { get; private set; } = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
+
+    [SerializeField] TextMeshPro TextIndicator;
+    //int fullness = 0;
+
+    private void Start() {
+        fullness.OnValueChanged += (previousValue, newValue) => TextIndicator.text = $"{newValue}/{capacity}";
+    }
+
 
     public void OnHeld(PlayerHoldingManager _)
     {
@@ -15,7 +26,7 @@ public class MopHandler : NetworkBehaviour, IUsePrimary, IUseSecondary, IOnHeld
 
     public void UsePrimary(PlayerHoldingManager holdingManager)
     {
-        if(fullness < capacity) Sweep(holdingManager);
+        if(fullness.Value < capacity) Sweep(holdingManager);
     }
 
     public void UseSecondary(PlayerHoldingManager holdingManager) 
@@ -25,8 +36,8 @@ public class MopHandler : NetworkBehaviour, IUsePrimary, IUseSecondary, IOnHeld
         if (Physics.Raycast(ray, out RaycastHit hit, sweepDistance)) {
             if (hit.collider.TryGetComponent(out Dumpster dumpster)) {
                 dumpster.AddTrash();
-                fullness = 0;
-                
+                fullness.Reset();
+                //fullness.Value = 0;
             }
         }
     }
@@ -43,7 +54,7 @@ public class MopHandler : NetworkBehaviour, IUsePrimary, IUseSecondary, IOnHeld
 
                 if (messController.Cleaned) {
                     Debug.Log("Cleened");
-                    fullness++;
+                    fullness.Value++;
                 } else {
                     Debug.Log("Cleaning");
                 }

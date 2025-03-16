@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Netcode;
 using UnityEngine;
 
 public class NavMeshSlotManager : MonoBehaviour
@@ -41,6 +42,11 @@ public class NavMeshSlotManager : MonoBehaviour
             unoccupiedSlots.Remove(slot);
         else
             unoccupiedSlots.Add(slot);
+        ToggleIndicator_RPC(unoccupiedSlots.Count == 0);
+        //Indicator.SetActive(unoccupiedSlots.Count == 0);
+    }
+    [Rpc(SendTo.Everyone)]
+    void ToggleIndicator_RPC(bool status) {
         Indicator.SetActive(unoccupiedSlots.Count == 0);
     }
 
