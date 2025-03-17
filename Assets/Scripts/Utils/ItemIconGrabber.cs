@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
 
 public class ItemIconGrabber : MonoBehaviour
 {
@@ -104,3 +105,4 @@ public class ScreenShotAsset
     public ItemBase item;
     public bool capture = true;
 }
+#endif

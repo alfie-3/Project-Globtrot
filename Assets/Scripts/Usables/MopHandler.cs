@@ -1,7 +1,6 @@
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.WSA;
 
 public class MopHandler : NetworkBehaviour, IUsePrimary, IUseSecondary, IOnHeld, IOnDrop
 {
