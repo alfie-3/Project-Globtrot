@@ -13,7 +13,8 @@ public class UI_StockShop : MonoBehaviour
 
     [SerializeField] private MoneyManager moneyScript;
     [SerializeField] private Transform spawnArea; // where purchased products will appear 
-    [SerializeField] private GameObject boxPrefab;
+    [SerializeField] private GameObject itemBoxPrefab;
+    [SerializeField] private GameObject furnitureBoxPrefab;
     
     public Dictionary<string, GameObject> productPrefabs = new Dictionary<string, GameObject>();
     
@@ -27,32 +28,46 @@ public class UI_StockShop : MonoBehaviour
     }
 
     // spawns product in spawn area + server stuff
-    public void SummonProduct(string productName)
+    public void SummonItem(string productName)
     {
         if (!productPrefabs.ContainsKey(productName)) return;
 
         Vector3 spawnPos = spawnArea.position + new Vector3(Random.Range(-1, 1), 0, Random.Range(-1, 1));
-        GameObject spawnedBox = Instantiate(boxPrefab, spawnPos, Quaternion.identity);
-        
-        NetworkObject networkObject = spawnedBox.GetComponent<NetworkObject>();
-        if (networkObject != null)
+        GameObject spawnedItem = null;
+
+        if (ItemDictionaryManager.ItemDict.TryGetValue(productName, out ItemBase itemData))
         {
-            networkObject.Spawn(); 
+            if (itemData is ShopProduct_Item productItem)
+            {
+                spawnedItem = Instantiate(itemBoxPrefab, spawnPos, Quaternion.identity);
+
+            }
+            else if (itemData is PlacableFurniture_Item furnitureItem)
+            {
+                spawnedItem = Instantiate(furnitureBoxPrefab, spawnPos, Quaternion.identity);
+            }
         }
 
-        spawnedProducts.Add(spawnedBox);
-
-        ItemHolder itemHolder = spawnedBox.GetComponent<ItemHolder>();
-        StockBoxController stockBox = spawnedBox.GetComponent<StockBoxController>();
-
-        if (itemHolder != null && stockBox != null)
+        NetworkObject networkObject = spawnedItem.GetComponent<NetworkObject>();
+        if (networkObject != null)
         {
-            if (ItemDictionaryManager.ItemDict.TryGetValue(productName, out ItemBase itemData))
+            networkObject.Spawn();  
+        }
+
+        spawnedProducts.Add(spawnedItem);
+
+        ItemHolder itemHolder = spawnedItem.GetComponent<ItemHolder>();
+        FurnitureBoxController furnitureBoxController = spawnedItem.GetComponent<FurnitureBoxController>();
+
+        if (ItemDictionaryManager.ItemDict.TryGetValue(productName, out itemData))
+        {
+            if (itemData is ShopProduct_Item productItem)
             {
-                if (itemData is ShopProduct_Item productItem)
-                {
-                    itemHolder.AddItemServer_Rpc(itemData.ItemID, productItem.MaxInBox);
-                }
+                itemHolder.AddItemServer_Rpc(itemData.ItemID, productItem.MaxInBox);
+            }
+            else if (itemData is PlacableFurniture_Item furnitureItem)
+            {
+                furnitureBoxController.SetItem_Rpc(furnitureItem.ItemID, 0f);
             }
         }
     }

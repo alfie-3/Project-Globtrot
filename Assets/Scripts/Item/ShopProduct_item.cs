@@ -17,6 +17,9 @@ public class ShopProduct_Item : ItemBase, IItemPrice
     [field: SerializeField] public ItemHolder.ContainerTypes ContanierCompatabilty { get; private set; }
     [field: SerializeField] public ProductCategory Category { get; private set; } 
     [field: SerializeField] public float SalePercentage = 0.25f;
+    [field: SerializeField] public float UnlockPrice = 50.0f;
+    [field: SerializeField] public bool Unlockable = false;
+
 
 
     /// <summary>
