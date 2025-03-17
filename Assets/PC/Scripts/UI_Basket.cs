@@ -25,6 +25,9 @@ public class UI_Basket : MonoBehaviour
         // check basket limit + if product exists
         if (!shopScript.productPrefabs.ContainsKey(productName)) return;
 
+        ItemBase itemData = null;
+        if (ItemDictionaryManager.ItemDict.TryGetValue(productName, out itemData))
+
         // check if already present
         foreach (GameObject item in basket)
         {
@@ -43,9 +46,18 @@ public class UI_Basket : MonoBehaviour
             GameObject UIProduct = Instantiate(productBasketPrefab, spawnPos, Quaternion.identity, basketParent);
 
             UI_BasketProduct UIProductScript = UIProduct.GetComponent<UI_BasketProduct>();
-            UIProductScript.UpdateProduct(productName, 1); 
-            UIProductScript.SetShop(this, productName);
+            
+            if (itemData is ShopProduct_Item productItem)
+            {
+                UIProductScript.UpdateProduct(productItem, 1); // Send ShopProduct_Item
+            }
+            else if (itemData is PlacableFurniture_Item furnitureItem)
+            {
+                UIProductScript.UpdateProduct(furnitureItem, 1); // Send PlacableFurniture_Item
+            }
 
+
+            UIProductScript.SetShop(this, productName);
             basket.Add(UIProduct);
             UpdateBasket();
         }
@@ -76,10 +88,31 @@ public class UI_Basket : MonoBehaviour
                             
                             for (int i = 0; i < amountToSpawn; i++)
                             {
-                                shopScript.SummonProduct(productName);
+                                shopScript.SummonItem(productName);
                             }
 
                             UIproductScript.Trash();  // remove from basket after purchase
+                        }
+                        else
+                        {
+                            Debug.LogWarning($"Not enough money to buy {productName}!");
+                        }
+                    }
+                    else if (item is PlacableFurniture_Item furnitureItem)
+                    {
+                        double totalPrice = furnitureItem.FurniturePrice * amountToSpawn;
+
+                        // Check if enough money
+                        if (MoneyManager.Instance.CanAfford(totalPrice))
+                        {
+                            MoneyManager.Instance.SpendMoney(totalPrice);
+                            
+                            for (int i = 0; i < amountToSpawn; i++)
+                            {
+                                shopScript.SummonItem(productName);  
+                            }
+
+                            UIproductScript.Trash();  
                         }
                         else
                         {

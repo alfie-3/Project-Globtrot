@@ -9,17 +9,24 @@ public class UI_BasketProduct : MonoBehaviour
     [SerializeField] TMP_Text productPrice;
     [SerializeField] UI_Basket basketScript;
     private int amount = 1;
+    private ItemBase itemData; 
 
     // updates ui to reflect product details
-    public void UpdateProduct(string newName, int newAmount)
+    public void UpdateProduct(ItemBase newItem, int newAmount)
     {
-        productName.text = newName;
+        itemData = newItem;
+        productName.text = newItem.ItemName;
         amount = newAmount;
         productAmount.text = amount.ToString();
 
-        if (ItemDictionaryManager.ItemDict.TryGetValue(newName, out ItemBase item) && item is ShopProduct_Item productItem)
+
+        if (itemData is ShopProduct_Item productItem)
         {
             productPrice.text = (productItem.GetCurrentPurchasePrice() * amount).ToString("F2");
+        }
+        else if (itemData is PlacableFurniture_Item furnitureItem)
+        {
+            productPrice.text = (furnitureItem.FurniturePrice * amount).ToString("F2");
         }
     }
 
@@ -30,11 +37,16 @@ public class UI_BasketProduct : MonoBehaviour
         productAmount.text = amount.ToString();
 
         // update total price when amount changes
-        if (ItemDictionaryManager.ItemDict.TryGetValue(productName.text, out ItemBase item) && item is ShopProduct_Item productItem)
+        if (itemData is ShopProduct_Item productItem)
         {
             productPrice.text = (productItem.GetCurrentPurchasePrice() * amount).ToString("F2");
-            basketScript.UpdateTotal();
         }
+        else if (itemData is PlacableFurniture_Item furnitureItem)
+        {
+            productPrice.text = (furnitureItem.FurniturePrice * amount).ToString("F2");
+        }
+
+        basketScript.UpdateTotal();
     }
 
     // sets reference to basket - so it can keep track
