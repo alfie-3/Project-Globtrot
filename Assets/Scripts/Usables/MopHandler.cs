@@ -3,7 +3,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.WSA;
 
-public class MopHandler : NetworkBehaviour, IUsePrimary, IUseSecondary, IOnHeld
+public class MopHandler : NetworkBehaviour, IUsePrimary, IUseSecondary, IOnHeld, IOnDrop
 {
     
     [SerializeField] float sweepDistance = 5f;
@@ -19,8 +19,16 @@ public class MopHandler : NetworkBehaviour, IUsePrimary, IUseSecondary, IOnHeld
     }
 
 
-    public void OnHeld(PlayerHoldingManager _)
+    public void OnHeld(PlayerHoldingManager manager)
     {
+        manager.GetComponentInChildren<Animator>().SetLayerWeight(1, 1);
+        manager.GetComponentInChildren<Animator>().CrossFade("HoldMop", 0.1f);
+    }
+
+    public void OnDrop(PlayerHoldingManager manager)
+    {
+        manager.GetComponentInChildren<Animator>().Play("Unequip", 1);
+        //manager.GetComponentInChildren<Animator>().SetLayerWeight(1, 0);
     }
 
     public void UsePrimary(PlayerHoldingManager holdingManager)

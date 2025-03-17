@@ -15,8 +15,7 @@ public class HoldingItemSocket : NetworkBehaviour
         boundObject.transform.SetPositionAndRotation(transform.position, transform.rotation);
     }
 
-    [Rpc(SendTo.Everyone)]
-    public void BindObject_Rpc(NetworkObjectReference networkObjectReference)
+    public void BindObject(NetworkObjectReference networkObjectReference)
     {
         if (networkObjectReference.TryGet(out NetworkObject bindingObject))
         {
@@ -32,8 +31,7 @@ public class HoldingItemSocket : NetworkBehaviour
         ToggleBoundObjectCollisions(false);
     }
 
-    [Rpc(SendTo.Everyone)]
-    public void ClearObjectBinding_Rpc(Vector3 position, Quaternion rotation, bool resetVelocity = false)
+    public void ClearObjectBinding(Vector3 position, Quaternion rotation, bool resetVelocity = false)
     {
         if (boundObject == null) return;
         if (!boundObject.TryGetComponent(out NetworkTransform networkTransform)) return;

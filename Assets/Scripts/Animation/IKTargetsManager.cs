@@ -18,11 +18,11 @@ public class IKTargetsManager : NetworkBehaviour
         switch(constraint)
         {
             case IKCONSTRAINT.LeftHand:
-                LeftHandIK.data.target.GetComponent<TargetPositionAnchor>().SetAnchor(target);
+                LeftHandIK.data.target.GetComponent<IKTargetPositionAnchor>().SetAnchor(target);
                 LeftHandIK.weight = weight;
                 break;
             case IKCONSTRAINT.RightHand:
-                RightHandIK.data.target.GetComponent<TargetPositionAnchor>().SetAnchor(target);
+                RightHandIK.data.target.GetComponent<IKTargetPositionAnchor>().SetAnchor(target);
                 RightHandIK.weight = weight;
                 break;
         }

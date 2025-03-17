@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TargetPositionAnchor : MonoBehaviour
+public class IKTargetPositionAnchor : MonoBehaviour
 {
     public Transform Anchor;
 

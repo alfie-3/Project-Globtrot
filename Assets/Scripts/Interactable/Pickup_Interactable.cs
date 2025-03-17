@@ -5,6 +5,7 @@ using UnityEngine;
 public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
 {
     public NetworkVariable<bool> PickedUp = new NetworkVariable<bool>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
+    [field: SerializeField] public PlayerObjectSocketManager.ObjectSocket HoldingSocket { get; private set; }
 
     public virtual void OnInteract(PlayerInteractionManager interactionManager)
     {

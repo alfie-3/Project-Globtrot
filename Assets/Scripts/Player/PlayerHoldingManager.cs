@@ -1,10 +1,8 @@
 using Unity.Netcode;
-using Unity.Netcode.Components;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
-using UnityEngine.Windows;
 
 public class PlayerHoldingManager : NetworkBehaviour
 {
@@ -12,7 +10,7 @@ public class PlayerHoldingManager : NetworkBehaviour
 
     [SerializeField] public Material Material;
 
-    [SerializeField] HoldingItemSocket ItemSocket;
+    [SerializeField] PlayerObjectSocketManager ObjectSocketManager;
 
     //Dropping
     [Space]
@@ -27,7 +25,7 @@ public class PlayerHoldingManager : NetworkBehaviour
 
     [HideInInspector]
     public bool SnappingEnabled;// { get; private set; }
-    
+
     public PlayerCameraManager CameraManager { get; private set; }
     private bool throwing;
 
@@ -49,7 +47,7 @@ public class PlayerHoldingManager : NetworkBehaviour
     {
         if (HeldObj != null)
         {
-            ItemSocket.ClearBoundObject();
+            ObjectSocketManager.ClearAllBoundObjects();
             return;
         }
 
@@ -58,9 +56,9 @@ public class PlayerHoldingManager : NetworkBehaviour
         if (!obj.TryGetComponent(out NetworkObject nwObject)) return;
         HeldObj = nwObject;
 
-        if (obj.TryGetComponent(out IOnHeld useableObject))
+        foreach (IOnHeld held in HeldObj.GetComponentsInChildren<IOnHeld>())
         {
-            useableObject.OnHeld(this);
+            held.OnHeld(this);
         }
 
         if (obj.TryGetComponent(out RigidbodyNetworkTransform rbNWT))
@@ -68,7 +66,8 @@ public class PlayerHoldingManager : NetworkBehaviour
             rbNWT.WakeUpNearbyObjects();
         }
 
-        ItemSocket.BindObject_Rpc(HeldObj);
+        ObjectSocketManager.BindObject_Rpc(obj.HoldingSocket, HeldObj);
+
         GetComponentInChildren<IKTargetsManager>().ConstrainIKToObject_Rpc(HeldObj);
     }
 
@@ -115,7 +114,8 @@ public class PlayerHoldingManager : NetworkBehaviour
 
         if (context.performed)
         {
-            if (context.interaction is HoldInteraction){
+            if (context.interaction is HoldInteraction)
+            {
                 primHeld = true; NetworkManager.NetworkTickSystem.Tick += UsePrimaryOnHeldObject;
             }
             if (context.interaction is PressInteraction)
@@ -123,7 +123,8 @@ public class PlayerHoldingManager : NetworkBehaviour
         }
         else
         {
-            if (primHeld) {
+            if (primHeld)
+            {
                 primHeld = false; NetworkManager.NetworkTickSystem.Tick -= UsePrimaryOnHeldObject;
             }
         }
@@ -141,28 +142,30 @@ public class PlayerHoldingManager : NetworkBehaviour
     {
         if (HeldObj == null) return;
 
-        if (context.performed) {
+        if (context.performed)
+        {
 
-            if (context.interaction is HoldInteraction) {
+            if (context.interaction is HoldInteraction)
+            {
                 if (!HeldObj.TryGetComponent(out IOnDrop onDrop)) return;
                 throwing = true;
             }
-            if (context.interaction is PressInteraction) {
+            if (context.interaction is PressInteraction)
+            {
                 if (!HeldObj.TryGetComponent(out IUseSecondary useableObject)) return;
                 useableObject.UseSecondary(this);
             }
-        } else {
+        }
+        else
+        {
 
             if (throwing)
             {
                 throwing = false;
-                if (!HeldObj.TryGetComponent(out IOnDrop onDrop)) return;
                 NetworkObject obj = HeldObj;
 
                 GetComponentInChildren<IKTargetsManager>().ClearIKToObject_Rpc(HeldObj);
-
-                onDrop.OnDrop(this);
-                ItemSocket.ClearObjectBinding_Rpc(CameraManager.CamTransform.position + CameraManager.CamTransform.forward, ItemSocket.transform.rotation);
+                ObjectSocketManager.ClearBoundObject_Rpc(HeldObj.GetComponent<Pickup_Interactable>().HoldingSocket, CameraManager.CamTransform.position + CameraManager.CamTransform.forward, ObjectSocketManager.transform.rotation);
 
                 obj.GetComponent<RigidbodyNetworkTransform>().SetLinearVelocity_Rpc(Vector3.zero);
                 Vector3 force = CameraManager.CamTransform.forward;
@@ -170,6 +173,11 @@ public class PlayerHoldingManager : NetworkBehaviour
                 force += CameraManager.CamTransform.forward * (float)context.duration * throwForceGrowthRate;
 
                 obj.GetComponent<RigidbodyNetworkTransform>().AddForce_Rpc(force, ForceMode.Impulse);
+
+                foreach (IOnDrop drop in HeldObj.GetComponentsInChildren<IOnDrop>())
+                {
+                    drop.OnDrop(this);
+                }
             }
         }
     }
@@ -179,9 +187,6 @@ public class PlayerHoldingManager : NetworkBehaviour
         if (HeldObj == null) return;
 
         GetComponentInChildren<IKTargetsManager>().ClearIKToObject_Rpc(HeldObj);
-
-        if (HeldObj.TryGetComponent(out IOnDrop useableObject))
-            useableObject.OnDrop(this);
 
         Ray ray = new(CameraManager.CamTransform.position, CameraManager.CamTransform.forward);
         Ray secondaryRay = new(CameraManager.CamTransform.position + (CameraManager.CamTransform.forward * dropDistance), Vector3.down);
@@ -199,7 +204,12 @@ public class PlayerHoldingManager : NetworkBehaviour
             dropPos.y += dropHeight;
         }
 
-        ItemSocket.ClearObjectBinding_Rpc(dropPos, ItemSocket.transform.rotation, true);
+        ObjectSocketManager.ClearBoundObject_Rpc(HeldObj.GetComponent<Pickup_Interactable>().HoldingSocket, dropPos, ObjectSocketManager.transform.rotation, true);
+
+        foreach (IOnDrop drop in HeldObj.GetComponentsInChildren<IOnDrop>())
+        {
+            drop.OnDrop(this);
+        }
     }
 
     public void PerformScroll(InputAction.CallbackContext context)
@@ -211,11 +221,11 @@ public class PlayerHoldingManager : NetworkBehaviour
             scroll.OnScroll(this, context);
         }
     }
-    public void PerformCtrl(InputAction.CallbackContext context) 
+    public void PerformCtrl(InputAction.CallbackContext context)
     {
         if (HeldObj == null) return;
 
-        if (HeldObj.TryGetComponent(out IOnCtrl ctrl)) 
+        if (HeldObj.TryGetComponent(out IOnCtrl ctrl))
         {
             ctrl.OnCtrl(this);
         }
