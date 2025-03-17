@@ -10,8 +10,6 @@ public class UI_ProductDisplay : MonoBehaviour
     [SerializeField] private TMP_Text productPrice;
     [SerializeField] private TMP_Text quantityText;
     [SerializeField] private GameObject lockPanel;
-    [SerializeField] private GameObject buyButton;
-    [SerializeField] private GameObject image;
     [SerializeField] private Button unlockButton;
     [SerializeField] private TMP_Text unlockPriceText;
 
@@ -42,7 +40,7 @@ public class UI_ProductDisplay : MonoBehaviour
 
         productImage.sprite = furniture.ItemIcon;
         productTitle.text = furniture.ItemName;
-        productPrice.text = $"${furniture.FurniturePrice:F2}";
+        productPrice.text = $"${furniture.GetCurrentPurchasePrice():F2}";
 
         SetupUnlockUI(furniture);
     }
@@ -58,9 +56,6 @@ public class UI_ProductDisplay : MonoBehaviour
         if (item.Unlockable && !isUnlocked)
         {
             lockPanel.SetActive(true);
-            buyButton.SetActive(false);
-            image.SetActive(false);
-
             unlockButton.gameObject.SetActive(true);
             unlockPriceText.gameObject.SetActive(true);
             unlockPriceText.text = $"Unlock: ${item.UnlockPrice:F2}";
@@ -69,9 +64,6 @@ public class UI_ProductDisplay : MonoBehaviour
         else
         {
             lockPanel.SetActive(false);
-            buyButton.SetActive(true);
-            image.SetActive(true);
-
             unlockButton.gameObject.SetActive(false);
             unlockPriceText.gameObject.SetActive(false);
         }
@@ -88,8 +80,6 @@ public class UI_ProductDisplay : MonoBehaviour
         if (furniture.Unlockable && !isUnlocked)
         {
             lockPanel.SetActive(true);
-            buyButton.SetActive(false);
-            image.SetActive(false);
             unlockButton.gameObject.SetActive(true);
             unlockPriceText.gameObject.SetActive(true);
 
@@ -99,9 +89,6 @@ public class UI_ProductDisplay : MonoBehaviour
         else
         {
             lockPanel.SetActive(false);
-            buyButton.SetActive(true);
-            image.SetActive(true);
-
             unlockButton.gameObject.SetActive(false);
             unlockPriceText.gameObject.SetActive(false);
         }
@@ -116,8 +103,6 @@ public class UI_ProductDisplay : MonoBehaviour
             isUnlocked = true;
             PlayerPrefs.SetInt($"Unlocked_{item.ItemID}", 1);
             lockPanel.SetActive(false);
-            buyButton.SetActive(true);
-            image.SetActive(true);
             unlockButton.gameObject.SetActive(false);
             unlockPriceText.gameObject.SetActive(false);
         }
@@ -134,8 +119,6 @@ public class UI_ProductDisplay : MonoBehaviour
             isUnlocked = true;
             PlayerPrefs.SetInt($"Unlocked_{furniture.ItemID}", 1);
             lockPanel.SetActive(false);
-            buyButton.SetActive(true);
-            image.SetActive(true);
             unlockButton.gameObject.SetActive(false);
             unlockPriceText.gameObject.SetActive(false);
         }

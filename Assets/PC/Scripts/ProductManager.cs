@@ -147,15 +147,12 @@ private void InitializeProductUI(List<ShopProduct_Item> products, ProductCategor
 
     private void InitializeAllProducts()
     {
-        // Initialize Food category
         var foodProducts = allProducts.FindAll(p => p.Category == ProductCategory.Food);
         InitializeProductUI(foodProducts, ProductCategory.Food);
 
-        // Initialize Drinks category
         var drinkProducts = allProducts.FindAll(p => p.Category == ProductCategory.Drinks);
         InitializeProductUI(drinkProducts, ProductCategory.Drinks);
 
-        // Initialize Furniture category
         InitializeProductUI(allFurniture, ProductCategory.Furniture);
     }
 }

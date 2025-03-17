@@ -49,11 +49,11 @@ public class UI_Basket : MonoBehaviour
             
             if (itemData is ShopProduct_Item productItem)
             {
-                UIProductScript.UpdateProduct(productItem, 1); // Send ShopProduct_Item
+                UIProductScript.UpdateProduct(productItem, 1);
             }
             else if (itemData is PlacableFurniture_Item furnitureItem)
             {
-                UIProductScript.UpdateProduct(furnitureItem, 1); // Send PlacableFurniture_Item
+                UIProductScript.UpdateProduct(furnitureItem, 1); 
             }
 
 
@@ -100,9 +100,9 @@ public class UI_Basket : MonoBehaviour
                     }
                     else if (item is PlacableFurniture_Item furnitureItem)
                     {
-                        double totalPrice = furnitureItem.FurniturePrice * amountToSpawn;
+                        double totalPrice = furnitureItem.GetCurrentPurchasePrice() * amountToSpawn;
 
-                        // Check if enough money
+                        // check if enough money
                         if (MoneyManager.Instance.CanAfford(totalPrice))
                         {
                             MoneyManager.Instance.SpendMoney(totalPrice);
@@ -185,6 +185,10 @@ public class UI_Basket : MonoBehaviour
                     if (itemData is ShopProduct_Item productItem)
                     {
                         total += productItem.GetCurrentPurchasePrice() * amount;
+                    }
+                    else if(itemData is PlacableFurniture_Item furniture)
+                    {
+                        total += furniture.GetCurrentPurchasePrice()*amount;
                     }
                 }
             }
