@@ -56,18 +56,18 @@ public class UI_StockShop : MonoBehaviour
 
         spawnedProducts.Add(spawnedItem);
 
-        ItemHolder itemHolder = spawnedItem.GetComponent<ItemHolder>();
-        FurnitureBoxController furnitureBoxController = spawnedItem.GetComponent<FurnitureBoxController>();
+        ItemHolder itemHolderScript = spawnedItem.GetComponent<ItemHolder>();
+        FurnitureBoxController furnitureBoxControllerScript = spawnedItem.GetComponent<FurnitureBoxController>();
 
         if (ItemDictionaryManager.ItemDict.TryGetValue(productName, out itemData))
         {
             if (itemData is ShopProduct_Item productItem)
             {
-                itemHolder.AddItemServer_Rpc(itemData.ItemID, productItem.MaxInBox);
+                itemHolderScript.AddItemServer_Rpc(itemData.ItemID, productItem.MaxInBox);
             }
             else if (itemData is PlacableFurniture_Item furnitureItem)
             {
-                furnitureBoxController.SetItem_Rpc(furnitureItem.ItemID, 0f);
+                furnitureBoxControllerScript.SetItem_Rpc(furnitureItem.ItemID, 0f);
             }
         }
     }

@@ -12,6 +12,7 @@ public class PlacableFurniture_Item : ItemBase
     [field: SerializeField] public bool Unlockable = false;
     [field: SerializeField] public float SalePercentage = 0.25f;
 
+    // allows for discounts
     public double GetCurrentPurchasePrice()
     {
         double price = FurniturePrice;

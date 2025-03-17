@@ -57,6 +57,7 @@ public class ProductManager : MonoBehaviour
         }
     }
 
+    // get products + put in correct lists
     private void RegisterProducts()
     {
         if (shopScript == null) return;
@@ -65,16 +66,8 @@ public class ProductManager : MonoBehaviour
         {
             if (item is ShopProduct_Item productItem )
             {
-                if (productItem.Category == ProductCategory.Food)
-                {
-                    allProducts.Add(productItem);
-                    shopScript.Register(productItem.ItemID, productItem.Prefab);
-                }
-                else if (productItem.Category == ProductCategory.Drinks)
-                {
-                    allProducts.Add(productItem);
-                    shopScript.Register(productItem.ItemID, productItem.Prefab);
-                }
+                allProducts.Add(productItem);
+                shopScript.Register(productItem.ItemID, productItem.Prefab);
             }
             else if (item is PlacableFurniture_Item furnitureItem)
             {
@@ -88,31 +81,33 @@ public class ProductManager : MonoBehaviour
         }
     }
 
-private void InitializeProductUI(List<ShopProduct_Item> products, ProductCategory category)
-{
-    if (!c_productPanels.TryGetValue(category, out List<Transform> productPanels))
-        return;
-
-    int count = 0;
-    
-    foreach (var product in products)
+    //spawn in food related products
+    private void InitializeProductUI(List<ShopProduct_Item> products, ProductCategory category)
     {
-        if (count < productPanels.Count)
+        if (!c_productPanels.TryGetValue(category, out List<Transform> productPanels))
+            return;
+
+        int count = 0;
+        
+        foreach (var product in products)
         {
-            GameObject productUIObj = Instantiate(productUIPrefab, productPanels[count]);
-            productUIObj.transform.position = productPanels[count].position; 
+            if (count < productPanels.Count)
+            {
+                GameObject productUIObj = Instantiate(productUIPrefab, productPanels[count]);
+                productUIObj.transform.position = productPanels[count].position; 
 
-            UI_ProductDisplay displayScript = productUIObj.GetComponent<UI_ProductDisplay>();
-                    
-            displayScript.Initialize(product, basketScript);
+                UI_ProductDisplay displayScript = productUIObj.GetComponent<UI_ProductDisplay>();
+                        
+                displayScript.Initialize(product, basketScript);
 
-            count++;
+                count++;
+            }
         }
+
+        DisableUnusedPanels(productPanels, count);
     }
 
-    DisableUnusedPanels(productPanels, count);
-}
-
+    // spawn in furniture products
     private void InitializeProductUI(List<PlacableFurniture_Item> furnitureItems, ProductCategory category)
     {
         if (!c_productPanels.TryGetValue(category, out List<Transform> furniturePanels))
@@ -137,6 +132,7 @@ private void InitializeProductUI(List<ShopProduct_Item> products, ProductCategor
         DisableUnusedPanels(furniturePanels, count);
     }
 
+    // if theres extra unused panels for spawning products - get rid
     private void DisableUnusedPanels(List<Transform> panels, int usedCount)
     {
         for (int i = usedCount; i < panels.Count; i++)
@@ -145,6 +141,7 @@ private void InitializeProductUI(List<ShopProduct_Item> products, ProductCategor
         }
     }
 
+    // goes through each category of items and spawns them in
     private void InitializeAllProducts()
     {
         var foodProducts = allProducts.FindAll(p => p.Category == ProductCategory.Food);

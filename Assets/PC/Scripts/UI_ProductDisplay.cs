@@ -19,22 +19,24 @@ public class UI_ProductDisplay : MonoBehaviour
     private int quantity = 1;
     private bool isUnlocked = false;
 
-    public void Initialize(ShopProduct_Item product, UI_Basket basket)
+    // set up variables
+    public void Initialize(ShopProduct_Item productScript, UI_Basket basketScript)
     {
-        basketScript = basket;
-        productData = product;
-        isUnlocked = PlayerPrefs.GetInt($"Unlocked_{product.ItemID}", 0) == 1;
+        this.basketScript = basketScript;
+        productData = productScript;
+        isUnlocked = PlayerPrefs.GetInt($"Unlocked_{productScript.ItemID}", 0) == 1;
 
-        productImage.sprite = product.ItemIcon;
-        productTitle.text = product.ItemName;
-        productPrice.text = $"${product.GetCurrentPurchasePrice():F2}";
+        productImage.sprite = productScript.ItemIcon;
+        productTitle.text = productScript.ItemName;
+        productPrice.text = $"${productScript.GetCurrentPurchasePrice():F2}";
 
-        SetupUnlockUI(product);
+        SetupUnlockUI(productScript);
     }
 
-    public void InitializeFurniture(PlacableFurniture_Item furniture, UI_Basket basket)
+    // same as Initialize but for furniture
+    public void InitializeFurniture(PlacableFurniture_Item furniture, UI_Basket basketScript)
     {
-        basketScript = basket;
+        this.basketScript = basketScript;
         furnitureData = furniture;
         isUnlocked = PlayerPrefs.GetInt($"Unlocked_{furniture.ItemID}", 0) == 1;
 
@@ -45,6 +47,7 @@ public class UI_ProductDisplay : MonoBehaviour
         SetupUnlockUI(furniture);
     }
 
+    // check and set up locking mechanic
     private void SetupUnlockUI(ShopProduct_Item item)
     {
         if (!item.Unlockable)
@@ -95,6 +98,7 @@ public class UI_ProductDisplay : MonoBehaviour
     }
 
 
+    // function for unlocking button
     private void UnlockProduct(ShopProduct_Item item)
     {
         if (MoneyManager.Instance.CanAfford(item.UnlockPrice))
@@ -148,19 +152,7 @@ public class UI_ProductDisplay : MonoBehaviour
                         basketScript.SendToBasket(furnitureData.ItemID);  
                     }
                 }
-                else
-                {
-                    Debug.Log("Invalid item type!");
-                }
             }
-            else
-            {
-                Debug.Log("No shop!");
-            }
-        }
-        else
-        {
-            Debug.Log("Product is locked!");
         }
     }
 

@@ -126,7 +126,7 @@ public class UI_Basket : MonoBehaviour
 
     }
 
-
+    // remove from basket
     public void RemoveItem(UI_BasketProduct product)
     {
         int removedIndex = basket.IndexOf(product.gameObject);
