@@ -14,4 +14,11 @@ public class IKTargetPoint : MonoBehaviour
     {
         manager.BindTargetToAnchor(constraint, null, 0);
     }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawRay(transform.position, transform.forward);
+    }
 }
+

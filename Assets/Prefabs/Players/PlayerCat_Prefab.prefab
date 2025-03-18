@@ -144,7 +144,7 @@ SkinnedMeshRenderer:
   m_RootBone: {fileID: 25797101035679344}
   m_AABB:
     m_Center: {x: -0.02100259, y: 0.15693307, z: -1.0668108}
-    m_Extent: {x: 1.2064075, y: 0.20029783, z: 1.0497196}
+    m_Extent: {x: 1.2064075, y: 0.74, z: 1.0497196}
   m_DirtyAABB: 0
 --- !u!1001 &7973270921243190403
 PrefabInstance:
@@ -156,12 +156,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 577211054563873725, guid: 4b7247f5af1116e4b967d8258554cb00, type: 3}
       propertyPath: m_WarningMessage
-      value: "\nBinding warning: Some generic clip(s) animate transforms that are
-        already bound by a Humanoid avatar. These transforms can only be changed
-        by Humanoid clips.\n\tTransform 'Arm_Upper.L'\n\tTransform 'Hand.L'\n\tTransform
-        'Arm_Lower.R'\n\tTransform 'Arm_Upper.R'\n\tTransform 'Arm_Lower.L'\n\tTransform
-        'Hand.R'\n\tTransform 'Arm_Upper.L'\n\tTransform 'Hand.L'\n\tTransform 'Arm_Lower.R'\n\tTransform
-        'Arm_Upper.R'\n\tand more ..."
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1519500398529396223, guid: 4b7247f5af1116e4b967d8258554cb00, type: 3}
       propertyPath: m_AnchorMax.y
@@ -231,10 +226,6 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 4709799096517683923, guid: a2af9e43a47b6504c8b1a1a36b6de121, type: 3}
-    - target: {fileID: 3745843975204388149, guid: 4b7247f5af1116e4b967d8258554cb00, type: 3}
-      propertyPath: <BaseMovementSpeed>k__BackingField
-      value: 1.2
-      objectReference: {fileID: 0}
     - target: {fileID: 4600118503299611353, guid: 4b7247f5af1116e4b967d8258554cb00, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
