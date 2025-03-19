@@ -28,11 +28,17 @@ public class OrderPort : MonoBehaviour
 
             allocation.Order = order;
             allocation.OrderScreen.AddOrder(order);
+            allocation.Order.OnOrderRemoved += (context) => { RemoveAllocatedOrder(allocation); };
 
             return true;
         }
 
         return false;
+    }
+
+    private void RemoveAllocatedOrder(OrderAllocation allocation)
+    {
+        allocation.Order = null;
     }
 
     public void ProcessOrderBox(Contents boxContents)
@@ -42,10 +48,15 @@ public class OrderPort : MonoBehaviour
         if (response.Success)
         {
             Debug.Log("Great order!");
+            orderAllocationList[0].Order.OnOrderSucceeded.Invoke(orderAllocationList[0].Order);
         }
         else
         {
             Debug.Log("Bad order!");
+            orderAllocationList[0].Order.OnOrderFailed.Invoke(orderAllocationList[0].Order);
         }
+
+        OrderManager.Instance.RemoveOrder(orderAllocationList[0].Order);
+        OrderManager.Instance.AddNewOrder();
     }
 }

@@ -48,6 +48,12 @@ public class OrderManager : NetworkBehaviour
         AssignToOrderPort(CurrentOrders[^1]);
     }
 
+    public void RemoveOrder(Order order)
+    {
+        order.OnOrderRemoved.Invoke(order);
+        CurrentOrders.Remove(order);
+    }
+
     public void AssignToOrderPort(Order order)
     {
         foreach (OrderPort port in OrderPorts)

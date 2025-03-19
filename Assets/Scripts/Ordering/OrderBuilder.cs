@@ -20,8 +20,9 @@ public class Order
     public float OrderTime = 30;
     public List<OrderItem> orderItems;
 
-    public Action<Order> OnOrderSucceeded;
-    public Action<Order> OnOrderFailed;
+    public Action<Order> OnOrderRemoved = delegate { };
+    public Action<Order> OnOrderSucceeded = delegate { };
+    public Action<Order> OnOrderFailed = delegate { };
 
     public Order(int orderTime, List<OrderItem> items)
     {

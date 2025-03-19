@@ -8,12 +8,11 @@ public class UI_OrderScreen : MonoBehaviour
 
     public void AddOrder(Order order)
     {
-        order.OnOrderFailed += ClearOrder;
-        order.OnOrderSucceeded += ClearOrder;
+        order.OnOrderRemoved += ClearOrder;
 
         foreach (Transform child in orderListParent)
         {
-            Destroy(child.gameObject);
+            ClearList();
         }
 
         foreach (OrderItem item in order.orderItems)
@@ -25,7 +24,16 @@ public class UI_OrderScreen : MonoBehaviour
 
     public void ClearOrder(Order order)
     {
-        order.OnOrderFailed -= ClearOrder;
-        order.OnOrderSucceeded -= ClearOrder;
+        order.OnOrderRemoved -= ClearOrder;
+
+        ClearList();
+    }
+
+    public void ClearList()
+    {
+        foreach (Transform child in orderListParent)
+        {
+            Destroy(child.gameObject);
+        }
     }
 }
