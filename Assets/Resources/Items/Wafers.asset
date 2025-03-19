@@ -14,13 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ItemID>k__BackingField: wafers
   itemName: Granite Wafers
-  <ItemIcon>k__BackingField: {fileID: 0}
+  <ItemIcon>k__BackingField: {fileID: 21300000, guid: fdf34b78a78abaa46b340e4898dce47e, type: 3}
   <Pricing>k__BackingField:
     <BasePrice>k__BackingField: 0.65
   <Prefab>k__BackingField: {fileID: 9047902247392308003, guid: 634cad8fc7eb39d42bbee3c11ad61ef1, type: 3}
   <Stackable>k__BackingField: 0
   <MaxInBox>k__BackingField: 22
-  weightedRandomCustomerPickupChance: []
+  weightedRandomCustomerPickupChance:
+  - Quantity: 1
+    Weight: 5
+  - Quantity: 2
+    Weight: 3
+  - Quantity: 3
+    Weight: 1
+  - Quantity: 5
+    Weight: 0.10000000149011612
   <ContanierCompatabilty>k__BackingField: 1
   <Category>k__BackingField: 1
   SalePercentage: 0.25
