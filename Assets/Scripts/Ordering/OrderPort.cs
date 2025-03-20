@@ -1,8 +1,9 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class OrderPort : MonoBehaviour
+public class OrderPort : NetworkBehaviour
 {
     [System.Serializable]
     private class OrderAllocation
@@ -43,6 +44,8 @@ public class OrderPort : MonoBehaviour
 
     public void ProcessOrderBox(Contents boxContents)
     {
+        if (!IsServer) return;
+
         OrderResponse response = orderAllocationList[0].Order.CompareContents(boxContents);
 
         if (response.Success)
@@ -56,7 +59,7 @@ public class OrderPort : MonoBehaviour
             orderAllocationList[0].Order.OnOrderFailed.Invoke(orderAllocationList[0].Order);
         }
 
-        OrderManager.Instance.RemoveOrder(orderAllocationList[0].Order);
-        OrderManager.Instance.AddNewOrder();
+        OrderManager.Instance.RemoveOrder_Rpc(orderAllocationList[0].Order.OrderId);
+        OrderManager.Instance.AddNewRandomOrder();
     }
 }

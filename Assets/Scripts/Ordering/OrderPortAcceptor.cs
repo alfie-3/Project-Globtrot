@@ -12,6 +12,8 @@ public class OrderPortAcceptor : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!IsServer) return;
+
         IContents boxContents = null;
 
         if (other.TryGetComponent(out OrderContainerBox orderContainerbox)) { boxContents = orderContainerbox; }    

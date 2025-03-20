@@ -49,7 +49,13 @@ public class UI_Window : MonoBehaviour, IPointerDownHandler, IDragHandler
     {
         if (!isMaximized)
         {
-            windowTransform.anchoredPosition += eventData.delta;
+            Vector3 globalMousePos;
+            if (RectTransformUtility.ScreenPointToWorldPointInRectangle(windowTransform, eventData.position, eventData.pressEventCamera, out globalMousePos))
+            {
+                windowTransform.position = globalMousePos;
+            }
+
+            //windowTransform.anchoredPosition += eventData.delta;
         }
     }
 

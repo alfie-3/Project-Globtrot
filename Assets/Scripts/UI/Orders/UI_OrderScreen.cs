@@ -15,7 +15,7 @@ public class UI_OrderScreen : MonoBehaviour
             ClearList();
         }
 
-        foreach (OrderItem item in order.orderItems)
+        foreach (OrderItem item in order.OrderItems)
         {
             UI_OrderListItem orderListItemUI = Instantiate(orderListItemPrefab, orderListParent);
             orderListItemUI.InitializeItem(item);

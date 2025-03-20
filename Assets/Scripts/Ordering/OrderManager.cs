@@ -3,13 +3,14 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using Unity.Netcode;
+using Unity.Collections;
 
 public class OrderManager : NetworkBehaviour
 {
     [SerializeField] CurrentOrderables currentOrderables;
     [field: SerializeField] public List<OrderPort> OrderPorts { get; private set; } = new List<OrderPort>();
 
-    public static List<Order> CurrentOrders;
+    public static Dictionary<FixedString64Bytes, Order> CurrentOrders = new();
     public static Action<Order, int> OnNewOrderAdded;
 
     public static OrderManager Instance;
@@ -25,40 +26,78 @@ public class OrderManager : NetworkBehaviour
         else Destroy(gameObject);
     }
 
-    private void Start()
+    public override void OnNetworkSpawn()
     {
-        AddNewOrder();
+        if (IsServer)
+        AddNewRandomOrder();
     }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void Init()
     {
-        CurrentOrders = new List<Order>();
+        CurrentOrders = new();
         Instance = null;
         OnNewOrderAdded = delegate { };
     }
 
-    public void AddNewOrder()
+    public void AddNewRandomOrder()
     {
+        if (!IsServer) return;
+
         if (CurrentOrders.Count >= OrderLimit) { return; }
 
-        CurrentOrders.Add(OrderBuilder.GenerateOrder(currentOrderables));
-        OnNewOrderAdded.Invoke(CurrentOrders[^1], CurrentOrders.Count);
+        Guid uniqueId = Guid.NewGuid();
+        Debug.Log(uniqueId.ToString());
+        Order newOrder = OrderBuilder.GenerateOrder(currentOrderables, uniqueId.ToString());
 
-        AssignToOrderPort(CurrentOrders[^1]);
+        CurrentOrders.Add(uniqueId.ToString(), newOrder);
+
+        OnNewOrderAdded.Invoke(newOrder, CurrentOrders.Count);
+
+        int assignedPort = TryAssignToOrderPort(newOrder);
+
+        SyncOrder_Rpc(new(newOrder, assignedPort));
     }
 
-    public void RemoveOrder(Order order)
+    public void AddNewOrderFromPayload(OrderPayload payload)
     {
-        order.OnOrderRemoved.Invoke(order);
-        CurrentOrders.Remove(order);
+        Order order = new(payload.Time, payload.OrderItemsToList(), payload.OrderID);
+
+        CurrentOrders.Add(payload.OrderID, order);
+        AssignToOrderPort(order, payload.AssignedPort);
     }
 
-    public void AssignToOrderPort(Order order)
+    [Rpc(SendTo.ClientsAndHost)]
+    public void SyncOrder_Rpc(OrderPayload orderPayload)
     {
-        foreach (OrderPort port in OrderPorts)
+        if (IsServer) return;
+
+        AddNewOrderFromPayload(orderPayload);
+    }
+
+    [Rpc(SendTo.Everyone)]
+    public void RemoveOrder_Rpc(FixedString64Bytes orderId)
+    {
+        if (CurrentOrders.TryGetValue(orderId, out Order order))
         {
-            if (port.TryAddOrder(order)) return;
+            order.OnOrderRemoved.Invoke(order);
         }
+
+        CurrentOrders.Remove(orderId);
+    }
+
+    public int TryAssignToOrderPort(Order order)
+    {
+        for (int i = 0; i < OrderPorts.Count; i++)
+        {
+            if (OrderPorts[i].TryAddOrder(order)) return i;
+        }
+
+        return -1;
+    }
+
+    public void AssignToOrderPort(Order order, int portIndex)
+    {
+        OrderPorts[portIndex].TryAddOrder(order);
     }
 }
