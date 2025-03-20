@@ -16,7 +16,7 @@ public class CurrentOrderables : ScriptableObject
 
         for (int i = 0; i < count; i++)
         {
-            randomPickedList.Add(new(CurrentOrderablesList[i], CurrentOrderablesList[i].WeightedQuantitySelection.GetRandom()));
+            randomPickedList.Add(new(CurrentOrderablesList[i].ItemID, CurrentOrderablesList[i].WeightedQuantitySelection.GetRandom()));
         }
 
         return randomPickedList;
