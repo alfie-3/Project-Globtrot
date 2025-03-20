@@ -23,6 +23,7 @@ public class GridController : MonoBehaviour
         Instance = this;
 
         grid = GetComponent<Grid>(); 
+
     }
     [SerializeField] private Vector2 GizmoVec;
 
