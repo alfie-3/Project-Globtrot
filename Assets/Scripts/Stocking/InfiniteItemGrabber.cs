@@ -21,11 +21,11 @@ public class InfiniteItemGrabber : NetworkBehaviour, IInteractable
         NetworkObject instance = Instantiate(itemPrefab, obj.transform.position, transform.rotation).GetComponent<NetworkObject>();
         instance.Spawn();
 
-        GiveHolderCrate_Rpc(instance, holderReference, RpcTarget.Single(clientID, RpcTargetUse.Temp));
+        GivItem_Rpc(instance, holderReference, RpcTarget.Single(clientID, RpcTargetUse.Temp));
     }
 
     [Rpc(SendTo.SpecifiedInParams)]
-    private void GiveHolderCrate_Rpc(NetworkObjectReference newInstanceRef, NetworkObjectReference holderReference, RpcParams rpcParams)
+    private void GivItem_Rpc(NetworkObjectReference newInstanceRef, NetworkObjectReference holderReference, RpcParams rpcParams)
     {
         if (!holderReference.TryGet(out NetworkObject holder))
             return;

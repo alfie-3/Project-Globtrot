@@ -26,6 +26,7 @@ public class HoldingItemSocket : NetworkBehaviour
             }
 
             boundObject = bindingObject;
+            bindingObject.gameObject.layer = LayerMask.NameToLayer("Physics");
         }
 
         ToggleBoundObjectCollisions(false);
