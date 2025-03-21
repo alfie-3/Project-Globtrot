@@ -7,12 +7,12 @@ public class UI_OpenSign : MonoBehaviour
 
     private void OnEnable()
     {
-        GameStateManager.OnShopOpenChanged += UpdateText;
+        GameStateManager.OnDayStateChanged += UpdateText;
     }
 
     private void OnDisable()
     {
-        GameStateManager.OnShopOpenChanged -= UpdateText;
+        GameStateManager.OnDayStateChanged -= UpdateText;
     }
 
     public void UpdateText(bool toggle)
@@ -29,6 +29,6 @@ public class UI_OpenSign : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameStateManager.OnShopOpenChanged -= UpdateText;
+        GameStateManager.OnDayStateChanged -= UpdateText;
     }
 }

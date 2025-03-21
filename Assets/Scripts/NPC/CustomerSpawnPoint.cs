@@ -20,12 +20,12 @@ public class CustomerSpawnPoint : NetworkBehaviour
 
     private void OnEnable()
     {
-        GameStateManager.OnShopOpenChanged += ToggleSpawning;
+        GameStateManager.OnDayStateChanged += ToggleSpawning;
     }
 
     private void OnDisable()
     {
-        GameStateManager.OnShopOpenChanged -= ToggleSpawning;
+        GameStateManager.OnDayStateChanged -= ToggleSpawning;
     }
 
     public void ToggleSpawning(bool toggle)
@@ -65,7 +65,7 @@ public class CustomerSpawnPoint : NetworkBehaviour
     {
         base.OnDestroy();
 
-        GameStateManager.OnShopOpenChanged -= ToggleSpawning;
+        GameStateManager.OnDayStateChanged -= ToggleSpawning;
     }
 }
 
