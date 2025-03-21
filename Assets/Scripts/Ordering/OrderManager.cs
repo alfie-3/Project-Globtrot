@@ -26,17 +26,21 @@ public class OrderManager : NetworkBehaviour
             Instance = this;
         }
         else Destroy(gameObject);
+
+        GameStateManager.OnDayStateChanged += OnDayStateChange;
+    }
+
+    public void OnDayStateChange(bool state)
+    {
+        if (state == true)
+        {
+            AddNewRandomOrder();
+        }
     }
 
     private void Update()
     {
         OnOrderTimersUpdate.Invoke(Time.deltaTime);
-    }
-
-    public override void OnNetworkSpawn()
-    {
-        if (IsServer)
-            AddNewRandomOrder();
     }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -52,7 +56,7 @@ public class OrderManager : NetworkBehaviour
     public void AddNewRandomOrder()
     {
         if (!IsServer) return;
-
+        if (GameStateManager.Instance.CurrentDayState.Value != DayState.Open) return;
         if (CurrentOrders.Count >= OrderLimit) { return; }
 
         CurrentOrderID++;
@@ -137,5 +141,13 @@ public class OrderManager : NetworkBehaviour
 
         RemoveOrder_Rpc(order.OrderId);
         AddNewRandomOrder();
+    }
+
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
+
+        GameStateManager.OnDayStateChanged -= OnDayStateChange;
+        OnOrderTimersUpdate = null;
     }
 }

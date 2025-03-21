@@ -15,6 +15,10 @@ public class OrderPort : NetworkBehaviour
 
     [SerializeField] OrderPortAcceptor orderPortAcceptor;
     [SerializeField] List<OrderAllocation> orderAllocationList;
+    [Space]
+    [SerializeField] AudioClip CorrectNoise;
+    [SerializeField] AudioClip IncorrectNoise;
+    [SerializeField] AudioClip TimeoutNoise;
 
     private void Awake()
     {
@@ -30,6 +34,7 @@ public class OrderPort : NetworkBehaviour
             allocation.Order = order;
             allocation.OrderScreen.AddOrder(order);
             allocation.Order.OnOrderRemoved += (context) => { RemoveAllocatedOrder(allocation); };
+            allocation.Order.OnTimerFinished += (context) => { PlayNoise_Rpc(ResponseStatus.Timeout); };
 
             return true;
         }
@@ -53,14 +58,33 @@ public class OrderPort : NetworkBehaviour
             case (ResponseStatus.Success):
                 Debug.Log("Great order!");
                 orderAllocationList[0].Order.OnOrderSucceeded.Invoke(orderAllocationList[0].Order);
+                PlayNoise_Rpc(ResponseStatus.Success);
                 break;
             case (ResponseStatus.Failure):
                 Debug.Log("Bad order!");
                 orderAllocationList[0].Order.OnOrderFailed.Invoke(orderAllocationList[0].Order);
+                PlayNoise_Rpc(ResponseStatus.Failure);
                 break;
         }
 
         OrderManager.Instance.RemoveOrder_Rpc(orderAllocationList[0].Order.OrderId);
         OrderManager.Instance.AddNewRandomOrder();
+    }
+
+    [Rpc(SendTo.Everyone)]
+    public void PlayNoise_Rpc(ResponseStatus status)
+    {
+        switch (status)
+        {
+            case ResponseStatus.Success:
+                GetComponent<AudioSource>().PlayOneShot(CorrectNoise);
+                break;
+            case ResponseStatus.Failure:
+                GetComponent<AudioSource>().PlayOneShot(IncorrectNoise);
+                break;
+            case ResponseStatus.Timeout:
+                GetComponent<AudioSource>().PlayOneShot(TimeoutNoise);
+                break;
+        }
     }
 }

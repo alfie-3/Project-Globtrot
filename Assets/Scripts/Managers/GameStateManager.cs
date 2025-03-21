@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class GameStateManager : NetworkBehaviour
 {
-    public static Action<bool> OnShopOpenChanged = delegate { };
+    public static Action<bool> OnDayStateChanged = delegate { };
 
-    public NetworkVariable<ShopState> CurrentShopState = new();
-    public bool IsShopOpen => CurrentShopState.Value == ShopState.Open;
+    public NetworkVariable<DayState> CurrentDayState = new();
+    public bool IsShopOpen => CurrentDayState.Value == DayState.Open;
 
     public static GameStateManager Instance {  get; private set; }
 
@@ -20,13 +20,13 @@ public class GameStateManager : NetworkBehaviour
         else
             Destroy(this);
 
-        CurrentShopState.OnValueChanged += (current, prev) => { OnShopOpenChanged.Invoke(current != ShopState.Open); };
+        CurrentDayState.OnValueChanged += (current, prev) => { OnDayStateChanged.Invoke(current != DayState.Open); };
     }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void Init()
     {
-        OnShopOpenChanged = delegate { };
+        OnDayStateChanged = delegate { };
         Instance = null;
     }
 
@@ -36,33 +36,33 @@ public class GameStateManager : NetworkBehaviour
 
         if (!IsServer) return;
 
-        CurrentShopState.Value = ShopState.Preperation;
+        CurrentDayState.Value = DayState.Preperation;
     }
 
     [Rpc(SendTo.Server)]
     public void ResetState_Rpc()
     {
-        CurrentShopState.Value = ShopState.Preperation;
+        CurrentDayState.Value = DayState.Preperation;
     }
 
     [Rpc(SendTo.Server)]
     public void BeginDay_Rpc()
     {
-        if (CurrentShopState.Value != ShopState.Preperation) return;
+        if (CurrentDayState.Value != DayState.Preperation) return;
 
-        CurrentShopState.Value = ShopState.Open;
+        CurrentDayState.Value = DayState.Open;
     }
 
     [Rpc(SendTo.Server)]
     public void EndDay_Rpc()
     {
-        if (CurrentShopState.Value != ShopState.Open) return;
+        if (CurrentDayState.Value != DayState.Open) return;
 
-        CurrentShopState.Value = ShopState.Closed;
+        CurrentDayState.Value = DayState.Closed;
     }
 }
 
-public enum ShopState
+public enum DayState
 {
     Preperation,
     Open,
