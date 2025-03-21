@@ -1,5 +1,5 @@
 using UnityEngine;
-
+[RequireComponent (typeof(Rigidbody))]
 public class Belt2 : MonoBehaviour
 {
     public float speed = 1.0f;
