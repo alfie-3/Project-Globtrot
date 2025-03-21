@@ -196,7 +196,7 @@ public class PlayerHoldingManager : NetworkBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, dropDistance, dropObjectLayerMask, QueryTriggerInteraction.Ignore))
         {
             dropPos = hit.point;
-            dropPos.y += dropHeight;
+            dropPos += hit.normal * dropHeight;
         }
         else if (Physics.Raycast(secondaryRay, out RaycastHit secondaryHit, dropHeight * 2, dropObjectLayerMask, QueryTriggerInteraction.Ignore))
         {
