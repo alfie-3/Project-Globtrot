@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class OrderBoxInput : NetworkBehaviour
 {
+    [SerializeField] ParticleSystem inputParticle;
+
     private void OnTriggerEnter(Collider other)
     {
         if (!IsServer) return;
@@ -23,6 +25,17 @@ public class OrderBoxInput : NetworkBehaviour
             {
                 Destroy(other.gameObject);
             }
+
+            if (inputParticle != null)
+            {
+                PlayParticle_Rpc();
+            }
         }
+    }
+
+    [Rpc(SendTo.Everyone)]
+    public void PlayParticle_Rpc()
+    {
+        inputParticle.Play();
     }
 }
