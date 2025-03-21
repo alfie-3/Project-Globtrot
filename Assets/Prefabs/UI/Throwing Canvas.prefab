@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4829272971708006502}
   - component: {fileID: 3318431782375107260}
   - component: {fileID: 2597153247056546761}
+  - component: {fileID: 2982786807084563707}
   m_Layer: 5
   m_Name: Throwing Canvas
   m_TagString: Untagged
@@ -47,7 +48,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1643609277716582303}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -103,6 +104,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &2982786807084563707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1643609277716582303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c446f7ffc97ca6e44bdeefefac8007fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Image: {fileID: 6887745127840347747}
 --- !u!1 &7730089696497507329
 GameObject:
   m_ObjectHideFlags: 0

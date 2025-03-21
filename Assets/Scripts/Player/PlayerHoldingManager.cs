@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -12,6 +13,8 @@ public class PlayerHoldingManager : NetworkBehaviour
 
     [SerializeField] PlayerObjectSocketManager ObjectSocketManager;
 
+
+
     //Dropping
     [Space]
     [Header("Dropping")]
@@ -21,7 +24,9 @@ public class PlayerHoldingManager : NetworkBehaviour
 
     [Header("Throwing")]
     [SerializeField] float initailThrowForce = 8f;
-    [SerializeField] float throwForceGrowthRate = 8f;
+    [SerializeField] float MaxThrowForce = 32f;
+    [field: SerializeField] public float maxThrowForceChargeTime { get; private set; } = 4f;
+    public Action<bool> Throwing = delegate { };
 
     [HideInInspector]
     public bool SnappingEnabled;// { get; private set; }
@@ -149,6 +154,7 @@ public class PlayerHoldingManager : NetworkBehaviour
             {
                 if (!HeldObj.TryGetComponent(out IOnDrop onDrop)) return;
                 throwing = true;
+                Throwing.Invoke(throwing);
             }
             if (context.interaction is PressInteraction)
             {
@@ -162,6 +168,7 @@ public class PlayerHoldingManager : NetworkBehaviour
             if (throwing)
             {
                 throwing = false;
+                Throwing.Invoke(throwing);
                 NetworkObject obj = HeldObj;
 
                 GetComponentInChildren<IKTargetsManager>().ClearIKToObject_Rpc(HeldObj);
@@ -169,8 +176,7 @@ public class PlayerHoldingManager : NetworkBehaviour
 
                 obj.GetComponent<RigidbodyNetworkTransform>().SetLinearVelocity_Rpc(Vector3.zero);
                 Vector3 force = CameraManager.CamTransform.forward;
-                force *= initailThrowForce;
-                force += CameraManager.CamTransform.forward * (float)context.duration * throwForceGrowthRate;
+                force *= Mathf.Lerp(initailThrowForce, MaxThrowForce, (float)context.duration/maxThrowForceChargeTime);
 
                 obj.GetComponent<RigidbodyNetworkTransform>().AddForce_Rpc(force, ForceMode.Impulse);
 
