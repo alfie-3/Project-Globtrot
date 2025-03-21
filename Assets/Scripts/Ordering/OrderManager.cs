@@ -1,21 +1,23 @@
-using NUnit.Framework;
-using UnityEngine;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using Unity.Netcode;
-using Unity.Collections;
+using UnityEngine;
 
 public class OrderManager : NetworkBehaviour
 {
     [SerializeField] CurrentOrderables currentOrderables;
     [field: SerializeField] public List<OrderPort> OrderPorts { get; private set; } = new List<OrderPort>();
 
-    public static Dictionary<FixedString64Bytes, Order> CurrentOrders = new();
+    public static Dictionary<int, Order> CurrentOrders = new();
     public static Action<Order, int> OnNewOrderAdded;
 
-    public static OrderManager Instance;
+    //Will always be 0 on clients, used by the server as an ID to distinguish orders
+    public static int CurrentOrderID = 0;
 
+    public static OrderManager Instance;
     public int OrderLimit = 2;
+
+    public static Action<float> OnOrderTimersUpdate;
 
     private void Awake()
     {
@@ -26,10 +28,15 @@ public class OrderManager : NetworkBehaviour
         else Destroy(gameObject);
     }
 
+    private void Update()
+    {
+        OnOrderTimersUpdate.Invoke(Time.deltaTime);
+    }
+
     public override void OnNetworkSpawn()
     {
         if (IsServer)
-        AddNewRandomOrder();
+            AddNewRandomOrder();
     }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -38,6 +45,8 @@ public class OrderManager : NetworkBehaviour
         CurrentOrders = new();
         Instance = null;
         OnNewOrderAdded = delegate { };
+        OnOrderTimersUpdate = delegate { };
+        CurrentOrderID = 0;
     }
 
     public void AddNewRandomOrder()
@@ -46,40 +55,58 @@ public class OrderManager : NetworkBehaviour
 
         if (CurrentOrders.Count >= OrderLimit) { return; }
 
-        Guid uniqueId = Guid.NewGuid();
-        Debug.Log(uniqueId.ToString());
-        Order newOrder = OrderBuilder.GenerateOrder(currentOrderables, uniqueId.ToString());
+        CurrentOrderID++;
+        Order newOrder = OrderBuilder.GenerateOrder(currentOrderables, CurrentOrderID);
 
-        CurrentOrders.Add(uniqueId.ToString(), newOrder);
-
-        OnNewOrderAdded.Invoke(newOrder, CurrentOrders.Count);
+        AddOrder(newOrder);
 
         int assignedPort = TryAssignToOrderPort(newOrder);
 
-        SyncOrder_Rpc(new(newOrder, assignedPort));
+        if (assignedPort == -1) return;
+
+        SyncOrder_Rpc(new(newOrder, assignedPort), NetworkManager.LocalTime.TimeAsFloat);
     }
 
-    public void AddNewOrderFromPayload(OrderPayload payload)
+    public void AddOrder(Order newOrder)
+    {
+        CurrentOrders.Add(newOrder.OrderId, newOrder);
+        OnNewOrderAdded.Invoke(newOrder, CurrentOrders.Count);
+        OnOrderTimersUpdate += newOrder.UpdateTimer;
+
+        if (!IsServer) return;
+        newOrder.OnTimerFinished += TimeoutOrder;
+    }
+
+    public Order AddNewOrderFromPayload(OrderPayload payload, float sentTime = 0)
     {
         Order order = new(payload.Time, payload.OrderItemsToList(), payload.OrderID);
+        AddOrder(order);
 
-        CurrentOrders.Add(payload.OrderID, order);
         AssignToOrderPort(order, payload.AssignedPort);
+
+        return order;
     }
 
     [Rpc(SendTo.ClientsAndHost)]
-    public void SyncOrder_Rpc(OrderPayload orderPayload)
+    public void SyncOrder_Rpc(OrderPayload orderPayload, float sentTime = 0)
     {
         if (IsServer) return;
 
-        AddNewOrderFromPayload(orderPayload);
+        Order newOrder = AddNewOrderFromPayload(orderPayload);
+        
+        if (sentTime != 0)
+        {
+            newOrder.CurrentOrderTime -= sentTime - NetworkManager.ServerTime.TimeAsFloat;
+        }
     }
 
     [Rpc(SendTo.Everyone)]
-    public void RemoveOrder_Rpc(FixedString64Bytes orderId)
+    public void RemoveOrder_Rpc(int orderId)
     {
+
         if (CurrentOrders.TryGetValue(orderId, out Order order))
         {
+            OnOrderTimersUpdate -= order.UpdateTimer;
             order.OnOrderRemoved.Invoke(order);
         }
 
@@ -99,5 +126,16 @@ public class OrderManager : NetworkBehaviour
     public void AssignToOrderPort(Order order, int portIndex)
     {
         OrderPorts[portIndex].TryAddOrder(order);
+    }
+
+    public void TimeoutOrder(Order order)
+    {
+        OrderResponse orderResponse = new(ResponseStatus.Timeout);
+
+        Debug.Log("Out of time!");
+        order.OnOrderFailed.Invoke(order);
+
+        RemoveOrder_Rpc(order.OrderId);
+        AddNewRandomOrder();
     }
 }

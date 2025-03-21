@@ -48,15 +48,16 @@ public class OrderPort : NetworkBehaviour
 
         OrderResponse response = orderAllocationList[0].Order.CompareContents(boxContents);
 
-        if (response.Success)
+        switch (response.ResponseStatus)
         {
-            Debug.Log("Great order!");
-            orderAllocationList[0].Order.OnOrderSucceeded.Invoke(orderAllocationList[0].Order);
-        }
-        else
-        {
-            Debug.Log("Bad order!");
-            orderAllocationList[0].Order.OnOrderFailed.Invoke(orderAllocationList[0].Order);
+            case (ResponseStatus.Success):
+                Debug.Log("Great order!");
+                orderAllocationList[0].Order.OnOrderSucceeded.Invoke(orderAllocationList[0].Order);
+                break;
+            case (ResponseStatus.Failure):
+                Debug.Log("Bad order!");
+                orderAllocationList[0].Order.OnOrderFailed.Invoke(orderAllocationList[0].Order);
+                break;
         }
 
         OrderManager.Instance.RemoveOrder_Rpc(orderAllocationList[0].Order.OrderId);

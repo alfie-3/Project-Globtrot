@@ -6,19 +6,40 @@ using Unity.Collections;
 
 public class Order
 {
-    public FixedString64Bytes OrderId;
-    public float OrderTime = 30;
+    public int OrderId;
+
+    public float InitialOrderTime = 30;
+    public float CurrentOrderTime = 30;
+
     public OrderItem[] OrderItems;
+
+    public Action<float, float> OnOrderTimerUpdate = delegate { };
+    public Action<Order> OnTimerFinished = delegate { }; 
 
     public Action<Order> OnOrderRemoved = delegate { };
     public Action<Order> OnOrderSucceeded = delegate { };
     public Action<Order> OnOrderFailed = delegate { };
 
-    public Order(float orderTime, List<OrderItem> items, FixedString64Bytes orderId)
+    public Order(float orderTime, List<OrderItem> items, int orderId)
     {
-        OrderTime = orderTime;
+        InitialOrderTime = orderTime;
+        CurrentOrderTime = InitialOrderTime;
+
         OrderItems = items.ToArray();
         OrderId = orderId;
+    }
+
+    public void UpdateTimer(float deltaTime)
+    {
+        CurrentOrderTime -= deltaTime;
+
+        if (CurrentOrderTime <= 0)
+        {
+            OnTimerFinished.Invoke(this);
+            return;
+        }
+
+        OnOrderTimerUpdate.Invoke(InitialOrderTime, CurrentOrderTime);
     }
 
     public OrderResponse CompareContents(Contents contents)
@@ -60,7 +81,7 @@ public class Order
 
 public struct OrderResponse
 {
-    public bool Success;
+    public ResponseStatus ResponseStatus;
 
     public Contents IncorrectItems;
     public Contents ExtraItems;
@@ -73,10 +94,25 @@ public struct OrderResponse
         ExtraItems = extraItems;
 
         if (incorrectItems.Count > 0 || missingItems.Count > 0 || extraItems.Count > 0)
-            Success = false;
+            ResponseStatus = ResponseStatus.Failure;
         else
-            Success = true;
+            ResponseStatus = ResponseStatus.Success;
     }
+
+    public OrderResponse(ResponseStatus responseStatus)
+    {
+        ResponseStatus = responseStatus;
+        IncorrectItems = null;
+        ExtraItems = null;
+        MissingItems = null;
+    }
+}
+
+public enum ResponseStatus
+{
+    Success,
+    Failure,
+    Timeout
 }
 
 public class OrderItem
@@ -105,14 +141,14 @@ public class OrderItem
 
 public struct OrderPayload : INetworkSerializable
 {
-    public FixedString64Bytes OrderID;
+    public int OrderID;
     public OrderItemPayload[] OrderItems;
     public int AssignedPort;
     public float Time;
 
     public OrderPayload(Order order, int port)
     {
-        Time = order.OrderTime;
+        Time = order.InitialOrderTime;
         OrderID = order.OrderId;
 
         OrderItems = new OrderItemPayload[order.OrderItems.Length];
