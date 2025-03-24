@@ -20464,6 +20464,22 @@ PrefabInstance:
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 3308825336
       objectReference: {fileID: 0}
+    - target: {fileID: 1257993258045119150, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 1257993258045119150, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 1257993258045119150, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1257993258045119150, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2102395014185417971, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
       propertyPath: currentOrderables
       value: 
@@ -20536,6 +20552,14 @@ PrefabInstance:
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 3308825336
       objectReference: {fileID: 0}
+    - target: {fileID: 8976339845660926033, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8976339845660926033, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 5dd19688717ff504fb5fd4e6ae03e48e, type: 2}
     - target: {fileID: 9096014493687876716, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2288014044
@@ -25138,6 +25162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 4
+  <rotation>k__BackingField: 0
 --- !u!54 &1797088540
 Rigidbody:
   m_ObjectHideFlags: 0
