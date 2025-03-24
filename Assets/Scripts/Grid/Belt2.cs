@@ -11,25 +11,14 @@ public class Belt2 : MonoBehaviour
 
     public Action<Rigidbody> OnDestroyAction = delegate { };
     //Rigidbody rigidbody;
-    private void Awake() {
+    private void Start() {
         BeltManager.AddMe(GetComponent<Rigidbody>(),OnDestroyAction);
-    }
-    void Start()
-    {
-        //rigidbody = GetComponent<Rigidbody>();
-    }
-
-    private void OnCollisionEnter(Collision collision) {
-        Debug.Log("gam");
     }
 
     private void OnCollisionStay(Collision collision) {
-        Debug.Log("Colisino");
-        if(collision.collider.gameObject.layer != BeltManager.Instance.PlayerLayer) return;
+        if (collision.transform.parent == null) return;
 
-        Debug.Log("Layer");
-        if (!collision.collider.transform.parent.TryGetComponent<CharacterMovement>(out CharacterMovement characterMovement)) return;
-        Debug.Log("Player");
+        if (!collision.collider.transform.parent.TryGetComponent(out CharacterMovement characterMovement)) return;
         characterMovement.Push((Quaternion.AngleAxis(rotation, Vector3.up) * transform.forward).normalized * BeltManager.Instance.PlayerForce);
     }
     private void FixedUpdate() {

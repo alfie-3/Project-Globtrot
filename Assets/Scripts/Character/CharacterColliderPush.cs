@@ -15,6 +15,7 @@ public class CharacterColliderPush : NetworkBehaviour
 
     private void Awake()
     {
+
         characterMovement = GetComponentInParent<CharacterMovement>();
     }
 
