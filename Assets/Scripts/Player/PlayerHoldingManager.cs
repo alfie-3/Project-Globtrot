@@ -24,8 +24,7 @@ public class PlayerHoldingManager : NetworkBehaviour
     [SerializeField] LayerMask dropObjectLayerMask;
 
     [Header("Throwing")]
-    [SerializeField] float initailThrowForce = 8f;
-    [SerializeField] float MaxThrowForce = 32f;
+    [SerializeField] AnimationCurve throwForceCurve;
     [field: SerializeField] public float maxThrowForceChargeTime { get; private set; } = 4f;
     public Action<bool> Throwing = delegate { };
 
@@ -177,7 +176,8 @@ public class PlayerHoldingManager : NetworkBehaviour
 
                 obj.GetComponent<RigidbodyNetworkTransform>().SetLinearVelocity_Rpc(Vector3.zero);
                 Vector3 force = CameraManager.CamTransform.forward;
-                force *= Mathf.Lerp(initailThrowForce, MaxThrowForce, (float)context.duration/maxThrowForceChargeTime);
+                //force *= Mathf.Lerp(initailThrowForce, MaxThrowForce, (float)context.duration/maxThrowForceChargeTime);
+                force *= throwForceCurve.Evaluate((float)context.duration / maxThrowForceChargeTime);
 
                 obj.GetComponent<RigidbodyNetworkTransform>().AddForce_Rpc(force, ForceMode.Impulse);
 

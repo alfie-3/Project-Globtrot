@@ -1598,8 +1598,31 @@ MonoBehaviour:
   dropObjectLayerMask:
     serializedVersion: 2
     m_Bits: 65
-  initailThrowForce: 8
-  throwForceGrowthRate: 8
+  throwForceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 1.494879
+      outSlope: 1.494879
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.06298731
+    - serializedVersion: 3
+      time: 1
+      value: 20
+      inSlope: 38.928883
+      outSlope: 38.928883
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.02919209
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  <maxThrowForceChargeTime>k__BackingField: 1.4
   SnappingEnabled: 0
 --- !u!114 &6176468324834789802
 MonoBehaviour:
@@ -1615,6 +1638,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   PlayerUI: {fileID: 3865453612026783338, guid: bea301bced95100448516c0460b1aa48, type: 3}
+  ThrowMeterAnim: {fileID: 0}
 --- !u!114 &6672524378739762288
 MonoBehaviour:
   m_ObjectHideFlags: 0
