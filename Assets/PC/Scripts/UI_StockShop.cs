@@ -11,7 +11,6 @@ public class UI_StockShop : MonoBehaviour
 {
     [SerializeField] private List<GameObject> spawnedProducts = new List<GameObject>();
 
-    [SerializeField] private MoneyManager moneyScript;
     [SerializeField] private Transform spawnArea; // where purchased products will appear 
     [SerializeField] private GameObject itemBoxPrefab;
     [SerializeField] private GameObject furnitureBoxPrefab;

@@ -8,7 +8,7 @@ public class UI_EmailManager : MonoBehaviour
 {
     [SerializeField] private GameObject emailButtonPrefab; 
     [SerializeField] private Transform spawnPoint;          
-    private float emailSpacing = 60.0f;    
+    private float emailSpacing = 50.0f;    
 
     [SerializeField] private TextMeshProUGUI emailSubjectText;  
     [SerializeField] private TextMeshProUGUI emailSenderText;   

@@ -28,8 +28,8 @@ Transform:
   m_GameObject: {fileID: 328320009993911244}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.24, y: 0.25, z: -0.4}
-  m_LocalScale: {x: 0.1, y: 0.5, z: 0.05}
+  m_LocalPosition: {x: 0.24, y: 0.2929, z: -0.4}
+  m_LocalScale: {x: 0.1, y: 0.58575, z: 0.05}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5903135580088715299}
@@ -288,8 +288,8 @@ Transform:
   m_GameObject: {fileID: 1654743206514295018}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.24, y: 0.25, z: -0.4}
-  m_LocalScale: {x: 0.1, y: 0.5, z: 0.05}
+  m_LocalPosition: {x: -0.24, y: 0.2929, z: -0.4}
+  m_LocalScale: {x: 0.1, y: 0.58575, z: 0.05}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5903135580088715299}
@@ -379,6 +379,7 @@ GameObject:
   - component: {fileID: 5903135580088715299}
   - component: {fileID: 7364480484601868620}
   - component: {fileID: 1301937488159775928}
+  - component: {fileID: 8118391138427727549}
   m_Layer: 0
   m_Name: ConveyerBelt
   m_TagString: Untagged
@@ -395,7 +396,7 @@ Transform:
   m_GameObject: {fileID: 4942620250536275860}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 15.5, y: 0, z: -1.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -418,7 +419,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 546295725
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -467,6 +468,14 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!33 &8118391138427727549
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4942620250536275860}
+  m_Mesh: {fileID: -1550514412580984892, guid: 3649c0e6ee90f3345b74fe9064804a78, type: 3}
 --- !u!1 &5328242208233185259
 GameObject:
   m_ObjectHideFlags: 0
@@ -496,15 +505,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5328242208233185259}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.13052624, y: -0, z: -0, w: 0.9914449}
+  m_LocalRotation: {x: -0.00000028312203, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.66700006, z: 0}
-  m_LocalScale: {x: 0.6, y: 0.2, z: 0.8}
+  m_LocalScale: {x: 0.85, y: 0.2, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7039862640696670275}
   - {fileID: 1612712376333815634}
   m_Father: {fileID: 5903135580088715299}
-  m_LocalEulerAnglesHint: {x: -15, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7277011864817577167
 MeshFilter:
   m_ObjectHideFlags: 0
