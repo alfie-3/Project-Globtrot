@@ -17,8 +17,7 @@ public class UI_Basket : MonoBehaviour
     [SerializeField] private int maxBasketSize = 10; // so the ui doesnt go off screen
     private List<GameObject> basket = new List<GameObject>(); 
     private float spacingY = 50.0f;
-    public float SalePercentage;
-
+    
     // adds to basket
     public void SendToBasket(string productName)
     {
