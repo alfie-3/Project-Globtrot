@@ -116,7 +116,7 @@ public class RigidbodyNetworkTransform : NetworkTransform
             Rigidbody.AddForceAtPosition(force, point, forceMode);
     }
 
-    [Rpc(SendTo.Everyone)]
+    [Rpc(SendTo.Server)]
     public void SetLinearVelocity_Rpc(Vector3 velocity)
     {
         Rigidbody.linearVelocity = velocity;

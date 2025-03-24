@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 573769d89549f724f996e2631ddd2f35, type: 3}
+  m_Name: GasCanister
+  m_EditorClassIdentifier: 
+  <ItemID>k__BackingField: can
+  itemName: Can
+  <ItemIcon>k__BackingField: {fileID: 21300000, guid: 46eb92b01fdd2d24a9ba92d082729ae2, type: 3}
+  <Pricing>k__BackingField:
+    <BasePrice>k__BackingField: 0.5
+  <Prefab>k__BackingField: {fileID: 1647032077398859466, guid: cdda10db43021a14c9b8f02ebf0eb982, type: 3}
+  <Stackable>k__BackingField: 1
+  <MaxInBox>k__BackingField: 64
+  weightedRandomCustomerPickupChance:
+  - Quantity: 1
+    Weight: 5
+  - Quantity: 2
+    Weight: 3.5
+  - Quantity: 3
+    Weight: 1
+  <ContanierCompatabilty>k__BackingField: 3
+  <Category>k__BackingField: 2
+  SalePercentage: 0.25
+  UnlockPrice: 50
+  Unlockable: 0
