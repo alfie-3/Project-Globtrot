@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -180,10 +181,7 @@ public class PlayerHoldingManager : NetworkBehaviour
 
                 obj.GetComponent<RigidbodyNetworkTransform>().AddForce_Rpc(force, ForceMode.Impulse);
 
-                foreach (IOnDrop drop in HeldObj.GetComponentsInChildren<IOnDrop>())
-                {
-                    drop.OnDrop(this);
-                }
+                HeldObj.GetComponentsInChildren<IOnDrop>().ToList().ForEach(x => x.OnDrop(this));
             }
         }
     }

@@ -11336,6 +11336,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2558901853526217196, guid: 8696d88703ecf674183ed7a78078be55, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790795565288975975, guid: 8696d88703ecf674183ed7a78078be55, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7031479675686116772, guid: 8696d88703ecf674183ed7a78078be55, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -14843,7 +14851,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.5, y: 0.5, z: 0.5}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.23, z: 0}
 --- !u!23 &1075258115
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -31738,6 +31746,10 @@ PrefabInstance:
     - target: {fileID: 3429713407877767309, guid: 5cc5f899dee684643a4c0666aa40bce6, type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3799451610413839923, guid: 5cc5f899dee684643a4c0666aa40bce6, type: 3}
+      propertyPath: m_FillAmount
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4388757477861237772, guid: 5cc5f899dee684643a4c0666aa40bce6, type: 3}
       propertyPath: m_AnchorMax.y
