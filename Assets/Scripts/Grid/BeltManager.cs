@@ -10,12 +10,10 @@ public class BeltManager : NetworkBehaviour
 
     [field: SerializeField] public float Speed { get; private set; }
     [field: SerializeField] public float PlayerForce { get; private set; }
-    public LayerMask PlayerLayer => LayerMask.GetMask("Player");
 
 
-    //NetworkList<Rigidbody> Belts = new NetworkList<Rigidbody>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
 
-    [field: SerializeField] private List<Rigidbody> Beltss;
+    [field: SerializeField] private List<Belt2> Beltss;
      
 
     private void Awake() {
@@ -25,21 +23,15 @@ public class BeltManager : NetworkBehaviour
             Destroy(this);
     }
 
-    public static void AddMe(Rigidbody body, Action<Rigidbody> destroy) {
+    public static void AddMe(Belt2 body, ref Action<Belt2> destroy) {
         Instance.Beltss.Add(body);
-        destroy += (Rigidbody b) => {Instance.Beltss.Remove(b);};
-        
+        destroy += (Belt2 b) => {Instance.Beltss.Remove(b);};
     }
 
 
     private void FixedUpdate() {
-        foreach (Rigidbody b in Beltss) {
-            Vector3 pos = b.position;
-            b.position -= transform.forward * Speed * Time.fixedDeltaTime;
-            b.MovePosition(pos);
+        foreach (Belt2 b in Beltss) {
+            b.Jiggle(Speed);
         }
-
-
-        
     }
 }
