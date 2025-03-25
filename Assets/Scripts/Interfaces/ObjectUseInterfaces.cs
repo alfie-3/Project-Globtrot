@@ -11,6 +11,11 @@ public interface IUseSecondary
     public void UseSecondary(PlayerHoldingManager manager);
 }
 
+public interface IUseItem
+{
+    public void OnItemUsed(PlayerHoldingManager holdingManager, ShopProduct_Item shopProduct_Item);
+}
+
 public interface IOnHeld
 {
     public void OnHeld(PlayerHoldingManager manager);

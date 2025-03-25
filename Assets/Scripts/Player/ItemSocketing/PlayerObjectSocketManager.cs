@@ -1,5 +1,6 @@
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerObjectSocketManager : NetworkBehaviour
 {
@@ -40,6 +41,21 @@ public class PlayerObjectSocketManager : NetworkBehaviour
             case ObjectSocket.Chest:
                 ChestSlot.ClearObjectBinding(position, rotation, resetVelocity); break;
         }
+    }
+
+    public Transform GetSocketTransform(ObjectSocket slot)
+    {
+        switch (slot)
+        {
+            case ObjectSocket.LeftHand:
+                return LeftHandSlot.transform;
+            case ObjectSocket.RightHand:
+                return RightHandSlot.transform;
+            case ObjectSocket.Chest:
+                return ChestSlot.transform;
+        }
+
+        return null;
     }
 
     public void ClearAllBoundObjects()

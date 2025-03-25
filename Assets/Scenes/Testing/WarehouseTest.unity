@@ -6575,7 +6575,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6960e84d07fb87f47956e7a81d71c4e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ProtocolType: 1
+  m_ProtocolType: 0
   m_UseWebSockets: 0
   m_UseEncryption: 0
   m_MaxPacketQueueSize: 128
@@ -14378,7 +14378,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1036265832}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -32162,6 +32162,79 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1001 &1175225649142144220
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3192603340255781883, guid: 44a9620cf04d9f94d90e85fe17c69439, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 7.351583
+      objectReference: {fileID: 0}
+    - target: {fileID: 3192603340255781883, guid: 44a9620cf04d9f94d90e85fe17c69439, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.021996856
+      objectReference: {fileID: 0}
+    - target: {fileID: 3192603340255781883, guid: 44a9620cf04d9f94d90e85fe17c69439, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -7.0614743
+      objectReference: {fileID: 0}
+    - target: {fileID: 3192603340255781883, guid: 44a9620cf04d9f94d90e85fe17c69439, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3192603340255781883, guid: 44a9620cf04d9f94d90e85fe17c69439, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3192603340255781883, guid: 44a9620cf04d9f94d90e85fe17c69439, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.70710677
+      objectReference: {fileID: 0}
+    - target: {fileID: 3192603340255781883, guid: 44a9620cf04d9f94d90e85fe17c69439, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3192603340255781883, guid: 44a9620cf04d9f94d90e85fe17c69439, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3192603340255781883, guid: 44a9620cf04d9f94d90e85fe17c69439, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3192603340255781883, guid: 44a9620cf04d9f94d90e85fe17c69439, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4300507456067780120, guid: 44a9620cf04d9f94d90e85fe17c69439, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 2777746661
+      objectReference: {fileID: 0}
+    - target: {fileID: 4300507456067780120, guid: 44a9620cf04d9f94d90e85fe17c69439, type: 3}
+      propertyPath: InScenePlacedSourceGlobalObjectIdHash
+      value: 2756831326
+      objectReference: {fileID: 0}
+    - target: {fileID: 7542530661824127455, guid: 44a9620cf04d9f94d90e85fe17c69439, type: 3}
+      propertyPath: m_Name
+      value: GasStation
+      objectReference: {fileID: 0}
+    - target: {fileID: 8835572426874929292, guid: 44a9620cf04d9f94d90e85fe17c69439, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 2938950481
+      objectReference: {fileID: 0}
+    - target: {fileID: 8994806406672551969, guid: 44a9620cf04d9f94d90e85fe17c69439, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 1983939866
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 44a9620cf04d9f94d90e85fe17c69439, type: 3}
 --- !u!1 &1490536937910392104
 GameObject:
   m_ObjectHideFlags: 0
@@ -32709,3 +32782,4 @@ SceneRoots:
   - {fileID: 620428171}
   - {fileID: 1897377564}
   - {fileID: 2038766788}
+  - {fileID: 1175225649142144220}

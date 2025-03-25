@@ -135,6 +135,22 @@ public class PlayerHoldingManager : NetworkBehaviour
         }
     }
 
+    public bool UsageRaycast(LayerMask layerMask, out RaycastHit rayHit)
+    {
+        Ray ray = new(CameraManager.CamTransform.position, CameraManager.CamTransform.forward);
+
+
+        if (Physics.Raycast(ray, out RaycastHit hit, 3, layerMask))
+        {
+            rayHit = hit;
+            return true;
+        }
+
+        rayHit = default;
+        return false;
+    }
+
+
     public void UsePrimaryOnHeldObject()
     {
         if (HeldObj == null) return;
@@ -197,15 +213,17 @@ public class PlayerHoldingManager : NetworkBehaviour
 
         Vector3 dropPos = CameraManager.CamTransform.position + (CameraManager.CamTransform.forward * dropDistance);
 
+        Bounds heldObjBounds = HeldObj.GetComponent<MeshRenderer>().bounds;
+
         if (Physics.Raycast(ray, out RaycastHit hit, dropDistance, dropObjectLayerMask, QueryTriggerInteraction.Ignore))
         {
             dropPos = hit.point;
-            dropPos += hit.normal * dropHeight;
+            dropPos += hit.normal * (heldObjBounds.extents.y + dropHeight);
         }
         else if (Physics.Raycast(secondaryRay, out RaycastHit secondaryHit, dropHeight * 2, dropObjectLayerMask, QueryTriggerInteraction.Ignore))
         {
             dropPos = secondaryHit.point;
-            dropPos.y += dropHeight;
+            dropPos += hit.normal * (heldObjBounds.extents.y + dropHeight);
         }
 
         ObjectSocketManager.ClearBoundObject_Rpc(HeldObj.GetComponent<Pickup_Interactable>().HoldingSocket, dropPos, ObjectSocketManager.transform.rotation, true);
@@ -214,6 +232,24 @@ public class PlayerHoldingManager : NetworkBehaviour
         {
             drop.OnDrop(this);
         }
+
+        ClearItem();
+    }
+
+    [Rpc(SendTo.Everyone)]
+    public void DisconnectHeldObject_Rpc()
+    {
+        foreach (IOnDrop drop in HeldObj.GetComponentsInChildren<IOnDrop>())
+        {
+            drop.OnDrop(this);
+        }
+
+        GetComponentInChildren<IKTargetsManager>().ClearIKToObject_Rpc(HeldObj);
+        Transform socket = ObjectSocketManager.GetSocketTransform(HeldObj.GetComponent<Pickup_Interactable>().HoldingSocket);
+        ObjectSocketManager.ClearBoundObject_Rpc(HeldObj.GetComponent<Pickup_Interactable>().HoldingSocket, socket.position, socket.rotation, true);
+
+        ClearItem();
+
     }
 
     public void PerformScroll(InputAction.CallbackContext context)

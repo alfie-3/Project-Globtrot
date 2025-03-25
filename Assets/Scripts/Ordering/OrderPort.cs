@@ -50,6 +50,7 @@ public class OrderPort : NetworkBehaviour
     public void ProcessOrderBox(Contents boxContents)
     {
         if (!IsServer) return;
+        if (orderAllocationList.Count == 0) return;
 
         OrderResponse response = orderAllocationList[0].Order.CompareContents(boxContents);
 

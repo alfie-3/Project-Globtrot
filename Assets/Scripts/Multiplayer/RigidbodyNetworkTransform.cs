@@ -25,6 +25,8 @@ public class RigidbodyNetworkTransform : NetworkTransform
     //Socketing
     public bool IsSocketed = false;
 
+    public bool rigidbodyDisabled;
+
     protected override void Awake()
     {
         base.Awake();
@@ -36,7 +38,7 @@ public class RigidbodyNetworkTransform : NetworkTransform
     }
     public void Update()
     {
-        if (IsSleeping == true) return;
+        if (IsSleeping == true || rigidbodyDisabled) return;
 
         CheckPhysicsState();
     }
@@ -70,7 +72,7 @@ public class RigidbodyNetworkTransform : NetworkTransform
 
     public void WakeUp()
     {
-        if (!IsSleeping) return;
+        if (!IsSleeping || rigidbodyDisabled) return;
 
         SetSleeping(false);
 
@@ -88,6 +90,14 @@ public class RigidbodyNetworkTransform : NetworkTransform
                 rbNWT.WakeUp();
             }
         }
+    }
+
+    public void SetRigidbodyEnabled(bool state)
+    {
+        Rigidbody.isKinematic = !state;
+        NetworkRigidbody.UseRigidBodyForMotion = state;
+
+        rigidbodyDisabled = state;
     }
 
     public void CheckPhysicsState()

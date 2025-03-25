@@ -1,5 +1,4 @@
 using Unity.Netcode;
-using Unity.Netcode.Components;
 using UnityEngine;
 
 public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
@@ -33,7 +32,6 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
     public void OnDrop(PlayerHoldingManager holdingManager)
     {
         if (PickedUp.Value == false) return;
-        holdingManager.ClearItem();
         Drop_RPC();
     }
 
@@ -45,12 +43,10 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
             PickedUp.Value = true;
     }
 
-    [Rpc(SendTo.Everyone)]
+    [Rpc(SendTo.Server)]
     private void Drop_RPC()
     {
-        if (IsServer)
-            PickedUp.Value = false;
-
+        PickedUp.Value = false;
     }
 
     [Rpc(SendTo.Server)]
