@@ -38,6 +38,8 @@ public class Belt2 : MonoBehaviour
         Vector3 pos = rigidbody.position;
         rigidbody.position -= (Quaternion.AngleAxis(rotation, Vector3.up) * transform.forward) * speed * Time.fixedDeltaTime;
         rigidbody.MovePosition(pos);
+        GetComponent<Renderer>().material.SetTextureOffset("_MainTex", new Vector2(0, Time.time));
+        //GetComponent<Material>().SetTextureOffset
     }
 
 

@@ -25315,7 +25315,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc0cbf9d85195dd4990a62435fcc6955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
   <rotation>k__BackingField: 0
 --- !u!54 &1797088540
 Rigidbody:
@@ -26437,6 +26436,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5703899760553244632, guid: ae18dfe7c80fb2f4ca546d79aa9766c1, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: -876546973899608171, guid: e6e67c49dd0242f489fbe8ac16426043, type: 3}
     - target: {fileID: 5730465518491820836, guid: ae18dfe7c80fb2f4ca546d79aa9766c1, type: 3}
       propertyPath: m_Name
       value: ConveyorBeltStraight
