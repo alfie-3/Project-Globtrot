@@ -208,7 +208,7 @@ public class PlayerHoldingManager : NetworkBehaviour
             dropPos.y += dropHeight;
         }
 
-        ObjectSocketManager.ClearBoundObject_Rpc(HeldObj.GetComponent<Pickup_Interactable>().HoldingSocket, dropPos, ObjectSocketManager.transform.rotation, true);
+        ObjectSocketManager.ClearBoundObject_Rpc(HeldObj.GetComponent<Pickup_Interactable>().HoldingSocket, dropPos, HeldObj.transform.rotation, true);
 
         foreach (IOnDrop drop in HeldObj.GetComponentsInChildren<IOnDrop>())
         {

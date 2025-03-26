@@ -26,11 +26,6 @@ public class Belt2 : MonoBehaviour
         if (!collision.collider.transform.parent.TryGetComponent(out CharacterMovement characterMovement)) return;
         characterMovement.Push((Quaternion.AngleAxis(rotation, Vector3.up) * transform.forward).normalized * BeltManager.Instance.PlayerForce);
     }
-    private void FixedUpdate() {
-        //Vector3 pos = rigidbody.position;
-        //rigidbody.position -= transform.forward * speed * Time.fixedDeltaTime;
-        //rigidbody.MovePosition(pos);
-    }
 
 
     public void Jiggle(float speed)
@@ -38,8 +33,6 @@ public class Belt2 : MonoBehaviour
         Vector3 pos = rigidbody.position;
         rigidbody.position -= (Quaternion.AngleAxis(rotation, Vector3.up) * transform.forward) * speed * Time.fixedDeltaTime;
         rigidbody.MovePosition(pos);
-        GetComponent<Renderer>().material.SetTextureOffset("_MainTex", new Vector2(0, Time.time));
-        //GetComponent<Material>().SetTextureOffset
     }
 
 
