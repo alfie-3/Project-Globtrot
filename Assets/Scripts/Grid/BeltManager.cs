@@ -13,7 +13,7 @@ public class BeltManager : NetworkBehaviour
 
 
 
-    [field: SerializeField] private List<Belt2> Beltss;
+    [field: SerializeField] private List<Belt> Beltss;
      
 
     private void Awake() {
@@ -23,14 +23,14 @@ public class BeltManager : NetworkBehaviour
             Destroy(this);
     }
 
-    public static void AddMe(Belt2 body, ref Action<Belt2> destroy) {
+    public static void AddMe(Belt body, ref Action<Belt> destroy) {
         Instance.Beltss.Add(body);
-        destroy += (Belt2 b) => {Instance.Beltss.Remove(b);};
+        destroy += (Belt b) => {Instance.Beltss.Remove(b);};
     }
 
 
     private void FixedUpdate() {
-        foreach (Belt2 b in Beltss) {
+        foreach (Belt b in Beltss) {
             b.Jiggle(Speed);
         }
     }

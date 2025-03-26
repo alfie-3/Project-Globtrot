@@ -1,19 +1,15 @@
 using System;
 using UnityEngine;
 [RequireComponent (typeof(Rigidbody))]
-public class Belt2 : MonoBehaviour
+public class Belt : MonoBehaviour
 {
-    
     [field: SerializeField] public float rotation { get; private set; }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
 
-    //[field: SerializeField] public static float  { get; private set; }
-
-    public Action<Belt2> OnDestroyAction = delegate { };
-    Rigidbody rigidbody;
+    public Action<Belt> OnDestroyAction = delegate { };
+    protected Rigidbody rb;
     private void Start() {
-        rigidbody = GetComponent<Rigidbody>();
-        BeltManager.AddMe(GetComponent<Belt2>(), ref OnDestroyAction);
+        rb = GetComponent<Rigidbody>();
+        BeltManager.AddMe(GetComponent<Belt>(), ref OnDestroyAction);
     }
 
     private void OnDestroy() {
@@ -30,15 +26,10 @@ public class Belt2 : MonoBehaviour
 
     public void Jiggle(float speed)
     {
-        Vector3 pos = rigidbody.position;
-        rigidbody.position -= (Quaternion.AngleAxis(rotation, Vector3.up) * transform.forward) * speed * Time.fixedDeltaTime;
-        rigidbody.MovePosition(pos);
+        Vector3 pos = rb.position;
+        rb.position -= (Quaternion.AngleAxis(rotation, Vector3.up) * transform.forward) * speed * Time.fixedDeltaTime;
+        rb.MovePosition(pos);
     }
-
-
-
-    
-
     private void OnDrawGizmos() {
         Gizmos.DrawLine(transform.position,transform.position + (Quaternion.AngleAxis(rotation, Vector3.up) * transform.forward));
     }
