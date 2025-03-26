@@ -8,9 +8,9 @@ public class GridController : MonoBehaviour
 {
     Grid grid;
     public static GridController Instance { get; private set; }
-    [SerializeField] bool objectInMiddleOfCell;
-    [SerializeField] Vector3 gridOffset;
-    
+    [SerializeField] public bool objectInMiddleOfCell { get; private set; }
+    [field: SerializeField] public Vector3 gridOffset { get; private set; }
+
 
     private void Awake()
     {
@@ -75,10 +75,11 @@ void OnDrawGizmosSelected()
 }
 
 
+
 #if UNITY_EDITOR
 
 [CustomEditor(typeof(GridController))]
-class CustomGridyEditor : Editor
+class CustomGridEditor : Editor
 {
     public override void OnInspectorGUI()
     {
@@ -86,11 +87,15 @@ class CustomGridyEditor : Editor
 
         DrawDefaultInspector();
 
-        GridController gridy = (GridController)target;
+        GridController grid = (GridController)target;
 
-        if (GUILayout.Button("setGrid"))
+        if (GUILayout.Button("Set grid material"))
         {
+            grid.transform.GetChild(0).GetComponent<Renderer>().sharedMaterial.SetVector("_Offset", grid.gridOffset);
+            grid.transform.GetChild(0).GetComponent<Renderer>().sharedMaterial.SetVector("_CellSize", grid.GetComponent<Grid>().cellSize);
         }
     }
 }
 #endif
+
+ 
