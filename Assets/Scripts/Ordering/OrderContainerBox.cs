@@ -2,10 +2,37 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class OrderContainerBox : NetworkBehaviour, IContents
+public class OrderContainerBox : NetworkBehaviour, IContents, IOnHeld
 {
     [SerializeField] Contents boxContents;
     public Contents Contents => boxContents;
+
+    [SerializeField] Animator boxAnimator;
+
+    bool isOpen = false;
+
+    public void SetOpen(bool open)
+    {
+        if (open)
+        {
+            if (isOpen == true) return;
+            Contents.AllowItems = true;
+            boxAnimator.Play("Open");
+        }
+        else
+        {
+            if (isOpen == false) return;
+            Contents.AllowItems = false;
+            boxAnimator.Play("Close");
+        }
+
+        isOpen = open;
+    }
+
+    public void OnHeld(PlayerHoldingManager manager)
+    {
+        SetOpen(false);
+    }
 }
 
 [System.Serializable]
@@ -13,6 +40,7 @@ public class Contents
 {
     [SerializeField] int maxContentsAmount = 4;
     bool useLimit = true;
+    public bool AllowItems = true;
 
     public Dictionary<string, int> ContentsDictionary { get; private set; } = new Dictionary<string, int>();
 
@@ -39,6 +67,8 @@ public class Contents
 
     public bool TryAddItem(string id, int quantity = 1)
     {
+        if (!AllowItems) return false;
+
         if (ContentsDictionary.Count > maxContentsAmount && useLimit) return false;
 
         if (ContentsDictionary.TryAdd(id, quantity)) return true;
