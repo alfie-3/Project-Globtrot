@@ -20,7 +20,7 @@ public class UI_BasketProduct : MonoBehaviour
         productAmount.text = amount.ToString();
 
 
-        if (itemData is ShopProduct_Item productItem)
+        if (itemData is Stock_Item productItem)
         {
             productPrice.text = (productItem.GetCurrentPurchasePrice() * amount).ToString("F2");
         }
@@ -37,7 +37,7 @@ public class UI_BasketProduct : MonoBehaviour
         productAmount.text = amount.ToString();
 
         // update total price when amount changes
-        if (itemData is ShopProduct_Item productItem)
+        if (itemData is Stock_Item productItem)
         {
             productPrice.text = (productItem.GetCurrentPurchasePrice() * amount).ToString("F2");
         }

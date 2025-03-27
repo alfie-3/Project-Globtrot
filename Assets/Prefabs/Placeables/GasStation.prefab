@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1317266701474788883}
   - component: {fileID: 637010474554554362}
   - component: {fileID: 7067597350740373095}
+  - component: {fileID: 5056872211763573004}
   m_Layer: 0
   m_Name: GasStationButton (4)
   m_TagString: Untagged
@@ -86,6 +87,35 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5056872211763573004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1805046017015823402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a137fa12e899254890a731be6bbaa57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  PressedEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3865422819475089816}
+        m_TargetAssemblyTypeName: GasFillerController, Assembly-CSharp
+        m_MethodName: FillGasCannister
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 4
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  replicate: 1
 --- !u!1 &3290750374492885433
 GameObject:
   m_ObjectHideFlags: 0
@@ -97,6 +127,7 @@ GameObject:
   - component: {fileID: 3654967681532142722}
   - component: {fileID: 2765198958726829222}
   - component: {fileID: 2170569510617394061}
+  - component: {fileID: 4493076120108381457}
   m_Layer: 0
   m_Name: GasStationButton (3)
   m_TagString: Untagged
@@ -172,6 +203,35 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &4493076120108381457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3290750374492885433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a137fa12e899254890a731be6bbaa57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  PressedEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3865422819475089816}
+        m_TargetAssemblyTypeName: GasFillerController, Assembly-CSharp
+        m_MethodName: UpdateFillAmount
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 3
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  replicate: 1
 --- !u!1 &4268780162781086380
 GameObject:
   m_ObjectHideFlags: 0
@@ -183,6 +243,7 @@ GameObject:
   - component: {fileID: 5863893072989064575}
   - component: {fileID: 6128387281625991084}
   - component: {fileID: 270140264267335390}
+  - component: {fileID: 5332656202251262632}
   m_Layer: 0
   m_Name: GasStationButton (2)
   m_TagString: Untagged
@@ -258,6 +319,35 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5332656202251262632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4268780162781086380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a137fa12e899254890a731be6bbaa57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  PressedEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3865422819475089816}
+        m_TargetAssemblyTypeName: GasFillerController, Assembly-CSharp
+        m_MethodName: FillGasCannister
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  replicate: 1
 --- !u!1 &5195572051713507650
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,6 +360,7 @@ GameObject:
   - component: {fileID: 4104986003691560840}
   - component: {fileID: 3960889019874670060}
   - component: {fileID: 4961266010748484024}
+  - component: {fileID: 7760851571659075535}
   m_Layer: 0
   m_Name: GasStationDial
   m_TagString: Untagged
@@ -285,13 +376,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5195572051713507650}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: -0.000000029802319, z: -0.68287945, w: 0.73053116}
   m_LocalPosition: {x: -0.1979152, y: 1.427095, z: 0.018535975}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3192603340255781883}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -86.138}
 --- !u!33 &4104986003691560840
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -357,8 +448,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c66b856da86bec40bde077dc4e19d4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentAmount: 0
-  rotationalMinMax: {x: 0, y: 0}
+  controller: {fileID: 3865422819475089816}
+  rotationalMinMax: {x: -90, y: 90}
+--- !u!114 &7760851571659075535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5195572051713507650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkTransformExpanded: 0
+  AuthorityMode: 0
+  TickSyncChildren: 0
+  UseUnreliableDeltas: 0
+  SyncPositionX: 0
+  SyncPositionY: 0
+  SyncPositionZ: 0
+  SyncRotAngleX: 0
+  SyncRotAngleY: 0
+  SyncRotAngleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.0001
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  SwitchTransformSpaceWhenParented: 0
+  Interpolate: 1
+  SlerpPosition: 0
 --- !u!1 &5226338695009151828
 GameObject:
   m_ObjectHideFlags: 0
@@ -370,6 +497,8 @@ GameObject:
   - component: {fileID: 7745974698516824320}
   - component: {fileID: 4452611071689685579}
   - component: {fileID: 5887014443344392453}
+  - component: {fileID: 3687142297083665278}
+  - component: {fileID: 522181617059258230}
   m_Layer: 0
   m_Name: GasStationButton
   m_TagString: Untagged
@@ -445,6 +574,56 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3687142297083665278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5226338695009151828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a137fa12e899254890a731be6bbaa57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  PressedEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3865422819475089816}
+        m_TargetAssemblyTypeName: GasFillerController, Assembly-CSharp
+        m_MethodName: FillGasCannister
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  replicate: 1
+--- !u!65 &522181617059258230
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5226338695009151828}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.22315216, y: 0.13203512, z: 0.07762547}
+  m_Center: {x: 0, y: 0.000000007450581, z: 0.038812734}
 --- !u!1 &5583834021567370352
 GameObject:
   m_ObjectHideFlags: 0
@@ -515,6 +694,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   referenceItem: {fileID: 11400000, guid: 0bb6a851e5864414382675a67b4747c3, type: 2}
+  cannister: {fileID: 0}
 --- !u!1 &6976737721893797133
 GameObject:
   m_ObjectHideFlags: 0
@@ -526,6 +706,7 @@ GameObject:
   - component: {fileID: 2484844181874116365}
   - component: {fileID: 5522033831592528975}
   - component: {fileID: 3801595442977240723}
+  - component: {fileID: 1849592910261874969}
   m_Layer: 0
   m_Name: GasStationButton (1)
   m_TagString: Untagged
@@ -601,6 +782,35 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1849592910261874969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6976737721893797133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a137fa12e899254890a731be6bbaa57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  PressedEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3865422819475089816}
+        m_TargetAssemblyTypeName: GasFillerController, Assembly-CSharp
+        m_MethodName: FillGasCannister
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  replicate: 1
 --- !u!1 &7542530661824127455
 GameObject:
   m_ObjectHideFlags: 0
@@ -630,7 +840,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7542530661824127455}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.70710677, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 7.351583, y: 0.021996856, z: -7.0614743}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -657,8 +867,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2756831326
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  GlobalObjectIdHash: 2777746661
+  InScenePlacedSourceGlobalObjectIdHash: 2756831326
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
@@ -736,6 +946,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8220a0d9d38f49d4b93d0c01c6e72949, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fillSpeed: 10
+  overPressureTimeout: 6
+  port: {fileID: 8439737965999621989}
+  gasTypes:
+  - {fileID: 11400000, guid: 0bbdc41bfe8e1e74eb2b4f14c89d80fc, type: 2}
+  - {fileID: 11400000, guid: c8734a8a3e04a734d9ed9bcbf85a199e, type: 2}
+  - {fileID: 11400000, guid: 7e4c6407a85894b40b2019d82cef2163, type: 2}
+  - {fileID: 11400000, guid: 2cb0aa1a27e1f7e4186fee1bf99364a7, type: 2}
+  - {fileID: 11400000, guid: bf6e44c63e6636845a44b705bfbf3927, type: 2}
+  - {fileID: 11400000, guid: d4af05de10f664f46aea8606e8721319, type: 2}
 --- !u!64 &661505259640319263
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -769,6 +989,7 @@ GameObject:
   - component: {fileID: 4681898550272869250}
   - component: {fileID: 2336679092093957213}
   - component: {fileID: 984831920826344206}
+  - component: {fileID: 1936941481312528755}
   m_Layer: 0
   m_Name: GasStationButton (5)
   m_TagString: Untagged
@@ -844,3 +1065,32 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1936941481312528755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8238545689006940464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a137fa12e899254890a731be6bbaa57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  PressedEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3865422819475089816}
+        m_TargetAssemblyTypeName: GasFillerController, Assembly-CSharp
+        m_MethodName: FillGasCannister
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 5
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  replicate: 1

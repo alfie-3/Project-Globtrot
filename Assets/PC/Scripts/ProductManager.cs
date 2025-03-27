@@ -15,7 +15,7 @@ public class ProductManager : MonoBehaviour
     [SerializeField] private List<TextMeshProUGUI> c_buttonTexts = new List<TextMeshProUGUI>(); 
     private Dictionary<ProductCategory, List<Transform>> c_productPanels = new Dictionary<ProductCategory, List<Transform>>();
 
-    private List<ShopProduct_Item> allProducts = new List<ShopProduct_Item>();
+    private List<Stock_Item> allProducts = new List<Stock_Item>();
     private List<PlacableFurniture_Item> allFurniture = new List<PlacableFurniture_Item>();
 
 
@@ -64,7 +64,7 @@ public class ProductManager : MonoBehaviour
 
         foreach (var item in ItemDictionaryManager.ItemDict.Values)
         {
-            if (item is ShopProduct_Item productItem )
+            if (item is Stock_Item productItem )
             {
                 allProducts.Add(productItem);
                 shopScript.Register(productItem.ItemID, productItem.Prefab);
@@ -82,7 +82,7 @@ public class ProductManager : MonoBehaviour
     }
 
     //spawn in food related products
-    private void InitializeProductUI(List<ShopProduct_Item> products, ProductCategory category)
+    private void InitializeProductUI(List<Stock_Item> products, ProductCategory category)
     {
         if (!c_productPanels.TryGetValue(category, out List<Transform> productPanels))
             return;

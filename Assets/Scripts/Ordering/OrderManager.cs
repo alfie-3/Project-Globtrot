@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class OrderManager : NetworkBehaviour
 {
-    [SerializeField] CurrentOrderables currentOrderables;
+    [SerializeField] List<OrderableList> currentOrderableLists;
     [field: SerializeField] public List<OrderPort> OrderPorts { get; private set; } = new List<OrderPort>();
 
     public static Dictionary<int, Order> CurrentOrders = new();
@@ -60,7 +60,7 @@ public class OrderManager : NetworkBehaviour
         if (CurrentOrders.Count >= OrderLimit) { return; }
 
         CurrentOrderID++;
-        Order newOrder = OrderBuilder.GenerateOrder(currentOrderables, CurrentOrderID);
+        Order newOrder = OrderBuilder.GenerateOrder(currentOrderableLists, CurrentOrderID);
 
         AddOrder(newOrder);
 

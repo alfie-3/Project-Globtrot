@@ -40,7 +40,7 @@ public class StockPricingManager : NetworkBehaviour
 
     public static ItemPricingData AddItemPricingData(string itemID)
     {
-        ShopProduct_Item shopItem = (ShopProduct_Item)ItemDictionaryManager.RetrieveItem(itemID);
+        Stock_Item shopItem = (Stock_Item)ItemDictionaryManager.RetrieveItem(itemID);
         if (shopItem == null) return null;
 
         ItemPricingDict.TryAdd(itemID, new(shopItem.Pricing.BasePrice, shopItem.Pricing.BasePrice));
@@ -50,7 +50,7 @@ public class StockPricingManager : NetworkBehaviour
 
     public static void SetSellPrice(string itemID, double newPrice)
     {
-        ShopProduct_Item shopItem = (ShopProduct_Item)ItemDictionaryManager.RetrieveItem(itemID);
+        Stock_Item shopItem = (Stock_Item)ItemDictionaryManager.RetrieveItem(itemID);
         if (shopItem == null) return;
 
         if (ItemPricingDict.TryGetValue(itemID, out ItemPricingData itemPricingData))

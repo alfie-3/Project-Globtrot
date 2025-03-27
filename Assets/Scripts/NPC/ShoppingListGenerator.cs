@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ShoppingListGenerator
 {
-    public static List<ShopProduct_Item> AvailableProducts;
+    public static List<Stock_Item> AvailableProducts;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     public static void Init()
@@ -13,9 +13,9 @@ public class ShoppingListGenerator
 
         foreach(ItemBase item in ItemDictionaryManager.ItemDict.Values)
         {
-            if (item is ShopProduct_Item)
+            if (item is Stock_Item)
             {
-                AvailableProducts.Add(item as ShopProduct_Item);
+                AvailableProducts.Add(item as Stock_Item);
             }
         }
     }
@@ -24,7 +24,7 @@ public class ShoppingListGenerator
     {
         List<ShoppingListItem> shoppingList = new();
 
-        ShopProduct_Item item = AvailableProducts[Random.Range(0, AvailableProducts.Count)];
+        Stock_Item item = AvailableProducts[Random.Range(0, AvailableProducts.Count)];
 
         shoppingList.Add(new(item, item.WeightedQuantitySelection.GetRandom()));
 

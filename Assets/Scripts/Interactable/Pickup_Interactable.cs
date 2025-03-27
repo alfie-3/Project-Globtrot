@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -5,6 +6,9 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
 {
     public NetworkVariable<bool> PickedUp = new NetworkVariable<bool>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
     [field: SerializeField] public PlayerObjectSocketManager.ObjectSocket HoldingSocket { get; private set; }
+
+    public Action OnPickedUp = delegate { };
+    public Action OnDropped = delegate { };
 
     public virtual void OnInteract(PlayerInteractionManager interactionManager)
     {
@@ -32,7 +36,9 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
     public void OnDrop(PlayerHoldingManager holdingManager)
     {
         if (PickedUp.Value == false) return;
+
         Drop_RPC();
+        OnDropped.Invoke();
     }
 
 
@@ -41,12 +47,17 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
     {
         if (IsServer)
             PickedUp.Value = true;
+
+        OnPickedUp.Invoke();
     }
 
-    [Rpc(SendTo.Server)]
+    [Rpc(SendTo.Everyone)]
     private void Drop_RPC()
     {
-        PickedUp.Value = false;
+        if (IsServer)
+            PickedUp.Value = false;
+
+        OnDropped.Invoke();
     }
 
     [Rpc(SendTo.Server)]

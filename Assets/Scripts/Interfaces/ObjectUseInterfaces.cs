@@ -13,7 +13,7 @@ public interface IUseSecondary
 
 public interface IUseItem
 {
-    public void OnItemUsed(PlayerHoldingManager holdingManager, ShopProduct_Item shopProduct_Item);
+    public void OnItemUsed(PlayerHoldingManager holdingManager, Stock_Item shopProduct_Item);
 }
 
 public interface IOnHeld

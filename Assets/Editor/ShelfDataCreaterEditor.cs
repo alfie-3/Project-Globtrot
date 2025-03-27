@@ -44,7 +44,7 @@ class ShelfDataCreaterEditor: Editor
         }
         if (GUILayout.Button("Save Scriptable Object values"))
         {
-            ShopProduct_Item item = (ShopProduct_Item)Resources.Load($"Items/{shelfData.ItemScriptableObjectName}", typeof(ShopProduct_Item));
+            Stock_Item item = (Stock_Item)Resources.Load($"Items/{shelfData.ItemScriptableObjectName}", typeof(Stock_Item));
             if (item != null)
             {
                 Debug.LogError($"Unable to locate {shelfData.ItemScriptableObjectName}, make sure there is a scritable object in the Resources/Items folder with that name");

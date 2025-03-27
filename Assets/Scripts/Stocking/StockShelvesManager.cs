@@ -28,7 +28,7 @@ public class StockShelvesManager : NetworkBehaviour
         }
     }
 
-    public int TakeItemsFromShelf(ShopProduct_Item product, int quantity)
+    public int TakeItemsFromShelf(Stock_Item product, int quantity)
     {
         int quantityToTake = quantity;
 
@@ -98,7 +98,7 @@ public class StockShelvesManager : NetworkBehaviour
 
     public bool ContainsItems => StockedItemInformation.Count > 0;
 
-    public bool ContainsItem(ShopProduct_Item item)
+    public bool ContainsItem(Stock_Item item)
     {
         return StockedItemInformation.ContainsKey(item.ItemID);
     }

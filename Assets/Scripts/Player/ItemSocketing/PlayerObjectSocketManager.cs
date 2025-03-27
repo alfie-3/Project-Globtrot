@@ -35,11 +35,11 @@ public class PlayerObjectSocketManager : NetworkBehaviour
         switch (slot)
         {
             case ObjectSocket.LeftHand:
-                LeftHandSlot.ClearObjectBinding(position, rotation, resetVelocity); break;
+                LeftHandSlot.ClearObjectBinding(position, ChestSlot.transform.parent.rotation, resetVelocity); break;
             case ObjectSocket.RightHand:
-                RightHandSlot.ClearObjectBinding(position, rotation, resetVelocity); break;
+                RightHandSlot.ClearObjectBinding(position, ChestSlot.transform.parent.rotation, resetVelocity); break;
             case ObjectSocket.Chest:
-                ChestSlot.ClearObjectBinding(position, rotation, resetVelocity); break;
+                ChestSlot.ClearObjectBinding(position, ChestSlot.transform.parent.rotation, resetVelocity); break;
         }
     }
 

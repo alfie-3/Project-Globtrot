@@ -2,10 +2,20 @@ using System.Collections.Generic;
 
 public static class OrderBuilder
 {
-    public static Order GenerateOrder(CurrentOrderables orderables, int uniqueId)
+    public static Order GenerateOrder(List<OrderableList> orderables, int uniqueId)
     {
-        List<OrderItem> items = orderables.PickRandom(3);
-        int randomTime = UnityEngine.Random.Range(orderables.MinMaxTime.x, orderables.MinMaxTime.y);
+        List<OrderItem> items = new();
+        float randomTime = 15;
+
+        foreach (OrderableList orderable in orderables)
+        {
+            items.AddRange(orderable.PickRandom());
+        }
+
+        foreach (OrderItem item in items)
+        {
+            randomTime += item.TimeContribution;
+        }
 
         return new Order(randomTime, items, uniqueId);
     }

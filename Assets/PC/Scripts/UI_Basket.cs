@@ -46,7 +46,7 @@ public class UI_Basket : MonoBehaviour
 
             UI_BasketProduct UIProductScript = UIProduct.GetComponent<UI_BasketProduct>();
             
-            if (itemData is ShopProduct_Item productItem)
+            if (itemData is Stock_Item productItem)
             {
                 UIProductScript.UpdateProduct(productItem, 1);
             }
@@ -76,7 +76,7 @@ public class UI_Basket : MonoBehaviour
                 
                 if (ItemDictionaryManager.ItemDict.TryGetValue(productName, out ItemBase item))
                 {
-                    if (item is ShopProduct_Item productItem)
+                    if (item is Stock_Item productItem)
                     {
                         double totalPrice = productItem.GetCurrentPurchasePrice()* amountToSpawn;
 
@@ -181,7 +181,7 @@ public class UI_Basket : MonoBehaviour
 
                 if (ItemDictionaryManager.ItemDict.TryGetValue(productName, out ItemBase itemData))
                 {
-                    if (itemData is ShopProduct_Item productItem)
+                    if (itemData is Stock_Item productItem)
                     {
                         total += productItem.GetCurrentPurchasePrice() * amount;
                     }

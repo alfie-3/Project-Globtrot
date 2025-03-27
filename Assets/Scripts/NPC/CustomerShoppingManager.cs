@@ -91,7 +91,7 @@ public class CustomerShoppingManager : MonoBehaviour
 [System.Serializable]
 public class ShoppingListItem
 {
-    public ShopProduct_Item DesiredItem;
+    public Stock_Item DesiredItem;
 
     public bool CheckedOff { get; private set; }
 
@@ -105,7 +105,7 @@ public class ShoppingListItem
         CheckedOff = true;
     }
 
-    public ShoppingListItem(ShopProduct_Item desiredItem, int quantity)
+    public ShoppingListItem(Stock_Item desiredItem, int quantity)
     {
         DesiredItem = desiredItem;
         QuantityToPurchase = quantity;

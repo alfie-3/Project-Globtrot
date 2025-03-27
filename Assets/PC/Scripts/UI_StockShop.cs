@@ -36,7 +36,7 @@ public class UI_StockShop : MonoBehaviour
 
         if (ItemDictionaryManager.ItemDict.TryGetValue(productName, out ItemBase itemData))
         {
-            if (itemData is ShopProduct_Item productItem)
+            if (itemData is Stock_Item productItem)
             {
                 spawnedItem = Instantiate(itemBoxPrefab, spawnPos, Quaternion.identity);
 
@@ -60,7 +60,7 @@ public class UI_StockShop : MonoBehaviour
 
         if (ItemDictionaryManager.ItemDict.TryGetValue(productName, out itemData))
         {
-            if (itemData is ShopProduct_Item productItem)
+            if (itemData is Stock_Item productItem)
             {
                 itemHolderScript.AddItemServer_Rpc(itemData.ItemID, productItem.MaxInBox);
             }

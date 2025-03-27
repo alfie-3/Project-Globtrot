@@ -198,6 +198,8 @@ public class PlayerHoldingManager : NetworkBehaviour
                 obj.GetComponent<RigidbodyNetworkTransform>().AddForce_Rpc(force, ForceMode.Impulse);
 
                 HeldObj.GetComponentsInChildren<IOnDrop>().ToList().ForEach(x => x.OnDrop(this));
+
+                ClearItem();
             }
         }
     }
@@ -211,6 +213,9 @@ public class PlayerHoldingManager : NetworkBehaviour
         Ray ray = new(CameraManager.CamTransform.position, CameraManager.CamTransform.forward);
         Ray secondaryRay = new(CameraManager.CamTransform.position + (CameraManager.CamTransform.forward * dropDistance), Vector3.down);
 
+        Debug.DrawRay(ray.origin, ray.direction * dropDistance);
+        Debug.DrawRay(secondaryRay.origin, secondaryRay.direction * (dropHeight * 4));
+
         Vector3 dropPos = CameraManager.CamTransform.position + (CameraManager.CamTransform.forward * dropDistance);
 
         Bounds heldObjBounds = HeldObj.GetComponent<MeshRenderer>().bounds;
@@ -220,10 +225,10 @@ public class PlayerHoldingManager : NetworkBehaviour
             dropPos = hit.point;
             dropPos += hit.normal * (heldObjBounds.extents.y + dropHeight);
         }
-        else if (Physics.Raycast(secondaryRay, out RaycastHit secondaryHit, dropHeight * 2, dropObjectLayerMask, QueryTriggerInteraction.Ignore))
+        else if (Physics.Raycast(secondaryRay, out RaycastHit secondaryHit, dropHeight * 4, dropObjectLayerMask, QueryTriggerInteraction.Ignore))
         {
             dropPos = secondaryHit.point;
-            dropPos += hit.normal * (heldObjBounds.extents.y + dropHeight);
+            dropPos += secondaryHit.normal * (heldObjBounds.extents.y + dropHeight);
         }
 
         ObjectSocketManager.ClearBoundObject_Rpc(HeldObj.GetComponent<Pickup_Interactable>().HoldingSocket, dropPos, HeldObj.transform.rotation, true);
@@ -239,6 +244,8 @@ public class PlayerHoldingManager : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     public void DisconnectHeldObject_Rpc()
     {
+        if (HeldObj == null) return;
+
         foreach (IOnDrop drop in HeldObj.GetComponentsInChildren<IOnDrop>())
         {
             drop.OnDrop(this);

@@ -10,7 +10,7 @@ public class ItemHolder : NetworkBehaviour
 {
     public Action<string, string, int> OnStockUpdated = delegate { };
     public NetworkVariable<FixedString32Bytes> ItemId { get; private set; } = new NetworkVariable<FixedString32Bytes>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
-    [field: SerializeField] public ShopProduct_Item ProductItem { get; private set; }
+    [field: SerializeField] public Stock_Item ProductItem { get; private set; }
     [field: SerializeField] public NetworkVariable<int> ItemQuantity { get; private set; } = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
     public bool IsEmpty { get { return ItemQuantity.Value == 0; } }
     [field: SerializeField] public int maxItems { get; private set; }
@@ -59,7 +59,7 @@ public class ItemHolder : NetworkBehaviour
         
         if (IsEmpty)
         {
-            if (ItemDictionaryManager.RetrieveItem(itemId.ToString()) is not ShopProduct_Item || ((ItemDictionaryManager.RetrieveItem(itemId.ToString()) as ShopProduct_Item).ContanierCompatabilty & containerType) == 0) return;
+            if (ItemDictionaryManager.RetrieveItem(itemId.ToString()) is not Stock_Item || ((ItemDictionaryManager.RetrieveItem(itemId.ToString()) as Stock_Item).ContanierCompatabilty & containerType) == 0) return;
 
             ItemId.Value = itemId;
         }
@@ -103,7 +103,7 @@ public class ItemHolder : NetworkBehaviour
     {
         if (itemId.Value.IsNullOrEmpty()) return;
 
-        ShopProduct_Item productItem = ItemDictionaryManager.RetrieveItem(itemId.ToString()) is not ShopProduct_Item ? null : (ShopProduct_Item)ItemDictionaryManager.RetrieveItem(itemId.ToString());
+        Stock_Item productItem = ItemDictionaryManager.RetrieveItem(itemId.ToString()) is not Stock_Item ? null : (Stock_Item)ItemDictionaryManager.RetrieveItem(itemId.ToString());
         ProductItem = productItem;
         maxItems = productItem.MaxInBox;
         OnStockUpdated.Invoke(string.Empty, itemId.ToString(), ItemQuantity.Value);
@@ -116,7 +116,7 @@ public class ItemHolder : NetworkBehaviour
 
         string id = giver.ItemId.Value.ToString();
 
-        if (((ItemDictionaryManager.RetrieveItem(id) as ShopProduct_Item).ContanierCompatabilty & reciver.containerType) == 0) return false;
+        if (((ItemDictionaryManager.RetrieveItem(id) as Stock_Item).ContanierCompatabilty & reciver.containerType) == 0) return false;
 
         quantity = Math.Min(quantity, giver.ItemQuantity.Value);
         if (!reciver.IsEmpty)
@@ -136,7 +136,7 @@ public class ItemHolder : NetworkBehaviour
     public void SetMaxItems(int max) { maxItems = max; }
 
 
-    public void SetProductItem(ShopProduct_Item productItem)
+    public void SetProductItem(Stock_Item productItem)
     {
         SetProductItemServer_Rpc(productItem.ItemID, productItem.MaxInBox);
     }
@@ -144,7 +144,7 @@ public class ItemHolder : NetworkBehaviour
     [Rpc(SendTo.Server)]
     private void SetProductItemServer_Rpc(string itemId, int max)
     {
-        ProductItem = ItemDictionaryManager.RetrieveItem(itemId) as ShopProduct_Item;
+        ProductItem = ItemDictionaryManager.RetrieveItem(itemId) as Stock_Item;
         maxItems = max;
         initialQuanitity = max;
         ItemId.Value = itemId;

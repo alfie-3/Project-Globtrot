@@ -28,7 +28,7 @@ public class PriceTag : MonoBehaviour
 
             if (prev.IsNullOrEmpty()) return;
 
-            ShopProduct_Item shopItem = (ShopProduct_Item)ItemDictionaryManager.RetrieveItem(prev);
+            Stock_Item shopItem = (Stock_Item)ItemDictionaryManager.RetrieveItem(prev);
             if (shopItem == null) return;
 
             shopItem.Pricing.OnPriceUpdated -= UpdatePrice;
@@ -36,7 +36,7 @@ public class PriceTag : MonoBehaviour
 
         if (prev != current)
         {
-            ShopProduct_Item shopItem = (ShopProduct_Item)ItemDictionaryManager.RetrieveItem(current);
+            Stock_Item shopItem = (Stock_Item)ItemDictionaryManager.RetrieveItem(current);
             if (shopItem == null) return;
 
             UpdatePrice(shopItem.GetCurrentSellPrice());

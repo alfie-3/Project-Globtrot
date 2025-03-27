@@ -30,7 +30,7 @@ public class StockShelfController : NetworkBehaviour {
     {
         if (!previousStockType.Equals(currentStockType) && !currentStockType.IsNullOrEmpty())
         {
-            ShopProduct_Item item = (ShopProduct_Item)ItemDictionaryManager.RetrieveItem(currentStockType);
+            Stock_Item item = (Stock_Item)ItemDictionaryManager.RetrieveItem(currentStockType);
             itemBounds = item.Prefab.GetComponent<MeshFilter>().sharedMesh.bounds;
             CalculateSpawnPositioning(item.Stackable);
             Holder.SetMaxItems((int)(itemStackBounds.x * itemStackBounds.y * itemStackBounds.z));
@@ -52,7 +52,7 @@ public class StockShelfController : NetworkBehaviour {
 
     [Rpc(SendTo.Server)]
     void SpawnItem_RPC(string itemid, int quanitity) {
-        ShopProduct_Item placeableItem = (ShopProduct_Item)ItemDictionaryManager.RetrieveItem(itemid);
+        Stock_Item placeableItem = (Stock_Item)ItemDictionaryManager.RetrieveItem(itemid);
         if (placeableItem == null) return;
         Debug.Log($"Placing Stock item {itemid} {quanitity} times");
         NetworkObject instance;

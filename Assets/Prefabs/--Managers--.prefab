@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   audioSource: {fileID: 1983950800943001147}
-  dayStart: {fileID: 0}
+  dayStart: {fileID: 8300000, guid: 5a270de42a1ce5c4cb414b23af82f04d, type: 3}
 --- !u!82 &1983950800943001147
 AudioSource:
   m_ObjectHideFlags: 0
@@ -334,7 +334,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 32
+  m_VersionIndex: 53
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -549,7 +549,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  currentOrderables: {fileID: 11400000, guid: 793f502563ae66444a79207847c5f35c, type: 2}
+  currentOrderableLists:
+  - {fileID: 11400000, guid: 793f502563ae66444a79207847c5f35c, type: 2}
+  - {fileID: 11400000, guid: 41439a1dd191e984496993eed60bfa1f, type: 2}
   <OrderPorts>k__BackingField:
   - {fileID: 0}
   OrderLimit: 2
@@ -763,8 +765,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c8e68b4284faa849bfc533363c597ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <gridOffset>k__BackingField: {x: 0, y: 0, z: 0}
-  GizmoVec: {x: 0, y: 0}
+  <gridOffset>k__BackingField: {x: 0.5, y: 0, z: 0}
+  GizmoVec: {x: 12, y: 12}
 --- !u!156049354 &6374380795335195406
 Grid:
   m_ObjectHideFlags: 0

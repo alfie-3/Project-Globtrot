@@ -14,13 +14,13 @@ public class UI_ProductDisplay : MonoBehaviour
     [SerializeField] private TMP_Text unlockPriceText;
 
     private UI_Basket basketScript;
-    private ShopProduct_Item productData;
+    private Stock_Item productData;
     private PlacableFurniture_Item furnitureData;
     private int quantity = 1;
     private bool isUnlocked = false;
 
     // set up variables
-    public void Initialize(ShopProduct_Item productScript, UI_Basket basketScript)
+    public void Initialize(Stock_Item productScript, UI_Basket basketScript)
     {
         this.basketScript = basketScript;
         productData = productScript;
@@ -49,7 +49,7 @@ public class UI_ProductDisplay : MonoBehaviour
     }
 
     // check and set up locking mechanic
-    private void SetupUnlockUI(ShopProduct_Item item)
+    private void SetupUnlockUI(Stock_Item item)
     {
         if (!item.Unlockable)
         {
@@ -100,7 +100,7 @@ public class UI_ProductDisplay : MonoBehaviour
 
 
     // function for unlocking button
-    private void UnlockProduct(ShopProduct_Item item)
+    private void UnlockProduct(Stock_Item item)
     {
         if (MoneyManager.Instance.CanAfford(item.UnlockPrice))
         {

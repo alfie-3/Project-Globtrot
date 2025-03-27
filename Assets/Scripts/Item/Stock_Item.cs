@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Shop Product", menuName = "Items/Shop Product")]
-public class ShopProduct_Item : ItemBase, IItemPrice
+public class Stock_Item : ItemBase, IItemPrice
 {
     [field: SerializeField] public ItemPrice Pricing { get; private set; }
     [field: SerializeField] public GameObject Prefab { get; private set; }
     [field: Space]
     [field: SerializeField] public bool Stackable { get; private set; }
     [field: SerializeField] public int MaxInBox { get; private set; }
+    [field: SerializeField] public float TimeContribution { get; private set; } = 5f;
     [field: SerializeField] private List<WeightedProductSelectionItem> weightedRandomCustomerPickupChance;
     public WeightedRandomBag<int> WeightedQuantitySelection = new();
     [field: Space]

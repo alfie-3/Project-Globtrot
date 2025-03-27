@@ -118,17 +118,20 @@ public enum ResponseStatus
 public class OrderItem
 {
     private string itemID;
-    public ShopProduct_Item Item;
+    public Stock_Item Item;
 
     public int Quantity = 1;
 
-    public OrderItem(string item, int quantity)
+    public float TimeContribution;
+
+    public OrderItem(string item, int quantity, float timeContribution = 0)
     {
         itemID = item;
 
-        Item = ItemDictionaryManager.RetrieveItem(item) as ShopProduct_Item;
+        Item = ItemDictionaryManager.RetrieveItem(item) as Stock_Item;
 
         Quantity = quantity;
+        TimeContribution = timeContribution;
     }
 
     public OrderItem() { }
