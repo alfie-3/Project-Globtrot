@@ -69,8 +69,8 @@ public class Order
 
         foreach (KeyValuePair<string, int> contentItem in contents.ContentsDictionary)
         {
-            OrderItem foundItem = OrderItems.First(x => contentItem.Key == x.Item.ItemID);
-            if (foundItem != null) continue;
+            OrderItem foundItem = OrderItems.FirstOrDefault(x => contentItem.Key == x.Item.ItemID);
+            if (foundItem != default) continue;
 
             incorrectItems.TryAddItem(contentItem.Key, contentItem.Value);
         }

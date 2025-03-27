@@ -14,7 +14,7 @@ public class OrderableList : ScriptableObject
     {
         if (count == 0)
         {
-            count = Random.Range(minMaxRandomPick.x, minMaxRandomPick.y);
+            count = Random.Range(minMaxRandomPick.x, minMaxRandomPick.y + 1);
         }
 
         Shuffle();
