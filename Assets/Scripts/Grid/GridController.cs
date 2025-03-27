@@ -91,7 +91,7 @@ class CustomGridEditor : Editor
 
         if (GUILayout.Button("Set grid material"))
         {
-            grid.transform.GetChild(0).GetComponent<Renderer>().sharedMaterial.SetVector("_Offset", grid.gridOffset);
+            grid.transform.GetChild(0).GetComponent<Renderer>().sharedMaterial.SetVector("_Offset", new Vector2(grid.gridOffset.x,grid.gridOffset.z));
             grid.transform.GetChild(0).GetComponent<Renderer>().sharedMaterial.SetVector("_CellSize", grid.GetComponent<Grid>().cellSize);
         }
     }
