@@ -157,7 +157,6 @@ GameObject:
   - component: {fileID: 2836678722865313068}
   - component: {fileID: 1988891888990666729}
   - component: {fileID: 7180564212366399126}
-  - component: {fileID: 577471537123917651}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -335,7 +334,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 14
+  m_VersionIndex: 32
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -347,8 +346,8 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 931859123346592409}
-  m_Enabled: 1
-  m_CastShadows: 1
+  m_Enabled: 0
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -392,28 +391,6 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 931859123346592409}
-  m_Mesh: {fileID: 0}
---- !u!64 &577471537123917651
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 931859123346592409}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
   m_Mesh: {fileID: 0}
 --- !u!1 &2684924958116194892
 GameObject:
@@ -467,7 +444,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 42763688
+  GlobalObjectIdHash: 3308825336
   InScenePlacedSourceGlobalObjectIdHash: 3308825336
   DeferredDespawnTick: 0
   Ownership: 1
@@ -713,7 +690,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1687892516
+  GlobalObjectIdHash: 3019933591
   InScenePlacedSourceGlobalObjectIdHash: 3308825336
   DeferredDespawnTick: 0
   Ownership: 1
@@ -845,7 +822,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 619065879
+  GlobalObjectIdHash: 2996346920
   InScenePlacedSourceGlobalObjectIdHash: 3308825336
   DeferredDespawnTick: 0
   Ownership: 1
