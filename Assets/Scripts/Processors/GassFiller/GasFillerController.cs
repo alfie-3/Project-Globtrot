@@ -1,9 +1,11 @@
 using DG.Tweening;
 using System;
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Rendering;
 
-public class GasFillerController : MonoBehaviour
+public class GasFillerController : NetworkBehaviour
 {
     [SerializeField] float fillSpeed = 10;
     [SerializeField] float overPressureTimeout = 5;
@@ -19,6 +21,9 @@ public class GasFillerController : MonoBehaviour
     [Header("GasItems")]
     [SerializeField] Stock_Item[] gasTypes;
 
+    GasType currentGasType;
+    bool filledCannister;
+
     private void Awake()
     {
         port.OnGasCannisterRemoved += OnCannisterRemoved;
@@ -31,9 +36,12 @@ public class GasFillerController : MonoBehaviour
 
     public void FillGasCanister(GasType gasType)
     {
+        if (!IsServer) return;
+
         if (gasFillTweener != null) return;
         if (port.Filled.Value == false) return;
 
+        currentGasType = gasType;
         gasFillTweener = DOVirtual.Float(0, 1, fillSpeed, fill => UpdateFillAmount(fill));
         gasFillTweener.onComplete += () => OnGasFillComplete(gasType);
     }
@@ -42,19 +50,25 @@ public class GasFillerController : MonoBehaviour
     {
         currentFillAmount = amount;
         OnFillAmountChanged(currentFillAmount);
+
+        if (amount > 0.8f && !filledCannister)
+        {
+            filledCannister = true;
+            port.SetGasCannisterType(gasTypes[(int)currentGasType]);
+        }
     }
 
     public void OnGasFillComplete(GasType gasType)
     {
         gasFillTweener = DOTween.Shake(() => hackyShakeFloat, x => { hackyShakeFloat = x; UpdateFillAmount(1 + hackyShakeFloat.x); }, overPressureTimeout, 0.2f, 20, 1, false, false);
-
-        port.SetGasCannisterType(gasTypes[(int)gasType]);
+        filledCannister = false;
     }
 
     public void OnCannisterRemoved()
     {
         gasFillTweener.Kill();
         gasFillTweener = null;
+        filledCannister = false;
         DOVirtual.Float(currentFillAmount, 0, 0.5f, fill => UpdateFillAmount(fill));
     }
 }
