@@ -32,13 +32,16 @@ public class GasFillerInputPort : NetworkBehaviour, IUseItem
         }
     }
 
-    [Rpc(SendTo.Server)]
+    [Rpc(SendTo.Everyone)]
     public void ConnectItem_Rpc(NetworkObjectReference obj)
     {
         if (!obj.TryGet(out NetworkObject nwObject)) return;
 
         nwObject.GetComponent<Pickup_Interactable>().OnPickedUp += CannisterRemoved;
         cannister = nwObject;
+
+        if (!IsServer) return;
+
         Filled.Value = true;
 
         nwObject.GetComponent<RigidbodyNetworkTransform>().SetRigidbodyEnabled(false);
@@ -48,11 +51,12 @@ public class GasFillerInputPort : NetworkBehaviour, IUseItem
     public void CannisterRemoved()
     {
         Pickup_Interactable pickup_Interactable = cannister.GetComponent<Pickup_Interactable>();
+        pickup_Interactable.OnPickedUp -= CannisterRemoved;
+        OnGasCannisterRemoved.Invoke();
+
+        if (!IsServer) return;
 
         Filled.Value = false;
-        pickup_Interactable.OnPickedUp -= CannisterRemoved;
-
-        OnGasCannisterRemoved.Invoke();
     }
 
     public void SetGasCannisterType(Stock_Item item)

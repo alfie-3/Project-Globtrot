@@ -11,12 +11,12 @@ public class OrderContainerBox : NetworkBehaviour, IContents, IOnHeld
 
     bool isOpen = false;
 
-    private Rigidbody rigidbody;
+    private RigidbodyNetworkTransform rigidbody;
     private Pickup_Interactable pickupInteractable;
 
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        rigidbody = GetComponent<RigidbodyNetworkTransform>();
         pickupInteractable = GetComponent<Pickup_Interactable>();
     }
 
@@ -45,7 +45,7 @@ public class OrderContainerBox : NetworkBehaviour, IContents, IOnHeld
 
     public void CheckForOpen()
     {
-        if (rigidbody.isKinematic) return;
+        if (rigidbody.IsSleeping) return;
 
         if (Vector3.Dot(transform.up, Vector3.up) < 0.5 || pickupInteractable.PickedUp.Value == true)
         {

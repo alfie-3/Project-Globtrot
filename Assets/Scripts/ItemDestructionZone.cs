@@ -6,6 +6,8 @@ public class ItemDestructionZone : NetworkBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
+        if (!IsServer) { return; }
+
         if (other.TryGetComponent(out Pickup_Interactable item))
         {
             if (item.NetworkObject != null)

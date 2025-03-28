@@ -34,6 +34,7 @@ public class GlobalAudioManager : NetworkBehaviour
         }
 
         GameStateManager.OnDayStateChanged += (context) => { if (context == true) PlaySoundSynced_Rpc("DayStart"); };
+        OrderManager.OnNewOrderAdded += (order, num) => { PlaySound("NewOrder"); };
     }
 
     public void PlaySound(string audioClip)
@@ -63,6 +64,7 @@ public class GlobalAudioManager : NetworkBehaviour
     {
         base.OnDestroy();
         GameStateManager.OnDayStateChanged -= (context) => { if (context == true) PlaySoundSynced_Rpc("DayStart"); };
+        OrderManager.OnNewOrderAdded -= (order, num) => { PlaySound("NewOrder"); };
     }
 }
 

@@ -86,11 +86,6 @@ public class OrderManager : NetworkBehaviour
 
         if (!IsServer) return;
         newOrder.OnTimerFinished += TimeoutOrder;
-
-        if (GlobalAudioManager.Instance != null)
-        {
-            GlobalAudioManager.Instance.PlaySound("NewOrder");
-        }
     }
 
     public Order AddNewOrderFromPayload(OrderPayload payload, float sentTime = 0)
