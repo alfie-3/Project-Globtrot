@@ -1,0 +1,17 @@
+using Unity.Netcode;
+using Unity.VisualScripting;
+using UnityEngine;
+
+public class ItemDestructionZone : NetworkBehaviour
+{
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.TryGetComponent(out Pickup_Interactable item))
+        {
+            if (item.NetworkObject != null)
+            {
+                item.NetworkObject.Despawn();
+            }
+        }
+    }
+}

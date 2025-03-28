@@ -24,6 +24,9 @@ public class GasFillerController : NetworkBehaviour
     GasType currentGasType;
     bool filledCannister;
 
+    [Space]
+    [SerializeField] AudioClip AirEscape;
+
     private void Awake()
     {
         port.OnGasCannisterRemoved += OnCannisterRemoved;
@@ -70,6 +73,7 @@ public class GasFillerController : NetworkBehaviour
         gasFillTweener = null;
         filledCannister = false;
         DOVirtual.Float(currentFillAmount, 0, 0.5f, fill => UpdateFillAmount(fill));
+        GetComponent<AudioSource>().PlayOneShot(AirEscape);
     }
 }
 
