@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 998552831678480159}
   - component: {fileID: 7096495593644536029}
   - component: {fileID: 7219823834228254713}
+  - component: {fileID: 3468385308003940944}
   m_Layer: 0
   m_Name: Stock_Base_Prefab
   m_TagString: Untagged
@@ -241,6 +242,7 @@ MonoBehaviour:
   IsSleeping: 0
   IsColliding: 0
   IsSocketed: 0
+  rigidbodyDisabled: 0
 --- !u!114 &7219823834228254713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,7 +255,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeb487a6907662b4099cbf9e68fcb8c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   <Item>k__BackingField: {fileID: 0}
+--- !u!136 &3468385308003940944
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1647032077398859466}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.21225575
+  m_Height: 0.59
+  m_Direction: 2
+  m_Center: {x: 0, y: 0.07001758, z: 0.0042041764}
 --- !u!1 &7386299223801515829
 GameObject:
   m_ObjectHideFlags: 0

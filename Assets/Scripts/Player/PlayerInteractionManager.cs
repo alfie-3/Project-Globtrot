@@ -35,7 +35,7 @@ public class PlayerInteractionManager : NetworkBehaviour
     {
         Ray ray = new(cameraManager.CamTransform.position, cameraManager.CamTransform.forward);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, InteractionDistance, interactableLayer, QueryTriggerInteraction.Ignore))
+        if (Physics.Raycast(ray, out RaycastHit hit, InteractionDistance, interactableLayer, QueryTriggerInteraction.Collide))
         {
             if (hit.collider.gameObject.TryGetComponent(out IViewable viewable))
             {
@@ -59,7 +59,7 @@ public class PlayerInteractionManager : NetworkBehaviour
     {
         Ray ray = new(cameraManager.CamTransform.position, cameraManager.CamTransform.forward);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, InteractionDistance, interactableLayer, QueryTriggerInteraction.Ignore))
+        if (Physics.Raycast(ray, out RaycastHit hit, InteractionDistance, interactableLayer, QueryTriggerInteraction.Collide))
         {
             if (hit.collider.gameObject.TryGetComponent(out IInteractable interactable))
             {
@@ -72,7 +72,7 @@ public class PlayerInteractionManager : NetworkBehaviour
     {
         Ray ray = new(cameraManager.CamTransform.position, cameraManager.CamTransform.forward);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, InteractionDistance, interactableLayer, QueryTriggerInteraction.Ignore))
+        if (Physics.Raycast(ray, out RaycastHit hit, InteractionDistance, interactableLayer, QueryTriggerInteraction.Collide))
         {
             if (hit.collider.gameObject.TryGetComponent(out IDismantleable dismantleable))
             {
