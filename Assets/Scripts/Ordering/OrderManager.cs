@@ -19,6 +19,8 @@ public class OrderManager : NetworkBehaviour
 
     public static Action<float> OnOrderTimersUpdate;
 
+    public Vector2 minMaxOrderDelayTime = new(5, 10);
+
     private void Awake()
     {
         if (Instance == null)
@@ -34,13 +36,18 @@ public class OrderManager : NetworkBehaviour
     {
         if (state == true)
         {
-            AddNewRandomOrder();
+            Invoke(nameof(AddNewRandomOrder), GetRandomDelay());
         }
     }
 
     private void Update()
     {
         OnOrderTimersUpdate.Invoke(Time.deltaTime);
+    }
+
+    public float GetRandomDelay()
+    {
+        return UnityEngine.Random.Range(minMaxOrderDelayTime.x, minMaxOrderDelayTime.y);
     }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -79,6 +86,11 @@ public class OrderManager : NetworkBehaviour
 
         if (!IsServer) return;
         newOrder.OnTimerFinished += TimeoutOrder;
+
+        if (GlobalAudioManager.Instance != null)
+        {
+            GlobalAudioManager.Instance.PlaySound("NewOrder");
+        }
     }
 
     public Order AddNewOrderFromPayload(OrderPayload payload, float sentTime = 0)
@@ -140,7 +152,7 @@ public class OrderManager : NetworkBehaviour
         order.OnOrderFailed.Invoke(order);
 
         RemoveOrder_Rpc(order.OrderId);
-        AddNewRandomOrder();
+        Invoke(nameof(AddNewRandomOrder), GetRandomDelay());
     }
 
     public override void OnDestroy()

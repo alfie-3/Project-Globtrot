@@ -47,7 +47,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   audioSource: {fileID: 1983950800943001147}
-  dayStart: {fileID: 8300000, guid: 5a270de42a1ce5c4cb414b23af82f04d, type: 3}
+  assetList:
+  - Name: DayStart
+    Clip: {fileID: 8300000, guid: 5a270de42a1ce5c4cb414b23af82f04d, type: 3}
+  - Name: NewOrder
+    Clip: {fileID: 8300000, guid: 467b1c814e9ef6d4b880e575bf628624, type: 3}
 --- !u!82 &1983950800943001147
 AudioSource:
   m_ObjectHideFlags: 0
@@ -555,6 +559,7 @@ MonoBehaviour:
   <OrderPorts>k__BackingField:
   - {fileID: 0}
   OrderLimit: 2
+  minMaxOrderDelayTime: {x: 5, y: 10}
 --- !u!1 &4246870664351213462
 GameObject:
   m_ObjectHideFlags: 0

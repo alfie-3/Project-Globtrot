@@ -11,6 +11,15 @@ public class OrderContainerBox : NetworkBehaviour, IContents, IOnHeld
 
     bool isOpen = false;
 
+    private Rigidbody rigidbody;
+    private Pickup_Interactable pickupInteractable;
+
+    private void Awake()
+    {
+        rigidbody = GetComponent<Rigidbody>();
+        pickupInteractable = GetComponent<Pickup_Interactable>();
+    }
+
     public void SetOpen(bool open)
     {
         if (open)
@@ -27,6 +36,36 @@ public class OrderContainerBox : NetworkBehaviour, IContents, IOnHeld
         }
 
         isOpen = open;
+    }
+
+    private void FixedUpdate()
+    {
+        CheckForOpen();
+    }
+
+    public void CheckForOpen()
+    {
+        if (rigidbody.isKinematic) return;
+
+        if (Vector3.Dot(transform.up, Vector3.up) < 0.5 || pickupInteractable.PickedUp.Value == true)
+        {
+            SetOpen(false);
+            return;
+        }
+
+        var mask = ~0;
+        Ray ray = new(transform.position, -transform.up);
+        if (Physics.Raycast(ray, out RaycastHit hit, 1, mask, QueryTriggerInteraction.Ignore))
+        {
+            if (hit.transform.TryGetComponent(out WorkTable workTable))
+            {
+                SetOpen(true);
+            }
+            else
+            {
+                SetOpen(false);
+            }
+        }
     }
 
     public void OnHeld(PlayerHoldingManager manager)

@@ -69,7 +69,7 @@ public class OrderPort : NetworkBehaviour
         }
 
         OrderManager.Instance.RemoveOrder_Rpc(orderAllocationList[0].Order.OrderId);
-        OrderManager.Instance.AddNewRandomOrder();
+        OrderManager.Instance.Invoke(nameof(OrderManager.AddNewRandomOrder), OrderManager.Instance.GetRandomDelay());
     }
 
     [Rpc(SendTo.Everyone)]
