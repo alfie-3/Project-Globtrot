@@ -54,7 +54,7 @@ public class GasFillerController : NetworkBehaviour
         currentFillAmount = amount;
         OnFillAmountChanged(currentFillAmount);
 
-        if (amount > 0.8f && !filledCannister)
+        if (amount > 0.8f && !filledCannister && gasFillTweener != null)
         {
             filledCannister = true;
             port.SetGasCannisterType(gasTypes[(int)currentGasType]);
