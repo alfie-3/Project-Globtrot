@@ -48,9 +48,12 @@ void MainLightTest_float(float3 WorldPos, out float3 Direction, out float3 Color
 	- Boolean Keyword, Global Multi-Compile "_FORWARD_PLUS" (2022.2+)
 */
 void AdditionalLightsTest_float(float3 SpecColor, float Smoothness, float3 WorldPosition, float3 WorldNormal, float3 WorldView, float4 Shadowmask,
-							out float3 Diffuse, out float3 Specular) {
+							out float3 Diffuse, out float3 Specular, out float3 Direction, out float Attenuation) {
 	float3 diffuseColor = 0;
 	float3 specularColor = 0;
+	float3 totalDirection = 0;
+	float attenuation = 0;
+
 #ifndef SHADERGRAPH_PREVIEW
 	Smoothness = exp2(10 * Smoothness + 1);
 	uint pixelLightCount = GetAdditionalLightsCount();
@@ -59,7 +62,7 @@ void AdditionalLightsTest_float(float3 SpecColor, float Smoothness, float3 World
 	#if USE_FORWARD_PLUS
 	for (uint lightIndex = 0; lightIndex < min(URP_FP_DIRECTIONAL_LIGHTS_COUNT, MAX_VISIBLE_LIGHTS); lightIndex++) {
 		FORWARD_PLUS_SUBTRACTIVE_LIGHT_CHECK
-		Light light = GetAdditionalLight(lightIndex, WorldPosition, Shadowmask);
+		Light light = GetAdditionalLight(lightIndex, WorldPosition, 1);
 	#ifdef _LIGHT_LAYERS
 		if (IsMatchingLightLayer(light.layerMask, meshRenderingLayers))
 	#endif
@@ -80,7 +83,7 @@ void AdditionalLightsTest_float(float3 SpecColor, float Smoothness, float3 World
 	inputData.positionWS = WorldPosition;
 
 	LIGHT_LOOP_BEGIN(pixelLightCount)
-		Light light = GetAdditionalLight(lightIndex, WorldPosition, Shadowmask);
+		Light light = GetAdditionalLight(lightIndex, WorldPosition, 1);
 	#ifdef _LIGHT_LAYERS
 		if (IsMatchingLightLayer(light.layerMask, meshRenderingLayers))
 	#endif
@@ -89,12 +92,16 @@ void AdditionalLightsTest_float(float3 SpecColor, float Smoothness, float3 World
 			float3 attenuatedLightColor = light.color * (light.distanceAttenuation * light.shadowAttenuation);
 			diffuseColor += LightingLambert(attenuatedLightColor, light.direction, WorldNormal);
 			specularColor += LightingSpecular(attenuatedLightColor, light.direction, WorldNormal, WorldView, float4(SpecColor, 0), Smoothness);
+			attenuation += light.distanceAttenuation * light.shadowAttenuation;
+			totalDirection += light.direction * (light.distanceAttenuation * light.shadowAttenuation);
 		}
 	LIGHT_LOOP_END
 #endif
 
 	Diffuse = diffuseColor;
 	Specular = specularColor;
+	Attenuation = attenuation;
+	Direction = totalDirection;
 }
 
 #endif
