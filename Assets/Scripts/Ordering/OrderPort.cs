@@ -14,7 +14,7 @@ public class OrderPort : NetworkBehaviour
     }
 
     [SerializeField] OrderPortAcceptor orderPortAcceptor;
-    [SerializeField] List<OrderAllocation> orderAllocationList;
+    [SerializeField] List<OrderAllocation> orderAllocationList = new();
     [Space]
     [SerializeField] AudioClip CorrectNoise;
     [SerializeField] AudioClip IncorrectNoise;
@@ -50,7 +50,7 @@ public class OrderPort : NetworkBehaviour
     public void ProcessOrderBox(Contents boxContents)
     {
         if (!IsServer) return;
-        if (orderAllocationList.Count == 0) return;
+        if (orderAllocationList[0] == null) return;
 
         OrderResponse response = orderAllocationList[0].Order.CompareContents(boxContents);
 

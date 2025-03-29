@@ -4,6 +4,9 @@ using UnityEngine;
 public class OrderBoxInput : NetworkBehaviour
 {
     [SerializeField] ParticleSystem inputParticle;
+    [Space]
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClipRandomData randomClip;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -16,6 +19,11 @@ public class OrderBoxInput : NetworkBehaviour
             if (!transform.parent.TryGetComponent(out IContents contents)) return;
 
             if (!contents.Contents.TryAddItem(stockItem.Item.ItemID, 1)) return;
+
+            ClipData clipData = randomClip.GetClip(1, true);
+
+            audioSource.pitch = clipData.Pitch;
+            audioSource.PlayOneShot(clipData.Clip);
 
             if (other.TryGetComponent(out NetworkObject networkObject))
             {

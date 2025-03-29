@@ -6,9 +6,8 @@ public class OrderContainerBox : NetworkBehaviour, IContents, IOnHeld
 {
     [SerializeField] Contents boxContents;
     public Contents Contents => boxContents;
-
+    [Space]
     [SerializeField] Animator boxAnimator;
-
     bool isOpen = false;
 
     private RigidbodyNetworkTransform rigidbody;

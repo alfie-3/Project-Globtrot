@@ -68,6 +68,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   inputParticle: {fileID: 4928041308867271110}
+  audioSource: {fileID: 3144026870544114957}
+  randomClip: {fileID: 11400000, guid: 06cade38020455f498d6988ad552d70f, type: 2}
 --- !u!1001 &317089641361904341
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -88,6 +90,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: StockBox_Prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 5448963543574763371, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
+      propertyPath: dropSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 06cade38020455f498d6988ad552d70f, type: 2}
+    - target: {fileID: 5448963543574763371, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
+      propertyPath: pickupSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 77f66d3603b11c9419977d6d7c900842, type: 2}
     - target: {fileID: 5862923584276602137, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -219,6 +229,11 @@ MonoBehaviour:
     maxContentsAmount: 4
     AllowItems: 0
   boxAnimator: {fileID: 2856025455898226220}
+--- !u!82 &3144026870544114957 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 3442813480485631960, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
+  m_PrefabInstance: {fileID: 317089641361904341}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6141729800500547532 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5862923584276602137, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}

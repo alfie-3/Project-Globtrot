@@ -6,6 +6,9 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
 {
     public NetworkVariable<bool> PickedUp = new NetworkVariable<bool>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
     [field: SerializeField] public PlayerObjectSocketManager.ObjectSocket HoldingSocket { get; private set; }
+    [Space]
+    [SerializeField] AudioClipData pickupSound;
+    [SerializeField] AudioClipData dropSound;
 
     public Action OnPickedUp = delegate { };
     public Action OnDropped = delegate { };
@@ -48,6 +51,8 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
         if (IsServer)
             PickedUp.Value = true;
 
+        PlayClip(pickupSound);
+
         OnPickedUp.Invoke();
     }
 
@@ -58,6 +63,7 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
             PickedUp.Value = false;
 
         OnDropped.Invoke();
+        PlayClip(dropSound);
     }
 
     [Rpc(SendTo.Server)]
@@ -65,6 +71,21 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
     {
         PickedUp.Value = true;
         NetworkObject.Despawn();
+
+    }
+
+    public void PlayClip(AudioClipData clips)
+    {
+        if (clips != null)
+        {
+            if (TryGetComponent(out AudioSource source))
+            {
+                source.Stop();
+                ClipData clipData = clips.GetClip(1, true);
+                source.pitch = clipData.Pitch;
+                source.PlayOneShot(clipData.Clip);
+            }
+        }
 
     }
 }
