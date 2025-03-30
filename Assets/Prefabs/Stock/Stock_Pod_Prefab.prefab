@@ -110,6 +110,7 @@ GameObject:
   - component: {fileID: 8084607659339307775}
   - component: {fileID: 800810652360256574}
   - component: {fileID: 4667619557137094660}
+  - component: {fileID: -7502809990524931178}
   m_Layer: 0
   m_Name: Stock_Pod_Prefab
   m_TagString: Untagged
@@ -470,3 +471,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-7502809990524931178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7619981547121828464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2567d5205e5ff6942b194276cc679fdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  zeeboPrefabs:
+  - {fileID: 155066447843598834, guid: 36a11cfe10e9a084cba0dc3842d26737, type: 3}
+  - {fileID: 7650358324696950725, guid: b934b5ff5911ed04e9384d07a1166f5c, type: 3}
+  - {fileID: 7650358324696950725, guid: 0917c905e00b25b47b43d8a07653a401, type: 3}
+  - {fileID: 7650358324696950725, guid: a3abea9cdb488794b920887dd82d24db, type: 3}
+  - {fileID: 7650358324696950725, guid: ab0044d6e2cbc004d9e375c9c6e99eda, type: 3}
+  breakForce: 15
