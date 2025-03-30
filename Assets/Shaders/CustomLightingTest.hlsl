@@ -1,7 +1,7 @@
 #ifndef CUSTOM_LIGHTING_INCLUDED
 #define CUSTOM_LIGHTING_INCLUDED
 
-void MainLightTest_float(float3 WorldPos, out float3 Direction, out float3 Color, out float DistanceAtten, out float ShadowAtten)
+void MainLightTest_float(float3 WorldPos, float3 WorldNormal, out float3 Direction, out float3 Color, out float DistanceAtten, out float ShadowAtten)
     {
     #if SHADERGRAPH_PREVIEW
         Direction = float3(0.5, 0.5, -0.25);
@@ -18,7 +18,7 @@ void MainLightTest_float(float3 WorldPos, out float3 Direction, out float3 Color
         #endif
             Light mainLight = GetMainLight(shadowCoord);
             Direction = mainLight.direction;
-            Color = mainLight.color;
+            Color = LightingLambert(mainLight.color, mainLight.direction, WorldNormal);
             DistanceAtten = mainLight.distanceAttenuation;
             ShadowAtten = mainLight.shadowAttenuation;
         #if !defined(_MAIN_LIGHT_SHADOWS) || defined(_RECEIVE_SHADOWS_OFF)
