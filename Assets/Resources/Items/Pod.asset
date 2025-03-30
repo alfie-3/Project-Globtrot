@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 573769d89549f724f996e2631ddd2f35, type: 3}
+  m_Name: Pod
+  m_EditorClassIdentifier: 
+  <ItemID>k__BackingField: pod
+  itemName: Pod
+  <ItemIcon>k__BackingField: {fileID: 21300000, guid: 2d3dcb2f72ee0094bad4c1b5501819f7, type: 3}
+  <Pricing>k__BackingField:
+    <BasePrice>k__BackingField: 0.5
+  <Prefab>k__BackingField: {fileID: 7619981547121828464, guid: d6ac8e6fd582f35418ee6d1621e8071f, type: 3}
+  <Stackable>k__BackingField: 1
+  <MaxInBox>k__BackingField: 64
+  <TimeContribution>k__BackingField: 3.5
+  weightedRandomCustomerPickupChance:
+  - Quantity: 1
+    Weight: 5
+  - Quantity: 2
+    Weight: 2
+  - Quantity: 3
+    Weight: 0.5
+  <ContanierCompatabilty>k__BackingField: 3
+  <Category>k__BackingField: 0
+  SalePercentage: 0.25
+  UnlockPrice: 50
+  Unlockable: 0
