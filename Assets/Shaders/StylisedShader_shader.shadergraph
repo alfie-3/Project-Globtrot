@@ -263,9 +263,6 @@
             "m_Id": "42c180076ed741d2946a9f568db8339f"
         },
         {
-            "m_Id": "189321e5e2bc48b5bd4db6b59603558a"
-        },
-        {
             "m_Id": "15acdb66db254831b9dcd268bb0c735d"
         },
         {
@@ -642,20 +639,6 @@
                     "m_Id": "c52480dee8374c1c8963b2cc39311c43"
                 },
                 "m_SlotId": 6
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
-                    "m_Id": "189321e5e2bc48b5bd4db6b59603558a"
-                },
-                "m_SlotId": 0
-            },
-            "m_InputSlot": {
-                "m_Node": {
-                    "m_Id": "c52480dee8374c1c8963b2cc39311c43"
-                },
-                "m_SlotId": 5
             }
         },
         {
@@ -1258,6 +1241,20 @@
                     "m_Id": "a69e0480bdeb42da9387e45776e7aa90"
                 },
                 "m_SlotId": 1
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "85a9bff6e35040a3a5c9175174243644"
+                },
+                "m_SlotId": 2
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "c52480dee8374c1c8963b2cc39311c43"
+                },
+                "m_SlotId": 5
             }
         },
         {
@@ -3156,42 +3153,6 @@
         "m_Guid": ""
     },
     "m_DefaultType": 0
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.NormalVectorNode",
-    "m_ObjectId": "189321e5e2bc48b5bd4db6b59603558a",
-    "m_Group": {
-        "m_Id": "e1d88ae0500a4d70afea7f1a462c8086"
-    },
-    "m_Name": "Normal Vector",
-    "m_DrawState": {
-        "m_Expanded": true,
-        "m_Position": {
-            "serializedVersion": "2",
-            "x": -4347.99951171875,
-            "y": -1479.9998779296875,
-            "width": 208.0,
-            "height": 315.0
-        }
-    },
-    "m_Slots": [
-        {
-            "m_Id": "d9bdb7616c0b415b8e2c4e57b0d324d0"
-        }
-    ],
-    "synonyms": [
-        "surface direction"
-    ],
-    "m_Precision": 0,
-    "m_PreviewExpanded": true,
-    "m_DismissedVersion": 0,
-    "m_PreviewMode": 2,
-    "m_CustomColors": {
-        "m_SerializableColors": []
-    },
-    "m_Space": 2
 }
 
 {
@@ -12424,29 +12385,6 @@
 
 {
     "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector3MaterialSlot",
-    "m_ObjectId": "d9bdb7616c0b415b8e2c4e57b0d324d0",
-    "m_Id": 0,
-    "m_DisplayName": "Out",
-    "m_SlotType": 1,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "Out",
-    "m_StageCapability": 3,
-    "m_Value": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 1.0
-    },
-    "m_DefaultValue": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 1.0
-    },
-    "m_Labels": []
-}
-
-{
-    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.GroupData",
     "m_ObjectId": "d9dc32bebfa646bfa6e7b2a20b147370",
     "m_Title": "Normal Combining",
@@ -12753,7 +12691,7 @@
     "m_Title": "Get Lighting Data",
     "m_Position": {
         "x": -4823.0,
-        "y": -2014.0
+        "y": -2013.9998779296875
     }
 }
 
