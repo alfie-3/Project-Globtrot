@@ -209,6 +209,20 @@
         {
             "m_OutputSlot": {
                 "m_Node": {
+                    "m_Id": "a54d1d72206742ed80fa63b9e460101a"
+                },
+                "m_SlotId": 4
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "e71abcc0340b4fc7b1a874c486539b1a"
+                },
+                "m_SlotId": 2
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
                     "m_Id": "fc79459ffc7f4075bbbbdc2dcc580fed"
                 },
                 "m_SlotId": 1
@@ -321,6 +335,21 @@
         "e32": 0.0,
         "e33": 1.0
     }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "193c4689093f4000aa04c7138c22e857",
+    "m_Id": 2,
+    "m_DisplayName": "ShadowAttenuation",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "ShadowAttenuation",
+    "m_StageCapability": 3,
+    "m_Value": 0.0,
+    "m_DefaultValue": 0.0,
+    "m_Labels": []
 }
 
 {
@@ -582,10 +611,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 435.0000305175781,
-            "y": -149.99998474121095,
-            "width": 208.00003051757813,
-            "height": 302.0
+            "x": 407.00006103515627,
+            "y": -126.00003814697266,
+            "width": 208.00006103515626,
+            "height": 302.0000915527344
         }
     },
     "m_Slots": [
@@ -1145,10 +1174,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 1364.0,
-            "y": -264.0,
-            "width": 101.0001220703125,
-            "height": 100.99995422363281
+            "x": 1425.000244140625,
+            "y": -119.00003814697266,
+            "width": 100.9998779296875,
+            "height": 101.00005340576172
         }
     },
     "m_Slots": [
@@ -1157,6 +1186,9 @@
         },
         {
             "m_Id": "2b2f7843f8a243f49b908259f04c4029"
+        },
+        {
+            "m_Id": "193c4689093f4000aa04c7138c22e857"
         }
     ],
     "synonyms": [],
