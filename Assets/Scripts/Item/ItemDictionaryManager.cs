@@ -11,13 +11,17 @@ public static class ItemDictionaryManager
     {
         ITEM_DICT = new Dictionary<string, ItemBase>();
 
-        Object[] items = Resources.LoadAll("Items", typeof(ItemBase));
+        Object[] itemLists = Resources.LoadAll("Items", typeof(ItemList));
 
         int registeredItems = 0;
-        foreach (object item in items)
+        foreach (object itemList in itemLists)
         {
-            RegisterItem((ItemBase)item);
-            registeredItems++;
+            ItemList list = itemList as ItemList;
+            foreach (ItemBase item in list.Items)
+            {
+                RegisterItem(item);
+                registeredItems++;
+            }
         }
 
         Debug.Log($"Registered {registeredItems} item(s)");

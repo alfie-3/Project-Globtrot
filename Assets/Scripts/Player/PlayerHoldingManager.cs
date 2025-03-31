@@ -153,15 +153,16 @@ public class PlayerHoldingManager : NetworkBehaviour
 
     public void UsePrimaryOnHeldObject()
     {
-        if (HeldObj == null) return;
+        if (!HeldObj) return;
 
         if (!HeldObj.TryGetComponent(out IUsePrimary useableObject)) return;
 
         useableObject.UsePrimary(this);
     }
+
     public void PerformSecondary(InputAction.CallbackContext context)
     {
-        if (HeldObj == null) return;
+        if (!HeldObj) return;
 
         if (context.performed)
         {
@@ -244,7 +245,11 @@ public class PlayerHoldingManager : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     public void DisconnectHeldObject_Rpc()
     {
-        if (HeldObj == null) return;
+        if (HeldObj == null)
+        {
+            ObjectSocketManager.ClearAllBoundObjects();
+            GetComponentInChildren<IKTargetsManager>().ClearAllIKTargets_Rpc();
+        }
 
         foreach (IOnDrop drop in HeldObj.GetComponentsInChildren<IOnDrop>())
         {
@@ -252,6 +257,7 @@ public class PlayerHoldingManager : NetworkBehaviour
         }
 
         GetComponentInChildren<IKTargetsManager>().ClearIKToObject_Rpc(HeldObj);
+
         Transform socket = ObjectSocketManager.GetSocketTransform(HeldObj.GetComponent<Pickup_Interactable>().HoldingSocket);
         ObjectSocketManager.ClearBoundObject_Rpc(HeldObj.GetComponent<Pickup_Interactable>().HoldingSocket, socket.position, socket.rotation, true);
 

@@ -1,0 +1,50 @@
+using Unity.Netcode;
+using UnityEngine;
+using UnityEngine.Audio;
+
+public class NutrientBabyInput : NetworkBehaviour, IUseItem 
+{
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClipRandomData eatingClip;
+
+    NutrientBaby nutrientBaby;
+    private void Awake()
+    {
+        nutrientBaby = transform.parent.GetComponent<NutrientBaby>();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!nutrientBaby) return;
+        if (!IsServer) return;
+
+        TryProcessInput(other.gameObject);
+    }
+
+    public void OnItemUsed(PlayerHoldingManager holdingManager, Stock_Item shopProduct_Item)
+    {
+        NetworkObject nwObj = holdingManager.HeldObj;
+        if (TryProcessInput(nwObj.gameObject))
+        {
+            holdingManager.DisconnectHeldObject_Rpc();
+        }
+    }
+
+    public bool TryProcessInput(GameObject other)
+    {
+        if (other.TryGetComponent(out StockItem stockItem))
+        {
+            if (stockItem.Item == null) return false;
+            if (!nutrientBaby.TryFeed(other.GetComponent<NetworkObject>(), stockItem.Item)) return false;
+
+            ClipData clipData = eatingClip.GetClip(1, true);
+
+            audioSource.pitch = clipData.Pitch;
+            audioSource.PlayOneShot(clipData.Clip);
+
+            return true;
+        }
+        else return false;
+
+    }
+}

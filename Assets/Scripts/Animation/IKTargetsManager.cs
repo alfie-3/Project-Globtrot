@@ -15,7 +15,7 @@ public class IKTargetsManager : NetworkBehaviour
 
     public void BindTargetToAnchor(IKCONSTRAINT constraint, Transform target, float weight = 1)
     {
-        switch(constraint)
+        switch (constraint)
         {
             case IKCONSTRAINT.LeftHand:
                 LeftHandIK.data.target.GetComponent<IKTargetPositionAnchor>().SetAnchor(target);
@@ -50,5 +50,12 @@ public class IKTargetsManager : NetworkBehaviour
                 targetPoint.RemoveConstraint(GetComponentInChildren<IKTargetsManager>());
             }
         }
+    }
+
+    [Rpc(SendTo.Everyone)]
+    public void ClearAllIKTargets_Rpc()
+    {
+        BindTargetToAnchor(IKCONSTRAINT.LeftHand, null, 0);
+        BindTargetToAnchor(IKCONSTRAINT.RightHand, null, 0);
     }
 }
