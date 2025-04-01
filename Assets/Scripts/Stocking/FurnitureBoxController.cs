@@ -35,7 +35,6 @@ public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate, IS
 
     }
     private void Start()
-
     {
         grid = GridController.Instance;
     }
