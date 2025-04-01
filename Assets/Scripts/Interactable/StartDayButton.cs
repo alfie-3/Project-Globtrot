@@ -6,13 +6,13 @@ public class StartDayButton : NetworkBehaviour, IInteractable
 {
     public void OnInteract(PlayerInteractionManager interactionManager)
     {
-        if (!GameStateManager.Instance.IsShopOpen)
+        if (!GameStateManager.Instance.IsOpen)
         {
             GameStateManager.Instance.BeginDay_Rpc();
         }
         else
         {
-            GameStateManager.Instance.ResetState_Rpc();
+            GameStateManager.Instance.EndDay_Rpc();
         }
     }
 }

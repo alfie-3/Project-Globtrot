@@ -31,6 +31,7 @@ public class PlayerCharacterController : NetworkBehaviour
     {
         CharacterMovement = GetComponent<CharacterMovement>();
         PlayerInputManager = GetComponent<PlayerInputManager>();
+        GameStateManager.OnReset += Respawn;
 
         CursorUtils.LockAndHideCusor();
     }
@@ -53,5 +54,21 @@ public class PlayerCharacterController : NetworkBehaviour
             currentMovementMultiplier = sprintMultiplier;
         else if (context.canceled)
             currentMovementMultiplier = 1f;
+    }
+
+    public void Respawn()
+    {
+        if (!IsLocalPlayer) return;
+
+        if (SpawnManager.Instance)
+        {
+            SpawnManager.Instance.RespawnPlayer(CharacterMovement);
+        }
+    }
+
+    private new void OnDestroy()
+    {
+        base.OnDestroy();
+        GameStateManager.OnReset -= Respawn;
     }
 }

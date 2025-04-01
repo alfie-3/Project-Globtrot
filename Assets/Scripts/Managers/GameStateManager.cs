@@ -1,15 +1,24 @@
 using System;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameStateManager : NetworkBehaviour
 {
+    public NetworkVariable<int> CurrentDay = new();
+
     public static Action<bool> OnDayStateChanged = delegate { };
 
-    public NetworkVariable<DayState> CurrentDayState = new();
-    public bool IsShopOpen => CurrentDayState.Value == DayState.Open;
+    public static Action OnReset = delegate { };
+    public static Action OnResetServer = delegate { };
 
-    public static GameStateManager Instance {  get; private set; }
+    public NetworkVariable<DayState> CurrentDayState = new();
+    public bool IsOpen => CurrentDayState.Value == DayState.Open;
+
+    public static GameStateManager Instance { get; private set; }
+
+    Scene mainScene;
+    Scene dayEndScene;
 
     private void Awake()
     {
@@ -27,6 +36,8 @@ public class GameStateManager : NetworkBehaviour
     public static void Init()
     {
         OnDayStateChanged = delegate { };
+        OnReset = delegate { };
+        OnResetServer = delegate { };
         Instance = null;
     }
 
@@ -37,12 +48,8 @@ public class GameStateManager : NetworkBehaviour
         if (!IsServer) return;
 
         CurrentDayState.Value = DayState.Preperation;
-    }
-
-    [Rpc(SendTo.Server)]
-    public void ResetState_Rpc()
-    {
-        CurrentDayState.Value = DayState.Preperation;
+        mainScene = SceneManager.GetActiveScene();
+        CurrentDay.Value = 0;
     }
 
     [Rpc(SendTo.Server)]
@@ -59,6 +66,48 @@ public class GameStateManager : NetworkBehaviour
         if (CurrentDayState.Value != DayState.Open) return;
 
         CurrentDayState.Value = DayState.Closed;
+
+        DayEnd();
+    }
+
+    public void DayEnd()
+    {
+        var status = NetworkManager.Singleton.SceneManager.LoadScene("DayEndScene", LoadSceneMode.Additive);
+        CheckStatus(status);
+    }
+
+    public void NewDay()
+    {
+        if (dayEndScene == null) return;
+
+        var status = NetworkManager.Singleton.SceneManager.UnloadScene(SceneManager.GetSceneByName("DayEndScene"));
+        CheckStatus(status, false);
+
+        CurrentDay.Value++;
+        CurrentDayState.Value = DayState.Preperation;
+
+        ResetLevel_Rpc();
+    }
+
+    [Rpc(SendTo.Everyone)]
+    public void ResetLevel_Rpc()
+    {
+        OnReset.Invoke();
+
+        if (IsServer)
+        {
+            OnResetServer.Invoke();
+        }
+    }
+
+    private void CheckStatus(SceneEventProgressStatus status, bool isLoading = true)
+    {
+        var sceneEventAction = isLoading ? "load" : "unload";
+        if (status != SceneEventProgressStatus.Started)
+        {
+            Debug.LogWarning($"Failed to {sceneEventAction} {dayEndScene} with" +
+                $" a {nameof(SceneEventProgressStatus)}: {status}");
+        }
     }
 }
 

@@ -1,4 +1,5 @@
 using Unity.Netcode;
+using Unity.Netcode.Components;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -59,7 +60,16 @@ public class CharacterMovement : MonoBehaviour
     public void Teleport(Vector3 position)
     {
         Controller.enabled = false;
-        transform.position = position;
+
+        if (TryGetComponent(out NetworkTransform networkTransform))
+        {
+            networkTransform.Teleport(position, transform.rotation, transform.lossyScale);
+        }
+        else
+        {
+            transform.position = position;
+        }
+
         Controller.enabled = true;
     }
 

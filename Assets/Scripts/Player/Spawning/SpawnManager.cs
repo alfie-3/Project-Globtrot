@@ -13,11 +13,22 @@ public class SpawnManager : NetworkBehaviour
     [SerializeField] SpawnPoint defaultSpawnPoint;
     [SerializeField] List<SpawnPoint> spawnPoints;
 
+    int spawnPoint = -1;
+
     NetworkVariable<int> spanwedPlayers = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Owner);
+
+    public static SpawnManager Instance;
 
     public void Awake()
     {
-        NetworkManager.SceneManager.OnLoadComplete += SpawnPlayerOnSceneLoad;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
 
         foreach(CharacterReferenceData playerRef in playerCharacterReferences)
         {
@@ -25,7 +36,23 @@ public class SpawnManager : NetworkBehaviour
         }
     }
 
-    public void SpawnPlayerOnSceneLoad(ulong clientId, string sceneName, LoadSceneMode mode)
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    public static void Init()
+    {
+        Instance = null;
+    }
+
+    protected override void OnNetworkPostSpawn()
+    {
+        SpawnPlayer();
+    }
+
+    public void SpawnPlayer()
+    {
+        RequestSpawnPlayer_Rpc(NetworkManager.Singleton.LocalClientId, defaultCharacterReference.PlayerReferenceID);
+    }
+
+    public void SpawnPlayerOnSceneLoad(ulong clientId)
     {
         if (NetworkManager.Singleton.LocalClientId != clientId) return;
 
@@ -38,6 +65,7 @@ public class SpawnManager : NetworkBehaviour
         if (!NetworkManager.Singleton.IsServer) return;
 
         SpawnPoint spawnPoint = spawnPoints[spanwedPlayers.Value % spawnPoints.Count];
+        int selectedSpawnPoint = spanwedPlayers.Value % spawnPoints.Count;
         spanwedPlayers.Value++;
 
 
@@ -52,7 +80,21 @@ public class SpawnManager : NetworkBehaviour
 
         player.transform.position = spawnPoint.transform.position;
 
+        SetSpawnPoint_Rpc(selectedSpawnPoint, RpcTarget.Single(id, RpcTargetUse.Temp));
+
         Debug.Log($"Spawned player {id} at {spawnPoint.gameObject.name}");
+    }
+
+    [Rpc(SendTo.SpecifiedInParams)]
+    public void SetSpawnPoint_Rpc(int spawnPoint, RpcParams rpcParams)
+    {
+        this.spawnPoint = spawnPoint;
+    }
+
+    public void RespawnPlayer(CharacterMovement movement)
+    {
+        SpawnPoint playersSpawnPoint = spawnPoints[spawnPoint % spawnPoints.Count];
+        movement.Teleport(playersSpawnPoint.transform.position);
     }
 
     public SpawnPoint GetSpawnPoint()
