@@ -1421,6 +1421,7 @@ GameObject:
   - component: {fileID: 6176468324834789802}
   - component: {fileID: 6672524378739762288}
   - component: {fileID: 9194858862636055753}
+  - component: {fileID: 2897031659351700631}
   m_Layer: 3
   m_Name: PlayerBase_Prefab
   m_TagString: Untagged
@@ -1698,6 +1699,24 @@ MonoBehaviour:
   ChestSlot: {fileID: 1374719449980418442}
   LeftHandSlot: {fileID: 316531102363256702}
   RightHandSlot: {fileID: 7391080341077277702}
+--- !u!114 &2897031659351700631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5789001657597990608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5905a2d3ae9e4544a94c7bb328bb9d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  buildingManagerActive: 0
+  selectionMode: 0
+  ui: {fileID: 0}
+  furnitureItem: {fileID: 0}
+  HologramMat: {fileID: 0}
 --- !u!1 &5794413184630554296
 GameObject:
   m_ObjectHideFlags: 0

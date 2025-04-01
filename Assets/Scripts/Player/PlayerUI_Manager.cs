@@ -12,10 +12,15 @@ public class PlayerUI_Manager : NetworkBehaviour
 
         if (!IsLocalPlayer) return;
 
-        ThrowMeterAnim = Instantiate(PlayerUI).GetComponentInChildren<ThrowMeterAnim>();
+        Canvas UI = Instantiate(PlayerUI);
+
+        ThrowMeterAnim = UI.GetComponentInChildren<ThrowMeterAnim>();
 
         ThrowMeterAnim.SetThrowMaxDuration(GetComponent<PlayerHoldingManager>().maxThrowForceChargeTime);
         GetComponent<PlayerHoldingManager>().Throwing += ThrowMeterAnim.ThrowingState;
+
+
+        GetComponent<PlayerBuildingManager>().ui = UI.GetComponentInChildren<UI_BuildingSelection>();
     }
 
 }
