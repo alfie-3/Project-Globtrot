@@ -8,7 +8,18 @@ using UnityEngine.InputSystem.Interactions;
 
 public class PlayerHoldingManager : NetworkBehaviour
 {
-    [field: SerializeField] public NetworkObject HeldObj { get; private set; }
+    public NetworkVariable<HeldObject> HeldObjReference { get; private set; } = new NetworkVariable<HeldObject>(readPerm: NetworkVariableReadPermission.Everyone, writePerm: NetworkVariableWritePermission.Owner);
+    public NetworkObject HeldObj => GetHeldObject();
+    public NetworkObject GetHeldObject()
+    {
+        if (HeldObjReference.Value == null) return null; 
+        if (HeldObjReference.Value.NetworkObjectReference.TryGet(out NetworkObject nwObject))
+        {
+            return nwObject;
+        }
+
+        return null;
+    }
 
     [SerializeField] public Material Material;
 
@@ -59,7 +70,7 @@ public class PlayerHoldingManager : NetworkBehaviour
         if (obj == null) return;
         if (obj.PickedUp.Value == true) return;
         if (!obj.TryGetComponent(out NetworkObject nwObject)) return;
-        HeldObj = nwObject;
+        HeldObjReference.Value = new(nwObject);
 
         foreach (IOnHeld held in HeldObj.GetComponentsInChildren<IOnHeld>())
         {
@@ -239,6 +250,7 @@ public class PlayerHoldingManager : NetworkBehaviour
             drop.OnDrop(this);
         }
 
+        if (IsOwner)
         ClearItem();
     }
 
@@ -262,6 +274,7 @@ public class PlayerHoldingManager : NetworkBehaviour
         Transform socket = ObjectSocketManager.GetSocketTransform(HeldObj.GetComponent<Pickup_Interactable>().HoldingSocket);
         ObjectSocketManager.ClearBoundObject_Rpc(HeldObj.GetComponent<Pickup_Interactable>().HoldingSocket, socket.position, socket.rotation, true);
 
+        if (IsOwner)
         ClearItem();
 
     }
@@ -286,7 +299,7 @@ public class PlayerHoldingManager : NetworkBehaviour
     }
 
 
-    [Rpc(SendTo.Everyone)]
+    [Rpc(SendTo.Owner)]
     public void RequestClearItem_Rpc()
     {
         ClearItem();
@@ -294,8 +307,43 @@ public class PlayerHoldingManager : NetworkBehaviour
 
     public void ClearItem()
     {
-        HeldObj = null;
+        HeldObjReference.Value = null;
     }
 
     public bool HoldingItem => HeldObj != null;
+}
+
+[System.Serializable]
+public class HeldObject : INetworkSerializable, IEquatable<HeldObject>
+{
+    public NetworkObjectReference NetworkObjectReference;
+
+    public HeldObject(NetworkObjectReference reference)
+    {
+        NetworkObjectReference = reference;
+    }
+
+    public HeldObject() { }
+
+    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+    {
+        if (serializer.IsReader)
+        {
+            var reader = serializer.GetFastBufferReader();
+
+            reader.ReadValueSafe(out NetworkObjectReference);
+
+        }
+        else
+        {
+            var writer = serializer.GetFastBufferWriter();
+
+            writer.WriteValueSafe(NetworkObjectReference);
+        }
+    }
+
+    public bool Equals(HeldObject other)
+    {
+        return other.NetworkObjectReference.Equals(NetworkObjectReference);
+    }
 }
