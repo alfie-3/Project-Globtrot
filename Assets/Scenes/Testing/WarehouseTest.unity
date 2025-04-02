@@ -8029,7 +8029,7 @@ MonoBehaviour:
   m_ProtocolType: 1
   m_UseWebSockets: 0
   m_UseEncryption: 0
-  m_MaxPacketQueueSize: 128
+  m_MaxPacketQueueSize: 256
   m_MaxPayloadSize: 6144
   m_HeartbeatTimeoutMS: 500
   m_ConnectTimeoutMS: 1000
@@ -8063,7 +8063,7 @@ MonoBehaviour:
     Prefabs:
       NetworkPrefabsLists:
       - {fileID: 11400000, guid: 47f46d16362194d409953386ae51eb2d, type: 2}
-    TickRate: 50
+    TickRate: 32
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
     ConnectionData: 

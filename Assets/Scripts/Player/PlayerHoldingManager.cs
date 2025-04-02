@@ -8,12 +8,12 @@ using UnityEngine.InputSystem.Interactions;
 
 public class PlayerHoldingManager : NetworkBehaviour
 {
-    public NetworkVariable<HeldObject> HeldObjReference { get; private set; } = new NetworkVariable<HeldObject>(readPerm: NetworkVariableReadPermission.Everyone, writePerm: NetworkVariableWritePermission.Owner);
+    public NetworkVariable<HeldObject> NetworkedHeldObj { get; private set; } = new NetworkVariable<HeldObject>(readPerm: NetworkVariableReadPermission.Everyone, writePerm: NetworkVariableWritePermission.Owner);
     public NetworkObject HeldObj => GetHeldObject();
     public NetworkObject GetHeldObject()
     {
-        if (HeldObjReference.Value == null) return null; 
-        if (HeldObjReference.Value.NetworkObjectReference.TryGet(out NetworkObject nwObject))
+        if (NetworkedHeldObj.Value == null) return null; 
+        if (NetworkedHeldObj.Value.NetworkObjectReference.TryGet(out NetworkObject nwObject))
         {
             return nwObject;
         }
@@ -56,7 +56,17 @@ public class PlayerHoldingManager : NetworkBehaviour
 
         playerInputManager.OnPerformCtrl += PerformCtrl;
 
+        NetworkedHeldObj.OnValueChanged += HandlePlayerHolding;
+
         CameraManager = GetComponentInChildren<PlayerCameraManager>();
+    }
+
+    public void HandlePlayerHolding(HeldObject prev, HeldObject current)
+    {
+        if (current != null)
+        {
+
+        }
     }
 
     public void HoldItem(Pickup_Interactable obj)
@@ -70,7 +80,7 @@ public class PlayerHoldingManager : NetworkBehaviour
         if (obj == null) return;
         if (obj.PickedUp.Value == true) return;
         if (!obj.TryGetComponent(out NetworkObject nwObject)) return;
-        HeldObjReference.Value = new(nwObject);
+        NetworkedHeldObj.Value = new(nwObject);
 
         foreach (IOnHeld held in HeldObj.GetComponentsInChildren<IOnHeld>())
         {
@@ -307,7 +317,7 @@ public class PlayerHoldingManager : NetworkBehaviour
 
     public void ClearItem()
     {
-        HeldObjReference.Value = null;
+        NetworkedHeldObj.Value = null;
     }
 
     public bool HoldingItem => HeldObj != null;
