@@ -57,6 +57,8 @@ public class PlayerInteractionManager : NetworkBehaviour
 
     public void Interact(InputAction.CallbackContext context)
     {
+        if (GetComponent <PlayerBuildingManager>().buildingManagerActive) return;
+
         Ray ray = new(cameraManager.CamTransform.position, cameraManager.CamTransform.forward);
 
         if (Physics.Raycast(ray, out RaycastHit hit, InteractionDistance, interactableLayer, QueryTriggerInteraction.Collide))

@@ -24,6 +24,7 @@ public class PlayerInputManager : NetworkBehaviour
     //Interaction
     public Action<InputAction.CallbackContext> OnInteract = delegate { };
     public Action<InputAction.CallbackContext> OnDismantle = delegate { };
+    public Action<InputAction.CallbackContext> OnQ = delegate { };
 
     public Action<InputAction.CallbackContext> OnPerformPrimary = delegate { };
     public Action<InputAction.CallbackContext> OnPerformSecondary = delegate { };
@@ -52,6 +53,7 @@ public class PlayerInputManager : NetworkBehaviour
 
         inputActions.Player.Scroll.performed += context => OnScroll.Invoke(context);
 
+        inputActions.Player.Q.performed += context => OnQ(context);
         inputActions.Player.Dismantle.performed += context => OnDismantle(context);
         inputActions.Player.Snapping.performed += context => OnPerformCtrl(context);
     }

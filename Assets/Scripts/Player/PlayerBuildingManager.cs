@@ -24,7 +24,7 @@ public class PlayerBuildingManager : NetworkBehaviour {
 
     GridController grid;
 
-
+    
     public PlayerCameraManager CameraManager { get; private set; }
 
     private void Awake() {
@@ -33,6 +33,9 @@ public class PlayerBuildingManager : NetworkBehaviour {
         /*playerInputManager.OnPerformPrimary += PerformPrimary;
         playerInputManager.OnPerformSecondary += PerformSecondary;*/
         playerInputManager.OnScroll += PerformScroll;
+
+        playerInputManager.OnInteract += PerfromE;
+        playerInputManager.OnQ += PerfromQ;
 
         playerInputManager.OnPerformCtrl += ToggleBuilding;
 
@@ -45,7 +48,7 @@ public class PlayerBuildingManager : NetworkBehaviour {
             PopulateItem(furnitureItem);
         grid = GridController.Instance;
     }
-    
+
 
     [Rpc(SendTo.Everyone)]
     public void SetItem_Rpc(string itemID, float rotation = 0) {
@@ -93,21 +96,30 @@ public class PlayerBuildingManager : NetworkBehaviour {
     }
 
     public void PerformScroll(InputAction.CallbackContext context) {
-        if (buildingManagerActive)
-        {
-            float dir = context.ReadValue<float>() > 0 ? 1 : -1;
-            if (selectionMode) {
-                ui.ScrolPanel(dir);
-            } else {
-                if (furnitureItem == null) return;
+        if (!buildingManagerActive) return;
+
+        float dir = context.ReadValue<float>() > 0 ? -1 : 1;
+        if (selectionMode) {
+            ui.ScrolPanel((int)dir);
+        } else {
+            if (furnitureItem == null) return;
 
                 
 
-                rotation += dir * 90;
-            }
+            rotation += dir * 90;
         }
-        
+    }
 
+    public void PerfromE(InputAction.CallbackContext context)
+    {
+        if (!buildingManagerActive) return;
+        ui.MoveX(1);
+    }
+
+    public void PerfromQ(InputAction.CallbackContext context)
+    {
+        if (!buildingManagerActive) return;
+        ui.MoveX(-1);
     }
 
     public void ToggleBuilding(InputAction.CallbackContext context) 
