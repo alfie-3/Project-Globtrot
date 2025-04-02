@@ -245,10 +245,11 @@ public class PlayerHoldingManager : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     public void DisconnectHeldObject_Rpc()
     {
-        if (HeldObj == null)
+        if (HeldObj == null || !HeldObj.IsSpawned)
         {
             ObjectSocketManager.ClearAllBoundObjects();
             GetComponentInChildren<IKTargetsManager>().ClearAllIKTargets_Rpc();
+            return;
         }
 
         foreach (IOnDrop drop in HeldObj.GetComponentsInChildren<IOnDrop>())
