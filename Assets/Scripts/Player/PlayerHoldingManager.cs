@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
@@ -12,7 +11,7 @@ public class PlayerHoldingManager : NetworkBehaviour
     public NetworkObject HeldObj => GetHeldObject();
     public NetworkObject GetHeldObject()
     {
-        if (NetworkedHeldObj.Value == null) return null; 
+        if (NetworkedHeldObj.Value == null) return null;
         if (NetworkedHeldObj.Value.NetworkObjectReference.TryGet(out NetworkObject nwObject))
         {
             return nwObject;
@@ -21,11 +20,7 @@ public class PlayerHoldingManager : NetworkBehaviour
         return null;
     }
 
-    [SerializeField] public Material Material;
-
     [SerializeField] PlayerObjectSocketManager ObjectSocketManager;
-
-
 
     //Dropping
     [Space]
@@ -63,38 +58,75 @@ public class PlayerHoldingManager : NetworkBehaviour
 
     public void HandlePlayerHolding(HeldObject prev, HeldObject current)
     {
+        if (prev != null)
+        {
+            DisconnectHeldObject(prev);
+        }
+
         if (current != null)
         {
+            ConnectHeldObject(current);
+        }
 
+        if (current == null && prev == null)
+        {
+            DisconnectAll();
         }
     }
 
     public void HoldItem(Pickup_Interactable obj)
     {
-        if (HeldObj != null)
-        {
-            ObjectSocketManager.ClearAllBoundObjects();
-            return;
-        }
-
         if (obj == null) return;
         if (obj.PickedUp.Value == true) return;
         if (!obj.TryGetComponent(out NetworkObject nwObject)) return;
-        NetworkedHeldObj.Value = new(nwObject);
 
-        foreach (IOnHeld held in HeldObj.GetComponentsInChildren<IOnHeld>())
+        NetworkedHeldObj.Value = new(nwObject);
+    }
+
+    public void ClearHeldItem()
+    {
+        NetworkedHeldObj.Value = null;
+    }
+
+    public void ConnectHeldObject(HeldObject obj)
+    {
+        if (!obj.NetworkObjectReference.TryGet(out NetworkObject nwObj)) return;
+
+        foreach (IOnHeld held in nwObj.GetComponentsInChildren<IOnHeld>())
         {
             held.OnHeld(this);
         }
 
-        if (obj.TryGetComponent(out RigidbodyNetworkTransform rbNWT))
-        {
+        if (nwObj.TryGetComponent(out RigidbodyNetworkTransform rbNWT))
             rbNWT.WakeUpNearbyObjects();
+
+        if (nwObj.TryGetComponent(out Pickup_Interactable pickup))
+            ObjectSocketManager.BindObject_Rpc(pickup.HoldingSocket, HeldObj);
+
+        GetComponentInChildren<IKTargetsManager>().ConstrainIKToObject(nwObj.gameObject);
+
+    }
+
+    public void DisconnectHeldObject(HeldObject obj)
+    {
+        if (!obj.NetworkObjectReference.TryGet(out NetworkObject nwObj)) return;
+
+        foreach (IOnDrop drop in nwObj.GetComponentsInChildren<IOnDrop>())
+        {
+            drop.OnDrop(this);
         }
 
-        ObjectSocketManager.BindObject_Rpc(obj.HoldingSocket, HeldObj);
+        GetComponentInChildren<IKTargetsManager>().ClearIKToObject(nwObj.gameObject);
 
-        GetComponentInChildren<IKTargetsManager>().ConstrainIKToObject_Rpc(HeldObj);
+        Transform socket = ObjectSocketManager.GetSocketTransform(nwObj.GetComponent<Pickup_Interactable>().HoldingSocket);
+        ObjectSocketManager.ClearBoundObject_Rpc(nwObj.GetComponent<Pickup_Interactable>().HoldingSocket, socket.position, socket.rotation, true);
+
+    }
+
+    public void DisconnectAll()
+    {
+        ObjectSocketManager.ClearAllBoundObjects();
+        GetComponentInChildren<IKTargetsManager>().ClearAllIKTargets_Rpc();
     }
 
     [Rpc(SendTo.Server)]
@@ -209,8 +241,7 @@ public class PlayerHoldingManager : NetworkBehaviour
                 Throwing.Invoke(throwing);
                 NetworkObject obj = HeldObj;
 
-                GetComponentInChildren<IKTargetsManager>().ClearIKToObject_Rpc(HeldObj);
-                ObjectSocketManager.ClearBoundObject_Rpc(HeldObj.GetComponent<Pickup_Interactable>().HoldingSocket, CameraManager.CamTransform.position + CameraManager.CamTransform.forward, ObjectSocketManager.transform.rotation);
+                ClearHeldItem();
 
                 obj.GetComponent<RigidbodyNetworkTransform>().SetLinearVelocity_Rpc(Vector3.zero);
                 Vector3 force = CameraManager.CamTransform.forward;
@@ -221,7 +252,7 @@ public class PlayerHoldingManager : NetworkBehaviour
 
                 HeldObj.GetComponentsInChildren<IOnDrop>().ToList().ForEach(x => x.OnDrop(this));
 
-                ClearItem();
+                ClearHeldItem();
             }
         }
     }
@@ -229,8 +260,6 @@ public class PlayerHoldingManager : NetworkBehaviour
     public void PerformDrop(InputAction.CallbackContext context)
     {
         if (HeldObj == null) return;
-
-        GetComponentInChildren<IKTargetsManager>().ClearIKToObject_Rpc(HeldObj);
 
         Ray ray = new(CameraManager.CamTransform.position, CameraManager.CamTransform.forward);
         Ray secondaryRay = new(CameraManager.CamTransform.position + (CameraManager.CamTransform.forward * dropDistance), Vector3.down);
@@ -260,33 +289,7 @@ public class PlayerHoldingManager : NetworkBehaviour
             drop.OnDrop(this);
         }
 
-        if (IsOwner)
-        ClearItem();
-    }
-
-    [Rpc(SendTo.Everyone)]
-    public void DisconnectHeldObject_Rpc()
-    {
-        if (HeldObj == null || !HeldObj.IsSpawned)
-        {
-            ObjectSocketManager.ClearAllBoundObjects();
-            GetComponentInChildren<IKTargetsManager>().ClearAllIKTargets_Rpc();
-            return;
-        }
-
-        foreach (IOnDrop drop in HeldObj.GetComponentsInChildren<IOnDrop>())
-        {
-            drop.OnDrop(this);
-        }
-
-        GetComponentInChildren<IKTargetsManager>().ClearIKToObject_Rpc(HeldObj);
-
-        Transform socket = ObjectSocketManager.GetSocketTransform(HeldObj.GetComponent<Pickup_Interactable>().HoldingSocket);
-        ObjectSocketManager.ClearBoundObject_Rpc(HeldObj.GetComponent<Pickup_Interactable>().HoldingSocket, socket.position, socket.rotation, true);
-
-        if (IsOwner)
-        ClearItem();
-
+        ClearHeldItem();
     }
 
     public void PerformScroll(InputAction.CallbackContext context)
@@ -312,12 +315,7 @@ public class PlayerHoldingManager : NetworkBehaviour
     [Rpc(SendTo.Owner)]
     public void RequestClearItem_Rpc()
     {
-        ClearItem();
-    }
-
-    public void ClearItem()
-    {
-        NetworkedHeldObj.Value = null;
+        ClearHeldItem();
     }
 
     public bool HoldingItem => HeldObj != null;

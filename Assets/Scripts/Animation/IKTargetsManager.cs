@@ -28,27 +28,19 @@ public class IKTargetsManager : NetworkBehaviour
         }
     }
 
-    [Rpc(SendTo.Everyone)]
-    public void ConstrainIKToObject_Rpc(NetworkObjectReference networkObjectReference)
+    public void ConstrainIKToObject(GameObject gameObject)
     {
-        if (networkObjectReference.TryGet(out NetworkObject bindingObject))
+        foreach (IKTargetPoint targetPoint in gameObject.GetComponentsInChildren<IKTargetPoint>())
         {
-            foreach (IKTargetPoint targetPoint in bindingObject.GetComponentsInChildren<IKTargetPoint>())
-            {
-                targetPoint.SetConstraint(GetComponentInChildren<IKTargetsManager>());
-            }
+            targetPoint.SetConstraint(GetComponentInChildren<IKTargetsManager>());
         }
     }
 
-    [Rpc(SendTo.Everyone)]
-    public void ClearIKToObject_Rpc(NetworkObjectReference networkObjectReference)
+    public void ClearIKToObject(GameObject gameObject)
     {
-        if (networkObjectReference.TryGet(out NetworkObject bindingObject))
+        foreach (IKTargetPoint targetPoint in gameObject.GetComponentsInChildren<IKTargetPoint>())
         {
-            foreach (IKTargetPoint targetPoint in bindingObject.GetComponentsInChildren<IKTargetPoint>())
-            {
-                targetPoint.RemoveConstraint(GetComponentInChildren<IKTargetsManager>());
-            }
+            targetPoint.RemoveConstraint(GetComponentInChildren<IKTargetsManager>());
         }
     }
 

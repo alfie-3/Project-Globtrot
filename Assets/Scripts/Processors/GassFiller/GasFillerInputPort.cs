@@ -26,8 +26,6 @@ public class GasFillerInputPort : NetworkBehaviour, IUseItem
             if (Filled.Value == true) return;
 
             NetworkObject heldobject = manager.HeldObj;
-            manager.DisconnectHeldObject_Rpc();
-
             ConnectItem_Rpc(heldobject);
         }
     }
@@ -40,11 +38,11 @@ public class GasFillerInputPort : NetworkBehaviour, IUseItem
         nwObject.GetComponent<Pickup_Interactable>().OnPickedUp += CannisterRemoved;
         cannister = nwObject;
 
+        nwObject.GetComponent<RigidbodyNetworkTransform>().SetRigidbodyEnabled(false);
+
         if (!IsServer) return;
 
         Filled.Value = true;
-
-        nwObject.GetComponent<RigidbodyNetworkTransform>().SetRigidbodyEnabled(false);
         nwObject.GetComponent<RigidbodyNetworkTransform>().Teleport(transform.position, transform.rotation, nwObject.transform.lossyScale);
     }
 

@@ -2,6 +2,7 @@ using System;
 using Unity.Netcode;
 using Unity.Netcode.Components;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 [RequireComponent(typeof(NetworkRigidbody))]
@@ -94,14 +95,17 @@ public class RigidbodyNetworkTransform : NetworkTransform
 
     public void SetRigidbodyEnabled(bool state)
     {
+        rigidbodyDisabled = state;
+
+        if (IsServer)
+
         Rigidbody.isKinematic = !state;
         NetworkRigidbody.UseRigidBodyForMotion = state;
-
-        rigidbodyDisabled = state;
     }
 
     public void CheckPhysicsState()
     {
+        if (rigidbodyDisabled) return;
         if (Rigidbody.linearVelocity.magnitude > 0.001) return;
         if (!IsColliding) return;
 
@@ -150,3 +154,16 @@ public class RigidbodyNetworkTransform : NetworkTransform
         }
     }
 }
+
+#if UNITY_EDITOR
+[CustomEditor(typeof(RigidbodyNetworkTransform))]
+public class RBNetworkTransform : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        RigidbodyNetworkTransform rBNetwork = (RigidbodyNetworkTransform)target;
+
+        DrawDefaultInspector();
+    }
+}
+#endif
