@@ -91,10 +91,11 @@ public class SpawnManager : NetworkBehaviour
         this.spawnPoint = spawnPoint;
     }
 
-    public void RespawnPlayer(CharacterMovement movement)
+    public void RespawnPlayer(PlayerCharacterController movement)
     {
         SpawnPoint playersSpawnPoint = spawnPoints[spawnPoint % spawnPoints.Count];
-        movement.Teleport(playersSpawnPoint.transform.position);
+        movement.CharacterMovement.Teleport(playersSpawnPoint.transform.position);
+        movement.CameraManager.SetPanTilt(new(transform.eulerAngles.x, transform.eulerAngles.y));
     }
 
     public SpawnPoint GetSpawnPoint()

@@ -32,4 +32,13 @@ public class PlayerCameraManager : NetworkBehaviour
 
         OnCameraAssigned.Invoke(camera.gameObject);
     }
+
+    public void SetPanTilt(Vector2 rotation)
+    {
+        if (CamTransform.TryGetComponent(out CinemachinePanTilt panTilt))
+        {
+            panTilt.PanAxis.Value = rotation.x;
+            panTilt.TiltAxis.Value = rotation.y;
+        }
+    }
 }

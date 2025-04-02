@@ -8,6 +8,7 @@ public class PlayerCharacterController : NetworkBehaviour
 {
     public CharacterMovement CharacterMovement { get; private set; }
     public PlayerInputManager PlayerInputManager { get; private set; }
+    public PlayerCameraManager CameraManager { get; private set; }
 
     public bool CanMove = false;
 
@@ -31,6 +32,7 @@ public class PlayerCharacterController : NetworkBehaviour
     {
         CharacterMovement = GetComponent<CharacterMovement>();
         PlayerInputManager = GetComponent<PlayerInputManager>();
+        CameraManager = GetComponentInChildren<PlayerCameraManager>();
         GameStateManager.OnReset += Respawn;
 
         CursorUtils.LockAndHideCusor();
@@ -62,7 +64,7 @@ public class PlayerCharacterController : NetworkBehaviour
 
         if (SpawnManager.Instance)
         {
-            SpawnManager.Instance.RespawnPlayer(CharacterMovement);
+            SpawnManager.Instance.RespawnPlayer(this);
         }
     }
 

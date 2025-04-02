@@ -17,6 +17,8 @@ public class UI_DayEndScreen : NetworkBehaviour
     {
         base.OnNetworkSpawn();
 
+        EndDaySequence();
+
         if (!IsServer) return;
 
         NextDayButton.interactable = true;
@@ -24,8 +26,6 @@ public class UI_DayEndScreen : NetworkBehaviour
 
     public void EndDaySequence()
     {
-        CursorUtils.UnlockAndShowCursor();
-
         dayEndText.text = $"DAY {GameStateManager.Instance.CurrentDay.Value + 1} \n CLEARED";
     }
 
