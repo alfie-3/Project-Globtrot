@@ -48,34 +48,48 @@ public class Order
         Contents missingItems = new(0);
         Contents extraItems = new(0);
 
+        int profits = 0;
+        int loss = 0;
+
         foreach (OrderItem orderItem in OrderItems)
         {
-            if (contents.ContentsDictionary.TryGetValue(orderItem.Item.ItemID, out int quantity))
+            if (contents.ContentsDictionary.TryGetValue(orderItem.Item, out int quantity))
             {
-                if (orderItem.Quantity > quantity)
+                if (orderItem.Quantity == quantity)
                 {
-                    extraItems.TryAddItem(orderItem.Item.ItemID, orderItem.Quantity - quantity);
+                    profits += orderItem.Item.Price * quantity;
+                }
+                else if (orderItem.Quantity > quantity)
+                {
+                    extraItems.TryAddItem(orderItem.Item, orderItem.Quantity - quantity);
+
+                    profits += orderItem.Item.Price * orderItem.Quantity;
+                    loss += orderItem.Item.Price * (quantity - orderItem.Quantity);
                 }
                 else if (orderItem.Quantity < quantity)
                 {
-                    missingItems.TryAddItem(orderItem.Item.ItemID, quantity - orderItem.Quantity);
+                    missingItems.TryAddItem(orderItem.Item, quantity - orderItem.Quantity);
+
+                    profits += orderItem.Item.Price * quantity;
+                    loss += orderItem.Item.Price * (orderItem.Quantity - quantity);
                 }
             }
             else
             {
-                missingItems.TryAddItem(orderItem.Item.ItemID, quantity);
+                missingItems.TryAddItem(orderItem.Item, quantity);
+                loss += orderItem.Item.Price * quantity;
             }
         }
 
-        foreach (KeyValuePair<string, int> contentItem in contents.ContentsDictionary)
+        foreach (KeyValuePair<Stock_Item, int> contentItem in contents.ContentsDictionary)
         {
-            OrderItem foundItem = OrderItems.FirstOrDefault(x => contentItem.Key == x.Item.ItemID);
+            OrderItem foundItem = OrderItems.FirstOrDefault(x => contentItem.Key == x.Item);
             if (foundItem != default) continue;
 
             incorrectItems.TryAddItem(contentItem.Key, contentItem.Value);
         }
 
-        return new(incorrectItems, missingItems, extraItems);
+        return new(incorrectItems, missingItems, extraItems, profits, loss);
     }
 }
 
@@ -87,11 +101,16 @@ public struct OrderResponse
     public Contents ExtraItems;
     public Contents MissingItems;
 
-    public OrderResponse(Contents incorrectItems, Contents missingItems, Contents extraItems)
+    public int Profit;
+    public int Loss;
+
+    public OrderResponse(Contents incorrectItems, Contents missingItems, Contents extraItems, int profits, int loss)
     {
         IncorrectItems = incorrectItems;
         MissingItems = missingItems;
         ExtraItems = extraItems;
+        Profit = profits;
+        Loss = loss;
 
         if (incorrectItems.Count > 0 || missingItems.Count > 0 || extraItems.Count > 0)
             ResponseStatus = ResponseStatus.Failure;
@@ -105,6 +124,8 @@ public struct OrderResponse
         IncorrectItems = null;
         ExtraItems = null;
         MissingItems = null;
+        Profit = 0;
+        Loss = 0;
     }
 }
 
@@ -120,15 +141,16 @@ public class OrderItem
     private string itemID;
     public Stock_Item Item;
 
+    List<object> data;
     public int Quantity = 1;
 
     public float TimeContribution;
 
-    public OrderItem(string item, int quantity, float timeContribution = 0)
+    public OrderItem(Stock_Item item, int quantity, float timeContribution = 0)
     {
-        itemID = item;
+        itemID = item.ItemID;
 
-        Item = ItemDictionaryManager.RetrieveItem(item) as Stock_Item;
+        Item = item;
 
         Quantity = quantity;
         TimeContribution = timeContribution;
@@ -191,7 +213,10 @@ public struct OrderPayload : INetworkSerializable
 
         for (int i = 0; i < OrderItems.Length; i++)
         {
-            orderItems.Add(new(OrderItems[i].ItemId, OrderItems[i].Quantity));
+            Stock_Item stockitem = (Stock_Item)ItemDictionaryManager.RetrieveItem(OrderItems[i].ItemId);
+            if (stockitem == null) continue;
+
+            orderItems.Add(new(stockitem, OrderItems[i].Quantity));
         }
 
         return orderItems;

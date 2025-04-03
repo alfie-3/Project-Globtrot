@@ -23,7 +23,7 @@ public class OrderableList : ScriptableObject
 
         for (int i = 0; i < count; i++)
         {
-            randomPickedList.Add(new(CurrentOrderablesList[i].ItemID, CurrentOrderablesList[i].WeightedQuantitySelection.GetRandom(), CurrentOrderablesList[i].TimeContribution));
+            randomPickedList.Add(new(CurrentOrderablesList[i], CurrentOrderablesList[i].WeightedQuantitySelection.GetRandom(), CurrentOrderablesList[i].TimeContribution));
         }
 
         return randomPickedList;

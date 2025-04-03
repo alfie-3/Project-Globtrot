@@ -58,11 +58,11 @@ public class OrderPort : NetworkBehaviour
         {
             case (ResponseStatus.Success):
                 Debug.Log("Great order!");
+                MoneyManager.Instance.AddToQuota(response.Profit + response.Loss);
                 orderAllocationList[0].Order.OnOrderSucceeded.Invoke(orderAllocationList[0].Order);
                 PlayNoise_Rpc(ResponseStatus.Success);
                 break;
             case (ResponseStatus.Failure):
-                Debug.Log("Bad order!");
                 orderAllocationList[0].Order.OnOrderFailed.Invoke(orderAllocationList[0].Order);
                 PlayNoise_Rpc(ResponseStatus.Failure);
                 break;

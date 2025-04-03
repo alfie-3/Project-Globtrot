@@ -78,7 +78,7 @@ public class UI_Basket : MonoBehaviour
                 {
                     if (item is Stock_Item productItem)
                     {
-                        double totalPrice = productItem.GetCurrentPurchasePrice()* amountToSpawn;
+                        int totalPrice = productItem.GetCurrentPrice()* amountToSpawn;
 
                         // check if enough money
                         if (MoneyManager.Instance.CanAfford(totalPrice))
@@ -99,7 +99,7 @@ public class UI_Basket : MonoBehaviour
                     }
                     else if (item is PlacableFurniture_Item furnitureItem)
                     {
-                        double totalPrice = furnitureItem.GetCurrentPurchasePrice() * amountToSpawn;
+                        int totalPrice = furnitureItem.GetCurrentPurchasePrice() * amountToSpawn;
 
                         // check if enough money
                         if (MoneyManager.Instance.CanAfford(totalPrice))
@@ -183,7 +183,7 @@ public class UI_Basket : MonoBehaviour
                 {
                     if (itemData is Stock_Item productItem)
                     {
-                        total += productItem.GetCurrentPurchasePrice() * amount;
+                        total += productItem.GetCurrentPrice() * amount;
                     }
                     else if(itemData is PlacableFurniture_Item furniture)
                     {

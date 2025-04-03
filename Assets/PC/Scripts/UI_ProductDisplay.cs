@@ -28,7 +28,6 @@ public class UI_ProductDisplay : MonoBehaviour
 
         productImage.sprite = productScript.ItemIcon;
         productTitle.text = productScript.ItemName;
-        productPrice.text = $"${productScript.GetCurrentPurchasePrice():F2}";
         UpdateQuantity();
 
         SetupUnlockUI(productScript);
@@ -104,7 +103,6 @@ public class UI_ProductDisplay : MonoBehaviour
     {
         if (MoneyManager.Instance.CanAfford(item.UnlockPrice))
         {
-            MoneyManager.Instance.SpendMoney(item.UnlockPrice);
             isUnlocked = true;
             PlayerPrefs.SetInt($"Unlocked_{item.ItemID}", 1);
             lockPanel.SetActive(false);
@@ -120,7 +118,6 @@ public class UI_ProductDisplay : MonoBehaviour
     {
         if (MoneyManager.Instance.CanAfford(furniture.UnlockPrice))
         {
-            MoneyManager.Instance.SpendMoney(furniture.UnlockPrice);
             isUnlocked = true;
             PlayerPrefs.SetInt($"Unlocked_{furniture.ItemID}", 1);
             lockPanel.SetActive(false);

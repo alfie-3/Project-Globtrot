@@ -6,18 +6,16 @@ using UnityEngine;
 public class PlacableFurniture_Item : ItemBase
 {
     [field: SerializeField] public GameObject FurniturePrefab { get; private set; }
-    [field: SerializeField] public float FurniturePrice = 0.0f;
+    [field: SerializeField] public int FurniturePrice = 0;
     [field: SerializeField] public ProductCategory Category { get; private set; } 
-    [field: SerializeField] public float UnlockPrice = 50.0f;
+    [field: SerializeField] public int UnlockPrice = 50;
     [field: SerializeField] public bool Unlockable = false;
     [field: SerializeField] public float SalePercentage = 0.25f;
 
     // allows for discounts
-    public double GetCurrentPurchasePrice()
+    public int GetCurrentPurchasePrice()
     {
-        double price = FurniturePrice;
-        price = price - (price* SalePercentage);
-        return price;
+        return UnlockPrice;
     }
 
 }

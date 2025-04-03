@@ -506,8 +506,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  CurrentDay:
+    m_InternalValue: 0
   CurrentDayState:
     m_InternalValue: 0
+  DayDataList: {fileID: 11400000, guid: e1299ce3f8158a84abc24c98611fa255, type: 2}
 --- !u!1 &3414759610727970496
 GameObject:
   m_ObjectHideFlags: 0
@@ -723,7 +726,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  startingMoney: 100
+  CurrentQuotaAmount:
+    m_InternalValue: 0
+  CurrentQuotaTarget:
+    m_InternalValue: 0
 --- !u!1 &5155324442400652339
 GameObject:
   m_ObjectHideFlags: 0
@@ -770,6 +776,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c8e68b4284faa849bfc533363c597ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <objectInMiddleOfCell>k__BackingField: 0
   <gridOffset>k__BackingField: {x: 0.5, y: 0, z: 0}
   GizmoVec: {x: 12, y: 12}
 --- !u!156049354 &6374380795335195406
@@ -794,7 +801,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1333075872215867108}
   - component: {fileID: 8668427681350481381}
-  - component: {fileID: 1645977240510162580}
   m_Layer: 0
   m_Name: --PricingManager--
   m_TagString: Untagged
@@ -842,16 +848,3 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &1645977240510162580
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7717388786422816213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94e33c901d032124692fca5ce21f0613, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1

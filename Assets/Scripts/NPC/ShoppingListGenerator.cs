@@ -1,37 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
-public class ShoppingListGenerator
-{
-    public static List<Stock_Item> AvailableProducts;
-
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-    public static void Init()
-    {
-        AvailableProducts = new();
-
-        foreach(ItemBase item in ItemDictionaryManager.ItemDict.Values)
-        {
-            if (item is Stock_Item)
-            {
-                AvailableProducts.Add(item as Stock_Item);
-            }
-        }
-    }
-
-    public static List<ShoppingListItem> GenerateShoppingList()
-    {
-        List<ShoppingListItem> shoppingList = new();
-
-        Stock_Item item = AvailableProducts[Random.Range(0, AvailableProducts.Count)];
-
-        shoppingList.Add(new(item, item.WeightedQuantitySelection.GetRandom()));
-
-        return shoppingList;
-    }
-}
-
 [System.Serializable]
 public class WeightedRandomBag<T>
 {

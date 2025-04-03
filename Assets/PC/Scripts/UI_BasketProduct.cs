@@ -22,7 +22,7 @@ public class UI_BasketProduct : MonoBehaviour
 
         if (itemData is Stock_Item productItem)
         {
-            productPrice.text = (productItem.GetCurrentPurchasePrice() * amount).ToString("F2");
+            productPrice.text = (productItem.GetCurrentPrice() * amount).ToString("F2");
         }
         else if (itemData is PlacableFurniture_Item furnitureItem)
         {
@@ -39,7 +39,7 @@ public class UI_BasketProduct : MonoBehaviour
         // update total price when amount changes
         if (itemData is Stock_Item productItem)
         {
-            productPrice.text = (productItem.GetCurrentPurchasePrice() * amount).ToString("F2");
+            productPrice.text = (productItem.GetCurrentPrice() * amount).ToString("F2");
         }
         else if (itemData is PlacableFurniture_Item furnitureItem)
         {

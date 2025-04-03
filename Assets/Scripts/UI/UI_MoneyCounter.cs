@@ -9,7 +9,7 @@ public class UI_MoneyCounter : MonoBehaviour
 
     public void Awake()
     {
-        MoneyManager.OnMoneyChanged += UpdateCounter;
+        //MoneyManager.OnQuotaAmountChanged += UpdateCounter;
     }
 
     private void UpdateCounter(double prev, double current)
@@ -19,6 +19,6 @@ public class UI_MoneyCounter : MonoBehaviour
 
     public void OnDestroy()
     {
-        MoneyManager.OnMoneyChanged -= UpdateCounter;
+        //MoneyManager.OnQuotaAmountChanged -= UpdateCounter;
     }
 }

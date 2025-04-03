@@ -18,11 +18,6 @@ public class PickUp_Funiture : Pickup_Interactable,  IDismantleable// : Pickup_I
         }
         else return;
 
-        if (TryGetComponent(out StockShelvesManager stockShelvesManager))
-        {
-            if (stockShelvesManager.ContainsItems) return;
-        }
-
         GiveCrate_RPC(placableFurniture.ItemID, interactionManager.NetworkObject);
         RequestRemove_RPC();
     }

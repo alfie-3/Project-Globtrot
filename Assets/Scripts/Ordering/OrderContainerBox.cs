@@ -80,18 +80,18 @@ public class Contents
     bool useLimit = true;
     public bool AllowItems = true;
 
-    public Dictionary<string, int> ContentsDictionary { get; private set; } = new Dictionary<string, int>();
+    public Dictionary<Stock_Item, int> ContentsDictionary { get; private set; } = new Dictionary<Stock_Item, int>();
 
     public int Count => ContentsDictionary.Count;
 
     public Contents()
     {
-        ContentsDictionary = new Dictionary<string, int>();
+        ContentsDictionary = new Dictionary<Stock_Item, int>();
     }
 
     public Contents(int maxContentAmount)
     {
-        ContentsDictionary = new Dictionary<string, int>();
+        ContentsDictionary = new Dictionary<Stock_Item, int>();
 
         if (maxContentAmount <= 0)
         {
@@ -103,28 +103,31 @@ public class Contents
         }
     }
 
-    public bool TryAddItem(string id, int quantity = 1)
+    public bool TryAddItem(Stock_Item item, int quantity = 1)
     {
         if (!AllowItems) return false;
 
         if (ContentsDictionary.Count > maxContentsAmount && useLimit) return false;
 
-        if (ContentsDictionary.TryAdd(id, quantity)) return true;
+        if (ContentsDictionary.TryAdd(item, quantity)) return true;
 
-        ContentsDictionary[id] += quantity;
+        ContentsDictionary[item] += quantity;
         return true;
     }
 
-    public bool TryRemoveItem(string name, int quantity = 1)
+    public bool TryRemoveItem(string id, int quantity = 1)
     {
         if (ContentsDictionary.Count == 0) return false;
 
-        if (ContentsDictionary.TryGetValue(name, out int value))
+        Stock_Item item = (Stock_Item)ItemDictionaryManager.RetrieveItem(id);
+        if (item == null) return false;
+
+        if (ContentsDictionary.TryGetValue(item, out int value))
         {
             value -= quantity;
 
             if (value <= 0)
-                ContentsDictionary.Remove(name);
+                ContentsDictionary.Remove(item);
 
             return true;
         }

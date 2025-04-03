@@ -2,22 +2,26 @@ using UnityEngine;
 using TMPro;
 using Unity.Netcode;
 using System;
+using UnityEngine.InputSystem.LowLevel;
 
 public class MoneyManager : NetworkBehaviour
 {
     public static MoneyManager Instance { get; private set; }
 
-    public double startingMoney = 100;  // starting money
+    public NetworkVariable<int> CurrentQuotaAmount = new();
+    public NetworkVariable<int> CurrentQuotaTarget = new();
 
-    static public Action<double, double> OnMoneyChanged = delegate { };
+    static public Action OnQuotaAchieved = delegate { };
 
-    private NetworkVariable<double> currentMoney = new();
-    public double CurrentMoney => currentMoney.Value;
+    static public Action<int, int> OnQuotaAmountChanged = delegate { };
+    static public Action<int> OnUpdateQuotaTarget = delegate { };
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void Initialize()
     {
-        OnMoneyChanged = delegate { };
+        OnQuotaAmountChanged = delegate { };
+        OnUpdateQuotaTarget = delegate { };
+        OnQuotaAchieved = delegate {};
     }
 
     private void Awake()
@@ -32,46 +36,64 @@ public class MoneyManager : NetworkBehaviour
             Instance = this;
         }
 
-        currentMoney.OnValueChanged += (prev, current) => { OnMoneyChanged(prev, current); };
-        currentMoney.Value+= startingMoney;
+        GameStateManager.OnResetServer += () => { CurrentQuotaAmount.Value = 0; };
+        GameStateManager.OnDayStateChanged += (value) => { if (value) SetQuotaTarget(); };
+
+        CurrentQuotaAmount.OnValueChanged += (prev, current) => { OnQuotaAmountChanged(prev, current); };
+        CurrentQuotaTarget.OnValueChanged += (prev, current) => { OnUpdateQuotaTarget(current); };
     }
 
     public override void OnNetworkSpawn()
     {
         if (!IsServer) return;
 
-        currentMoney.Value = startingMoney;
+        OnQuotaAmountChanged.Invoke(CurrentQuotaAmount.Value, CurrentQuotaTarget.Value);
+    }
 
-        OnMoneyChanged.Invoke(CurrentMoney, CurrentMoney);
+    public void SetQuotaTarget()
+    {
+        DayData dayData = GameStateManager.Instance.GetLatestDayData();
+        if (dayData == null) return;
+
+        CurrentQuotaAmount.Value = 0;
+        SetQuotaTarget(dayData.DailyQuota);
+    }
+
+    public void SetQuotaTarget(int target)
+    {
+        CurrentQuotaTarget.Value = target;
+    }
+
+    public void AddToQuota(int amount)
+    {
+        CurrentQuotaAmount.Value += amount;
+
+        if (CurrentQuotaAmount.Value >= CurrentQuotaTarget.Value)
+        {
+            OnQuotaAchieved.Invoke();
+            GameStateManager.Instance.EndDay_Rpc();
+        }
     }
 
     public bool CanAfford(double price)
     {
-        return CurrentMoney >= price;
+        return true;
     }
 
-    public void SpendMoney(double amount)
+    public void SpendMoney(int amount)
     {
-        double prev = CurrentMoney;
-
-        if (CanAfford(amount))
-        {
-            currentMoney.Value -= amount;
-        }
-        else
-        {
-            Debug.LogWarning("Not enough money!");
-        }
-
-        OnMoneyChanged.Invoke(prev, CurrentMoney);
+        //OnQuotaChanged.Invoke(prev, CurrentMoney);
     }
 
-    public void AddMoney(double amount)
+    public void AddMoney(int amount)
     {
-        double prev = CurrentMoney;
+        
+    }
 
-        currentMoney.Value += amount;
-
-        OnMoneyChanged.Invoke(prev, CurrentMoney);
+    private new void OnDestroy()
+    {
+        base.OnDestroy();
+        GameStateManager.OnDayStateChanged -= (value) => { if (value) SetQuotaTarget(); };
+        GameStateManager.OnResetServer -= () => { CurrentQuotaAmount.Value = 0; };
     }
 }

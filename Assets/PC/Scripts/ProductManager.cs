@@ -144,11 +144,11 @@ public class ProductManager : MonoBehaviour
     // goes through each category of items and spawns them in
     private void InitializeAllProducts()
     {
-        var foodProducts = allProducts.FindAll(p => p.Category == ProductCategory.Food);
-        InitializeProductUI(foodProducts, ProductCategory.Food);
+        //var foodProducts = allProducts.FindAll(p => p.Category == ProductCategory.Food);
+        //InitializeProductUI(foodProducts, ProductCategory.Food);
 
-        var drinkProducts = allProducts.FindAll(p => p.Category == ProductCategory.Drinks);
-        InitializeProductUI(drinkProducts, ProductCategory.Drinks);
+        //var drinkProducts = allProducts.FindAll(p => p.Category == ProductCategory.Drinks);
+        //InitializeProductUI(drinkProducts, ProductCategory.Drinks);
 
         InitializeProductUI(allFurniture, ProductCategory.Furniture);
     }

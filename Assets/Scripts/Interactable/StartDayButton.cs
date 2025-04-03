@@ -10,9 +10,5 @@ public class StartDayButton : NetworkBehaviour, IInteractable
         {
             GameStateManager.Instance.BeginDay_Rpc();
         }
-        else
-        {
-            GameStateManager.Instance.EndDay_Rpc();
-        }
     }
 }

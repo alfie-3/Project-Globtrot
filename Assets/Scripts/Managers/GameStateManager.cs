@@ -17,6 +17,8 @@ public class GameStateManager : NetworkBehaviour
 
     public static GameStateManager Instance { get; private set; }
 
+    [SerializeField] DayDataList DayDataList;
+
     Scene mainScene;
     Scene dayEndScene;
 
@@ -97,6 +99,21 @@ public class GameStateManager : NetworkBehaviour
         if (IsServer)
         {
             OnResetServer.Invoke();
+        }
+    }
+
+    public DayData GetLatestDayData()
+    {
+        if (DayDataList == null)
+        {
+            Debug.Log("No day data set");
+            return null;
+        }
+
+        if (DayDataList.DayList[CurrentDay.Value] != null) return DayDataList.DayList[CurrentDay.Value];
+        else
+        {
+            return DayDataList.DayList[DayDataList.DayList.Count];
         }
     }
 
