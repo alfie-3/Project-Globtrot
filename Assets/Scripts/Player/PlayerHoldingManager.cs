@@ -241,8 +241,6 @@ public class PlayerHoldingManager : NetworkBehaviour
                 Throwing.Invoke(throwing);
                 NetworkObject obj = HeldObj;
 
-                ClearHeldItem();
-
                 obj.GetComponent<RigidbodyNetworkTransform>().SetLinearVelocity_Rpc(Vector3.zero);
                 Vector3 force = CameraManager.CamTransform.forward;
                 //force *= Mathf.Lerp(initailThrowForce, MaxThrowForce, (float)context.duration/maxThrowForceChargeTime);
