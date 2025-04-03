@@ -39,7 +39,7 @@ public class PlayerObjectSocketManager : NetworkBehaviour
             case ObjectSocket.RightHand:
                 RightHandSlot.ClearObjectBinding(position, ChestSlot.transform.parent.rotation, resetVelocity); break;
             case ObjectSocket.Chest:
-                ChestSlot.ClearObjectBinding(position, ChestSlot.transform.parent.rotation, resetVelocity); break;
+                ChestSlot.ClearObjectBinding(position, rotation, resetVelocity); break;
         }
     }
 

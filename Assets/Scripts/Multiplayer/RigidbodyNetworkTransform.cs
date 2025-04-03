@@ -28,6 +28,8 @@ public class RigidbodyNetworkTransform : NetworkTransform
 
     public bool rigidbodyDisabled;
 
+    Vector3 prevPosition;
+
     protected override void Awake()
     {
         base.Awake();
@@ -42,6 +44,7 @@ public class RigidbodyNetworkTransform : NetworkTransform
         if (IsSleeping == true || rigidbodyDisabled) return;
 
         CheckPhysicsState();
+        prevPosition = transform.position;
     }
 
     public void OnCollisionStay(Collision collision) { IsColliding = true; }
@@ -105,8 +108,10 @@ public class RigidbodyNetworkTransform : NetworkTransform
 
     public void CheckPhysicsState()
     {
+        if (IsSleeping) return;
+        if (IsSocketed) return;
         if (rigidbodyDisabled) return;
-        if (Rigidbody.linearVelocity.magnitude > 0.001) return;
+        if (Vector3.Distance(prevPosition, transform.position) > 0.01) return;
         if (!IsColliding) return;
 
         SetSleeping(true);

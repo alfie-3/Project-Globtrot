@@ -12,6 +12,7 @@ public class PlayerHoldingManager : NetworkBehaviour
     public NetworkObject GetHeldObject()
     {
         if (NetworkedHeldObj.Value == null) return null;
+        if (!NetworkedHeldObj.Value.IsHolding) return null;
         if (NetworkedHeldObj.Value.NetworkObjectReference.TryGet(out NetworkObject nwObject))
         {
             return nwObject;
@@ -58,19 +59,13 @@ public class PlayerHoldingManager : NetworkBehaviour
 
     public void HandlePlayerHolding(HeldObject prev, HeldObject current)
     {
-        if (prev != null)
+        if (!current.IsHolding)
         {
-            DisconnectHeldObject(prev);
+            DisconnectHeldObject(current);
         }
-
-        if (current != null)
+        else
         {
             ConnectHeldObject(current);
-        }
-
-        if (current == null && prev == null)
-        {
-            DisconnectAll();
         }
     }
 
@@ -83,9 +78,9 @@ public class PlayerHoldingManager : NetworkBehaviour
         NetworkedHeldObj.Value = new(nwObject);
     }
 
-    public void ClearHeldItem()
+    public void ClearHeldItem(Vector3 position, Vector3 rotation)
     {
-        NetworkedHeldObj.Value = null;
+        NetworkedHeldObj.Value = new(NetworkedHeldObj.Value.NetworkObjectReference, position, rotation);
     }
 
     public void ConnectHeldObject(HeldObject obj)
@@ -119,7 +114,7 @@ public class PlayerHoldingManager : NetworkBehaviour
         GetComponentInChildren<IKTargetsManager>().ClearIKToObject(nwObj.gameObject);
 
         Transform socket = ObjectSocketManager.GetSocketTransform(nwObj.GetComponent<Pickup_Interactable>().HoldingSocket);
-        ObjectSocketManager.ClearBoundObject_Rpc(nwObj.GetComponent<Pickup_Interactable>().HoldingSocket, socket.position, socket.rotation, true);
+        ObjectSocketManager.ClearBoundObject_Rpc(nwObj.GetComponent<Pickup_Interactable>().HoldingSocket, obj.DropLocation, Quaternion.Euler(obj.DropRotation), true);
 
     }
 
@@ -241,8 +236,6 @@ public class PlayerHoldingManager : NetworkBehaviour
                 Throwing.Invoke(throwing);
                 NetworkObject obj = HeldObj;
 
-                ClearHeldItem();
-
                 obj.GetComponent<RigidbodyNetworkTransform>().SetLinearVelocity_Rpc(Vector3.zero);
                 Vector3 force = CameraManager.CamTransform.forward;
                 //force *= Mathf.Lerp(initailThrowForce, MaxThrowForce, (float)context.duration/maxThrowForceChargeTime);
@@ -252,7 +245,7 @@ public class PlayerHoldingManager : NetworkBehaviour
 
                 HeldObj.GetComponentsInChildren<IOnDrop>().ToList().ForEach(x => x.OnDrop(this));
 
-                ClearHeldItem();
+                ClearHeldItem(CameraManager.CamTransform.position + CameraManager.CamTransform.forward, HeldObj.transform.rotation.eulerAngles);
             }
         }
     }
@@ -282,14 +275,12 @@ public class PlayerHoldingManager : NetworkBehaviour
             dropPos += secondaryHit.normal * (heldObjBounds.extents.y + dropHeight);
         }
 
-        ObjectSocketManager.ClearBoundObject_Rpc(HeldObj.GetComponent<Pickup_Interactable>().HoldingSocket, dropPos, HeldObj.transform.rotation, true);
-
         foreach (IOnDrop drop in HeldObj.GetComponentsInChildren<IOnDrop>())
         {
             drop.OnDrop(this);
         }
 
-        ClearHeldItem();
+        ClearHeldItem(dropPos, HeldObj.transform.rotation.eulerAngles);
     }
 
     public void PerformScroll(InputAction.CallbackContext context)
@@ -315,7 +306,8 @@ public class PlayerHoldingManager : NetworkBehaviour
     [Rpc(SendTo.Owner)]
     public void RequestClearItem_Rpc()
     {
-        ClearHeldItem();
+        if (HeldObj == null) return;
+        ClearHeldItem(HeldObj.transform.position, HeldObj.transform.rotation.eulerAngles);
     }
 
     public bool HoldingItem => HeldObj != null;
@@ -326,9 +318,24 @@ public class HeldObject : INetworkSerializable, IEquatable<HeldObject>
 {
     public NetworkObjectReference NetworkObjectReference;
 
+    public bool IsHolding;
+    public Vector3 DropLocation;
+    public Vector3 DropRotation;
+
     public HeldObject(NetworkObjectReference reference)
     {
         NetworkObjectReference = reference;
+
+        IsHolding = true;
+    }
+
+    public HeldObject(NetworkObjectReference reference, Vector3 pos, Vector3 rot)
+    {
+        NetworkObjectReference = reference;
+
+        IsHolding = false;
+        DropLocation = pos;
+        DropRotation = rot;
     }
 
     public HeldObject() { }
@@ -341,17 +348,32 @@ public class HeldObject : INetworkSerializable, IEquatable<HeldObject>
 
             reader.ReadValueSafe(out NetworkObjectReference);
 
+            reader.ReadValueSafe(out IsHolding);
+
+            if (!IsHolding)
+            {
+                reader.ReadValueSafe(out DropLocation);
+                reader.ReadValueSafe(out DropRotation);
+            }
+
         }
         else
         {
             var writer = serializer.GetFastBufferWriter();
 
             writer.WriteValueSafe(NetworkObjectReference);
+            writer.WriteValueSafe(IsHolding);
+
+            if (!IsHolding)
+            {
+                writer.WriteValueSafe(DropRotation);
+                writer.WriteValueSafe(DropLocation);
+            }
         }
     }
 
     public bool Equals(HeldObject other)
     {
-        return other.NetworkObjectReference.Equals(NetworkObjectReference);
+        return other.NetworkObjectReference.Equals(NetworkObjectReference) && IsHolding == other.IsHolding;
     }
 }
