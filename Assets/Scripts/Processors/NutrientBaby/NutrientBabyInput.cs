@@ -26,7 +26,7 @@ public class NutrientBabyInput : NetworkBehaviour, IUseItem
         NetworkObject nwObj = holdingManager.HeldObj;
         if (TryProcessInput(nwObj.gameObject))
         {
-            holdingManager.ClearHeldItem();
+            holdingManager.ClearHeldItem(transform.position, transform.rotation.eulerAngles);
         }
     }
 
