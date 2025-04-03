@@ -17,6 +17,10 @@ public class PlayerHoldingManager : NetworkBehaviour
         {
             return nwObject;
         }
+        else
+        {
+            NetworkedHeldObj.Value = null;
+        }
 
         return null;
     }
