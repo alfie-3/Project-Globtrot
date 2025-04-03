@@ -1,7 +1,6 @@
-using UnityEngine.UI;
 using UnityEngine;
 using DG.Tweening;
-using static UnityEngine.Rendering.DebugUI;
+using System.Collections.Generic;
 
 
 public class UI_BuildingSelection: MonoBehaviour {
@@ -9,8 +8,8 @@ public class UI_BuildingSelection: MonoBehaviour {
     [SerializeField]
     RectTransform ItemsPanel;
 
-
-
+    [SerializeField]
+    List<FunitureSlot> Slots;
 
 
 
@@ -25,14 +24,17 @@ public class UI_BuildingSelection: MonoBehaviour {
     }
     int maxMenuY;
 
-    int[] MenuX;
+
+    int[] _menuX;
+    int MenuX { get { return _menuX[MenuY]; } set { _menuX[MenuY] = value; } }
+
     int[] maxMenuX;
 
 
     private void Awake()
     {
         maxMenuY = ItemsPanel.childCount - 1;
-        MenuX = new int[ItemsPanel.childCount];
+        _menuX = new int[ItemsPanel.childCount];
         maxMenuX = new int[ItemsPanel.childCount];
         for (int i = 0; i < ItemsPanel.childCount; i++)
         {
@@ -41,11 +43,11 @@ public class UI_BuildingSelection: MonoBehaviour {
     }
 
     public void MoveX(int dir) {
-        int x = MenuX[MenuY] + dir;
-        MenuX[MenuY] = Mathf.Max(Mathf.Min(x, maxMenuX[MenuY]), 0);
+        int x = MenuX + dir;
+        MenuX = Mathf.Max(Mathf.Min(x, maxMenuX[MenuY]), 0);
         RectTransform HorizontalSlice = ItemsPanel.GetChild(MenuY).GetChild(0).GetComponent<RectTransform>();
 
-        DOTween.To(() => HorizontalSlice.localPosition, x => HorizontalSlice.localPosition = x, new Vector3(MenuX[MenuY] * -75, 0, 0), 0.2f).SetEase(Ease.InOutFlash);
+        DOTween.To(() => HorizontalSlice.localPosition, x => HorizontalSlice.localPosition = x, new Vector3(MenuX * -75, 0, 0), 0.2f).SetEase(Ease.InOutFlash);
 
     }
 
@@ -59,10 +61,15 @@ public class UI_BuildingSelection: MonoBehaviour {
         GetComponent<Canvas>().enabled = visabiltiy;
     }
 
-    /*public string GetSelectedId()
+    public string GetSelectedId()
     {
-        ItemsPanel.GetChild(MenuY).GetChild
-    }*/
+        return Slots[MenuY].children[MenuX].ItemID;
+    }
 
-
+    [System.Serializable]
+    public struct FunitureSlot
+    {
+        public string name;
+        public List<PlacableFurniture_Item> children;
+    }
 }

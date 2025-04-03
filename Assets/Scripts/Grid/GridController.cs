@@ -8,7 +8,7 @@ public class GridController : MonoBehaviour
 {
     Grid grid;
     public static GridController Instance { get; private set; }
-    [SerializeField] public bool objectInMiddleOfCell { get; private set; }
+    [field: SerializeField] public bool objectInMiddleOfCell { get; private set; }
     [field: SerializeField] public Vector3 gridOffset { get; private set; }
 
 

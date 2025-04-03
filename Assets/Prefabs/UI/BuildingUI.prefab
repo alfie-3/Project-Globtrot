@@ -361,6 +361,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemsPanel: {fileID: 3949274575337406409}
+  Slots:
+  - name: Decor
+    children:
+    - {fileID: 11400000, guid: 71d3620417e0e0a4d9f83519ee57fe4d, type: 2}
+  - name: Stocking
+    children:
+    - {fileID: 11400000, guid: 82b2df1e942caf246a00b2b96edb6380, type: 2}
+    - {fileID: 11400000, guid: 82b2df1e942caf246a00b2b96edb6380, type: 2}
 --- !u!1 &1939175278737032927
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,7 +434,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 2800000, guid: ed47515b2c87b474883d23074619633d, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -498,7 +506,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 2800000, guid: 8517ff465621cd345b9abcc211f18b29, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -919,7 +927,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 2800000, guid: 8517ff465621cd345b9abcc211f18b29, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -1010,7 +1018,7 @@ GameObject:
   - component: {fileID: 2206244512574851099}
   - component: {fileID: 4685240819654868540}
   m_Layer: 5
-  m_Name: Icon
+  m_Name: Chair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
