@@ -1,6 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 
 public class UI_BuildingSelection: MonoBehaviour {
@@ -9,8 +10,10 @@ public class UI_BuildingSelection: MonoBehaviour {
     RectTransform ItemsPanel;
 
     [SerializeField]
-    List<FunitureSlot> Slots;
+    List<FunitureSlot> slots;
 
+    [SerializeField]
+    GameObject itemSlotCarrige;
 
 
     int _menuY;
@@ -33,6 +36,19 @@ public class UI_BuildingSelection: MonoBehaviour {
 
     private void Awake()
     {
+        foreach (FunitureSlot slot in slots)
+        {
+            GameObject carrige = Instantiate(itemSlotCarrige, ItemsPanel);
+            GameObject itemIcon = carrige.transform.GetChild(0).GetChild(0).gameObject;
+            itemIcon.GetComponent<RawImage>().texture = slot.children[0].ItemIcon.texture;
+            for (int i = 1; i < slot.children.Count; i++)
+            {
+                itemIcon = Instantiate(itemIcon, carrige.transform.GetChild(0));
+                itemIcon.GetComponent<RawImage>().texture = slot.children[i].ItemIcon.texture;
+            }
+        }
+
+
         maxMenuY = ItemsPanel.childCount - 1;
         _menuX = new int[ItemsPanel.childCount];
         maxMenuX = new int[ItemsPanel.childCount];
@@ -63,7 +79,7 @@ public class UI_BuildingSelection: MonoBehaviour {
 
     public string GetSelectedId()
     {
-        return Slots[MenuY].children[MenuX].ItemID;
+        return slots[MenuY].children[MenuX].ItemID;
     }
 
     [System.Serializable]
