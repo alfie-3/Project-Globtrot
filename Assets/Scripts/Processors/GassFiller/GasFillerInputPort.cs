@@ -54,6 +54,7 @@ public class GasFillerInputPort : NetworkBehaviour, IUseItem
         OnGasCannisterRemoved.Invoke();
 
         cannister.GetComponent<RigidbodyNetworkTransform>().SetRigidbodyEnabled(true);
+        cannister = null;
 
         if (!IsServer) return;
 
