@@ -40,7 +40,12 @@ public class ItemIconGrabber : MonoBehaviour
 
             obj.gameObject.SetActive(true);
 
-            Vector3 newCamLocalPos = new(0, 0, -obj.gameObject.GetComponent<MeshFilter>().sharedMesh.bounds.max.magnitude * 1.4f);
+            Vector3 newCamLocalPos;
+            try {
+                newCamLocalPos = new(0, 0, -obj.gameObject.GetComponent<MeshFilter>().sharedMesh.bounds.max.magnitude * 1.4f);
+            } catch {
+                newCamLocalPos = new(0, 0, -obj.gameObject.GetComponentInChildren<MeshFilter>().sharedMesh.bounds.max.magnitude * 1.4f);
+            }
             cam.transform.localPosition = newCamLocalPos;
 
             TakeScreenshot($"{Application.dataPath}/{pathFolder}/{data.ItemID}_Icon.png");

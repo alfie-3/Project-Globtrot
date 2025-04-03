@@ -74,7 +74,7 @@ public class PlayerBuildingManager : NetworkBehaviour {
     public void PopulateItem(PlacableFurniture_Item furnitureItem) {
         if (furnitureItem.FurniturePrefab.TryGetComponent(out MeshFilter meshFilter)) {
             holoMesh = meshFilter.sharedMesh;
-        }
+        } else { holoMesh = furnitureItem.FurniturePrefab.GetComponentInChildren<MeshFilter>().sharedMesh; }
     }
 
 
@@ -143,15 +143,6 @@ public class PlayerBuildingManager : NetworkBehaviour {
         //hide/show UI 
         //stop any proccesses if disabling
     }
-    public void OnCtrl() {
-
-
-
-        /*snappingEnabled = !snappingEnabled;
-        manager.SnappingEnabled = snappingEnabled;
-        grid.SetVisabiltay(snappingEnabled);
-        if (snappingEnabled) rotation = Snapping.Snap(rotation, snappingRotationInterval);*/
-    }
 
     public void Update() {
         if (!buildingManagerActive) return;
@@ -166,7 +157,7 @@ public class PlayerBuildingManager : NetworkBehaviour {
             //Gizmos.draw
             foreach (MeshRenderer mesh in furnitureItem.FurniturePrefab.GetComponentsInChildren<MeshRenderer>()) {
                 if (!mesh.TryGetComponent<MeshFilter>(out MeshFilter filter)) continue;
-                Graphics.RenderMesh(renderParams, filter.sharedMesh, 0, Matrix4x4.TRS(position + mesh.transform.position, mesh.transform.rotation * Quaternion.Euler(0, rotation, 0), Vector3.one));
+                Graphics.RenderMesh(renderParams, filter.sharedMesh, 0, Matrix4x4.TRS(position + mesh.transform.position, mesh.transform.rotation * Quaternion.Euler(0, rotation, 0), mesh.transform.lossyScale));
             }
 
             //Graphics.RenderMesh(renderParams, holoMesh, 0, Matrix4x4.TRS(position, Quaternion.Euler(0, rotation, 0), Vector3.one));
