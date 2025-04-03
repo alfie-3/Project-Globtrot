@@ -2,6 +2,7 @@ using UnityEngine;
 using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 
 public class UI_BuildingSelection: MonoBehaviour {
@@ -71,6 +72,14 @@ public class UI_BuildingSelection: MonoBehaviour {
         MenuY += dir;
         Debug.Log(MenuY);
         DOTween.To(() => ItemsPanel.localPosition, x => ItemsPanel.localPosition = x, new Vector3(0, MenuY * 75, 0), 0.2f).SetEase(Ease.InOutFlash);
+        //SetScales();
+    }
+
+    void SetScales() {
+        for(int i = 0; i < ItemsPanel.childCount; i++) {
+            float scale = 1 - (0.1f * Mathf.Abs(MenuY - i));
+            DOTween.To(() => ItemsPanel.GetChild(i).localScale, x => ItemsPanel.GetChild(i).localScale = x, new Vector3(scale, scale, scale),0.2f).SetEase(Ease.InOutFlash);
+        }
     }
 
     public void SetVisabiltiy(bool visabiltiy) {
