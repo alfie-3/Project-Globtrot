@@ -5,6 +5,7 @@ public class Zeebo : NetworkBehaviour, IUsePrimary
 {
 
     //[SerializeField] AnimationClip squish;
+    [SerializeField] string name;
     [SerializeField] Animator zeeboAnimator;
     [SerializeField] AudioSource audioSrc;
 
