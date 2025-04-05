@@ -186,7 +186,12 @@ public class PlayerBuildingManager : NetworkBehaviour {
         Ray ray = new(CameraManager.CamTransform.position, CameraManager.CamTransform.forward);
         if (Physics.Raycast(ray, out RaycastHit hit, PLACABLE_DISTANCE))
         {
-            Destroy(hit.transform.gameObject);
+            NetworkObject obj;
+            obj = hit.transform.root.GetComponent<NetworkObject>();
+            if (obj == null)
+                obj = hit.transform.root.GetComponentInChildren<NetworkObject>();
+            if(obj != null)
+                obj.Despawn();
         }
     }
 
