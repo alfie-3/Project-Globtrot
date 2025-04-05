@@ -186,13 +186,16 @@ public class PlayerBuildingManager : NetworkBehaviour {
         Ray ray = new(CameraManager.CamTransform.position, CameraManager.CamTransform.forward);
         if (Physics.Raycast(ray, out RaycastHit hit, PLACABLE_DISTANCE))
         {
-            NetworkObject obj;
-            obj = hit.transform.root.GetComponent<NetworkObject>();
-            if (obj == null)
-                obj = hit.transform.root.GetComponentInChildren<NetworkObject>();
-            if(obj != null)
-                obj.Despawn();
+            NetworkObject obj = hit.transform.root.GetComponentInChildren<NetworkObject>();
+            if (obj != null)
+                Destroy_RPC(obj);
         }
+    }
+    [Rpc(SendTo.Server)]
+    private void Destroy_RPC(NetworkObjectReference networkObject)
+    {
+        if(networkObject.TryGet(out NetworkObject obj))
+            obj.Despawn();
     }
 
     private void RenderDestoryHoloGram()
