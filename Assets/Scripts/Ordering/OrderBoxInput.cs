@@ -11,6 +11,8 @@ public class OrderBoxInput : NetworkBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!IsServer) return;
+        if (!other.TryGetComponent(out NetworkObject networkObject)) return;
+        if (!networkObject.IsSpawned) return;
 
         if (other.TryGetComponent(out StockItem stockItem))
         {
@@ -25,14 +27,7 @@ public class OrderBoxInput : NetworkBehaviour
             audioSource.pitch = clipData.Pitch;
             audioSource.PlayOneShot(clipData.Clip);
 
-            if (other.TryGetComponent(out NetworkObject networkObject))
-            {
-                networkObject.Despawn();
-            }
-            else
-            {
-                Destroy(other.gameObject);
-            }
+            networkObject.Despawn();
 
             if (inputParticle != null)
             {
