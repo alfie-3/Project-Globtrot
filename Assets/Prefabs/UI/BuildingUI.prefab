@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3318431782375107260}
   - component: {fileID: 2597153247056546761}
   - component: {fileID: 1254018235534299624}
+  - component: {fileID: 6150594799792502623}
   m_Layer: 5
   m_Name: BuildingUI
   m_TagString: Untagged
@@ -48,7 +49,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1643609277716582303}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -131,6 +132,18 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 30e4c855b3818bf48bc3f386dee19c17, type: 2}
     - {fileID: 11400000, guid: bb38bfa9d3bae9d4093f9e600bba7933, type: 2}
   itemSlotCarrige: {fileID: 6396155490215932101, guid: cf7d255988d378047a4330b16d50829e, type: 3}
+--- !u!225 &6150594799792502623
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1643609277716582303}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &4126395940905404565
 GameObject:
   m_ObjectHideFlags: 0

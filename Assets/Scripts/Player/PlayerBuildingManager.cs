@@ -8,6 +8,50 @@ public class PlayerBuildingManager : NetworkBehaviour {
 
     public bool buildingManagerActive;
     public bool selectionMode;
+    public bool destroyMode;
+
+    public enum mode
+    {
+        inactive,selectionMode, placementMode, destroyMode
+    }
+
+    private mode _Mode;
+
+    [field: SerializeField]
+    public mode Mode
+    {
+        get
+        {
+            return _Mode;
+        }
+        private set
+        {
+            if(value == _Mode) return;
+            switch (_Mode)
+            {
+                case mode.placementMode:
+                    grid.SetVisabiltay(false);
+                    break;
+            }
+            switch (value)
+            {
+                case mode.placementMode:
+                    grid.SetVisabiltay(true);
+                    ui.GetComponent<CanvasGroup>().alpha = 0.7f;
+                    break;
+                case mode.destroyMode:
+                    ui.GetComponent<CanvasGroup>().alpha = 0.4f;
+                    break;
+                default:
+                    ui.GetComponent<CanvasGroup>().alpha = 1f;
+                    break;
+            }
+            _Mode = value;
+        }
+    }
+
+
+
 
     public UI_BuildingSelection ui;
 
@@ -34,6 +78,8 @@ public class PlayerBuildingManager : NetworkBehaviour {
 
         playerInputManager.OnPerformPrimary += PerformPrimary;
         playerInputManager.OnPerformSecondary += PerformSecondary;
+        playerInputManager.OnDismantle += PerformDismantle;
+
         playerInputManager.OnScroll += PerformScroll;
 
         playerInputManager.OnInteract += PerfromE;
@@ -41,8 +87,8 @@ public class PlayerBuildingManager : NetworkBehaviour {
 
         playerInputManager.OnPerformCtrl += ToggleBuilding;
 
-        CameraManager = GetComponentInChildren<PlayerCameraManager>();
 
+        CameraManager = GetComponentInChildren<PlayerCameraManager>();
 
         renderParams = new RenderParams(HologramMat);
 
@@ -51,8 +97,25 @@ public class PlayerBuildingManager : NetworkBehaviour {
         grid = GridController.Instance;
     }
 
+    
+
+    
+
+    
+
+    public void Update() {
+
+        if(Mode == mode.placementMode)
+            RenderPlacementHologram();
+        else if (Mode == mode.destroyMode)
+            RenderDestoryHoloGram();
+    }
+
+
+
     [Rpc(SendTo.Everyone)]
-    public void SetItem_Rpc(string itemID, float rotation = 0) {
+    public void SetItem_Rpc(string itemID, float rotation = 0)
+    {
         furnitureItem = ItemDictionaryManager.RetrieveItem(itemID) is not PlacableFurniture_Item ? null : (PlacableFurniture_Item)ItemDictionaryManager.RetrieveItem(itemID);
         if (furnitureItem == null) return;
 
@@ -61,7 +124,8 @@ public class PlayerBuildingManager : NetworkBehaviour {
     }
 
     [Rpc(SendTo.Server)]
-    public void PlaceItem_Rpc(string itemId, Vector3 location, Quaternion rotation) {
+    public void PlaceItem_Rpc(string itemId, Vector3 location, Quaternion rotation)
+    {
         PlacableFurniture_Item placeableItem = ItemDictionaryManager.RetrieveItem(itemId) is not PlacableFurniture_Item ? null : (PlacableFurniture_Item)ItemDictionaryManager.RetrieveItem(itemId);
         Debug.Log($"Placing furntiure item {itemId}");
 
@@ -71,52 +135,123 @@ public class PlayerBuildingManager : NetworkBehaviour {
         instance.Spawn();
 
     }
-    public void PopulateItem(PlacableFurniture_Item furnitureItem) {
-        if (furnitureItem.FurniturePrefab.TryGetComponent(out MeshFilter meshFilter)) {
+    public void PopulateItem(PlacableFurniture_Item furnitureItem)
+    {
+        if (furnitureItem.FurniturePrefab.TryGetComponent(out MeshFilter meshFilter))
+        {
             holoMesh = meshFilter.sharedMesh;
-        } else { holoMesh = furnitureItem.FurniturePrefab.GetComponentInChildren<MeshFilter>().sharedMesh; }
+        }
+        else { holoMesh = furnitureItem.FurniturePrefab.GetComponentInChildren<MeshFilter>().sharedMesh; }
     }
 
 
-    public void BuildItem() {
+    public void BuildItem()
+    {
         if (furnitureItem == null) return;
 
-        Ray ray = new(CameraManager.CamTransform.position,  CameraManager.CamTransform.forward);
+        Ray ray = new(CameraManager.CamTransform.position, CameraManager.CamTransform.forward);
 
 
-        if (Physics.Raycast(ray, out RaycastHit hit, PLACABLE_DISTANCE, LayerMask.GetMask("Placeable"))) {
+        if (Physics.Raycast(ray, out RaycastHit hit, PLACABLE_DISTANCE, LayerMask.GetMask("Placeable")))
+        {
             Vector3 position = grid.HitToGrid(hit.point);
-            if (Physics.OverlapBox(position + holoMesh.bounds.center + furnitureItem.FurniturePrefab.transform.position, holoMesh.bounds.size * 0.48f, Quaternion.Euler(0, rotation, 0)).Length == 0) {
+            if (Physics.OverlapBox(position + holoMesh.bounds.center + furnitureItem.FurniturePrefab.transform.position, holoMesh.bounds.size * 0.48f, Quaternion.Euler(0, rotation, 0)).Length == 0)
+            {
                 PlaceItem_Rpc(furnitureItem.ItemID, position, Quaternion.Euler(0, rotation, 0));
             }
         }
     }
 
+    private void RenderPlacementHologram()
+    {
+        if(furnitureItem == null) return;
+        Ray ray = new(CameraManager.CamTransform.position, CameraManager.CamTransform.forward);
+        if (Physics.Raycast(ray, out RaycastHit hit, PLACABLE_DISTANCE, LayerMask.GetMask("Placeable")))
+        {
+            Vector3 position = grid.HitToGrid(hit.point);
+            HologramMat.SetFloat("_OverlappingColliders", Physics.OverlapBox(position + holoMesh.bounds.center + furnitureItem.FurniturePrefab.transform.position, holoMesh.bounds.size * 0.48f, Quaternion.Euler(0, rotation, 0)).Length);
+            gizmoPos = position + holoMesh.bounds.center + furnitureItem.FurniturePrefab.transform.position;
+            //Gizmos.draw
+            foreach (MeshRenderer mesh in furnitureItem.FurniturePrefab.GetComponentsInChildren<MeshRenderer>())
+            {
+                if (!mesh.TryGetComponent<MeshFilter>(out MeshFilter filter)) continue;
+                Graphics.RenderMesh(renderParams, filter.sharedMesh, 0, Matrix4x4.TRS(position + mesh.transform.position, mesh.transform.rotation * Quaternion.Euler(0, rotation, 0), mesh.transform.lossyScale));
+            }
+
+        }
+    }
+
+    private void DestroyItem()
+    {
+        Ray ray = new(CameraManager.CamTransform.position, CameraManager.CamTransform.forward);
+        if (Physics.Raycast(ray, out RaycastHit hit, PLACABLE_DISTANCE))
+        {
+            Destroy(hit.transform.gameObject);
+        }
+    }
+
+    private void RenderDestoryHoloGram()
+    {
+        Ray ray = new(CameraManager.CamTransform.position, CameraManager.CamTransform.forward);
+        if (Physics.Raycast(ray, out RaycastHit hit, PLACABLE_DISTANCE))
+        {
+            Vector3 position = hit.point;
+            HologramMat.SetFloat("_OverlappingColliders", 1);
+            
+            //Gizmos.draw
+            foreach (MeshRenderer mesh in hit.transform.gameObject.GetComponentsInChildren<MeshRenderer>())
+            {
+                if (!mesh.TryGetComponent<MeshFilter>(out MeshFilter filter)) continue;
+                Graphics.RenderMesh(renderParams, filter.sharedMesh, 0, Matrix4x4.TRS(mesh.transform.position, mesh.transform.rotation, mesh.transform.lossyScale));
+            }
+
+        }
+    }
+
+    #region input
     private void PerformPrimary(InputAction.CallbackContext context)
     {
         if (!(context.performed && context.interaction is PressInteraction)) return;
-        if (!buildingManagerActive) return;
-        if (!selectionMode) { BuildItem(); return;}
-        SetItem_Rpc(ui.GetSelectedId());
-        selectionMode = false;
-        grid.SetVisabiltay(!selectionMode);
+        switch (Mode)
+        {
+            case mode.selectionMode:
+                SetItem_Rpc(ui.GetSelectedId());
+                Mode = mode.placementMode;
+                break;
+            case mode.placementMode:
+                BuildItem();
+                break;
+            case mode.destroyMode:
+                DestroyItem();
+                break;
+        }
     }
 
     private void PerformSecondary(InputAction.CallbackContext context)
     {
-        if (!buildingManagerActive) return;
+        if (Mode == mode.placementMode || Mode == mode.destroyMode)
+        {
+            Mode = mode.selectionMode;
+        }
+    }   
 
-        selectionMode = true;
-        grid.SetVisabiltay(!selectionMode);
+    private void PerformDismantle(InputAction.CallbackContext context)
+    {
+        if (Mode == mode.selectionMode) Mode = mode.destroyMode;
+        else if (Mode == mode.destroyMode) Mode = mode.selectionMode;
     }
 
-    public void PerformScroll(InputAction.CallbackContext context) {
-        if (!buildingManagerActive) return;
+    public void PerformScroll(InputAction.CallbackContext context)
+    {
+        if (Mode == mode.inactive) return;
 
         float dir = context.ReadValue<float>() > 0 ? -1 : 1;
-        if (selectionMode) {
+        if (Mode == mode.selectionMode)
+        {
             ui.ScrolPanel((int)dir);
-        } else {
+        }
+        else if (Mode == mode.placementMode)
+        {
             if (furnitureItem == null) return;
             rotation += dir * 90;
         }
@@ -124,45 +259,35 @@ public class PlayerBuildingManager : NetworkBehaviour {
 
     public void PerfromE(InputAction.CallbackContext context)
     {
-        if (!selectionMode) return;
-        ui.MoveX(1);
+        if (Mode == mode.selectionMode || Mode == mode.placementMode)
+        {
+            ui.MoveX(1);
+            if (Mode == mode.placementMode) SetItem_Rpc(ui.GetSelectedId());
+        }
     }
 
     public void PerfromQ(InputAction.CallbackContext context)
     {
-        if (!selectionMode) return;
-        ui.MoveX(-1);
-    }
-
-    public void ToggleBuilding(InputAction.CallbackContext context) 
-    {
-        buildingManagerActive = !buildingManagerActive;
-        selectionMode = buildingManagerActive;
-        ui.SetVisabiltiy(buildingManagerActive);
-        grid.SetVisabiltay(false);
-        //hide/show UI 
-        //stop any proccesses if disabling
-    }
-
-    public void Update() {
-        if (!buildingManagerActive) return;
-        if(selectionMode) return;
-        if (furnitureItem == null) return;
-
-        Ray ray = new(CameraManager.CamTransform.position, CameraManager.CamTransform.forward);
-        if (Physics.Raycast(ray, out RaycastHit hit, PLACABLE_DISTANCE, LayerMask.GetMask("Placeable"))) {
-            Vector3 position = grid.HitToGrid(hit.point);
-            HologramMat.SetFloat("_OverlappingColliders", Physics.OverlapBox(position + holoMesh.bounds.center + furnitureItem.FurniturePrefab.transform.position, holoMesh.bounds.size * 0.48f, Quaternion.Euler(0, rotation, 0)).Length);
-            gizmoPos = position + holoMesh.bounds.center + furnitureItem.FurniturePrefab.transform.position;
-            //Gizmos.draw
-            foreach (MeshRenderer mesh in furnitureItem.FurniturePrefab.GetComponentsInChildren<MeshRenderer>()) {
-                if (!mesh.TryGetComponent<MeshFilter>(out MeshFilter filter)) continue;
-                Graphics.RenderMesh(renderParams, filter.sharedMesh, 0, Matrix4x4.TRS(position + mesh.transform.position, mesh.transform.rotation * Quaternion.Euler(0, rotation, 0), mesh.transform.lossyScale));
-            }
-
-            //Graphics.RenderMesh(renderParams, holoMesh, 0, Matrix4x4.TRS(position, Quaternion.Euler(0, rotation, 0), Vector3.one));
+        if (Mode == mode.selectionMode || Mode == mode.placementMode)
+        {
+            ui.MoveX(-1);
+            if (Mode == mode.placementMode) SetItem_Rpc(ui.GetSelectedId());
         }
     }
+
+    public void ToggleBuilding(InputAction.CallbackContext context)
+    {
+        
+        //hide/show UI 
+        //stop any proccesses if disabling
+
+
+        if(Mode == mode.inactive) Mode = mode.selectionMode;
+        else if(Mode != mode.inactive) Mode = mode.inactive;
+        ui.SetVisabiltiy(Mode == mode.selectionMode);
+    }
+
+    #endregion
 
     Vector3 gizmoPos = Vector3.zero;
     void OnDrawGizmosSelected() {
@@ -172,4 +297,5 @@ public class PlayerBuildingManager : NetworkBehaviour {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireCube(gizmoPos, holoMesh.bounds.size * 0.48f);
     }
+
 }

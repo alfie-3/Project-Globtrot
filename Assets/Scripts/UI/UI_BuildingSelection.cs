@@ -73,6 +73,7 @@ public class UI_BuildingSelection: MonoBehaviour {
         Debug.Log(MenuY);
         DOTween.To(() => ItemsPanel.localPosition, x => ItemsPanel.localPosition = x, new Vector3(0, MenuY * 75, 0), 0.2f).SetEase(Ease.InOutFlash);
         //SetScales();
+        //GetComponent<CanvasGroup>().alpha = 1.0f;
     }
 
     void SetScales() {
