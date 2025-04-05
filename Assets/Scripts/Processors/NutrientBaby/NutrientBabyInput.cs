@@ -35,7 +35,9 @@ public class NutrientBabyInput : NetworkBehaviour, IUseItem
         if (other.TryGetComponent(out StockItem stockItem))
         {
             if (stockItem.Item == null) return false;
-            if (!nutrientBaby.TryFeed(other.GetComponent<NetworkObject>(), stockItem.Item)) return false;
+            if (!stockItem.TryGetComponent(out NetworkObject nwObj)) return false;
+            if (!nwObj.IsSpawned) return false;
+            if (!nutrientBaby.TryFeed(nwObj, stockItem.Item)) return false;
 
             ClipData clipData = eatingClip.GetClip(1, true);
 

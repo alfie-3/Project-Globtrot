@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class OrderPort : NetworkBehaviour
 {
@@ -19,6 +20,10 @@ public class OrderPort : NetworkBehaviour
     [SerializeField] AudioClip CorrectNoise;
     [SerializeField] AudioClip IncorrectNoise;
     [SerializeField] AudioClip TimeoutNoise;
+    [Space]
+    public UnityEvent OnOrderCorrect;
+    public UnityEvent OnOrderIncorrect;
+    public UnityEvent OnOrderTimout;
 
     private void Awake()
     {
@@ -34,7 +39,7 @@ public class OrderPort : NetworkBehaviour
             allocation.Order = order;
             allocation.OrderScreen.AddOrder(order);
             allocation.Order.OnOrderRemoved += (context) => { RemoveAllocatedOrder(allocation); };
-            allocation.Order.OnTimerFinished += (context) => { PlayNoise_Rpc(ResponseStatus.Timeout); };
+            allocation.Order.OnTimerFinished += (context) => { OrderTimeout_Rpc(); };
 
             return true;
         }
@@ -60,11 +65,11 @@ public class OrderPort : NetworkBehaviour
                 Debug.Log("Great order!");
                 MoneyManager.Instance.AddToQuota(response.Profit + response.Loss);
                 orderAllocationList[0].Order.OnOrderSucceeded.Invoke(orderAllocationList[0].Order);
-                PlayNoise_Rpc(ResponseStatus.Success);
+                OrderCorrect_Rpc();
                 break;
             case (ResponseStatus.Failure):
                 orderAllocationList[0].Order.OnOrderFailed.Invoke(orderAllocationList[0].Order);
-                PlayNoise_Rpc(ResponseStatus.Failure);
+                OrderIncorrect_Rpc();
                 break;
         }
 
@@ -73,19 +78,24 @@ public class OrderPort : NetworkBehaviour
     }
 
     [Rpc(SendTo.Everyone)]
-    public void PlayNoise_Rpc(ResponseStatus status)
+    public void OrderCorrect_Rpc()
     {
-        switch (status)
-        {
-            case ResponseStatus.Success:
-                GetComponent<AudioSource>().PlayOneShot(CorrectNoise);
-                break;
-            case ResponseStatus.Failure:
-                GetComponent<AudioSource>().PlayOneShot(IncorrectNoise);
-                break;
-            case ResponseStatus.Timeout:
-                GetComponent<AudioSource>().PlayOneShot(TimeoutNoise);
-                break;
-        }
+        GetComponent<AudioSource>().PlayOneShot(CorrectNoise);
+        OnOrderCorrect.Invoke();
+
+    }
+
+    [Rpc(SendTo.Everyone)]
+    public void OrderIncorrect_Rpc()
+    {
+        GetComponent<AudioSource>().PlayOneShot(IncorrectNoise);
+        OnOrderIncorrect.Invoke();
+    }
+
+    [Rpc(SendTo.Everyone)]
+    public void OrderTimeout_Rpc()
+    {
+        GetComponent<AudioSource>().PlayOneShot(TimeoutNoise);
+        OnOrderTimout.Invoke();
     }
 }
