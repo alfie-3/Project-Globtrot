@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 public static class OrderBuilder
 {
-    public static Order GenerateOrder(List<OrderableList> orderables, int uniqueId)
+    public static Order GenerateOrder(List<OrderableList> orderables, int uniqueId, float timeMultiplier)
     {
         List<OrderItem> items = new();
         float randomTime = 15;
@@ -16,6 +16,8 @@ public static class OrderBuilder
         {
             randomTime += item.TimeContribution;
         }
+
+        randomTime *= timeMultiplier;
 
         return new Order(randomTime, items, uniqueId);
     }

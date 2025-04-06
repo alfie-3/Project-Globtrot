@@ -21,6 +21,11 @@ public class OrderManager : NetworkBehaviour
 
     public Vector2 minMaxOrderDelayTime = new(5, 10);
 
+    [Space]
+
+    [SerializeField] float[] PlayerTimeMultipliers = new float[4];
+
+
     private void Awake()
     {
         if (Instance == null)
@@ -67,7 +72,10 @@ public class OrderManager : NetworkBehaviour
         if (CurrentOrders.Count >= OrderLimit) { return; }
 
         CurrentOrderID++;
-        Order newOrder = OrderBuilder.GenerateOrder(currentOrderableLists, CurrentOrderID);
+
+
+        float multiplier = GetTimeMultiplier();
+        Order newOrder = OrderBuilder.GenerateOrder(currentOrderableLists, CurrentOrderID, multiplier);
 
         AddOrder(newOrder);
 
@@ -148,6 +156,16 @@ public class OrderManager : NetworkBehaviour
 
         RemoveOrder_Rpc(order.OrderId);
         Invoke(nameof(AddNewRandomOrder), GetRandomDelay());
+    }
+
+    public float GetTimeMultiplier()
+    {
+        if (NetworkManager.Singleton.ConnectedClients.Count > PlayerTimeMultipliers.Length)
+        {
+            return 1;
+        }
+
+        return PlayerTimeMultipliers[NetworkManager.Singleton.ConnectedClients.Count];
     }
 
     public override void OnDestroy()

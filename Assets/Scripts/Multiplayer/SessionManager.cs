@@ -11,6 +11,7 @@ public static class SessionManager
     public static ISession Session { get; private set; }
 
     public const int MAXPLAYERS = 4;
+    public static int CurrentPlayers;
 
     public static ConnectionState State { get; private set; } = ConnectionState.Disconnected;
 
@@ -22,6 +23,8 @@ public static class SessionManager
     public static void Initialize()
     {
         Session = null;
+
+        CurrentPlayers = 0;
 
         PlayerJoined = delegate { };
         PlayerLeft = delegate { };
@@ -94,6 +97,7 @@ public static class SessionManager
             return TaskResult.Faliure;
         }
 
+        CurrentPlayers = 0;
         RegisterSessionEvents();
 
         return TaskResult.Success;

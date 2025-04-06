@@ -26,6 +26,7 @@ public class GasFillerController : NetworkBehaviour
 
     [Space]
     [SerializeField] AudioClip AirEscape;
+    [SerializeField] AudioClip FinishedGas;
 
     private void Awake()
     {
@@ -57,14 +58,22 @@ public class GasFillerController : NetworkBehaviour
         if (amount > 0.8f && !filledCannister && gasFillTweener != null)
         {
             filledCannister = true;
+            OnGasFillComplete_Rpc();
             port.SetGasCannisterType(gasTypes[(int)currentGasType]);
         }
     }
 
-    public void OnGasFillComplete(GasType gasType)
+    public void OnGasFillComplete(GasType _)
     {
         gasFillTweener = DOTween.Shake(() => hackyShakeFloat, x => { hackyShakeFloat = x; UpdateFillAmount(1 + hackyShakeFloat.x); }, overPressureTimeout, 0.2f, 20, 1, false, false);
         filledCannister = false;
+    }
+
+    [Rpc(SendTo.Everyone)]
+    public void OnGasFillComplete_Rpc()
+    {
+        GetComponent<AudioSource>().PlayOneShot(AirEscape);
+        GetComponent<AudioSource>().PlayOneShot(FinishedGas);
     }
 
     public void OnCannisterRemoved()

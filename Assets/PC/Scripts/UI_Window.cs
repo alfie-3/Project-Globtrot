@@ -18,12 +18,16 @@ public class UI_Window : MonoBehaviour, IPointerDownHandler, IDragHandler
     private Vector2 ogSize;
     private bool isMaximized = false;
     public Canvas WindowCanvas { get; private set; }
-    
+
+    Vector3 dragStartposOffset;
+
+    CanvasScaler canvasScaler;
 
     private void Awake()
     {
         WindowCanvas = GetComponent<Canvas>();
         windowTransform = GetComponent<RectTransform>();
+        canvasScaler = GetComponentInParent<CanvasScaler>();
 
         if (MaximizeButton) MaximizeButton.onClick.AddListener(ToggleMaximize);
         if (CloseButton) CloseButton.onClick.AddListener(ToggleWindow);
@@ -52,7 +56,8 @@ public class UI_Window : MonoBehaviour, IPointerDownHandler, IDragHandler
             Vector3 globalMousePos;
             if (RectTransformUtility.ScreenPointToWorldPointInRectangle(windowTransform, eventData.position, eventData.pressEventCamera, out globalMousePos))
             {
-                windowTransform.position = globalMousePos;
+               
+                GetComponent<RectTransform>().anchoredPosition += eventData.delta / (Screen.width / canvasScaler.referenceResolution.x);
             }
 
             //windowTransform.anchoredPosition += eventData.delta;
