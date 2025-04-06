@@ -11,7 +11,7 @@ public class UI_Window : MonoBehaviour, IPointerDownHandler, IDragHandler
     [SerializeField] private UI_WindowManager windowManagerScript;
     private RectTransform windowTransform;
 
-    private Vector3 minimizedSize = new Vector3(0.5f, 0.57f, 1.0f);
+    [SerializeField] private Vector3 minimizedSize = new Vector3(0.5f, 0.57f, 1.0f);
     private Vector3 ogPos;
     private Vector2 ogAnchorMin;
     private Vector2 ogAnchorMax;

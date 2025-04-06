@@ -313,6 +313,7 @@ GameObject:
   - component: {fileID: 2655437522423400701}
   - component: {fileID: -6361076472235217648}
   - component: {fileID: 417617321063829001}
+  - component: {fileID: 6952740091878837745}
   m_Layer: 0
   m_Name: ConveyorBeltLeftTurn
   m_TagString: Untagged
@@ -330,7 +331,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: -1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6024994788048267178}
@@ -351,7 +352,7 @@ MonoBehaviour:
   GlobalObjectIdHash: 3520564323
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
-  Ownership: 9
+  Ownership: 8
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -383,6 +384,21 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -1687654278995441291, guid: c2352a2f18934524b90c7c581855f771, type: 3}
+--- !u!114 &6952740091878837745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5348314135239567748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74228665e5ff8f8488a3e9fd65697aa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <BuildHologramMesh>k__BackingField: {fileID: -5554210906714861916, guid: 64113c539c0a0ef44ace4c455a459732, type: 3}
+  <MirrorX>k__BackingField: 1
+  <MirrorZ>k__BackingField: 0
 --- !u!1 &6823878988225314626
 GameObject:
   m_ObjectHideFlags: 0

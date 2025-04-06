@@ -13,20 +13,18 @@ public class OrderPortAcceptor : NetworkBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!IsServer) return;
+        if (!other.TryGetComponent(out NetworkObject networkObject)) return;
 
-        IContents boxContents = null;
-
-        if (other.TryGetComponent(out OrderContainerBox orderContainerbox)) { boxContents = orderContainerbox; }    
-
-        if (boxContents == null) return;
-
-        if (orderPort == null) return;
-
-        orderPort.ProcessOrderBox(boxContents.Contents);
-
-        if (other.TryGetComponent(out NetworkObject networkObject))
+        if (other.TryGetComponent(out OrderContainerBox orderContainerbox))
         {
-            networkObject.Despawn();
+            Contents contents = orderContainerbox.Contents;
+
+            if (contents != null && orderPort != null)
+            {
+                orderPort.ProcessOrderBox(contents);
+            }
         }
+
+        networkObject.Despawn();
     }
 }

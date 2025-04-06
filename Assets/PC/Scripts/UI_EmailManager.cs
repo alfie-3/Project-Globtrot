@@ -20,6 +20,11 @@ public class UI_EmailManager : MonoBehaviour
     private bool isMinimised = true;
     private float originalEmailSpacing;
 
+    private void Start()
+    {
+        GameStateManager.OnDayChanged += (current) => { AddDailyEmails(); };
+    }
+
     //instead of displaying all emails this function will call the next email in the list instead
     public void SummonNextEmail()
     {
@@ -43,6 +48,24 @@ public class UI_EmailManager : MonoBehaviour
         nextEmailIndex++; 
     }
 
+    public void AddEmail(Email email)
+    {
+        GameObject emailButton = Instantiate(emailButtonPrefab, spawnPoint);
+        emailButton.GetComponent<UI_EmailButton>().Setup(email);
+    }
+
+    public void AddDailyEmails()
+    {
+        DayData dayData = GameStateManager.Instance.GetCurrentDayData();
+
+        if (dayData == null) return;
+
+        foreach (Email email in dayData.DayEmails)
+        {
+            AddEmail(email);
+        }
+    }
+
     // function for button to display email content
     public void Display(Email email)
     {
@@ -64,5 +87,10 @@ public class UI_EmailManager : MonoBehaviour
             isMinimised = true;
         }
 
+    }
+
+    private void OnDestroy()
+    {
+        GameStateManager.OnDayChanged -= (current) => { AddDailyEmails(); };
     }
 }

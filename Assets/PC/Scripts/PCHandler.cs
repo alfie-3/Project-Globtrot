@@ -13,7 +13,9 @@ public class PCHandler : MonoBehaviour
         CanvasGroup canvasGroup = screen.GetComponent<CanvasGroup>();
         canvasGroup.alpha = 0; 
         canvasGroup.interactable = false; 
-        canvasGroup.blocksRaycasts = false; 
+        canvasGroup.blocksRaycasts = false;
+
+        TurnOn();
     }
 
     public void ZoomToScreen()

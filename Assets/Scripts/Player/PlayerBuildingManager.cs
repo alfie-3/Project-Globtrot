@@ -3,6 +3,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
+using UnityEngine.Rendering;
 
 public class PlayerBuildingManager : NetworkBehaviour {
 
@@ -135,9 +136,14 @@ public class PlayerBuildingManager : NetworkBehaviour {
         instance.Spawn();
 
     }
+
     public void PopulateItem(PlacableFurniture_Item furnitureItem)
     {
-        if (furnitureItem.FurniturePrefab.TryGetComponent(out MeshFilter meshFilter))
+        if (furnitureItem.FurniturePrefab.TryGetComponent(out Placeable_Mesh placeableMesh))
+        {
+            holoMesh = placeableMesh.BuildHologramMesh;
+        }
+        else if (furnitureItem.FurniturePrefab.TryGetComponent(out MeshFilter meshFilter))
         {
             holoMesh = meshFilter.sharedMesh;
         }
@@ -172,12 +178,19 @@ public class PlayerBuildingManager : NetworkBehaviour {
             HologramMat.SetFloat("_OverlappingColliders", Physics.OverlapBox(position + holoMesh.bounds.center + furnitureItem.FurniturePrefab.transform.position, holoMesh.bounds.size * 0.48f, Quaternion.Euler(0, rotation, 0)).Length);
             gizmoPos = position + holoMesh.bounds.center + furnitureItem.FurniturePrefab.transform.position;
             //Gizmos.draw
-            foreach (MeshRenderer mesh in furnitureItem.FurniturePrefab.GetComponentsInChildren<MeshRenderer>())
-            {
-                if (!mesh.TryGetComponent<MeshFilter>(out MeshFilter filter)) continue;
-                Graphics.RenderMesh(renderParams, filter.sharedMesh, 0, Matrix4x4.TRS(position + mesh.transform.position, mesh.transform.rotation * Quaternion.Euler(0, rotation, 0), mesh.transform.lossyScale));
-            }
 
+            if (furnitureItem.FurniturePrefab.TryGetComponent(out Placeable_Mesh placeableMesh))
+            {
+                Graphics.RenderMesh(renderParams, placeableMesh.BuildHologramMesh, 0, placeableMesh.GetMatrix(position, Quaternion.Euler(0, rotation, 0)));
+            }
+            else
+            {
+                foreach (MeshRenderer mesh in furnitureItem.FurniturePrefab.GetComponentsInChildren<MeshRenderer>())
+                {
+                    if (!mesh.TryGetComponent<MeshFilter>(out MeshFilter filter)) continue;
+                    Graphics.RenderMesh(renderParams, filter.sharedMesh, 0, Matrix4x4.TRS(position + mesh.transform.position, mesh.transform.rotation * Quaternion.Euler(0, rotation, 0), mesh.transform.lossyScale));
+                }
+            }
         }
     }
 

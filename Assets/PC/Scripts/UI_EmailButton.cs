@@ -6,7 +6,6 @@ public class UI_EmailButton : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI subjectText;  
     [SerializeField] private TextMeshProUGUI senderText;  
-    [SerializeField] private TextMeshProUGUI previewText; 
     private UI_EmailManager emailScript;
     private Email emailData; 
 
@@ -22,8 +21,6 @@ public class UI_EmailButton : MonoBehaviour
         string preview = words.Length > 5 
             ? string.Join(" ", words, 0, 5) + "..." 
             : email.content;
-
-        previewText.text = preview;
 
     }
 

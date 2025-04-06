@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameStateManager : NetworkBehaviour
 {
     public NetworkVariable<int> CurrentDay = new();
+    public static Action<int> OnDayChanged = delegate { };
 
     public static Action<bool> OnDayStateChanged = delegate { };
 
@@ -37,6 +38,7 @@ public class GameStateManager : NetworkBehaviour
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void Init()
     {
+        OnDayChanged = delegate { };
         OnDayStateChanged = delegate { };
         OnReset = delegate { };
         OnResetServer = delegate { };
@@ -47,10 +49,14 @@ public class GameStateManager : NetworkBehaviour
     {
         base.OnNetworkSpawn();
 
+        OnDayChanged.Invoke(0);
+
         if (!IsServer) return;
 
         CurrentDayState.Value = DayState.Preperation;
         mainScene = SceneManager.GetActiveScene();
+
+        CurrentDay.OnValueChanged += (prev, current) => OnDayChanged.Invoke(current);
         CurrentDay.Value = 0;
     }
 
@@ -110,11 +116,17 @@ public class GameStateManager : NetworkBehaviour
             return null;
         }
 
-        if (DayDataList.DayList[CurrentDay.Value] != null) return DayDataList.DayList[CurrentDay.Value];
+        if (CurrentDay.Value > DayDataList.DayList.Count) return DayDataList.DayList[CurrentDay.Value];
         else
         {
             return DayDataList.DayList[DayDataList.DayList.Count];
         }
+    }
+
+    public DayData GetCurrentDayData()
+    {
+        if (CurrentDay.Value > DayDataList.DayList.Count) return null;
+        return DayDataList.DayList[CurrentDay.Value];
     }
 
     private void CheckStatus(SceneEventProgressStatus status, bool isLoading = true)

@@ -193,6 +193,7 @@ GameObject:
   - component: {fileID: 295193209520488343}
   - component: {fileID: -8598855297844389892}
   - component: {fileID: 238631607340811296}
+  - component: {fileID: 3125377355619712525}
   m_Layer: 0
   m_Name: ConveyorBeltStraight
   m_TagString: Untagged
@@ -263,7 +264,22 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 379928166099558014, guid: aa73f389981694344abf5d44e8f7aeec, type: 3}
+  m_Mesh: {fileID: 8742635751465296009, guid: aa73f389981694344abf5d44e8f7aeec, type: 3}
+--- !u!114 &3125377355619712525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5730465518491820836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74228665e5ff8f8488a3e9fd65697aa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <BuildHologramMesh>k__BackingField: {fileID: -5764540428167880885, guid: 094bd5fa9bd9e4943ae1eafb1c02f163, type: 3}
+  <MirrorX>k__BackingField: 0
+  <MirrorZ>k__BackingField: 0
 --- !u!1 &8792946235365090579
 GameObject:
   m_ObjectHideFlags: 0

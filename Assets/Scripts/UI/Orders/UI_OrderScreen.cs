@@ -7,7 +7,10 @@ public class UI_OrderScreen : MonoBehaviour
     [SerializeField] UI_OrderListItem orderListItemPrefab;
     [Space]
     [SerializeField] Transform orderListParent;
+    [Space]
     [SerializeField] Image timerThrobberImage;
+    [SerializeField] Sprite timerThrobberSprite;
+    [SerializeField] Sprite timerWaitingSprite;
     [Space]
     [SerializeField] Canvas SuccessCanvas;
     [SerializeField] Canvas FailCanvas;
@@ -27,6 +30,8 @@ public class UI_OrderScreen : MonoBehaviour
             UI_OrderListItem orderListItemUI = Instantiate(orderListItemPrefab, orderListParent);
             orderListItemUI.InitializeItem(item);
         }
+
+        timerThrobberImage.sprite = timerThrobberSprite;
     }
 
     public void ClearOrder(Order order)
@@ -35,6 +40,9 @@ public class UI_OrderScreen : MonoBehaviour
         order.OnOrderTimerUpdate -= OnTimerUpdate;
 
         ClearList();
+
+        timerThrobberImage.fillAmount = 1;
+        timerThrobberImage.sprite = timerWaitingSprite;
     }
 
     public void ClearList()
