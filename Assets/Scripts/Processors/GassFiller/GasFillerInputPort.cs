@@ -9,7 +9,7 @@ public class GasFillerInputPort : NetworkBehaviour, IUseItem
     public NetworkVariable<bool> Filled { get; private set; } = new();
     public Action OnGasCannisterRemoved = delegate { };
 
-    public NetworkObject cannister;
+    public GameObject cannister;
 
     public override void OnNetworkSpawn()
     {
@@ -37,7 +37,7 @@ public class GasFillerInputPort : NetworkBehaviour, IUseItem
         if (!obj.TryGet(out NetworkObject nwObject)) return;
 
         nwObject.GetComponent<Pickup_Interactable>().OnPickedUp += CannisterRemoved;
-        cannister = nwObject;
+        cannister = nwObject.gameObject;
 
         nwObject.GetComponent<RigidbodyNetworkTransform>().SetRigidbodyEnabled(false);
 
