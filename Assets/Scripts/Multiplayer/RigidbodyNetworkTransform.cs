@@ -101,7 +101,6 @@ public class RigidbodyNetworkTransform : NetworkTransform
         if (IsServer)
 
         Rigidbody.isKinematic = !state;
-        NetworkRigidbody.UseRigidBodyForMotion = state;
     }
 
     public void CheckPhysicsState()
