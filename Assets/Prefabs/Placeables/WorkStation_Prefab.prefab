@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 3024197842534611956}
   - component: {fileID: 2895678209725705073}
   - component: {fileID: 847885647356348822}
-  - component: {fileID: 5360477584597566037}
   - component: {fileID: 3184564680433382762}
   - component: {fileID: 6555387128206244483}
   - component: {fileID: 6027395862985234896}
+  - component: {fileID: 912533656515460101}
   m_Layer: 0
   m_Name: WorkStation_Prefab
   m_TagString: Untagged
@@ -153,23 +153,6 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &5360477584597566037
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9071561246754564292}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed59e0d5d0f394b47bbdd98be89e0644, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  PickedUp:
-    m_InternalValue: 0
-  <HoldingSocket>k__BackingField: 0
-  placableFurniture: {fileID: 11400000, guid: 563edf22985138d44bfce5314ef5ee4e, type: 2}
 --- !u!65 &3184564680433382762
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -216,3 +199,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ace4cc28ae9a63746bb6fca0bf4494ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &912533656515460101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9071561246754564292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74228665e5ff8f8488a3e9fd65697aa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <BuildHologramMesh>k__BackingField: {fileID: 0}
+  <MirrorX>k__BackingField: 0
+  <MirrorZ>k__BackingField: 0

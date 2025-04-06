@@ -1,11 +1,11 @@
-using System;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 using UnityEngine.Rendering;
 
-public class PlayerBuildingManager : NetworkBehaviour {
+public class PlayerBuildingManager : NetworkBehaviour
+{
 
     public bool buildingManagerActive;
     public bool selectionMode;
@@ -13,7 +13,7 @@ public class PlayerBuildingManager : NetworkBehaviour {
 
     public enum mode
     {
-        inactive,selectionMode, placementMode, destroyMode
+        inactive, selectionMode, placementMode, destroyMode
     }
 
     private mode _Mode;
@@ -27,7 +27,7 @@ public class PlayerBuildingManager : NetworkBehaviour {
         }
         private set
         {
-            if(value == _Mode) return;
+            if (value == _Mode) return;
             switch (_Mode)
             {
                 case mode.placementMode:
@@ -71,10 +71,11 @@ public class PlayerBuildingManager : NetworkBehaviour {
 
     GridController grid;
 
-    
+
     public PlayerCameraManager CameraManager { get; private set; }
 
-    private void Awake() {
+    private void Awake()
+    {
         PlayerInputManager playerInputManager = GetComponent<PlayerInputManager>();
 
         playerInputManager.OnPerformPrimary += PerformPrimary;
@@ -92,21 +93,23 @@ public class PlayerBuildingManager : NetworkBehaviour {
         CameraManager = GetComponentInChildren<PlayerCameraManager>();
 
         renderParams = new RenderParams(HologramMat);
+        renderParams.matProps = new();
 
         if (furnitureItem != null)
             PopulateItem(furnitureItem);
         grid = GridController.Instance;
     }
 
-    
 
-    
 
-    
 
-    public void Update() {
 
-        if(Mode == mode.placementMode)
+
+
+    public void Update()
+    {
+
+        if (Mode == mode.placementMode)
             RenderPlacementHologram();
         else if (Mode == mode.destroyMode)
             RenderDestoryHoloGram();
@@ -139,15 +142,18 @@ public class PlayerBuildingManager : NetworkBehaviour {
 
     public void PopulateItem(PlacableFurniture_Item furnitureItem)
     {
-        if (furnitureItem.FurniturePrefab.TryGetComponent(out Placeable_Mesh placeableMesh))
+        if (furnitureItem.FurniturePrefab.TryGetComponent(out PlaceableObject placeableMesh))
         {
-            holoMesh = placeableMesh.BuildHologramMesh;
+            if (placeableMesh.BuildHologramMesh != null)
+            {
+                holoMesh = placeableMesh.BuildHologramMesh;
+            }
+            else if (furnitureItem.FurniturePrefab.TryGetComponent(out MeshFilter meshFilter))
+            {
+                holoMesh = meshFilter.sharedMesh;
+            }
+            else { holoMesh = furnitureItem.FurniturePrefab.GetComponentInChildren<MeshFilter>().sharedMesh; }
         }
-        else if (furnitureItem.FurniturePrefab.TryGetComponent(out MeshFilter meshFilter))
-        {
-            holoMesh = meshFilter.sharedMesh;
-        }
-        else { holoMesh = furnitureItem.FurniturePrefab.GetComponentInChildren<MeshFilter>().sharedMesh; }
     }
 
 
@@ -170,25 +176,38 @@ public class PlayerBuildingManager : NetworkBehaviour {
 
     private void RenderPlacementHologram()
     {
-        if(furnitureItem == null) return;
+        if (furnitureItem == null) return;
         Ray ray = new(CameraManager.CamTransform.position, CameraManager.CamTransform.forward);
         if (Physics.Raycast(ray, out RaycastHit hit, PLACABLE_DISTANCE, LayerMask.GetMask("Placeable")))
         {
             Vector3 position = grid.HitToGrid(hit.point);
-            HologramMat.SetFloat("_OverlappingColliders", Physics.OverlapBox(position + holoMesh.bounds.center + furnitureItem.FurniturePrefab.transform.position, holoMesh.bounds.size * 0.48f, Quaternion.Euler(0, rotation, 0)).Length);
+            renderParams.matProps.SetFloat("_OverlappingColliders", Physics.OverlapBox(position + holoMesh.bounds.center + furnitureItem.FurniturePrefab.transform.position, holoMesh.bounds.size * 0.48f, Quaternion.Euler(0, rotation, 0)).Length);
             gizmoPos = position + holoMesh.bounds.center + furnitureItem.FurniturePrefab.transform.position;
             //Gizmos.draw
 
-            if (furnitureItem.FurniturePrefab.TryGetComponent(out Placeable_Mesh placeableMesh))
+            if (furnitureItem.FurniturePrefab.TryGetComponent(out PlaceableObject placeableMesh))
             {
-                Graphics.RenderMesh(renderParams, placeableMesh.BuildHologramMesh, 0, placeableMesh.GetMatrix(position, Quaternion.Euler(0, rotation, 0)));
-            }
-            else
-            {
-                foreach (MeshRenderer mesh in furnitureItem.FurniturePrefab.GetComponentsInChildren<MeshRenderer>())
+                if (placeableMesh.InvertMaterial())
                 {
-                    if (!mesh.TryGetComponent<MeshFilter>(out MeshFilter filter)) continue;
-                    Graphics.RenderMesh(renderParams, filter.sharedMesh, 0, Matrix4x4.TRS(position + mesh.transform.position, mesh.transform.rotation * Quaternion.Euler(0, rotation, 0), mesh.transform.lossyScale));
+                    renderParams.material.SetFloat("_Cull", (int)CullMode.Front);
+                }
+                else
+                {
+                    renderParams.material.SetFloat("_Cull", (int)CullMode.Back);
+
+                }
+
+                if (placeableMesh.BuildHologramMesh != null)
+                {
+                    Graphics.RenderMesh(renderParams, placeableMesh.BuildHologramMesh, 0, placeableMesh.GetMatrix(position, Quaternion.Euler(0, rotation, 0)));
+                }
+                else
+                {
+                    foreach (MeshRenderer mesh in furnitureItem.FurniturePrefab.GetComponentsInChildren<MeshRenderer>())
+                    {
+                        if (!mesh.TryGetComponent<MeshFilter>(out MeshFilter filter)) continue;
+                        Graphics.RenderMesh(renderParams, filter.sharedMesh, 0, Matrix4x4.TRS(position + mesh.transform.position, mesh.transform.rotation * Quaternion.Euler(0, rotation, 0), mesh.transform.lossyScale));
+                    }
                 }
             }
         }
@@ -199,6 +218,9 @@ public class PlayerBuildingManager : NetworkBehaviour {
         Ray ray = new(CameraManager.CamTransform.position, CameraManager.CamTransform.forward);
         if (Physics.Raycast(ray, out RaycastHit hit, PLACABLE_DISTANCE))
         {
+            if (!hit.transform.root.TryGetComponent(out PlaceableObject placeable)) return;
+            if (!placeable.CanRemove) return;
+
             NetworkObject obj = hit.transform.root.GetComponentInChildren<NetworkObject>();
             if (obj != null)
                 Destroy_RPC(obj);
@@ -207,7 +229,7 @@ public class PlayerBuildingManager : NetworkBehaviour {
     [Rpc(SendTo.Server)]
     private void Destroy_RPC(NetworkObjectReference networkObject)
     {
-        if(networkObject.TryGet(out NetworkObject obj))
+        if (networkObject.TryGet(out NetworkObject obj))
             obj.Despawn();
     }
 
@@ -216,11 +238,15 @@ public class PlayerBuildingManager : NetworkBehaviour {
         Ray ray = new(CameraManager.CamTransform.position, CameraManager.CamTransform.forward);
         if (Physics.Raycast(ray, out RaycastHit hit, PLACABLE_DISTANCE))
         {
+            if (!hit.transform.root.TryGetComponent(out PlaceableObject placeable)) return;
+            if (!placeable.CanRemove) return;
+
             Vector3 position = hit.point;
-            HologramMat.SetFloat("_OverlappingColliders", 1);
-            
+            renderParams.material.SetFloat("_Cull", (int)CullMode.Back);
+            renderParams.matProps.SetFloat("_OverlappingColliders", 1);
+
             //Gizmos.draw
-            foreach (MeshRenderer mesh in hit.transform.gameObject.GetComponentsInChildren<MeshRenderer>())
+            foreach (MeshRenderer mesh in hit.transform.root.gameObject.GetComponentsInChildren<MeshRenderer>())
             {
                 if (!mesh.TryGetComponent<MeshFilter>(out MeshFilter filter)) continue;
                 Graphics.RenderMesh(renderParams, filter.sharedMesh, 0, Matrix4x4.TRS(mesh.transform.position, mesh.transform.rotation, mesh.transform.lossyScale));
@@ -254,7 +280,7 @@ public class PlayerBuildingManager : NetworkBehaviour {
         {
             Mode = mode.selectionMode;
         }
-    }   
+    }
 
     private void PerformDismantle(InputAction.CallbackContext context)
     {
@@ -298,20 +324,21 @@ public class PlayerBuildingManager : NetworkBehaviour {
 
     public void ToggleBuilding(InputAction.CallbackContext context)
     {
-        
+
         //hide/show UI 
         //stop any proccesses if disabling
 
 
-        if(Mode == mode.inactive) Mode = mode.selectionMode;
-        else if(Mode != mode.inactive) Mode = mode.inactive;
+        if (Mode == mode.inactive) Mode = mode.selectionMode;
+        else if (Mode != mode.inactive) Mode = mode.inactive;
         ui.SetVisabiltiy(Mode == mode.selectionMode);
     }
 
     #endregion
 
     Vector3 gizmoPos = Vector3.zero;
-    void OnDrawGizmosSelected() {
+    void OnDrawGizmosSelected()
+    {
         if (holoMesh == null) return;
 
         // Draw a yellow cube at the transform position
