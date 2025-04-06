@@ -15,19 +15,19 @@ public class UI_JoinSessionManager : MonoBehaviour
             return;
         }
 
-        UI_MenusManager.Singleton.DisplayLoadingScreen(true);
+        UI_MenusManager.SetDisplayLoadingScreen.Invoke(true);
 
         SessionManager.TaskResult result = await SessionManager.JoinSession(sessionIdInputField.text);
 
         if (result.Equals(SessionManager.TaskResult.Faliure))
         {
             Debug.Log("Joining lobby error");
-            UI_MenusManager.Singleton.DisplayLoadingScreen(false);
+            UI_MenusManager.SetDisplayLoadingScreen.Invoke(false);
 
             return;
         }
 
-        UI_MenusManager.Singleton.DisplayLoadingScreen(false);
+        UI_MenusManager.SetDisplayLoadingScreen.Invoke(false);
         Lobby.StartLobby();
     }
 }

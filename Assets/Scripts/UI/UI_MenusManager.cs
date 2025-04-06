@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,14 +11,22 @@ public class UI_MenusManager : MonoBehaviour
     [SerializeField] UI_OpenableCanvas startingCanvas;
     [SerializeField] UI_OpenableCanvas loadingScreen;
 
-    public static UI_MenusManager Singleton;
+    public static Action<bool> SetDisplayLoadingScreen = delegate { };
 
-    private void Awake()
+    [RuntimeInitializeOnLoadMethod]
+    public static void Init()
     {
-        if (Singleton == null)
-            Singleton = this;
-        else
-            Destroy(this);
+        SetDisplayLoadingScreen = delegate { };
+    }
+
+    private void OnEnable()
+    {
+        SetDisplayLoadingScreen += DisplayLoadingScreen;
+    }
+
+    private void OnDisable()
+    {
+        SetDisplayLoadingScreen += DisplayLoadingScreen;
     }
 
     private void Start()
@@ -60,6 +69,12 @@ public class UI_MenusManager : MonoBehaviour
 
     public void DisplayLoadingScreen(bool value)
     {
+        if (loadingScreen == null) return;
         loadingScreen.SetEnabled(value);
+    }
+
+    private void OnDestroy()
+    {
+        SetDisplayLoadingScreen -= DisplayLoadingScreen;
     }
 }

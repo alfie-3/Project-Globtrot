@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8099985512583962002}
   - component: {fileID: 7562157612721778572}
+  - component: {fileID: 8383458883915389315}
   m_Layer: 0
   m_Name: Employee_Fish
   m_TagString: Untagged
@@ -40,7 +41,166 @@ SkinnedMeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3948964547760333924}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 3
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 63a43e1ea5a1dbf43aeb0988bf7a6d1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  serializedVersion: 2
+  m_Quality: 0
+  m_UpdateWhenOffscreen: 0
+  m_SkinnedMotionVectors: 1
+  m_Mesh: {fileID: 4669078343157887417, guid: ef84e3fb69bc2224a8afc004bd9ab1e5, type: 3}
+  m_Bones:
+  - {fileID: 25797101035679344}
+  - {fileID: 4310049274514724697}
+  - {fileID: 6076463077944030368}
+  - {fileID: 5982216755121205602}
+  - {fileID: 5734073695496630400}
+  - {fileID: 3174577794708443508}
+  - {fileID: 7655293187264599324}
+  - {fileID: 7967554544251925799}
+  - {fileID: 3365816594352282570}
+  - {fileID: 6845728533752604144}
+  - {fileID: 5972961304577435743}
+  - {fileID: 6542765434140105885}
+  - {fileID: 7656621826637083929}
+  - {fileID: 7400049320668570563}
+  - {fileID: 8747474151300995097}
+  - {fileID: 9075653581998572759}
+  - {fileID: 3874990744671858760}
+  - {fileID: 939183578323504536}
+  - {fileID: 7175456809806956915}
+  - {fileID: 4252691102007936256}
+  - {fileID: 1812555361508952353}
+  - {fileID: 9185165373380746330}
+  - {fileID: 189476717934336958}
+  - {fileID: 4172798708935811306}
+  - {fileID: 5501827650738635482}
+  - {fileID: 6738576487074612764}
+  - {fileID: 3347744055665208210}
+  - {fileID: 5636959966545952417}
+  - {fileID: 5178301566120837741}
+  - {fileID: 1249352955112371238}
+  - {fileID: 4252223480481877131}
+  - {fileID: 7036753057150819895}
+  - {fileID: 8567267976953307842}
+  - {fileID: 636721932269124896}
+  - {fileID: 3050759933703639889}
+  - {fileID: 760684089265126455}
+  - {fileID: 6084116800264945671}
+  - {fileID: 4404944516217398844}
+  - {fileID: 5249816427555110604}
+  - {fileID: 8729724944123928350}
+  - {fileID: 4622468470921434711}
+  - {fileID: 5806347655379262011}
+  - {fileID: 7563031585371792785}
+  - {fileID: 1905587819372628074}
+  - {fileID: 4338455486338224925}
+  - {fileID: 5485623418609277239}
+  - {fileID: 8258857094904814835}
+  - {fileID: 2438615912789813744}
+  - {fileID: 4077668164897710547}
+  - {fileID: 5027240623379523371}
+  - {fileID: 6369080355696607522}
+  - {fileID: 2784570009398577156}
+  - {fileID: 8336448697821327224}
+  - {fileID: 9149500240788531932}
+  - {fileID: 1484672562128012610}
+  - {fileID: 8845888399245745111}
+  - {fileID: 5671810410492180831}
+  - {fileID: 4112052915990172777}
+  m_BlendShapeWeights: []
+  m_RootBone: {fileID: 25797101035679344}
+  m_AABB:
+    m_Center: {x: -0.021036446, y: 0.08304164, z: -1.0421574}
+    m_Extent: {x: 1.2064075, y: 0.74, z: 1.0191038}
+  m_DirtyAABB: 0
+--- !u!114 &8383458883915389315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3948964547760333924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb414a33e730296459cb91fc56f33540, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+--- !u!1 &4063563036652428448
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5874906106222644012}
+  - component: {fileID: 233414368955198394}
+  m_Layer: 0
+  m_Name: ShadowCaster
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5874906106222644012
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4063563036652428448}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.7071067, y: -0.000000030908616, z: 0.000000030908623, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3477967592854809924}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!137 &233414368955198394
+SkinnedMeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4063563036652428448}
+  m_Enabled: 1
+  m_CastShadows: 3
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -262,6 +422,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6837175282806852039, guid: 4b7247f5af1116e4b967d8258554cb00, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8099985512583962002}
+    - targetCorrespondingSourceObject: {fileID: 6837175282806852039, guid: 4b7247f5af1116e4b967d8258554cb00, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5874906106222644012}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b7247f5af1116e4b967d8258554cb00, type: 3}
 --- !u!4 &25797101035679344 stripped

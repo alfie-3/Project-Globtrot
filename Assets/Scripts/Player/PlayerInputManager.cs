@@ -1,6 +1,5 @@
 using System;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -32,13 +31,14 @@ public class PlayerInputManager : NetworkBehaviour
     public Action<InputAction.CallbackContext> OnPerformDrop = delegate { };
     public Action<InputAction.CallbackContext> OnSprint = delegate { };
 
+    public Action<InputAction.CallbackContext> OnPause = delegate { };
 
-    PlayerCameraManager cameraManager;
+    public PlayerCameraManager CameraManager { get; private set; }
 
     public void Awake()
     {
         inputActions = new();
-        cameraManager = GetComponentInChildren<PlayerCameraManager>();
+        CameraManager = GetComponentInChildren<PlayerCameraManager>();
 
         inputActions.Player.Interact.performed += context => OnInteract.Invoke(context);
         inputActions.Player.PerformPrimary.performed += context => OnPerformPrimary.Invoke(context);
@@ -56,6 +56,8 @@ public class PlayerInputManager : NetworkBehaviour
         inputActions.Player.Q.performed += context => OnQ(context);
         inputActions.Player.Dismantle.performed += context => OnDismantle(context);
         inputActions.Player.Snapping.performed += context => OnPerformCtrl(context);
+
+        inputActions.Universal.Pause.performed += context => OnPause(context);
     }
 
     public override void OnNetworkSpawn()
@@ -63,22 +65,10 @@ public class PlayerInputManager : NetworkBehaviour
         base.OnNetworkSpawn();
 
         //Only enabled movement if is the local player (to prevent other players attempting to move character they dont own)
-        if (IsLocalPlayer)
-            inputActions.Enable();
-    }
+        if (!IsLocalPlayer) return;
 
-    void OnMoveInput(InputAction.CallbackContext context)
-    {
-
-        // Get the input value from the context
-
-        float movementValue = context.ReadValue<float>();
-
-
-        //context.
-        // Trigger the delegate with the input value
-
-        //OnMove?.Invoke(movementValue);
+        inputActions.Player.Enable();
+        inputActions.Universal.Enable();
     }
 
     private void Update()
@@ -89,7 +79,7 @@ public class PlayerInputManager : NetworkBehaviour
     //Used for converting movement direction to be relative to chamera direction
     public Vector3 CameraRelativeInput()
     {
-        if (cameraManager == null) return Vector3.zero;
+        if (CameraManager == null) return Vector3.zero;
 
         Vector3 inputDirection = new(MovementInput.x, 0, MovementInput.y);
 
@@ -98,7 +88,7 @@ public class PlayerInputManager : NetworkBehaviour
         //Interprects the players movement direction based on the direction of the players camera
         if (inputDirection.magnitude >= 0.1f)
         {
-            float targetAngle = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + cameraManager.CamTransform.eulerAngles.y;
+            float targetAngle = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + CameraManager.CamTransform.eulerAngles.y;
 
             moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
         }
@@ -108,5 +98,18 @@ public class PlayerInputManager : NetworkBehaviour
         return moveDir;
     }
 
+    public void ToggleUIInput(bool toggle)
+    {
+        if (toggle)
+        {
+            inputActions.Player.Disable();
+            inputActions.UI.Enable();
+        }
+        else
+        {
+            inputActions.Player.Enable();
+            inputActions.UI.Disable();
+        }
+    }
 
 }

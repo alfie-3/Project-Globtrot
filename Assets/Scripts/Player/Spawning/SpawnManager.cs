@@ -49,7 +49,14 @@ public class SpawnManager : NetworkBehaviour
 
     public void SpawnPlayer()
     {
-        RequestSpawnPlayer_Rpc(NetworkManager.Singleton.LocalClientId, defaultCharacterReference.PlayerReferenceID);
+        string playerRefID = defaultCharacterReference.PlayerReferenceID;
+
+        if (PlayerProfile.CharacterReferenceData != null)
+        {
+            playerRefID = PlayerProfile.CharacterReferenceData.PlayerReferenceID;
+        }
+
+        RequestSpawnPlayer_Rpc(NetworkManager.Singleton.LocalClientId, playerRefID);
     }
 
     public void SpawnPlayerOnSceneLoad(ulong clientId)

@@ -423,6 +423,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1113191853903265313}
   - component: {fileID: 386839420842759929}
+  - component: {fileID: 8346716966835089148}
+  - component: {fileID: 2942868248569498736}
   m_Layer: 5
   m_Name: DefaultUI
   m_TagString: Untagged
@@ -472,11 +474,40 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &8346716966835089148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5026014210037127341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!114 &2942868248569498736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5026014210037127341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e50d178fc4bc5045aac473ba244fc78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5305310859186630446
 GameObject:
   m_ObjectHideFlags: 0
@@ -1351,7 +1382,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -21.7721, y: 10.8801}
+  m_AnchoredPosition: {x: -21.772095, y: 10.880127}
   m_SizeDelta: {x: 43.544, y: 21.7601}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &8976869590294723875
@@ -1460,23 +1491,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 813164200435766804, guid: 1ac960cfb24dec949b8e79f1020e5c1c, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1374
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 813164200435766804, guid: 1ac960cfb24dec949b8e79f1020e5c1c, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 1374
-      objectReference: {fileID: 0}
-    - target: {fileID: 813164200435766804, guid: 1ac960cfb24dec949b8e79f1020e5c1c, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 14.556041
-      objectReference: {fileID: 0}
-    - target: {fileID: 813164200435766804, guid: 1ac960cfb24dec949b8e79f1020e5c1c, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 14.556041
-      objectReference: {fileID: 0}
-    - target: {fileID: 813164200435766804, guid: 1ac960cfb24dec949b8e79f1020e5c1c, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 14.556041
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 813164200435766804, guid: 1ac960cfb24dec949b8e79f1020e5c1c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1529,14 +1548,6 @@ PrefabInstance:
     - target: {fileID: 1643609277716582303, guid: 1ac960cfb24dec949b8e79f1020e5c1c, type: 3}
       propertyPath: m_Name
       value: Throwing Canvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 4829272971708006502, guid: 1ac960cfb24dec949b8e79f1020e5c1c, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6887745127840347747, guid: 1ac960cfb24dec949b8e79f1020e5c1c, type: 3}
-      propertyPath: m_FillAmount
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

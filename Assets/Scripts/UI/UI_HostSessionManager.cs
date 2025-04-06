@@ -7,19 +7,19 @@ public class UI_HostSessionManager : MonoBehaviour
 
     public async void Host()
     {
-        UI_MenusManager.Singleton.DisplayLoadingScreen(true);
+        UI_MenusManager.SetDisplayLoadingScreen.Invoke(true);
 
         SessionManager.TaskResult result = await SessionManager.HostSession();
 
         if (result.Equals(SessionManager.TaskResult.Faliure))
         {
             Debug.Log("Hosting failed");
-            UI_MenusManager.Singleton.DisplayLoadingScreen(false);
+            UI_MenusManager.SetDisplayLoadingScreen.Invoke(false);
 
             return;
         }
 
-        UI_MenusManager.Singleton.DisplayLoadingScreen(false);
+        UI_MenusManager.SetDisplayLoadingScreen.Invoke(false);
         lobby.StartLobby();
     }
 }

@@ -15,6 +15,7 @@ public class PlayerUI_Manager : NetworkBehaviour
         Canvas UI = Instantiate(PlayerUI);
 
         ThrowMeterAnim = UI.GetComponentInChildren<ThrowMeterAnim>();
+        UI.GetComponent<UI_PlayerMenusManager>().Init(this);
 
         ThrowMeterAnim.SetThrowMaxDuration(GetComponent<PlayerHoldingManager>().maxThrowForceChargeTime);
         GetComponent<PlayerHoldingManager>().Throwing += ThrowMeterAnim.ThrowingState;
