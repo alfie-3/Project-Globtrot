@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class OrderContainerBox : NetworkBehaviour, IContents, IOnHeld
+public class OrderContainerBox : NetworkBehaviour, IContents, IOnHeld, IUseItem
 {
     [SerializeField] Contents boxContents;
     public Contents Contents => boxContents;
@@ -10,12 +10,12 @@ public class OrderContainerBox : NetworkBehaviour, IContents, IOnHeld
     [SerializeField] Animator boxAnimator;
     bool isOpen = false;
 
-    private RigidbodyNetworkTransform rigidbody;
+    private RigidbodyNetworkTransform rb;
     private Pickup_Interactable pickupInteractable;
 
     private void Awake()
     {
-        rigidbody = GetComponent<RigidbodyNetworkTransform>();
+        rb = GetComponent<RigidbodyNetworkTransform>();
         pickupInteractable = GetComponent<Pickup_Interactable>();
     }
 
@@ -44,7 +44,7 @@ public class OrderContainerBox : NetworkBehaviour, IContents, IOnHeld
 
     public void CheckForOpen()
     {
-        if (rigidbody.IsSleeping) return;
+        if (rb.IsSleeping) return;
 
         if (Vector3.Dot(transform.up, Vector3.up) < 0.5 || pickupInteractable.PickedUp.Value == true)
         {
@@ -70,6 +70,16 @@ public class OrderContainerBox : NetworkBehaviour, IContents, IOnHeld
     public void OnHeld(PlayerHoldingManager manager)
     {
         SetOpen(false);
+    }
+
+    public void OnItemUsed(PlayerHoldingManager holdingManager, Stock_Item shopProduct_Item)
+    {
+        Bounds heldObjBounds = holdingManager.HeldObj.GetComponent<MeshRenderer>().bounds;
+
+        Vector3 dropPoint = transform.position;
+        dropPoint.y += (heldObjBounds.extents.y) + 0.5f;
+
+        holdingManager.ClearHeldItem(dropPoint, holdingManager.HeldObj.transform.rotation.eulerAngles);
     }
 }
 

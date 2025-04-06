@@ -12,7 +12,6 @@ public class OrderBoxInput : NetworkBehaviour
     {
         if (!IsServer) return;
         if (!other.TryGetComponent(out NetworkObject networkObject)) return;
-        if (!networkObject.IsSpawned) return;
 
         if (other.TryGetComponent(out StockItem stockItem))
         {

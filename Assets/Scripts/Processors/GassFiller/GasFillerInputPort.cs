@@ -25,9 +25,8 @@ public class GasFillerInputPort : NetworkBehaviour, IUseItem
         {
             if (Filled.Value == true) return;
 
-            NetworkObject heldobject = manager.HeldObj;
             manager.ClearHeldItem(transform.position, transform.rotation.eulerAngles);
-            ConnectItem_Rpc(heldobject);
+            ConnectItem_Rpc(manager.HeldObj);
         }
     }
 
