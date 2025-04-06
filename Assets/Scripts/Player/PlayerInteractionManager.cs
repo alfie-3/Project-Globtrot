@@ -1,4 +1,5 @@
 using Assets.Scripts.Interfaces;
+using System;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,7 +11,10 @@ public class PlayerInteractionManager : NetworkBehaviour
     [Space]
     [SerializeField] LayerMask interactableLayer;
 
-    IViewable currentViewable;
+    IInteractable currentInteractable;
+    GameObject interactableGO;
+
+    public Action<bool> OnSetObjectViewed;
 
     private void Awake()
     {
@@ -37,27 +41,55 @@ public class PlayerInteractionManager : NetworkBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit, InteractionDistance, interactableLayer, QueryTriggerInteraction.Collide))
         {
-            if (hit.collider.gameObject.TryGetComponent(out IViewable viewable))
+            if (hit.collider.gameObject.TryGetComponent(out IInteractable interacrable))
             {
-                if (currentViewable != viewable)
-                    viewable.OnView();
-
-                currentViewable = viewable;
+                View(hit.collider.gameObject, interacrable);
+            }
+            else
+            {
+                Unview();
             }
         }
         else
         {
-            if (currentViewable != null)
+            Unview();
+        }
+    }
+
+    public void View(GameObject go, IInteractable interactable)
+    {
+        if (currentInteractable == interactable) return;
+
+        if (go.TryGetComponent(out IViewable view))
+        {
+            view.OnView();
+        }
+
+        OnSetObjectViewed.Invoke(true);
+
+        currentInteractable = interactable;
+        interactableGO = go;
+    }
+
+    public void Unview()
+    {
+        if (currentInteractable != null)
+        {
+            if (interactableGO.TryGetComponent(out IViewable view))
             {
-                currentViewable.OnUnview();
-                currentViewable = null;
+                view.OnView();
             }
+
+            OnSetObjectViewed.Invoke(false);
+
+            currentInteractable = null;
+            interactableGO = null;
         }
     }
 
     public void Interact(InputAction.CallbackContext context)
     {
-        if (GetComponent <PlayerBuildingManager>().buildingManagerActive) return;
+        if (GetComponent<PlayerBuildingManager>().buildingManagerActive) return;
 
         Ray ray = new(cameraManager.CamTransform.position, cameraManager.CamTransform.forward);
 

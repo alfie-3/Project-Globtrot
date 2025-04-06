@@ -22,6 +22,16 @@ public class PlayerUI_Manager : NetworkBehaviour
 
 
         GetComponent<PlayerBuildingManager>().ui = UI.GetComponentInChildren<UI_BuildingSelection>();
+
+        foreach (IInitPlayerUI init in UI.GetComponentsInChildren<IInitPlayerUI>())
+        {
+            init.Init(this);
+        }
     }
 
+}
+
+public interface IInitPlayerUI
+{
+    public void Init(PlayerUI_Manager uiManager);
 }

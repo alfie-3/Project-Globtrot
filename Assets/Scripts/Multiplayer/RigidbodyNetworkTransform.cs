@@ -45,6 +45,7 @@ public class RigidbodyNetworkTransform : NetworkTransform
     }
 
     public void OnCollisionStay(Collision collision) { IsColliding = true; }
+
     public void FixedUpdate() { IsColliding = false; }
 
     protected override void OnNetworkTransformStateUpdated(ref NetworkTransformState oldState, ref NetworkTransformState newState)
