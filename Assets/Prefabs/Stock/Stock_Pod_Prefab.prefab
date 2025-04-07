@@ -111,6 +111,8 @@ GameObject:
   - component: {fileID: 800810652360256574}
   - component: {fileID: 4667619557137094660}
   - component: {fileID: -7502809990524931178}
+  - component: {fileID: 2773145123947280717}
+  - component: {fileID: -2860482465728284655}
   m_Layer: 0
   m_Name: Stock_Pod_Prefab
   m_TagString: Untagged
@@ -495,3 +497,28 @@ MonoBehaviour:
   - {fileID: 7650358324696950725, guid: ebd420de48f08ff4ab824ac65cd784ec, type: 3}
   breakForce: 10
   breakoutForce: 3
+--- !u!114 &2773145123947280717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7619981547121828464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 271537389a990704fb510515f32ff61e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-2860482465728284655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7619981547121828464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ff1343d81e086a448534362426af66e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1

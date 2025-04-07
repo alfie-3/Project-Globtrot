@@ -66,7 +66,6 @@ public class GasFillerController : NetworkBehaviour
     public void OnGasFillComplete(GasType _)
     {
         gasFillTweener = DOTween.Shake(() => hackyShakeFloat, x => { hackyShakeFloat = x; UpdateFillAmount(1 + hackyShakeFloat.x); }, overPressureTimeout, 0.2f, 20, 1, false, false);
-        filledCannister = false;
     }
 
     [Rpc(SendTo.Everyone)]

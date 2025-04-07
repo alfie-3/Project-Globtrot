@@ -32,9 +32,10 @@ public class UI_QuotaBar : MonoBehaviour
 
     }
 
-    public void ToggleBar(bool toggle)
+    public void ToggleBar(DayState state)
     {
-        GetComponent<Canvas>().enabled = toggle;
+        GetComponent<Canvas>().enabled = state == DayState.Open;
+
     }
 
     private void OnDestroy()

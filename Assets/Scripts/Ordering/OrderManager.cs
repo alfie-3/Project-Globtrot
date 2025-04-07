@@ -17,7 +17,7 @@ public class OrderManager : NetworkBehaviour
     public static OrderManager Instance;
     public int OrderLimit = 2;
 
-    public static Action<float> OnOrderTimersUpdate;
+    public static Action<float> OnOrderTimersUpdate = delegate { };
 
     public Vector2 minMaxOrderDelayTime = new(5, 10);
 
@@ -37,9 +37,9 @@ public class OrderManager : NetworkBehaviour
         GameStateManager.OnDayStateChanged += OnDayStateChange;
     }
 
-    public void OnDayStateChange(bool state)
+    public void OnDayStateChange(DayState state)
     {
-        if (state == true)
+        if (state == DayState.Open)
         {
             Invoke(nameof(AddNewRandomOrder), GetRandomDelay());
         }

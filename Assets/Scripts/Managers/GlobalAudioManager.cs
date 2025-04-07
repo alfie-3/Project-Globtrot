@@ -33,7 +33,7 @@ public class GlobalAudioManager : NetworkBehaviour
             assetDictionary.Add(asset.Name, asset);
         }
 
-        GameStateManager.OnDayStateChanged += (context) => { if (context == true) PlaySoundSynced_Rpc("DayStart"); };
+        GameStateManager.OnDayStateChanged += (context) => { if (context == DayState.Open) PlaySoundSynced_Rpc("DayStart"); };
         OrderManager.OnNewOrderAdded += (order, num) => { PlaySound("NewOrder"); };
     }
 
@@ -63,7 +63,7 @@ public class GlobalAudioManager : NetworkBehaviour
     public override void OnDestroy()
     {
         base.OnDestroy();
-        GameStateManager.OnDayStateChanged -= (context) => { if (context == true) PlaySoundSynced_Rpc("DayStart"); };
+        GameStateManager.OnDayStateChanged += (context) => { if (context == DayState.Open) PlaySoundSynced_Rpc("DayStart"); };
         OrderManager.OnNewOrderAdded -= (order, num) => { PlaySound("NewOrder"); };
     }
 }

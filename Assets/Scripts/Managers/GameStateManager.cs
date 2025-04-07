@@ -8,7 +8,8 @@ public class GameStateManager : NetworkBehaviour
     public NetworkVariable<int> CurrentDay = new();
     public static Action<int> OnDayChanged = delegate { };
 
-    public static Action<bool> OnDayStateChanged = delegate { };
+    public static Action<DayState> OnDayStateChanged = delegate { };
+    public static Action StartWorkingDay = delegate { };
 
     public static Action OnReset = delegate { };
     public static Action OnResetServer = delegate { };
@@ -32,7 +33,7 @@ public class GameStateManager : NetworkBehaviour
         else
             Destroy(this);
 
-        CurrentDayState.OnValueChanged += (current, prev) => { OnDayStateChanged.Invoke(current != DayState.Open); };
+        CurrentDayState.OnValueChanged += (prev, current) => { OnDayStateChanged.Invoke(current); };
     }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -42,6 +43,7 @@ public class GameStateManager : NetworkBehaviour
         OnDayStateChanged = delegate { };
         OnReset = delegate { };
         OnResetServer = delegate { };
+        StartWorkingDay = delegate { };
         Instance = null;
     }
 
@@ -116,10 +118,10 @@ public class GameStateManager : NetworkBehaviour
             return null;
         }
 
-        if (CurrentDay.Value > DayDataList.DayList.Count) return DayDataList.DayList[CurrentDay.Value];
+        if (CurrentDay.Value < DayDataList.DayList.Count - 1) return DayDataList.DayList[CurrentDay.Value];
         else
         {
-            return DayDataList.DayList[DayDataList.DayList.Count];
+            return DayDataList.DayList[^1];
         }
     }
 

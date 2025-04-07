@@ -9,16 +9,6 @@ public class StockItem : NetworkBehaviour
 
     public Action<Stock_Item> OnItemChanged = delegate { };
 
-    private void OnEnable()
-    {
-        GameStateManager.OnResetServer += Despawn;
-    }
-
-    private void OnDisable()
-    {
-        GameStateManager.OnResetServer -= Despawn;
-    }
-
     public void SetItem(Stock_Item item)
     {
         if (!IsServer) return;
@@ -38,16 +28,8 @@ public class StockItem : NetworkBehaviour
         OnItemChanged.Invoke(Item);
     }
 
-    public void Despawn()
-    {
-        if (!IsServer) return;
-
-        NetworkObject.Despawn();
-    }
-
     public new void OnDestroy()
     {
         base.OnDestroy();
-        GameStateManager.OnResetServer -= Despawn;
     }
 }
