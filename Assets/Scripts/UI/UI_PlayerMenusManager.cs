@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public class UI_PlayerMenusManager : MonoBehaviour
+public class UI_PlayerMenusManager : MonoBehaviour, IEscapeable
 {
     PlayerInputManager connectedPlayerInput;
 
@@ -15,9 +15,16 @@ public class UI_PlayerMenusManager : MonoBehaviour
     {
         if (player.TryGetComponent(out PlayerInputManager inputManager))
         {
-            inputManager.OnPause += context => TogglePauseMenu();
             connectedPlayerInput = inputManager;
+
+            inputManager.EscapeStack.Clear();
+            inputManager.EscapeStack.Push(this);
         }
+    }
+
+    public void Escape(PlayerInputManager manager)
+    {
+        TogglePauseMenu();
     }
 
     public void TogglePauseMenu()

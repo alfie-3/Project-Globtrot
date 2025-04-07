@@ -13,7 +13,7 @@ public class ClickableObjs : MonoBehaviour, IInteractable
     {
         if (isScreen)
         {
-            pcScript.ZoomToScreen();
+            pcScript.ZoomToScreen(interactionManager);
         }
 
         Power();

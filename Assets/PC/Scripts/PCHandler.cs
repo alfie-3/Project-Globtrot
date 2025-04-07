@@ -1,12 +1,15 @@
 using UnityEngine;
 using System.Collections;
-public class PCHandler : MonoBehaviour
+using UnityEditor;
+public class PCHandler : MonoBehaviour, IEscapeable
 {
     [SerializeField] private GameObject screen;
     [SerializeField] private GameObject screenObj;
     [SerializeField] private GameObject screenOffObj;
 
     private bool isZoomed = false;
+
+    PlayerInputManager cachedPlayerInput;
 
     void Start()
     {
@@ -18,37 +21,49 @@ public class PCHandler : MonoBehaviour
         TurnOn();
     }
 
-    public void ZoomToScreen()
+    public void ZoomToScreen(PlayerInteractionManager interactionManager)
     {
         if (isZoomed) return;
 
-        isZoomed = true;
-        ActivateUIScreen();
+        if (interactionManager.TryGetComponent(out PlayerInputManager inputManager))
+        {
+            inputManager.EscapeStack.Push(this);
+
+            isZoomed = true;
+            cachedPlayerInput = inputManager;
+            ActivateUIScreen(inputManager);
+        }
     }
 
-    private void ActivateUIScreen()
+    private void ActivateUIScreen(PlayerInputManager manager)
     {
         CanvasGroup canvasGroup = screen.GetComponent<CanvasGroup>();
         canvasGroup.alpha = 1; 
         canvasGroup.interactable = true; 
-        canvasGroup.blocksRaycasts = true; 
+        canvasGroup.blocksRaycasts = true;
 
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
-
+        manager.ToggleUIInput(true);
+        manager.CameraManager.SetPanTiltEnabled(false);
+        CursorUtils.UnlockAndShowCursor();
     }
 
-    public void ResetCamera()
+    public void EscapePC()
     {
+        if (cachedPlayerInput == null) return;
+
         isZoomed = false;
+
         CanvasGroup canvasGroup = screen.GetComponent<CanvasGroup>();
-        canvasGroup.alpha = 0; 
-        canvasGroup.interactable = false; 
-        canvasGroup.blocksRaycasts = false; 
+        canvasGroup.alpha = 0;
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
 
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        cachedPlayerInput.ToggleUIInput(false);
+        cachedPlayerInput.CameraManager.SetPanTiltEnabled(true);
 
+        cachedPlayerInput = null;
+
+        CursorUtils.LockAndHideCusor();
     }
 
     public void TurnOn()
@@ -61,13 +76,10 @@ public class PCHandler : MonoBehaviour
     {
         screenOffObj.SetActive(true);
         screenObj.SetActive(false);
-    }   
+    }
 
-    void Update()
+    public void Escape(PlayerInputManager manager)
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            ResetCamera();
-        }
+        EscapePC();
     }
 }

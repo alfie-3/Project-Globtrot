@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -32,6 +33,7 @@ public class PlayerInputManager : NetworkBehaviour
     public Action<InputAction.CallbackContext> OnSprint = delegate { };
 
     public Action<InputAction.CallbackContext> OnPause = delegate { };
+    public Stack<IEscapeable> EscapeStack = new Stack<IEscapeable>();
 
     public PlayerCameraManager CameraManager { get; private set; }
 
@@ -57,7 +59,19 @@ public class PlayerInputManager : NetworkBehaviour
         inputActions.Player.Dismantle.performed += context => OnDismantle(context);
         inputActions.Player.Snapping.performed += context => OnPerformCtrl(context);
 
-        inputActions.Universal.Pause.performed += context => OnPause(context);
+        inputActions.Universal.Pause.performed += context => ProgressEscapeStack();
+    }
+
+    public void ProgressEscapeStack()
+    {
+        if (EscapeStack.Count == 1)
+        {
+            EscapeStack.Peek().Escape(this);
+        }
+        else
+        {
+            EscapeStack.Pop().Escape(this);
+        }
     }
 
     public override void OnNetworkSpawn()
@@ -112,4 +126,9 @@ public class PlayerInputManager : NetworkBehaviour
         }
     }
 
+}
+
+public interface IEscapeable
+{
+    public void Escape(PlayerInputManager manager);
 }
