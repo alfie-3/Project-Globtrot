@@ -20,7 +20,7 @@ public class UI_EmailManager : MonoBehaviour
     private bool isMinimised = true;
     private float originalEmailSpacing;
 
-    private void Start()
+    private void OnEnable()
     {
         GameStateManager.OnDayChanged += (current) => { AddDailyEmails(); };
     }

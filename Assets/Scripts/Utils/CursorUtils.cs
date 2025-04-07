@@ -16,7 +16,7 @@ public class CursorUtils : MonoBehaviour
     {
         Debug.Log("Cursor unlocked and shown");
 
-        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
 }
