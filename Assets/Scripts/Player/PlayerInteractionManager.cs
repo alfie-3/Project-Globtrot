@@ -73,7 +73,7 @@ public class PlayerInteractionManager : NetworkBehaviour
 
     public void Unview()
     {
-        if (currentInteractable != null)
+        if (currentInteractable != null && interactableGO != null)
         {
             if (interactableGO.TryGetComponent(out IViewable view))
             {
