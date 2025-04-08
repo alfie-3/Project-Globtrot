@@ -5,13 +5,19 @@ using UnityEngine;
 // initialises window + reorganises sort order 
 public class UI_WindowManager : MonoBehaviour
 {
-    private List<UI_Window> windows = new List<UI_Window>();
+    [SerializeField] private List<UI_Window> windows = new List<UI_Window>();
+    public Canvas Canvas { get; private set; }
+    public RectTransform RectTransform { get; private set; }
 
-    // register the window
-    public void RegisterWindow(UI_Window window)
+    private void Awake()
     {
-        if (!windows.Contains(window))
-            windows.Add(window);
+        Canvas = GetComponent<Canvas>();
+        RectTransform = GetComponent<RectTransform>();
+
+        foreach (var window in windows)
+        {
+            window.RegisterWindow(this);
+        }
     }
 
     // bring clicked window to the front

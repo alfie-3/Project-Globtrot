@@ -14,9 +14,7 @@ public class UI_EmailManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI emailSenderText;   
     [SerializeField] private TextMeshProUGUI emailContentText;  
 
-    [SerializeField] private List<Email> emailList; 
     private List<GameObject> emailButtons = new List<GameObject>(); 
-    private int nextEmailIndex = 0;
     private bool isMinimised = true;
     private float originalEmailSpacing;
 
@@ -25,33 +23,10 @@ public class UI_EmailManager : MonoBehaviour
         GameStateManager.OnDayChanged += (current) => { AddDailyEmails(); };
     }
 
-    //instead of displaying all emails this function will call the next email in the list instead
-    public void SummonNextEmail()
-    {
-        if (nextEmailIndex >= emailList.Count)
-        {
-            Debug.Log("No more emails to summon.");
-            return;
-        }
-
-        Vector3 nextPos = spawnPoint.position - new Vector3(0, emailSpacing * emailButtons.Count, 0);
-
-        Email emailScript = emailList[nextEmailIndex];
-        GameObject emailButton = Instantiate(emailButtonPrefab, spawnPoint);
-        emailButton.GetComponent<UI_EmailButton>().Setup(emailScript);
-
-        emailButton.transform.position = nextPos;
-        emailButtons.Add(emailButton);
-
-        originalEmailSpacing = emailSpacing;
-
-        nextEmailIndex++; 
-    }
-
     public void AddEmail(Email email)
     {
-        GameObject emailButton = Instantiate(emailButtonPrefab, spawnPoint);
-        emailButton.GetComponent<UI_EmailButton>().Setup(email);
+        UI_EmailButton emailButton = Instantiate(emailButtonPrefab, spawnPoint).GetComponent<UI_EmailButton>();
+        emailButton.GetComponent<UI_EmailButton>().Setup(email, this);
     }
 
     public void AddDailyEmails()

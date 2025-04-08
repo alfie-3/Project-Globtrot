@@ -9,8 +9,10 @@ public class UI_EmailButton : MonoBehaviour
     private UI_EmailManager emailScript;
     private Email emailData; 
 
-    public void Setup(Email email)
+    public void Setup(Email email, UI_EmailManager manager)
     {
+        emailScript = manager;
+
         emailData = email;
         subjectText.text = email.subject;
         senderText.text = $"From: {email.sender}";
@@ -27,8 +29,6 @@ public class UI_EmailButton : MonoBehaviour
     //displays text
     public void OnClick()
     {
-        GameObject emailManagerObj = GameObject.FindGameObjectWithTag("EmailManager");
-        emailScript = emailManagerObj.GetComponent<UI_EmailManager>();
         emailScript.Display(emailData);
     }
 }
