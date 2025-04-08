@@ -1,11 +1,12 @@
 using UnityEngine;
 using System.Collections;
 using UnityEditor;
+using Unity.Cinemachine;
 public class PCHandler : MonoBehaviour, IEscapeable
 {
-    [SerializeField] private GameObject screen;
-    [SerializeField] private GameObject screenObj;
-    [SerializeField] private GameObject screenOffObj;
+    [SerializeField] private CanvasGroup canvasGroup;
+
+    [SerializeField] CinemachineCamera pcZoomCam;
 
     private bool isZoomed = false;
 
@@ -13,12 +14,7 @@ public class PCHandler : MonoBehaviour, IEscapeable
 
     void Start()
     {
-        CanvasGroup canvasGroup = screen.GetComponent<CanvasGroup>();
-        canvasGroup.alpha = 0; 
-        canvasGroup.interactable = false; 
-        canvasGroup.blocksRaycasts = false;
-
-        TurnOn();
+        SetCanvasGroupEnabled(false);
     }
 
     public void ZoomToScreen(PlayerInteractionManager interactionManager)
@@ -29,6 +25,7 @@ public class PCHandler : MonoBehaviour, IEscapeable
         {
             inputManager.EscapeStack.Push(this);
 
+            pcZoomCam.enabled = true;
             isZoomed = true;
             cachedPlayerInput = inputManager;
             ActivateUIScreen(inputManager);
@@ -37,10 +34,7 @@ public class PCHandler : MonoBehaviour, IEscapeable
 
     private void ActivateUIScreen(PlayerInputManager manager)
     {
-        CanvasGroup canvasGroup = screen.GetComponent<CanvasGroup>();
-        canvasGroup.alpha = 1; 
-        canvasGroup.interactable = true; 
-        canvasGroup.blocksRaycasts = true;
+        SetCanvasGroupEnabled(true);
 
         manager.ToggleUIInput(true);
         manager.CameraManager.SetPanTiltEnabled(false);
@@ -53,10 +47,8 @@ public class PCHandler : MonoBehaviour, IEscapeable
 
         isZoomed = false;
 
-        CanvasGroup canvasGroup = screen.GetComponent<CanvasGroup>();
-        canvasGroup.alpha = 0;
-        canvasGroup.interactable = false;
-        canvasGroup.blocksRaycasts = false;
+        SetCanvasGroupEnabled(false);
+        pcZoomCam.enabled = false;
 
         cachedPlayerInput.ToggleUIInput(false);
         cachedPlayerInput.CameraManager.SetPanTiltEnabled(true);
@@ -66,16 +58,11 @@ public class PCHandler : MonoBehaviour, IEscapeable
         CursorUtils.LockAndHideCusor();
     }
 
-    public void TurnOn()
+    public void SetCanvasGroupEnabled(bool enabled)
     {
-        screenOffObj.SetActive(false);
-        screenObj.SetActive(true);
-    }
-
-    public void TurnOff()
-    {
-        screenOffObj.SetActive(true);
-        screenObj.SetActive(false);
+        canvasGroup.alpha = enabled ? 1 : 0;
+        canvasGroup.interactable = enabled;
+        canvasGroup.blocksRaycasts = enabled;
     }
 
     public void Escape(PlayerInputManager manager)

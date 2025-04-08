@@ -1,14 +1,24 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 // manages window functionality - moving + resizing
 
 [RequireComponent(typeof(Canvas), typeof(GraphicRaycaster))]
-public class UI_Window : MonoBehaviour, IPointerDownHandler, IDragHandler
+public class UI_Window : MonoBehaviour, IPointerDownHandler, IDragHandler, IBeginDragHandler
 {
     [SerializeField] private Button MaximizeButton, CloseButton;
-    [SerializeField] private UI_WindowManager windowManagerScript;
+
+    private UI_WindowManager windowManager;
+
+    RectTransform canvasRectTransform => windowManager.RectTransform;
+    RectTransform panelRectTransform => transform as RectTransform;
+
+    bool clampedToBottom = true;
+    bool clampedToTop = true;
+    bool clampedToLeft = true;
+    bool clampedToRight = true;
+
     private RectTransform windowTransform;
 
     [SerializeField] private Vector3 minimizedSize = new Vector3(0.5f, 0.57f, 1.0f);
@@ -19,7 +29,7 @@ public class UI_Window : MonoBehaviour, IPointerDownHandler, IDragHandler
     private bool isMaximized = false;
     public Canvas WindowCanvas { get; private set; }
 
-    Vector3 dragStartposOffset;
+    Vector2 pointerOffset = Vector2.one;
 
     CanvasScaler canvasScaler;
 
@@ -30,7 +40,7 @@ public class UI_Window : MonoBehaviour, IPointerDownHandler, IDragHandler
         canvasScaler = GetComponentInParent<CanvasScaler>();
 
         if (MaximizeButton) MaximizeButton.onClick.AddListener(ToggleMaximize);
-        if (CloseButton) CloseButton.onClick.AddListener(ToggleWindow);
+        if (CloseButton) CloseButton.onClick.AddListener(() => SetWindowEnabled(!WindowCanvas.enabled));
 
         // store the original size, position, and anchors
         ogSize = windowTransform.sizeDelta;
@@ -39,30 +49,122 @@ public class UI_Window : MonoBehaviour, IPointerDownHandler, IDragHandler
         ogAnchorMax = windowTransform.anchorMax;
         windowTransform.localScale = minimizedSize;
 
-        windowManagerScript.RegisterWindow(this);
-        
-        ToggleWindow();
+    }
+
+    public void RegisterWindow(UI_WindowManager windowManager)
+    {
+        this.windowManager = windowManager;
+        GetComponent<CanvasRenderer>().EnableRectClipping(windowManager.RectTransform.rect);
+        SetWindowEnabled(false);
+
+        panelRectTransform.localPosition = Vector3.zero;
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        windowManagerScript.BringToFront(this);
+        windowManager.BringToFront(this);
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        panelRectTransform.SetAsLastSibling();
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(panelRectTransform, eventData.position, eventData.pressEventCamera, out pointerOffset);
+
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (!isMaximized)
+        if (panelRectTransform == null)
         {
-            Vector3 globalMousePos;
-            if (RectTransformUtility.ScreenPointToWorldPointInRectangle(windowTransform, eventData.position, eventData.pressEventCamera, out globalMousePos))
+            return;
+        }
+
+
+        Vector2 localPointerPosition;
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRectTransform, eventData.position, eventData.pressEventCamera, out localPointerPosition))
+        {
+            panelRectTransform.localPosition = localPointerPosition - (pointerOffset * panelRectTransform.localScale.x);
+            ClampToWindow();
+            Vector2 clampedPosition = panelRectTransform.localPosition;
+            if (clampedToRight)
             {
-               
-                GetComponent<RectTransform>().anchoredPosition += eventData.delta / (Screen.width / canvasScaler.referenceResolution.x);
+                clampedPosition.x = (canvasRectTransform.rect.width * 0.5f) - (panelRectTransform.localScale.x * panelRectTransform.rect.width * (1 - panelRectTransform.pivot.x));
+            }
+            else if (clampedToLeft)
+            {
+                clampedPosition.x = (-canvasRectTransform.rect.width * 0.5f) + (panelRectTransform.localScale.x * panelRectTransform.rect.width * panelRectTransform.pivot.x);
             }
 
-            //windowTransform.anchoredPosition += eventData.delta;
+            if (clampedToTop)
+            {
+                clampedPosition.y = (canvasRectTransform.rect.height * 0.5f) - (panelRectTransform.localScale.y * panelRectTransform.rect.height * (1 - panelRectTransform.pivot.y));
+            }
+            else if (clampedToBottom)
+            {
+                clampedPosition.y = (-canvasRectTransform.rect.height * 0.5f) + (panelRectTransform.localScale.y * panelRectTransform.rect.height * panelRectTransform.pivot.y);
+            }
+            panelRectTransform.localPosition = clampedPosition;
         }
     }
+
+    void ClampToWindow()
+    {
+        Vector3[] canvasCorners = new Vector3[4];
+        Vector3[] panelRectCorners = new Vector3[4];
+        canvasRectTransform.GetWorldCorners(canvasCorners);
+        panelRectTransform.GetWorldCorners(panelRectCorners);
+
+        if (panelRectCorners[2].x > canvasCorners[2].x)
+        {
+            Debug.Log("Panel is to the right of canvas limits");
+            if (!clampedToRight)
+            {
+                clampedToRight = true;
+            }
+        }
+        else if (clampedToRight)
+        {
+            clampedToRight = false;
+        }
+        else if (panelRectCorners[0].x < canvasCorners[0].x)
+        {
+            Debug.Log("Panel is to the left of canvas limits");
+            if (!clampedToLeft)
+            {
+                clampedToLeft = true;
+            }
+        }
+        else if (clampedToLeft)
+        {
+            clampedToLeft = false;
+        }
+
+        if (panelRectCorners[2].y > canvasCorners[2].y)
+        {
+            Debug.Log("Panel is to the top of canvas limits");
+            if (!clampedToTop)
+            {
+                clampedToTop = true;
+            }
+        }
+        else if (clampedToTop)
+        {
+            clampedToTop = false;
+        }
+        else if (panelRectCorners[0].y < canvasCorners[0].y)
+        {
+            Debug.Log("Panel is to the bottom of canvas limits");
+            if (!clampedToBottom)
+            {
+                clampedToBottom = true;
+            }
+        }
+        else if (clampedToBottom)
+        {
+            clampedToBottom = false;
+        }
+    }
+
 
     private void ToggleMaximize()
     {
@@ -82,7 +184,7 @@ public class UI_Window : MonoBehaviour, IPointerDownHandler, IDragHandler
             ogPos = windowTransform.anchoredPosition;
             ogAnchorMin = windowTransform.anchorMin;
             ogAnchorMax = windowTransform.anchorMax;
-            
+
             // stretch anchors to make it full screen
             windowTransform.anchorMin = Vector2.zero;
             windowTransform.anchorMax = Vector2.one;
@@ -98,10 +200,16 @@ public class UI_Window : MonoBehaviour, IPointerDownHandler, IDragHandler
         isMaximized = !isMaximized;
     }
 
-    public void ToggleWindow()
+    public void ToggleWindowEnabled()
     {
-        WindowCanvas.enabled = !WindowCanvas.enabled;
-        windowManagerScript.BringToFront(this);
+        SetWindowEnabled(!WindowCanvas.enabled);
+    }
 
+    public void SetWindowEnabled(bool value)
+    {
+        WindowCanvas.enabled = value;
+
+        if (value)
+            windowManager.BringToFront(this);
     }
 }
