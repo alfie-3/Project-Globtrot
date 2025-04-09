@@ -680,7 +680,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &8548060216682048463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3032,6 +3032,18 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4709250310206394024, guid: 8bcfb313d25e3d842a3be0d85dfefb6a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4709250310206394024, guid: 8bcfb313d25e3d842a3be0d85dfefb6a, type: 3}
+      propertyPath: basketScript
+      value: 
+      objectReference: {fileID: 1967983730173683914}
+    - target: {fileID: 5412588975669533819, guid: 8bcfb313d25e3d842a3be0d85dfefb6a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7780504654390146651, guid: 8bcfb313d25e3d842a3be0d85dfefb6a, type: 3}
       propertyPath: m_Name
       value: Shop
@@ -3133,6 +3145,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8bcfb313d25e3d842a3be0d85dfefb6a, type: 3}
+--- !u!114 &1967983730173683914 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5412588975669533819, guid: 8bcfb313d25e3d842a3be0d85dfefb6a, type: 3}
+  m_PrefabInstance: {fileID: 5787915217769493681}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51c10e16aca2d764a8c9ccd8d8635709, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &4519842460111816754 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7992617189176458371, guid: 8bcfb313d25e3d842a3be0d85dfefb6a, type: 3}

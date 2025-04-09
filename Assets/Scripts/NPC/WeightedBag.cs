@@ -15,6 +15,14 @@ public class WeightedRandomBag<T>
     private double accumulatedWeight;
     private System.Random rand = new System.Random();
 
+    public void Init(List<WeightedProductSelectionItem<T>> weightedSelection)
+    {
+        foreach (WeightedProductSelectionItem<T> weightedProductSelectionItem in weightedSelection)
+        {
+            AddEntry(weightedProductSelectionItem.Quantity, weightedProductSelectionItem.Weight);
+        }
+    }
+
     public void AddEntry(T item, double weight)
     {
         accumulatedWeight += weight;

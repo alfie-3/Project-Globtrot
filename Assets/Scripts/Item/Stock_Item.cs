@@ -9,7 +9,7 @@ public class Stock_Item : ItemBase
     [field: SerializeField] public int Price { get; private set; }
     [field: SerializeField] public GameObject Prefab { get; private set; }
     [field: SerializeField] public float TimeContribution { get; private set; } = 5f;
-    [field: SerializeField] private List<WeightedProductSelectionItem> weightedRandomCustomerPickupChance;
+    [field: SerializeField] private List<WeightedProductSelectionItem<int>> weightedRandomCustomerPickupChance;
     public WeightedRandomBag<int> WeightedQuantitySelection = new();
     [field: Space]
     [field: SerializeField] public float SalePercentage = 0.25f;
@@ -25,7 +25,7 @@ public class Stock_Item : ItemBase
     {
         base.Init();
 
-        foreach (WeightedProductSelectionItem weightedProductSelectionItem in weightedRandomCustomerPickupChance)
+        foreach (WeightedProductSelectionItem<int> weightedProductSelectionItem in weightedRandomCustomerPickupChance)
         {
             WeightedQuantitySelection.AddEntry(weightedProductSelectionItem.Quantity, weightedProductSelectionItem.Weight);
         }
@@ -33,12 +33,12 @@ public class Stock_Item : ItemBase
 }
 
 [System.Serializable]
-public struct WeightedProductSelectionItem
+public struct WeightedProductSelectionItem<T>
 {
-    public int Quantity;
+    public T Quantity;
     public double Weight;
 
-    public WeightedProductSelectionItem(int quantity, double weight)
+    public WeightedProductSelectionItem(T quantity, double weight)
     {
         Quantity = quantity;
         Weight = weight;

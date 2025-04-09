@@ -52,13 +52,13 @@ public class GameStateManager : NetworkBehaviour
         base.OnNetworkSpawn();
 
         OnDayChanged.Invoke(0);
+        CurrentDay.OnValueChanged += (prev, current) => OnDayChanged.Invoke(current);
 
         if (!IsServer) return;
 
         CurrentDayState.Value = DayState.Preperation;
         mainScene = SceneManager.GetActiveScene();
 
-        CurrentDay.OnValueChanged += (prev, current) => OnDayChanged.Invoke(current);
         CurrentDay.Value = 0;
     }
 
@@ -71,13 +71,19 @@ public class GameStateManager : NetworkBehaviour
     }
 
     [Rpc(SendTo.Server)]
-    public void EndDay_Rpc()
+    public void EndDay_Rpc(bool bypassOpen = false)
     {
-        if (CurrentDayState.Value != DayState.Open) return;
+        if (CurrentDayState.Value != DayState.Open && bypassOpen != false) return;
 
         CurrentDayState.Value = DayState.Closed;
 
         DayEnd();
+    }
+
+    [ContextMenu("SkipDay")]
+    public void SkipDay()
+    {
+        EndDay_Rpc();
     }
 
     public void DayEnd()

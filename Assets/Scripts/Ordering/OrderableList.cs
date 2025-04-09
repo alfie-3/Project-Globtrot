@@ -4,17 +4,23 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Orderables", menuName = "Lists/New Orderable List", order = 0)]
 public class OrderableList : ScriptableObject
 {
-    [SerializeField] Vector2Int minMaxRandomPick = new Vector2Int(1, 3);
+    [field: SerializeField] private List<WeightedProductSelectionItem<int>> weightedRandomQuantitySelection;
+    WeightedRandomBag<int> randomStockQuantitySelectionBag = new WeightedRandomBag<int>();
 
     public List<Stock_Item> CurrentOrderablesList;
 
     public Vector2Int MinMaxTime = new Vector2Int(20, 30);
 
+    public void Init()
+    {
+        randomStockQuantitySelectionBag.Init(weightedRandomQuantitySelection);
+    }
+
     public List<OrderItem> PickRandom(int count = 0)
     {
         if (count == 0)
         {
-            count = Random.Range(minMaxRandomPick.x, minMaxRandomPick.y + 1);
+            count = randomStockQuantitySelectionBag.GetRandom();
         }
 
         Shuffle();

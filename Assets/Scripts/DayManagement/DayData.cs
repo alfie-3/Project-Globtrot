@@ -7,5 +7,6 @@ public class DayData : ScriptableObject
 {
     [field:SerializeField] public int DailyQuota { get; private set; }
 
-    [field: SerializeField] public List<Email> DayEmails;
+    [field: SerializeField] public List<Email> DayEmails { get; private set; }
+    [field: SerializeField] public List<OrderableList> OrderableLists {  get; private set; }
 }

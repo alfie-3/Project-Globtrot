@@ -35,6 +35,20 @@ public class OrderManager : NetworkBehaviour
         else Destroy(gameObject);
 
         GameStateManager.OnDayStateChanged += OnDayStateChange;
+        GameStateManager.OnDayChanged += UpdateOrderablesList;
+    }
+
+    public void UpdateOrderablesList(int day)
+    {
+        DayData dayData = GameStateManager.Instance.GetLatestDayData();
+        if (dayData == null) return;
+
+        currentOrderableLists = dayData.OrderableLists;
+
+        foreach (OrderableList list in currentOrderableLists)
+        {
+            list.Init();
+        }
     }
 
     public void OnDayStateChange(DayState state)

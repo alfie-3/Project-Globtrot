@@ -118,7 +118,7 @@ public class CharacterMovement : MonoBehaviour
 
     bool GroundCheck()
     {
-        return Physics.CheckSphere(SphereCastPoint - new Vector3(0, groundCheckOffset, 0), groundCheckRadius, groundLayer);
+        return Physics.CheckSphere(SphereCastPoint - new Vector3(0, groundCheckOffset, 0), groundCheckRadius, groundLayer, QueryTriggerInteraction.Ignore);
     }
 
     private void GetSlopeNormal()
