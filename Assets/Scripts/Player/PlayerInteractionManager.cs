@@ -4,6 +4,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(PlayerHoldingManager))]
 public class PlayerInteractionManager : NetworkBehaviour
 {
     [SerializeField] float InteractionDistance = 5f;
@@ -11,7 +12,8 @@ public class PlayerInteractionManager : NetworkBehaviour
     [Space]
     [SerializeField] LayerMask interactableLayer;
 
-    IInteractable currentInteractable;
+    PlayerHoldingManager holdingManager;
+
     GameObject interactableGO;
 
     public Action<bool> OnSetObjectViewed;
@@ -24,6 +26,7 @@ public class PlayerInteractionManager : NetworkBehaviour
             inputManager.OnDismantle += Dismantle;
         }
 
+        holdingManager = GetComponent<PlayerHoldingManager>();
         cameraManager = GetComponentInChildren<PlayerCameraManager>();
     }
 
@@ -58,7 +61,7 @@ public class PlayerInteractionManager : NetworkBehaviour
 
     public void View(GameObject go, IInteractable interactable)
     {
-        if (currentInteractable == interactable) return;
+        if (interactableGO == go) return;
 
         if (go.TryGetComponent(out IViewable view))
         {
@@ -67,13 +70,12 @@ public class PlayerInteractionManager : NetworkBehaviour
 
         OnSetObjectViewed.Invoke(true);
 
-        currentInteractable = interactable;
         interactableGO = go;
     }
 
     public void Unview()
     {
-        if (currentInteractable != null && interactableGO != null)
+        if (interactableGO != null)
         {
             if (interactableGO.TryGetComponent(out IViewable view))
             {
@@ -82,7 +84,6 @@ public class PlayerInteractionManager : NetworkBehaviour
 
             OnSetObjectViewed.Invoke(false);
 
-            currentInteractable = null;
             interactableGO = null;
         }
     }
@@ -95,9 +96,32 @@ public class PlayerInteractionManager : NetworkBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit, InteractionDistance, interactableLayer, QueryTriggerInteraction.Collide))
         {
-            if (hit.collider.gameObject.TryGetComponent(out IInteractable interactable))
+            if (holdingManager.HeldObj == null)
             {
-                interactable.OnInteract(this);
+                HandleInteract(hit);
+            }
+            else
+            {
+                HandleInteractWithItem(hit);
+            }
+        }
+    }
+
+    public void HandleInteract(RaycastHit hit)
+    {
+        if (hit.collider.gameObject.TryGetComponent(out IInteractable interactable))
+        {
+            interactable.OnInteract(this);
+        }
+    }
+
+    public void HandleInteractWithItem(RaycastHit hit)
+    {
+        if (hit.collider.gameObject.TryGetComponent(out IUseItem interactable))
+        {
+            if (holdingManager.HeldObj.TryGetComponent(out StockItem item))
+            {
+                interactable.OnItemUsed(holdingManager, item.Item);
             }
         }
     }

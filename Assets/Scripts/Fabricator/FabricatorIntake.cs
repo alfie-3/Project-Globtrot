@@ -26,6 +26,11 @@ public class FabricatorIntake : NetworkBehaviour, IUseItem {
         }
     }
 
+    public bool CanUseItem(PlayerHoldingManager holdingManager, Stock_Item item)
+    {
+        return true;
+    }
+
     public bool TryProcessInput(GameObject other) {
         if (other.TryGetComponent(out StockItem stockItem)) {
             if (stockItem.Item == null) return false;
@@ -42,4 +47,5 @@ public class FabricatorIntake : NetworkBehaviour, IUseItem {
         } else return false;
 
     }
+
 }

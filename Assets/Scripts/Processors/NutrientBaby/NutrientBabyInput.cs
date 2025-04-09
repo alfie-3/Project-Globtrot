@@ -21,6 +21,11 @@ public class NutrientBabyInput : NetworkBehaviour, IUseItem
         TryProcessInput(other.gameObject);
     }
 
+    public bool CanUseItem(PlayerHoldingManager holdingManager, Stock_Item item)
+    {
+        return nutrientBaby.CheckStock(item);
+    }
+
     public void OnItemUsed(PlayerHoldingManager holdingManager, Stock_Item shopProduct_Item)
     {
         NetworkObject nwObj = holdingManager.HeldObj;

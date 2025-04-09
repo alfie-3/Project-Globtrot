@@ -81,6 +81,11 @@ public class OrderContainerBox : NetworkBehaviour, IContents, IOnHeld, IUseItem
 
         holdingManager.ClearHeldItem(dropPoint, holdingManager.HeldObj.transform.rotation.eulerAngles);
     }
+
+    public bool CanUseItem(PlayerHoldingManager holdingManager, Stock_Item item)
+    {
+        return true;
+    }
 }
 
 [System.Serializable]

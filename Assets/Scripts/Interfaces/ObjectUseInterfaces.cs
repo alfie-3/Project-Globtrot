@@ -13,6 +13,7 @@ public interface IUseSecondary
 
 public interface IUseItem
 {
+    public bool CanUseItem(PlayerHoldingManager holdingManager, Stock_Item item);
     public void OnItemUsed(PlayerHoldingManager holdingManager, Stock_Item shopProduct_Item);
 }
 

@@ -58,6 +58,11 @@ public class NutrientBaby : NetworkBehaviour
 
         return true;
     }
+    
+    public bool CheckStock(Stock_Item item)
+    {
+        return requestableStock.Contains(item);
+    }
 
     [Rpc(SendTo.Everyone)]
     public void Feed_Rpc(NetworkObjectReference feedingItem, bool success)

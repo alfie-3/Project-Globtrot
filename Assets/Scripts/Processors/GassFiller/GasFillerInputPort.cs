@@ -19,9 +19,14 @@ public class GasFillerInputPort : NetworkBehaviour, IUseItem
             Filled.Value = false;
     }
 
+    public bool CanUseItem(PlayerHoldingManager holdingManager, Stock_Item item)
+    {
+        return item == referenceItem;
+    }
+
     public void OnItemUsed(PlayerHoldingManager manager, Stock_Item shopProduct_Item)
     {
-        if (shopProduct_Item == referenceItem)
+        if (CanUseItem(manager, shopProduct_Item))
         {
             if (Filled.Value == true) return;
 
@@ -40,6 +45,7 @@ public class GasFillerInputPort : NetworkBehaviour, IUseItem
         cannister = nwObject.gameObject;
 
         nwObject.GetComponent<RigidbodyNetworkTransform>().SetRigidbodyEnabled(false);
+        GetComponent<CapsuleCollider>().enabled = false;
 
         if (!IsServer) return;
 
@@ -55,6 +61,7 @@ public class GasFillerInputPort : NetworkBehaviour, IUseItem
 
         cannister.GetComponent<RigidbodyNetworkTransform>().SetRigidbodyEnabled(true);
         cannister = null;
+        GetComponent<CapsuleCollider>().enabled = true;
 
         if (!IsServer) return;
 

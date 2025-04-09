@@ -6,7 +6,7 @@ public class UI_DayCounter : MonoBehaviour
     [SerializeField] TextMeshProUGUI DayText;
     [SerializeField] TextMeshProUGUI DayState;
 
-    private void Awake()
+    private void Start()
     {
         GameStateManager.Instance.CurrentDay.OnValueChanged += (prev, current) => { UpdateDayCounter(current); };
         GameStateManager.Instance.CurrentDayState.OnValueChanged += (prev, current) => { UpdateDayState(current); };
