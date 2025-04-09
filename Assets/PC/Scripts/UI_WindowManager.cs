@@ -13,7 +13,10 @@ public class UI_WindowManager : MonoBehaviour
     {
         Canvas = GetComponent<Canvas>();
         RectTransform = GetComponent<RectTransform>();
+    }
 
+    private void Start()
+    {
         foreach (var window in windows)
         {
             window.RegisterWindow(this);

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Test_Interactable : MonoBehaviour, IInteractable, IViewable
+public class Test_Interactable : MonoBehaviour, IInteractable
 {
     public void OnInteract(PlayerInteractionManager interactionManager)
     {
@@ -12,8 +12,4 @@ public class Test_Interactable : MonoBehaviour, IInteractable, IViewable
         Debug.Log("Unview");
     }
 
-    public void OnView()
-    {
-        Debug.Log("Viewed");
-    }
 }

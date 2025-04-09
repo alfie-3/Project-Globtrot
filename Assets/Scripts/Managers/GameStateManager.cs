@@ -140,6 +140,14 @@ public class GameStateManager : NetworkBehaviour
                 $" a {nameof(SceneEventProgressStatus)}: {status}");
         }
     }
+
+    private new void OnDestroy()
+    {
+        base.OnDestroy();
+
+        OnDayChanged = delegate { };
+        OnDayStateChanged = delegate { };
+    }
 }
 
 public enum DayState

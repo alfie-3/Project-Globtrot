@@ -45,7 +45,6 @@ public class GasFillerInputPort : NetworkBehaviour, IUseItem
         cannister = nwObject.gameObject;
 
         nwObject.GetComponent<RigidbodyNetworkTransform>().SetRigidbodyEnabled(false);
-        GetComponent<CapsuleCollider>().enabled = false;
 
         if (!IsServer) return;
 
@@ -61,7 +60,6 @@ public class GasFillerInputPort : NetworkBehaviour, IUseItem
 
         cannister.GetComponent<RigidbodyNetworkTransform>().SetRigidbodyEnabled(true);
         cannister = null;
-        GetComponent<CapsuleCollider>().enabled = true;
 
         if (!IsServer) return;
 
@@ -71,5 +69,22 @@ public class GasFillerInputPort : NetworkBehaviour, IUseItem
     public void SetGasCannisterType(Stock_Item item)
     {
         cannister.GetComponent<StockItem>().SetItem(item);
+    }
+
+    public InteractionContext OnViewWithItem(PlayerHoldingManager holdingManager, Stock_Item item)
+    {
+        if (Filled.Value == true) return new(false);
+
+        if (CanUseItem(holdingManager, item))
+        {
+            return new(true, "Insert");
+        }
+
+        return new(false);
+    }
+
+    public void OnUnview()
+    {
+        
     }
 }

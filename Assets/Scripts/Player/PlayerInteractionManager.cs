@@ -11,12 +11,13 @@ public class PlayerInteractionManager : NetworkBehaviour
     [SerializeField] PlayerCameraManager cameraManager;
     [Space]
     [SerializeField] LayerMask interactableLayer;
+    [SerializeField] LayerMask holdingInteractableLayer;
 
     PlayerHoldingManager holdingManager;
 
     GameObject interactableGO;
 
-    public Action<bool> OnSetObjectViewed;
+    public Action<bool, InteractionContext> OnSetObjectViewed;
 
     private void Awake()
     {
@@ -38,15 +39,26 @@ public class PlayerInteractionManager : NetworkBehaviour
         CheckInteractables();
     }
 
+    public LayerMask CurrentLayerMask()
+    {
+        return holdingManager.HeldObj == null ? interactableLayer : holdingInteractableLayer;
+    }
+
     public void CheckInteractables()
     {
         Ray ray = new(cameraManager.CamTransform.position, cameraManager.CamTransform.forward);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, InteractionDistance, interactableLayer, QueryTriggerInteraction.Collide))
+        if (Physics.Raycast(ray, out RaycastHit hit, InteractionDistance, CurrentLayerMask(), QueryTriggerInteraction.Collide))
         {
-            if (hit.collider.gameObject.TryGetComponent(out IInteractable interacrable))
+            if (interactableGO == hit.transform.gameObject) return;
+
+            if (hit.collider.gameObject.TryGetComponent(out IInteractable _))
             {
-                View(hit.collider.gameObject, interacrable);
+                View(hit.collider.gameObject);
+            }
+            else if (hit.collider.gameObject.TryGetComponent(out IUseItem _))
+            {
+                View(hit.collider.gameObject);
             }
             else
             {
@@ -59,19 +71,37 @@ public class PlayerInteractionManager : NetworkBehaviour
         }
     }
 
-    public void View(GameObject go, IInteractable interactable)
+    public void View(GameObject go)
     {
-        if (interactableGO == go) return;
-
-        if (go.TryGetComponent(out IViewable view))
+        if (holdingManager.HeldObj == null)
         {
-            view.OnView();
+            if (go.TryGetComponent(out IViewable view))
+            {
+                InteractionContext context = view.OnView();
+                OnSetObjectViewed.Invoke(true, context);
+            }
+            else
+                OnSetObjectViewed.Invoke(true, InteractionContext.DefaultContext);
+
+        }
+        else
+        {
+            if (go.TryGetComponent(out IUseItem useItem))
+            {
+                if (holdingManager.HeldObj.TryGetComponent(out StockItem item))
+                {
+                    InteractionContext context = useItem.OnViewWithItem(holdingManager, item.Item);
+
+                    if (context.InteractionAvailable)
+                        OnSetObjectViewed.Invoke(true, context);
+                }
+            }
         }
 
-        OnSetObjectViewed.Invoke(true);
 
         interactableGO = go;
     }
+
 
     public void Unview()
     {
@@ -79,10 +109,14 @@ public class PlayerInteractionManager : NetworkBehaviour
         {
             if (interactableGO.TryGetComponent(out IViewable view))
             {
-                view.OnView();
+                view.OnUnview();
+            }
+            if (interactableGO.TryGetComponent(out IUseItem itemUsage))
+            {
+                itemUsage.OnUnview();
             }
 
-            OnSetObjectViewed.Invoke(false);
+            OnSetObjectViewed.Invoke(false, default);
 
             interactableGO = null;
         }
@@ -94,7 +128,7 @@ public class PlayerInteractionManager : NetworkBehaviour
 
         Ray ray = new(cameraManager.CamTransform.position, cameraManager.CamTransform.forward);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, InteractionDistance, interactableLayer, QueryTriggerInteraction.Collide))
+        if (Physics.Raycast(ray, out RaycastHit hit, InteractionDistance, CurrentLayerMask(), QueryTriggerInteraction.Collide))
         {
             if (holdingManager.HeldObj == null)
             {

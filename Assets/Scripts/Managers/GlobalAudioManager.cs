@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -10,6 +11,9 @@ public class GlobalAudioManager : NetworkBehaviour
     Dictionary<string, AudioAsset> assetDictionary = new();
 
     public static GlobalAudioManager Instance = null;
+
+    Action<DayState> playDayStartSound = (dayState) => { if (dayState == DayState.Open) Instance.PlaySoundSynced_Rpc("DayStart"); };
+    Action<Order, int> playNewOrderSound = (order, num) => { Instance.PlaySound("NewOrder"); };
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void Init()
@@ -33,8 +37,8 @@ public class GlobalAudioManager : NetworkBehaviour
             assetDictionary.Add(asset.Name, asset);
         }
 
-        GameStateManager.OnDayStateChanged += (context) => { if (context == DayState.Open) PlaySoundSynced_Rpc("DayStart"); };
-        OrderManager.OnNewOrderAdded += (order, num) => { PlaySound("NewOrder"); };
+        GameStateManager.OnDayStateChanged += playDayStartSound;
+        OrderManager.OnNewOrderAdded += playNewOrderSound;
     }
 
     public void PlaySound(string audioClip)
@@ -60,11 +64,11 @@ public class GlobalAudioManager : NetworkBehaviour
         return null;
     }
 
-    public override void OnDestroy()
+    public new void OnDestroy()
     {
         base.OnDestroy();
-        GameStateManager.OnDayStateChanged += (context) => { if (context == DayState.Open) PlaySoundSynced_Rpc("DayStart"); };
-        OrderManager.OnNewOrderAdded -= (order, num) => { PlaySound("NewOrder"); };
+        GameStateManager.OnDayStateChanged -= playDayStartSound;
+        OrderManager.OnNewOrderAdded -= playNewOrderSound;
     }
 }
 

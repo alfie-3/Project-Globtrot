@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class UI_ContextualPromptsHandler : MonoBehaviour, IInitPlayerUI
 {
+    [SerializeField] TextMeshProUGUI BuildPrompt;
     [SerializeField] TextMeshProUGUI InteractPrompt;
     [SerializeField] TextMeshProUGUI ThrowPrompt;
     [SerializeField] TextMeshProUGUI DropPrompt;
@@ -13,13 +14,15 @@ public class UI_ContextualPromptsHandler : MonoBehaviour, IInitPlayerUI
         {
             child.gameObject.SetActive(false);
         }
+
+        BuildPrompt.gameObject.SetActive(true);
     }
 
     public void Init(PlayerUI_Manager uiManager)
     {
         if (uiManager.TryGetComponent(out PlayerInteractionManager interactionManager))
         {
-            interactionManager.OnSetObjectViewed += (value) => { TogglePrompt(value, InteractPrompt.gameObject); };
+            interactionManager.OnSetObjectViewed += (value, ctx) => { ToggleInteractionPromptWithContext(value, ctx); };
         }
 
         if (uiManager.TryGetComponent(out PlayerHoldingManager holdingManager))
@@ -31,5 +34,11 @@ public class UI_ContextualPromptsHandler : MonoBehaviour, IInitPlayerUI
     private void TogglePrompt(bool value, GameObject prompt)
     {
         prompt.SetActive(value);
+    }
+
+    private void ToggleInteractionPromptWithContext(bool value, InteractionContext promptWithContext)
+    {
+        InteractPrompt.gameObject.SetActive(value);
+        InteractPrompt.text = $"{promptWithContext.InteractionContextText} <sprite=170>";
     }
 }

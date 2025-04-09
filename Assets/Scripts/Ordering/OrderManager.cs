@@ -47,7 +47,7 @@ public class OrderManager : NetworkBehaviour
 
     private void Update()
     {
-        OnOrderTimersUpdate.Invoke(Time.deltaTime);
+        OnOrderTimersUpdate?.Invoke(Time.deltaTime);
     }
 
     public float GetRandomDelay()

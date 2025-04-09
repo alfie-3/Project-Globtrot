@@ -16,7 +16,7 @@ public class UI_InteractReticle : MonoBehaviour, IInitPlayerUI
         }
     }
 
-    public void SetTargetingReticle(bool value)
+    public void SetTargetingReticle(bool value, InteractionContext _)
     {
         if (value)
         {

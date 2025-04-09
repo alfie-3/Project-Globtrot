@@ -86,6 +86,16 @@ public class OrderContainerBox : NetworkBehaviour, IContents, IOnHeld, IUseItem
     {
         return true;
     }
+
+    public InteractionContext OnViewWithItem(PlayerHoldingManager holdingManager, Stock_Item item)
+    {
+        return new(true, "Insert");
+    }
+
+    public void OnUnview()
+    {
+        
+    }
 }
 
 [System.Serializable]

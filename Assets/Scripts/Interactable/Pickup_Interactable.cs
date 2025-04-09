@@ -2,7 +2,7 @@ using System;
 using Unity.Netcode;
 using UnityEngine;
 
-public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
+public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop, IViewable
 {
     public NetworkVariable<bool> PickedUp = new NetworkVariable<bool>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
     [field: SerializeField] public PlayerObjectSocketManager.ObjectSocket HoldingSocket { get; private set; }
@@ -86,6 +86,16 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop
                 source.PlayOneShot(clipData.Clip);
             }
         }
+
+    }
+
+    public InteractionContext OnView()
+    {
+        return new(true, "Pick Up");
+    }
+
+    public void OnUnview()
+    {
 
     }
 }
