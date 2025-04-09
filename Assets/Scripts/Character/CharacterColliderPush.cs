@@ -45,7 +45,7 @@ public class CharacterColliderPush : NetworkBehaviour
 
             if ((LayerMask.GetMask("Player", "Customer") & (1 << collider.gameObject.layer)) != 0)
             {
-                if (collider.transform == transform.parent) return;
+                if (collider.transform == transform.parent) continue;
                 PerformPlayerCollision(collider, direction);
             }
 

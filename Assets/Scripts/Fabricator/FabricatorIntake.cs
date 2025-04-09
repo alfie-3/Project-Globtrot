@@ -48,4 +48,18 @@ public class FabricatorIntake : NetworkBehaviour, IUseItem {
 
     }
 
+    public InteractionContext OnViewWithItem(PlayerHoldingManager holdingManager, Stock_Item item)
+    {
+        if (CanUseItem(holdingManager, item))
+        {
+            return new(true);
+        }
+
+        return new(false);
+    }
+
+    public void OnUnview()
+    {
+
+    }
 }

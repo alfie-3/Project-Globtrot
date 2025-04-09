@@ -1,6 +1,6 @@
 ﻿internal interface IViewable
 {
-    public void OnView();
+    public InteractionContext OnView();
     public void OnUnview();
 }
 

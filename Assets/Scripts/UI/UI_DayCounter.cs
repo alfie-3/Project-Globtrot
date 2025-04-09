@@ -21,7 +21,7 @@ public class UI_DayCounter : MonoBehaviour
     {
         if (dayState == global::DayState.Preperation)
         {
-            DayState.text = "Preperation";
+            DayState.text = "Preparation";
         }
         else if (dayState == global::DayState.Open)
         {

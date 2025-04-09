@@ -54,4 +54,19 @@ public class NutrientBabyInput : NetworkBehaviour, IUseItem
         else return false;
 
     }
+
+    public InteractionContext OnViewWithItem(PlayerHoldingManager holdingManager, Stock_Item item)
+    {
+        if (CanUseItem(holdingManager, item))
+        {
+            return new(true, "Feed");
+        }
+
+        return new(false);
+    }
+
+    public void OnUnview()
+    {
+        
+    }
 }

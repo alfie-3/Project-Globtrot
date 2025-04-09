@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -41,7 +42,10 @@ public class PlayerInputManager : NetworkBehaviour
     {
         inputActions = new();
         CameraManager = GetComponentInChildren<PlayerCameraManager>();
+    }
 
+    private void OnEnable()
+    {
         inputActions.Player.Interact.performed += context => OnInteract.Invoke(context);
         inputActions.Player.PerformPrimary.performed += context => OnPerformPrimary.Invoke(context);
         inputActions.Player.PerformPrimary.canceled += context => OnPerformPrimary.Invoke(context);
@@ -59,10 +63,17 @@ public class PlayerInputManager : NetworkBehaviour
         inputActions.Player.Dismantle.performed += context => OnDismantle(context);
         inputActions.Player.Snapping.performed += context => OnPerformCtrl(context);
 
-        inputActions.Universal.Pause.performed += context => ProgressEscapeStack();
+        inputActions.Universal.Pause.performed += ProgressEscapeStack;
     }
 
-    public void ProgressEscapeStack()
+    private void OnDisable()
+    {
+        inputActions.Disable();
+        inputActions.Dispose();
+    }
+
+
+    public void ProgressEscapeStack(InputAction.CallbackContext context)
     {
         if (EscapeStack.Count == 1)
         {
@@ -125,7 +136,6 @@ public class PlayerInputManager : NetworkBehaviour
             inputActions.UI.Disable();
         }
     }
-
 }
 
 public interface IEscapeable

@@ -17,7 +17,7 @@ public class UI_PlayerMenusManager : MonoBehaviour, IEscapeable
         {
             connectedPlayerInput = inputManager;
 
-            inputManager.EscapeStack.Clear();
+            inputManager.EscapeStack = new();
             inputManager.EscapeStack.Push(this);
         }
     }

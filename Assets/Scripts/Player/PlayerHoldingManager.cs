@@ -108,7 +108,11 @@ public class PlayerHoldingManager : NetworkBehaviour
 
     public void DisconnectHeldObject(HeldObject obj)
     {
-        if (!obj.NetworkObjectReference.TryGet(out NetworkObject nwObj)) return;
+        if (!obj.NetworkObjectReference.TryGet(out NetworkObject nwObj))
+        {
+            DisconnectAll();
+            return;
+        }
 
         foreach (IOnDrop drop in nwObj.GetComponentsInChildren<IOnDrop>())
         {

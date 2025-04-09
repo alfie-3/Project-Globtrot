@@ -15,6 +15,23 @@ public interface IUseItem
 {
     public bool CanUseItem(PlayerHoldingManager holdingManager, Stock_Item item);
     public void OnItemUsed(PlayerHoldingManager holdingManager, Stock_Item shopProduct_Item);
+
+    public InteractionContext OnViewWithItem(PlayerHoldingManager holdingManager, Stock_Item item);
+    public void OnUnview();
+}
+
+public struct InteractionContext
+{
+    public bool InteractionAvailable;
+    public string InteractionContextText;
+
+    public InteractionContext(bool canInteract, string interactionContextText = "Interact")
+    {
+        InteractionAvailable = canInteract;
+        InteractionContextText = interactionContextText;
+    }
+
+    public static InteractionContext DefaultContext => new InteractionContext(true, "Interact");
 }
 
 public interface IOnHeld

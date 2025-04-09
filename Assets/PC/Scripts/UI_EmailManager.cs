@@ -23,6 +23,11 @@ public class UI_EmailManager : MonoBehaviour
         GameStateManager.OnDayChanged += (current) => { AddDailyEmails(); };
     }
 
+    private void OnDisable()
+    {
+        GameStateManager.OnDayChanged -= (current) => { AddDailyEmails(); };
+    }
+
     public void AddEmail(Email email)
     {
         UI_EmailButton emailButton = Instantiate(emailButtonPrefab, spawnPoint).GetComponent<UI_EmailButton>();

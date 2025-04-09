@@ -38,7 +38,10 @@ public class UI_Window : MonoBehaviour, IPointerDownHandler, IDragHandler, IBegi
         WindowCanvas = GetComponent<Canvas>();
         windowTransform = GetComponent<RectTransform>();
         canvasScaler = GetComponentInParent<CanvasScaler>();
+    }
 
+    private void Start()
+    {
         if (MaximizeButton) MaximizeButton.onClick.AddListener(ToggleMaximize);
         if (CloseButton) CloseButton.onClick.AddListener(() => SetWindowEnabled(!WindowCanvas.enabled));
 
