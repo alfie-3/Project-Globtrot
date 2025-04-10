@@ -8,11 +8,13 @@ public class UI_EmailManager : MonoBehaviour
 {
     [SerializeField] private GameObject emailButtonPrefab; 
     [SerializeField] private Transform spawnPoint;          
-    private float emailSpacing = 50.0f;    
-
+    private float emailSpacing = 50.0f;
+    [Space]
     [SerializeField] private TextMeshProUGUI emailSubjectText;  
     [SerializeField] private TextMeshProUGUI emailSenderText;   
-    [SerializeField] private TextMeshProUGUI emailContentText;  
+    [SerializeField] private TextMeshProUGUI emailContentText;
+    [Space]
+    [SerializeField] private GameObject emailNotification;
 
     private List<GameObject> emailButtons = new List<GameObject>(); 
     private bool isMinimised = true;
@@ -43,6 +45,11 @@ public class UI_EmailManager : MonoBehaviour
         foreach (Email email in dayData.DayEmails)
         {
             AddEmail(email);
+
+            if (email.urgent)
+            {
+                emailNotification.SetActive(true);
+            }
         }
     }
 

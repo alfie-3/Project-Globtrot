@@ -139,11 +139,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1491682727924095060, guid: 74e6716ee2da93246a32ecc2d1069292, type: 3}
       propertyPath: m_Size
-      value: 1
+      value: 0.99999994
       objectReference: {fileID: 0}
     - target: {fileID: 1491682727924095060, guid: 74e6716ee2da93246a32ecc2d1069292, type: 3}
       propertyPath: m_Value
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2177922256280830623, guid: 74e6716ee2da93246a32ecc2d1069292, type: 3}
       propertyPath: m_Size
@@ -247,11 +247,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4417862415969583761, guid: 74e6716ee2da93246a32ecc2d1069292, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 105.133064
+      value: 61.187744
       objectReference: {fileID: 0}
     - target: {fileID: 4417862415969583761, guid: 74e6716ee2da93246a32ecc2d1069292, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -48.86258
+      value: -43.536316
       objectReference: {fileID: 0}
     - target: {fileID: 5892553289878248118, guid: 74e6716ee2da93246a32ecc2d1069292, type: 3}
       propertyPath: m_AnchorMax.x
@@ -362,6 +362,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2908107496989774684, guid: 74e6716ee2da93246a32ecc2d1069292, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8778622951218479012}
+    - targetCorrespondingSourceObject: {fileID: 3026812081248234567, guid: 74e6716ee2da93246a32ecc2d1069292, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6955933023288819662}
+    - targetCorrespondingSourceObject: {fileID: 3026812081248234567, guid: 74e6716ee2da93246a32ecc2d1069292, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6737859669623329302}
   m_SourcePrefab: {fileID: 100100000, guid: 74e6716ee2da93246a32ecc2d1069292, type: 3}
 --- !u!224 &221181938069213676 stripped
 RectTransform:
@@ -439,6 +445,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2439194514596065015 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3026812081248234567, guid: 74e6716ee2da93246a32ecc2d1069292, type: 3}
+  m_PrefabInstance: {fileID: 853616786342216368}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6955933023288819662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2439194514596065015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5635d1aac7103749b5d1a81581be65b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashDuration: 1
+  canvas: {fileID: 6737859669623329302}
+--- !u!223 &6737859669623329302
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2439194514596065015}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &2558901853526217196 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2908107496989774684, guid: 74e6716ee2da93246a32ecc2d1069292, type: 3}
@@ -579,6 +627,14 @@ PrefabInstance:
       propertyPath: canvasGroup
       value: 
       objectReference: {fileID: 8131555595918534609}
+    - target: {fileID: 1037869383803370313, guid: f6fc4ecb9d2f47a418d35c9be5351a12, type: 3}
+      propertyPath: mainCanvasGroup
+      value: 
+      objectReference: {fileID: 8131555595918534609}
+    - target: {fileID: 1037869383803370313, guid: f6fc4ecb9d2f47a418d35c9be5351a12, type: 3}
+      propertyPath: mailNotification
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1160920056203262908, guid: f6fc4ecb9d2f47a418d35c9be5351a12, type: 3}
       propertyPath: titleInput
       value: 

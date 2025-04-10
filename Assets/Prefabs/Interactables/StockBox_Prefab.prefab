@@ -207,6 +207,9 @@ PrefabInstance:
       insertIndex: 6
       addedObject: {fileID: 6227550272857537744}
     - targetCorrespondingSourceObject: {fileID: 1664385448671051171, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
+      insertIndex: 7
+      addedObject: {fileID: 3354825168220622025}
+    - targetCorrespondingSourceObject: {fileID: 1664385448671051171, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
       insertIndex: -1
       addedObject: {fileID: -8288640223521145445}
   m_SourcePrefab: {fileID: 100100000, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
@@ -228,10 +231,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  boxContents:
-    maxContentsAmount: 100
-    AllowItems: 0
+  boxContents: {fileID: 3354825168220622025}
   boxAnimator: {fileID: 2856025455898226220}
+--- !u!114 &3354825168220622025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1405003125404266358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bced2ad6db7a25438a04930dbd12b2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxContentsAmount: 100
+  AllowItems: 1
 --- !u!114 &-8288640223521145445
 MonoBehaviour:
   m_ObjectHideFlags: 0

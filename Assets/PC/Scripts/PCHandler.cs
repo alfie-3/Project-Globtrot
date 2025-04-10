@@ -4,8 +4,7 @@ using UnityEditor;
 using Unity.Cinemachine;
 public class PCHandler : MonoBehaviour, IEscapeable
 {
-    [SerializeField] private CanvasGroup canvasGroup;
-
+    [SerializeField] private CanvasGroup mainCanvasGroup;
     [SerializeField] CinemachineCamera pcZoomCam;
 
     private bool isZoomed = false;
@@ -60,9 +59,9 @@ public class PCHandler : MonoBehaviour, IEscapeable
 
     public void SetCanvasGroupEnabled(bool enabled)
     {
-        canvasGroup.alpha = enabled ? 1 : 0;
-        canvasGroup.interactable = enabled;
-        canvasGroup.blocksRaycasts = enabled;
+        mainCanvasGroup.alpha = enabled ? 1 : 0;
+        mainCanvasGroup.interactable = enabled;
+        mainCanvasGroup.blocksRaycasts = enabled;
     }
 
     public void Escape(PlayerInputManager manager)

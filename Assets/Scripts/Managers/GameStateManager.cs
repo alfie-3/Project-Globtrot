@@ -133,7 +133,7 @@ public class GameStateManager : NetworkBehaviour
 
     public DayData GetCurrentDayData()
     {
-        if (CurrentDay.Value > DayDataList.DayList.Count) return null;
+        if (CurrentDay.Value > DayDataList.DayList.Count - 1) return null;
         return DayDataList.DayList[CurrentDay.Value];
     }
 
