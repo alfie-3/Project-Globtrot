@@ -14,6 +14,7 @@ public class PlayerInteractionManager : NetworkBehaviour
     [SerializeField] LayerMask holdingInteractableLayer;
 
     PlayerHoldingManager holdingManager;
+    PlayerBuildingManager buildingManager;
 
     GameObject interactableGO;
 
@@ -28,6 +29,7 @@ public class PlayerInteractionManager : NetworkBehaviour
         }
 
         holdingManager = GetComponent<PlayerHoldingManager>();
+        buildingManager = GetComponent<PlayerBuildingManager>();
         cameraManager = GetComponentInChildren<PlayerCameraManager>();
     }
 
@@ -35,6 +37,7 @@ public class PlayerInteractionManager : NetworkBehaviour
     {
         if (cameraManager == null) return;
         if (!IsLocalPlayer) return;
+        if (buildingManager.Mode != PlayerBuildingManager.mode.inactive) return;
 
         CheckInteractables();
     }
@@ -124,7 +127,7 @@ public class PlayerInteractionManager : NetworkBehaviour
 
     public void Interact(InputAction.CallbackContext context)
     {
-        if (GetComponent<PlayerBuildingManager>().buildingManagerActive) return;
+        if (buildingManager.Mode != PlayerBuildingManager.mode.inactive) return;
 
         Ray ray = new(cameraManager.CamTransform.position, cameraManager.CamTransform.forward);
 
