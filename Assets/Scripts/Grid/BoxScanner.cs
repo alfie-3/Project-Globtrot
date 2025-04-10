@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 public class BoxScanner : MonoBehaviour
 {
 
-    [SerializeField] UI_OrderScreen[] screens = new UI_OrderScreen[2];
+    [SerializeField] UI_DisplayContents[] screens = new UI_DisplayContents[2];
 
     private void OnTriggerEnter(Collider other)
     {
@@ -22,10 +22,7 @@ public class BoxScanner : MonoBehaviour
 
     void ham(Contents contents)
     {
-        List<OrderItem> orfers = new();
-        contents.ContentsDictionary.ToList().ForEach(pair => { orfers.Add(new(pair.Key, pair.Value)); });
-        Order order = new(3, orfers, 42);
-        screens[0].AddOrder(order); screens[1].AddOrder(order);
+        screens[0].AddContents(contents); screens[1].AddContents(contents);
     }
 
     private void OnTriggerExit(Collider other)

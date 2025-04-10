@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class UI_OrderScreen : MonoBehaviour
 {
-    [SerializeField] UI_OrderListItem orderListItemPrefab;
+    [SerializeField] UI_ItemDisplay orderListItemPrefab;
     [Space]
     [SerializeField] Transform orderListParent;
     [Space]
@@ -27,7 +27,7 @@ public class UI_OrderScreen : MonoBehaviour
 
         foreach (OrderItem item in order.OrderItems)
         {
-            UI_OrderListItem orderListItemUI = Instantiate(orderListItemPrefab, orderListParent);
+            UI_ItemDisplay orderListItemUI = Instantiate(orderListItemPrefab, orderListParent);
             orderListItemUI.InitializeItem(item);
         }
 
