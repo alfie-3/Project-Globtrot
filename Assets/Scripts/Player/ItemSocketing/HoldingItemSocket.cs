@@ -49,7 +49,11 @@ public class HoldingItemSocket : NetworkBehaviour
                 if (IsServer)
                 {
                     networkTransform.Teleport(position, rotation, boundObject.transform.localScale);
-                    if (resetVelocity) rbNWT.Rigidbody.linearVelocity = Vector3.zero;
+                    if (resetVelocity)
+                    {
+                        rbNWT.Rigidbody.linearVelocity = Vector3.zero;
+                        rbNWT.Rigidbody.angularVelocity = Vector3.zero;
+                    }
                 }
 
                 rbNWT.IsSocketed = false;

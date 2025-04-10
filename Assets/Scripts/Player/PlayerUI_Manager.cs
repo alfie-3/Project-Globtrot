@@ -3,7 +3,9 @@ using UnityEngine;
 
 public class PlayerUI_Manager : NetworkBehaviour
 {
-    [SerializeField] Canvas PlayerUI;
+    [SerializeField] UI_PlayerMenusManager PlayerUIPrefab;
+    public UI_PlayerMenusManager PlayerUI {  get; private set; }
+
     [SerializeField] ThrowMeterAnim ThrowMeterAnim;
 
     public override void OnNetworkSpawn()
@@ -12,18 +14,18 @@ public class PlayerUI_Manager : NetworkBehaviour
 
         if (!IsLocalPlayer) return;
 
-        Canvas UI = Instantiate(PlayerUI);
+        PlayerUI = Instantiate(PlayerUIPrefab);
 
-        ThrowMeterAnim = UI.GetComponentInChildren<ThrowMeterAnim>();
-        UI.GetComponent<UI_PlayerMenusManager>().Init(this);
+        ThrowMeterAnim = PlayerUI.GetComponentInChildren<ThrowMeterAnim>();
+        PlayerUI.GetComponent<UI_PlayerMenusManager>().Init(this);
 
         ThrowMeterAnim.SetThrowMaxDuration(GetComponent<PlayerHoldingManager>().maxThrowForceChargeTime);
         GetComponent<PlayerHoldingManager>().Throwing += ThrowMeterAnim.ThrowingState;
 
 
-        GetComponent<PlayerBuildingManager>().ui = UI.GetComponentInChildren<UI_BuildingSelection>();
+        GetComponent<PlayerBuildingManager>().ui = PlayerUI.GetComponentInChildren<UI_BuildingSelection>();
 
-        foreach (IInitPlayerUI init in UI.GetComponentsInChildren<IInitPlayerUI>())
+        foreach (IInitPlayerUI init in PlayerUI.GetComponentsInChildren<IInitPlayerUI>())
         {
             init.Init(this);
         }
