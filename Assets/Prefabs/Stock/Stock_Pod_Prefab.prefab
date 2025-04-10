@@ -113,6 +113,7 @@ GameObject:
   - component: {fileID: -7502809990524931178}
   - component: {fileID: 2773145123947280717}
   - component: {fileID: -2860482465728284655}
+  - component: {fileID: 8477052731716489054}
   m_Layer: 0
   m_Name: Stock_Pod_Prefab
   m_TagString: Untagged
@@ -522,3 +523,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+--- !u!114 &8477052731716489054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7619981547121828464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3db47747dbb67504bab553f1620b109c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  audioSource: {fileID: 4667619557137094660}
+  audioClipData: {fileID: 11400000, guid: d9edc93d3705aee40a8b870faf476058, type: 2}
+  minNoiseForce: 0.4
