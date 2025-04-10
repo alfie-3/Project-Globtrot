@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 5091583957011898351}
   - component: {fileID: -5002796183674460534}
   - component: {fileID: 479262828819656329}
+  - component: {fileID: -1889848080406717371}
   m_Layer: 0
   m_Name: Stock_Base_Prefab
   m_TagString: Untagged
@@ -407,6 +408,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+--- !u!114 &-1889848080406717371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1647032077398859466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3db47747dbb67504bab553f1620b109c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  audioSource: {fileID: 5091583957011898351}
+  audioClipData: {fileID: 11400000, guid: 32e6cdfa7a7b780438c24577b2a262be, type: 2}
+  minNoiseForce: 0.4
 --- !u!1 &7386299223801515829
 GameObject:
   m_ObjectHideFlags: 0

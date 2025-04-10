@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using Unity.Cinemachine;
 using Unity.Netcode;
@@ -12,8 +13,20 @@ public class PlayerCameraManager : NetworkBehaviour
 
     public Action<GameObject> OnCameraAssigned = delegate { };
 
+    CinemachineCamera cineCamera;
     CinemachinePanTilt panTilt;
     CinemachineInputAxisController inputController;
+
+    public float defaultFov;
+    public Tweener currentFOVTweener;
+
+    private void OnEnable()
+    {
+       if (transform.root.TryGetComponent(out PlayerCharacterController characterController))
+        {
+            characterController.OnSprintingChanged += ToggleSprintFOV;
+        }
+    }
 
     public override void OnNetworkSpawn()
     {
@@ -27,16 +40,26 @@ public class PlayerCameraManager : NetworkBehaviour
     {
         if (!IsLocalPlayer) return;
 
-        CinemachineCamera camera = Instantiate(camPrefab);
+        cineCamera = Instantiate(camPrefab);
 
-        camera.TryGetComponent(out panTilt);
-        camera.TryGetComponent(out inputController);
+        cineCamera.TryGetComponent(out panTilt);
+        cineCamera.TryGetComponent(out inputController);
 
-        camera.Follow = Viewpoint;
-        CamTransform = camera.transform;
-        camera.enabled = true;
+        defaultFov = cineCamera.Lens.FieldOfView;
 
-        OnCameraAssigned.Invoke(camera.gameObject);
+        cineCamera.Follow = Viewpoint;
+        CamTransform = cineCamera.transform;
+        cineCamera.enabled = true;
+
+        OnCameraAssigned.Invoke(cineCamera.gameObject);
+    }
+
+    public void ToggleSprintFOV(bool value)
+    {
+        float targetFov = value ? defaultFov * 1.05f : defaultFov;
+
+        currentFOVTweener.Kill();
+        currentFOVTweener = DOVirtual.Float(cineCamera.Lens.FieldOfView, targetFov, 0.1f, fov => cineCamera.Lens.FieldOfView = fov);
     }
 
     public void SetPanTiltEnabled(bool value)

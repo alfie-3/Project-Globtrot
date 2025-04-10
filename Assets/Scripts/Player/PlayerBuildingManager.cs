@@ -7,9 +7,7 @@ using UnityEngine.Rendering;
 public class PlayerBuildingManager : NetworkBehaviour
 {
 
-    public bool buildingManagerActive;
-    public bool selectionMode;
-    public bool destroyMode;
+    
 
     public enum mode
     {
@@ -284,7 +282,7 @@ public class PlayerBuildingManager : NetworkBehaviour
 
     private void PerformDismantle(InputAction.CallbackContext context)
     {
-        if (Mode == mode.selectionMode) Mode = mode.destroyMode;
+        if (Mode != mode.destroyMode) Mode = mode.destroyMode;
         else if (Mode == mode.destroyMode) Mode = mode.selectionMode;
     }
 

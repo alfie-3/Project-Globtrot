@@ -8,6 +8,7 @@ public class UI_PlayerMenusManager : MonoBehaviour, IEscapeable
 {
     PlayerInputManager connectedPlayerInput;
 
+    [SerializeField] Canvas UICanvas;
     [SerializeField] Canvas mainCanvas;
     [SerializeField] Canvas pauseCanvas;
 
@@ -45,6 +46,11 @@ public class UI_PlayerMenusManager : MonoBehaviour, IEscapeable
         {
             CursorUtils.LockAndHideCusor();
         }
+    }
+
+    public void SetPlayerUIEnabled(bool value)
+    {
+        UICanvas.enabled = value;
     }
 
 

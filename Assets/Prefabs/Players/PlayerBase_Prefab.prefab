@@ -1560,7 +1560,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   CanMove: 0
-  sprintMultiplier: 1.25
+  maxStamina: 3
+  staminaDrainSpeed: 1
+  staminaRechargeSpeed: 0.65
+  sprintMultiplier: 1.5
 --- !u!114 &3745843975204388149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1667,7 +1670,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  PlayerUI: {fileID: 3865453612026783338, guid: bea301bced95100448516c0460b1aa48, type: 3}
+  PlayerUIPrefab: {fileID: 7458992383572518906, guid: bea301bced95100448516c0460b1aa48, type: 3}
   ThrowMeterAnim: {fileID: 0}
 --- !u!114 &6672524378739762288
 MonoBehaviour:

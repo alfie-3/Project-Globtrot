@@ -36,6 +36,8 @@ public class PCHandler : MonoBehaviour, IEscapeable
         SetCanvasGroupEnabled(true);
 
         manager.ToggleUIInput(true);
+        manager.GetComponent<PlayerUI_Manager>().PlayerUI.SetPlayerUIEnabled(false);
+
         manager.CameraManager.SetPanTiltEnabled(false);
         CursorUtils.UnlockAndShowCursor();
     }
@@ -46,6 +48,7 @@ public class PCHandler : MonoBehaviour, IEscapeable
 
         isZoomed = false;
 
+        cachedPlayerInput.GetComponent<PlayerUI_Manager>().PlayerUI.SetPlayerUIEnabled(true);
         SetCanvasGroupEnabled(false);
         pcZoomCam.enabled = false;
 
