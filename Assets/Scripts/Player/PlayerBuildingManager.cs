@@ -228,7 +228,23 @@ public class PlayerBuildingManager : NetworkBehaviour
     private void Destroy_RPC(NetworkObjectReference networkObject)
     {
         if (networkObject.TryGet(out NetworkObject obj))
+        {
+            if (obj.TryGetComponent(out Collider collider))
+            {
+                Collider[] colliders = Physics.OverlapSphere(obj.transform.position, collider.bounds.max.magnitude, LayerMask.GetMask("Default"));
+
+                foreach (Collider overlappedCollider in colliders)
+                {
+                    if (overlappedCollider.TryGetComponent(out RigidbodyNetworkTransform rbNWT))
+                    {
+                        rbNWT.WakeUp();
+                    }
+                }
+            }
+
+
             obj.Despawn();
+        }
     }
 
     private void RenderDestoryHoloGram()
