@@ -77,6 +77,8 @@ public class Contents : NetworkBehaviour
     [Rpc(SendTo.NotServer)]
     public void ReplicateContentsItem_Rpc(string id, int quanitity)
     {
+        if (IsServer) return;
+
         Stock_Item item = (Stock_Item)ItemDictionaryManager.RetrieveItem(id);
         if (item == null) return;
 
@@ -93,6 +95,8 @@ public class Contents : NetworkBehaviour
     [Rpc(SendTo.NotServer)]
     public void ReplicateContentsItemRemove_Rpc(string id)
     {
+        if (IsServer) return;
+
         Stock_Item item = (Stock_Item)ItemDictionaryManager.RetrieveItem(id);
         if (item == null) return;
 
