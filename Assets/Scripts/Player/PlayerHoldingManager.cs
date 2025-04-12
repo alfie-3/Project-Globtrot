@@ -283,11 +283,6 @@ public class PlayerHoldingManager : NetworkBehaviour
             dropPos += secondaryHit.normal * (heldObjBounds.extents.y + dropHeight);
         }
 
-        foreach (IOnDrop drop in HeldObj.GetComponentsInChildren<IOnDrop>())
-        {
-            drop.OnDrop(this);
-        }
-
         ClearHeldItem(dropPos, HeldObj.transform.rotation.eulerAngles);
     }
 
