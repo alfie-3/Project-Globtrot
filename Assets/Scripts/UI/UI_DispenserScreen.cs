@@ -20,11 +20,17 @@ public class UI_DispenserScreen : MonoBehaviour
         {
             itemImage.enabled = false;
             itemName.enabled = false;
+
+            return;
         }
 
-        if (item.ItemIcon)
+        if (item.ItemIcon != null)
         {
             itemImage.sprite = item.ItemIcon;
+        }
+        else
+        {
+            itemImage.enabled = false;
         }
 
         itemName.text = item.ItemName;

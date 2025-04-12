@@ -41,7 +41,6 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop, IVi
         if (PickedUp.Value == false) return;
 
         Drop_RPC();
-        OnDropped.Invoke();
     }
 
 
