@@ -103,6 +103,14 @@ public class MoneyManager : NetworkBehaviour
         Chips.Value += amount;
     }
 
+    public bool TrySpendChips(int amount)
+    {
+        if (Chips.Value - amount < 0) return false;
+
+        Chips.Value -= amount;
+        return true;
+    }
+
     public void AddMoney(int amount)
     {
         

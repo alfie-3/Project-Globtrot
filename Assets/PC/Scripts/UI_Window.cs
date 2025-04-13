@@ -207,6 +207,6 @@ public class UI_Window : MonoBehaviour, IPointerDownHandler, IDragHandler, IBegi
         WindowCanvas.enabled = value;
 
         if (value)
-            windowManager.BringToFront(this);
+            panelRectTransform.SetAsLastSibling();
     }
 }

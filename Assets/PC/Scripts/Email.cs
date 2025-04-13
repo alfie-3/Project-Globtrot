@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewEmail", menuName = "Email System/Email")]
+[CreateAssetMenu(fileName = "NewEmail", menuName = "PC Data/Email")]
 public class Email : ScriptableObject
 {
     public string subject;    // Subject of the email

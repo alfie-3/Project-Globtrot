@@ -90,7 +90,7 @@ public class OrderContainerBox : NetworkBehaviour, IContents, IOnHeld, IUseItem
 
     public InteractionContext OnViewWithItem(PlayerHoldingManager holdingManager, Stock_Item item)
     {
-        return new(true, "Insert");
+        return new(true, "Pack");
     }
 
     public void OnUnview()

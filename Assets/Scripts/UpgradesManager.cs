@@ -1,0 +1,88 @@
+using System;
+using System.Collections.Generic;
+using Unity.Netcode;
+using UnityEngine;
+
+public class UpgradesManager : NetworkBehaviour
+{
+    public static UpgradesManager Instance { get; private set; }
+
+    public Dictionary<string, Upgrade> UnlockableUpgrades { get; private set; } = new();
+
+    public static Action<Upgrade> OnAddedUpgrade = delegate { };
+    public static Action<Upgrade> OnUnlockedUpgrade = delegate { };
+
+    public List<Upgrade> CurrentUpgrades { get; private set; } = new();
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    public static void Init()
+    {
+        Instance = null;
+        OnAddedUpgrade = delegate { };
+        OnUnlockedUpgrade = delegate { };
+    }
+
+    private void Awake()
+    {
+        // singleton stuff
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
+    private void OnEnable()
+    {
+        GameStateManager.OnDayChanged += (current) => { AddUpgrades(); };
+    }
+
+    private void OnDisable()
+    {
+        GameStateManager.OnDayChanged -= (current) => { AddUpgrades(); };
+    }
+
+    public void AddUpgrades()
+    {
+        DayData dayData = GameStateManager.Instance.GetCurrentDayData();
+
+        if (dayData == null) return;
+
+        foreach (Upgrade upgrade in dayData.AddedUpgrades)
+        {
+            UnlockableUpgrades.Add(upgrade.UpgradeId, upgrade);
+            OnAddedUpgrade.Invoke(upgrade);
+        }
+    }
+
+    [Rpc(SendTo.Server)]
+    public void TryPurchaseUpgrade_Rpc(string upgradeId)
+    {
+        if (!UnlockableUpgrades.TryGetValue(upgradeId, out Upgrade upgrade)) return;
+
+        if (MoneyManager.Instance.TrySpendChips(upgrade.UpgradeCost))
+        {
+            UnlockUpgrade_Rpc(upgradeId);
+        }
+    }
+
+    [Rpc(SendTo.Everyone)]
+    public void UnlockUpgrade_Rpc(string upgradeId)
+    {
+        if (!UnlockableUpgrades.TryGetValue(upgradeId, out Upgrade upgrade)) return;
+
+        UnlockableUpgrades.Remove(upgradeId);
+        CurrentUpgrades.Add(upgrade);
+
+        OnUnlockedUpgrade.Invoke(upgrade);
+    }
+
+    private new void OnDestroy()
+    {
+        base.OnDestroy();
+        GameStateManager.OnDayChanged -= (current) => { AddUpgrades(); };
+    }
+}

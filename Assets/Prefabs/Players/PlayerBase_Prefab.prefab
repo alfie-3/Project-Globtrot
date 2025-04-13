@@ -1486,6 +1486,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   NetworkTransformExpanded: 1
+  AutoOwnerAuthorityTickOffset: 1
+  PositionInterpolationType: 0
+  RotationInterpolationType: 0
+  ScaleInterpolationType: 0
+  PositionLerpSmoothing: 1
+  PositionMaxInterpolationTime: 0.1
+  RotationLerpSmoothing: 1
+  RotationMaxInterpolationTime: 0.1
+  ScaleLerpSmoothing: 1
+  ScaleMaxInterpolationTime: 0.1
   AuthorityMode: 1
   TickSyncChildren: 0
   UseUnreliableDeltas: 0
@@ -1611,7 +1621,7 @@ MonoBehaviour:
     m_Bits: 129
   holdingInteractableLayer:
     serializedVersion: 2
-    m_Bits: 258
+    m_Bits: 259
 --- !u!114 &3297204459110454619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1716,9 +1726,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  buildingManagerActive: 0
-  selectionMode: 0
-  destroyMode: 0
   ui: {fileID: 0}
   furnitureItem: {fileID: 0}
   HologramMat: {fileID: 2100000, guid: e8ec7737d2b69ae429d0af63dcd50d3f, type: 2}
@@ -2083,6 +2090,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   camPrefab: {fileID: 1591958393555687564, guid: 471fcf8c4d6d31b4ab552c2c5104a0ab, type: 3}
   <Viewpoint>k__BackingField: {fileID: 4039138293146767595}
+  defaultFov: 0
 --- !u!1 &6804252131036099924
 GameObject:
   m_ObjectHideFlags: 0
@@ -2692,6 +2700,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   NetworkTransformExpanded: 1
+  AutoOwnerAuthorityTickOffset: 1
+  PositionInterpolationType: 0
+  RotationInterpolationType: 0
+  ScaleInterpolationType: 0
+  PositionLerpSmoothing: 1
+  PositionMaxInterpolationTime: 0.1
+  RotationLerpSmoothing: 1
+  RotationMaxInterpolationTime: 0.1
+  ScaleLerpSmoothing: 1
+  ScaleMaxInterpolationTime: 0.1
   AuthorityMode: 1
   TickSyncChildren: 0
   UseUnreliableDeltas: 0
