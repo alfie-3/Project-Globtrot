@@ -13,7 +13,7 @@ public static class PlayerProfile
 
     public static void SetPlayerName(string playerName)
     {
-        if (playerName.Length < 3)
+        if (playerName.Length < 1)
         {
             Debug.Log("PlayerNameTooShort");
             return;
