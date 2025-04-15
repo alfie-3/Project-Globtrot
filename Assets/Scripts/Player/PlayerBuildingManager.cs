@@ -298,6 +298,7 @@ public class PlayerBuildingManager : NetworkBehaviour
 
     private void PerformDismantle(InputAction.CallbackContext context)
     {
+        if (Mode == mode.inactive) return;
         if (Mode != mode.destroyMode) Mode = mode.destroyMode;
         else if (Mode == mode.destroyMode) Mode = mode.selectionMode;
     }

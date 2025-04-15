@@ -40,12 +40,27 @@ public class UI_BuildingSelection: MonoBehaviour {
         foreach (FunitureSlot slot in slots)
         {
             GameObject carrige = Instantiate(itemSlotCarrige, ItemsPanel);
+            carrige.name = slot.name;
             GameObject itemIcon = carrige.transform.GetChild(0).GetChild(0).gameObject;
-            itemIcon.GetComponent<RawImage>().texture = slot.children[0].ItemIcon.texture;
-            for (int i = 1; i < slot.children.Count; i++)
+            try
+            {
+                itemIcon.GetComponent<RawImage>().texture = slot.Items[0].ItemIcon.texture;
+            }
+            catch { Debug.LogWarning($"Failed to load item icon. Item: {slot.Items[0].ItemID}"); };
+
+
+            //if(slot.children[0].ItemIcon.texture != null)
+                
+            for (int i = 1; i < slot.Items.Count; i++)
             {
                 itemIcon = Instantiate(itemIcon, carrige.transform.GetChild(0));
-                itemIcon.GetComponent<RawImage>().texture = slot.children[i].ItemIcon.texture;
+                //if (slot.children[i].ItemIcon.texture)
+                //itemIcon.GetComponent<RawImage>().texture = slot.children[i].ItemIcon.texture;
+                try
+                {
+                    itemIcon.GetComponent<RawImage>().texture = slot.Items[i].ItemIcon.texture;
+                }
+                catch { Debug.LogWarning($"Failed to load item icon. Item: {slot.Items[i].ItemID}"); };
             }
         }
 
@@ -57,7 +72,26 @@ public class UI_BuildingSelection: MonoBehaviour {
         {
             maxMenuX[i] = ItemsPanel.GetChild(i).GetChild(0).childCount-1;
         }
+        //GameStateManager.OnDayChanged += (y) => Debug.LogError("HG");
+       // GameStateManager.OnDayChanged += (y) => GameStateManager.Instance.GetCurrentDayData().AddedPlaceables.ForEach(x => AddItem(x.prefab, x.category));
+        //GameStateManager.Instance.GetCurrentDayData().AddedPlaceables.ForEach(x => AddItem(x.prefab, x.category));
     }
+
+    private void OnEnable()
+    {
+        //Debug.LogAssertion("SPam");
+        GameStateManager.OnDayChanged += (day) => ProccessNewItems();
+    }
+    private void OnDisable()
+    {
+        GameStateManager.OnDayChanged -= (day) => ProccessNewItems();
+    }
+
+    void ProccessNewItems()
+    {
+        GameStateManager.Instance.GetCurrentDayData().AddedPlaceables.ForEach(x => AddItem(x.prefab, x.category));
+    }
+
 
     public void MoveX(int dir) {
         int x = MenuX + dir;
@@ -70,11 +104,34 @@ public class UI_BuildingSelection: MonoBehaviour {
 
     public void ScrolPanel(int dir) {
         MenuY += dir;
-        Debug.Log(MenuY);
+        //Debug.Log(MenuY);
         DOTween.To(() => ItemsPanel.localPosition, x => ItemsPanel.localPosition = x, new Vector3(0, MenuY * 75, 0), 0.2f).SetEase(Ease.InOutFlash);
         //SetScales();
         //GetComponent<CanvasGroup>().alpha = 1.0f;
     }
+
+    public void AddItem(PlacableFurniture_Item item, string category)
+    {
+        GameObject carrige = ItemsPanel.Find(category).gameObject;
+        if (carrige == null) { 
+            carrige = Instantiate(itemSlotCarrige, ItemsPanel); 
+            carrige.name = category;
+            slots.Add(new FunitureSlot(category));
+        }
+        Transform slot = carrige.transform.GetChild(0);
+
+        GameObject itemIcon = Instantiate(slot.GetChild(0).gameObject,slot);
+        try
+        {
+            itemIcon.GetComponent<RawImage>().texture = item.ItemIcon.texture;
+        }
+        catch { Debug.LogWarning($"Failed to load item icon. Item: {item.ItemID}"); };
+
+        maxMenuX[carrige.transform.GetSiblingIndex()]++;
+
+        slots[carrige.transform.GetSiblingIndex()].Items.Add(item);
+    }
+
 
     void SetScales() {
         for(int i = 0; i < ItemsPanel.childCount; i++) {
@@ -89,13 +146,15 @@ public class UI_BuildingSelection: MonoBehaviour {
 
     public string GetSelectedId()
     {
-        return slots[MenuY].children[MenuX].ItemID;
+        return slots[MenuY].Items[MenuX].ItemID;
     }
 
     [System.Serializable]
     public struct FunitureSlot
     {
         public string name;
-        public List<PlacableFurniture_Item> children;
+        public List<PlacableFurniture_Item> Items;
+
+        public FunitureSlot(string name) {  this.name = name; Items = new(); }
     }
 }

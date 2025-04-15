@@ -1325,7 +1325,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 03591893eba855e4ebee891ae3830368, type: 2}
     - target: {fileID: -8679921383154817045, guid: f22854c2888e34e40882d234c7156472, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -16
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f22854c2888e34e40882d234c7156472, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1333,7 +1333,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f22854c2888e34e40882d234c7156472, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2
+      value: 0.358
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f22854c2888e34e40882d234c7156472, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1414,6 +1414,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f22854c2888e34e40882d234c7156472, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1789018619168803058}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f22854c2888e34e40882d234c7156472, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6931497300271904560}
     - targetCorrespondingSourceObject: {fileID: -3133498875991405556, guid: f22854c2888e34e40882d234c7156472, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6616268413417235685}
@@ -1500,6 +1503,22 @@ MonoBehaviour:
   recipeList: {fileID: 11400000, guid: 804f7580f0002564f895599f8b997504, type: 2}
   indicator: {fileID: 2761387017332431486}
   itemOutput: {fileID: 4340064489263599645}
+--- !u!114 &6931497300271904560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 786006729352870273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74228665e5ff8f8488a3e9fd65697aa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <BuildHologramMesh>k__BackingField: {fileID: 3909233067320746374, guid: f22854c2888e34e40882d234c7156472, type: 3}
+  <CanRemove>k__BackingField: 1
+  <MirrorX>k__BackingField: 0
+  <MirrorZ>k__BackingField: 0
 --- !u!1 &4724021666548092326 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5162820104835090806, guid: f22854c2888e34e40882d234c7156472, type: 3}

@@ -23,15 +23,14 @@ public class BeltManager : NetworkBehaviour
             Destroy(this);
     }
 
-    public static void AddMe(Belt body, ref Action<Belt> destroy) {
+    public static void AddMe(Belt body) {
         Instance.Beltss.Add(body);
-        destroy += (Belt b) => {Instance.Beltss.Remove(b);};
+        body.OnDestroyAction += (Belt b) => Instance.Beltss.Remove(b);
+        //destroy += (Belt b) => {Instance.Beltss.Remove(b);};
     }
 
 
     private void FixedUpdate() {
-        foreach (Belt b in Beltss) {
-            b.Jiggle(Speed);
-        }
+        Beltss.ForEach(belt => belt.Jiggle(Speed));
     }
 }

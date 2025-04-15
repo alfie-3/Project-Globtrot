@@ -11,4 +11,13 @@ public class DayData : ScriptableObject
     [field :SerializeField] public List<Upgrade> AddedUpgrades { get; private set; }
     [field: Space]
     [field: SerializeField] public List<OrderableList> OrderableLists {  get; private set; }
+
+    [field: SerializeField] public List<Placeable> AddedPlaceables { get; private set; }
+
+    [System.Serializable]
+    public struct Placeable
+    {
+        [field: SerializeField] public string category { get; private set; }
+        [field: SerializeField] public PlacableFurniture_Item prefab { get; private set; }
+    }
 }

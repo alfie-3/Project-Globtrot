@@ -17,12 +17,12 @@ public class BoxScanner : MonoBehaviour
         if (boxContents == null) return;
 
         CancelInvoke();
-        ham(boxContents.Contents);
+        UpdateScreens(boxContents.Contents);
     }
 
-    void ham(Contents contents)
+    void UpdateScreens(Contents contents)
     {
-        screens[0].AddContents(contents); screens[1].AddContents(contents);
+        screens.ToList().ForEach(s => {s.AddContents(contents);});
     }
 
     private void OnTriggerExit(Collider other)
@@ -34,5 +34,5 @@ public class BoxScanner : MonoBehaviour
         Invoke("ClearScreens",2);
     }
 
-    void ClearScreens() {screens[0].ClearList(); screens[1].ClearList();}
+    void ClearScreens() { screens.ToList().ForEach(s => { s.ClearList(); }); }
 }

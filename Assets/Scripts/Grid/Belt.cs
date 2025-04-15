@@ -9,7 +9,7 @@ public class Belt : MonoBehaviour
     protected Rigidbody rb;
     private void Start() {
         rb = GetComponent<Rigidbody>();
-        BeltManager.AddMe(GetComponent<Belt>(), ref OnDestroyAction);
+        BeltManager.AddMe(GetComponent<Belt>());
     }
 
     private void OnDestroy() {

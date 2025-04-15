@@ -30,7 +30,7 @@ public class Fabricator : NetworkBehaviour
     void indexChange(int oldValue,int newValue){
         currentrecipe = recipeList.recipes[newValue];
         indicator.text = currentrecipe.name;
-        Debug.Log(newValue);
+        //Debug.Log(newValue);
     }
 
 
