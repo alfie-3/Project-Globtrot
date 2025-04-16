@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlaceableObject : MonoBehaviour
 {
     [field: SerializeField] public Mesh BuildHologramMesh { get; private set; }
+    [field: SerializeField] public PlacableFurniture_Item item { get; private set; }
     [field: SerializeField] public bool CanRemove { get; private set; } = true;
     [field: Space]
     [field: SerializeField] public bool MirrorX { get; private set; }
@@ -19,9 +20,6 @@ public class PlaceableObject : MonoBehaviour
 
     public bool InvertMaterial()
     {
-        if (MirrorX) return true;
-        if (MirrorZ) return true;
-
-        return false;
+        return MirrorX || MirrorZ;
     }
 }

@@ -167,7 +167,8 @@ public class PlayerBuildingManager : NetworkBehaviour
             Vector3 position = grid.HitToGrid(hit.point);
             if (Physics.OverlapBox(position + holoMesh.bounds.center + furnitureItem.FurniturePrefab.transform.position, holoMesh.bounds.size * 0.48f, Quaternion.Euler(0, rotation, 0)).Length == 0)
             {
-                PlaceItem_Rpc(furnitureItem.ItemID, position, Quaternion.Euler(0, rotation, 0));
+                if (MoneyManager.Instance.TrySpendBuildCoins(furnitureItem.FurniturePrice))
+                    PlaceItem_Rpc(furnitureItem.ItemID, position, Quaternion.Euler(0, rotation, 0));
             }
         }
     }
@@ -220,8 +221,10 @@ public class PlayerBuildingManager : NetworkBehaviour
             if (!placeable.CanRemove) return;
 
             NetworkObject obj = hit.transform.root.GetComponentInChildren<NetworkObject>();
-            if (obj != null)
-                Destroy_RPC(obj);
+            if (obj == null) return;
+
+            Destroy_RPC(obj);
+            MoneyManager.Instance.AddBuildCoins(placeable.item.FurniturePrice);
         }
     }
     [Rpc(SendTo.Server)]

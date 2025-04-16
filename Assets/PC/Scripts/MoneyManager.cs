@@ -11,6 +11,9 @@ public class MoneyManager : NetworkBehaviour
     public NetworkVariable<int> Chips { get; private set; } = new();
     public Action<int> OnChipsChanged = delegate { };
 
+    public NetworkVariable<int> BuildCoins { get; private set; } = new();
+    public Action<int> OnBuildCoinsChanged = delegate { };
+
     public NetworkVariable<int> CurrentQuotaAmount = new();
     public NetworkVariable<int> CurrentQuotaTarget = new();
 
@@ -46,6 +49,9 @@ public class MoneyManager : NetworkBehaviour
         CurrentQuotaTarget.OnValueChanged += (prev, current) => { OnUpdateQuotaTarget(current); };
 
         Chips.OnValueChanged += (prev, current) => { OnChipsChanged(current); };
+        BuildCoins.OnValueChanged += (prev, current) => { OnBuildCoinsChanged(current); };
+
+        BuildCoins.Value = 128;
     }
 
     public override void OnNetworkSpawn()
@@ -108,6 +114,27 @@ public class MoneyManager : NetworkBehaviour
         if (Chips.Value - amount < 0) return false;
 
         Chips.Value -= amount;
+        return true;
+    }
+
+    [ContextMenu("Add 100 BuildCoins")]
+    public void Add100BuildCoins()
+    {
+        AddBuildCoins(100);
+    }
+
+    public void AddBuildCoins(int amount)
+    {
+        if (!IsServer) return;
+
+        BuildCoins.Value += amount;
+    }
+
+    public bool TrySpendBuildCoins(int amount)
+    {
+        if (BuildCoins.Value - amount < 0) return false;
+
+        BuildCoins.Value -= amount;
         return true;
     }
 

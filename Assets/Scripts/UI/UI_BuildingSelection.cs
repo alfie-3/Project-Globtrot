@@ -3,12 +3,17 @@ using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+using Unity.VisualScripting;
+using TMPro;
 
 
 public class UI_BuildingSelection: MonoBehaviour {
 
     [SerializeField]
     RectTransform ItemsPanel;
+
+    [SerializeField]
+    TextMeshProUGUI Moneytxt;
 
     [SerializeField]
     List<FunitureSlot> slots;
@@ -23,16 +28,26 @@ public class UI_BuildingSelection: MonoBehaviour {
         get { return _menuY; }
         set
         {
-            _menuY = Mathf.Max(Mathf.Min(value, maxMenuY), 0);
+            _menuY = Mathf.Max(Mathf.Min(value, slots.Count-1), 0);
         }
     }
-    int maxMenuY;
 
 
-    int[] _menuX;
-    int MenuX { get { return _menuX[MenuY]; } set { _menuX[MenuY] = value; } }
+    List<int> _menuX;
+    
+    int MenuX 
+    { 
+        get { return _menuX[MenuY]; }
+        set 
+        { 
+            _menuX[MenuY] = Mathf.Max(Mathf.Min(value, slots[MenuY].Items.Count-1), 0); 
+        } 
+    }
 
-    int[] maxMenuX;
+    //int[] maxMenuX;
+
+
+
 
 
     private void Awake()
@@ -62,16 +77,17 @@ public class UI_BuildingSelection: MonoBehaviour {
                 }
                 catch { Debug.LogWarning($"Failed to load item icon. Item: {slot.Items[i].ItemID}"); };
             }
+
+            MoneyManager.Instance.OnBuildCoinsChanged += (money) => Moneytxt.text = "Build Coins: "+money.ToString();
+            Moneytxt.text = "Build Coins: " + MoneyManager.Instance.BuildCoins.Value.ToString();
         }
 
 
-        maxMenuY = ItemsPanel.childCount - 1;
-        _menuX = new int[ItemsPanel.childCount];
-        maxMenuX = new int[ItemsPanel.childCount];
-        for (int i = 0; i < ItemsPanel.childCount; i++)
-        {
-            maxMenuX[i] = ItemsPanel.GetChild(i).GetChild(0).childCount-1;
-        }
+        //maxMenuY = ItemsPanel.childCount - 1;
+        // _menuX = new int[ItemsPanel.childCount];
+        //maxMenuX = new int[ItemsPanel.childCount];
+        _menuX = new();
+        slots.ForEach(x => _menuX.Add(0));
         //GameStateManager.OnDayChanged += (y) => Debug.LogError("HG");
        // GameStateManager.OnDayChanged += (y) => GameStateManager.Instance.GetCurrentDayData().AddedPlaceables.ForEach(x => AddItem(x.prefab, x.category));
         //GameStateManager.Instance.GetCurrentDayData().AddedPlaceables.ForEach(x => AddItem(x.prefab, x.category));
@@ -94,8 +110,7 @@ public class UI_BuildingSelection: MonoBehaviour {
 
 
     public void MoveX(int dir) {
-        int x = MenuX + dir;
-        MenuX = Mathf.Max(Mathf.Min(x, maxMenuX[MenuY]), 0);
+        MenuX += dir;
         RectTransform HorizontalSlice = ItemsPanel.GetChild(MenuY).GetChild(0).GetComponent<RectTransform>();
 
         DOTween.To(() => HorizontalSlice.localPosition, x => HorizontalSlice.localPosition = x, new Vector3(MenuX * -75, 0, 0), 0.2f).SetEase(Ease.InOutFlash);
@@ -117,6 +132,7 @@ public class UI_BuildingSelection: MonoBehaviour {
             carrige = Instantiate(itemSlotCarrige, ItemsPanel); 
             carrige.name = category;
             slots.Add(new FunitureSlot(category));
+            _menuX.Add(0);
         }
         Transform slot = carrige.transform.GetChild(0);
 
@@ -126,8 +142,8 @@ public class UI_BuildingSelection: MonoBehaviour {
             itemIcon.GetComponent<RawImage>().texture = item.ItemIcon.texture;
         }
         catch { Debug.LogWarning($"Failed to load item icon. Item: {item.ItemID}"); };
+        
 
-        maxMenuX[carrige.transform.GetSiblingIndex()]++;
 
         slots[carrige.transform.GetSiblingIndex()].Items.Add(item);
     }
