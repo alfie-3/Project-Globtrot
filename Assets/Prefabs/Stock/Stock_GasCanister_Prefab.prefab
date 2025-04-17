@@ -305,7 +305,7 @@ MonoBehaviour:
   text: {fileID: 7849488943006330303}
   <OverPressurised>k__BackingField: 0
   gasParticles: {fileID: 122244050220536335}
-  explosionRadius: 8
+  explosionRadius: 2.5
   explosionPower: 1000
 --- !u!114 &-9188984677635813994
 MonoBehaviour:
@@ -471,6 +471,9 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   onTakeDamage:
     m_PersistentCalls:
+      m_Calls: []
+  onDeath:
+    m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3931903191840725913}
         m_TargetAssemblyTypeName: GasCanister, Assembly-CSharp
@@ -484,9 +487,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  onDeath:
-    m_PersistentCalls:
-      m_Calls: []
   ShouldTakeDamage: 0
   baseHealth: 5
   health:

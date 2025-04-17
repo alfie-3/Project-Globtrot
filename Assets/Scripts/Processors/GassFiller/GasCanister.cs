@@ -57,7 +57,6 @@ public class GasCanister : NetworkBehaviour
                     if (IsServer)
                     {
                         col.attachedRigidbody.AddExplosionForce(explosionPower, transform.position, explosionRadius);
-                        NetworkObject.Despawn();
                     }
 
                     continue;
@@ -65,8 +64,6 @@ public class GasCanister : NetworkBehaviour
 
                 col.attachedRigidbody.AddExplosionForce(explosionPower, transform.position, explosionRadius);
 
-                if (IsServer)
-                    NetworkObject.Despawn();
             }
         }
     }
