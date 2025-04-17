@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class UpgradesManager : NetworkBehaviour
 {
@@ -13,6 +15,8 @@ public class UpgradesManager : NetworkBehaviour
     public static Action<Upgrade> OnUnlockedUpgrade = delegate { };
 
     public List<Upgrade> CurrentUpgrades { get; private set; } = new();
+
+    [field: SerializeField] public List<UpgradeEvent> SceneUpgradeEvents { get; private set; }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void Init()
@@ -78,6 +82,17 @@ public class UpgradesManager : NetworkBehaviour
         CurrentUpgrades.Add(upgrade);
 
         OnUnlockedUpgrade.Invoke(upgrade);
+
+        TriggerUpgradeEvent(upgrade);
+    }
+
+    private void TriggerUpgradeEvent(Upgrade upgrade)
+    {
+        UpgradeEvent upgradeEvent = SceneUpgradeEvents.FirstOrDefault(upgradeEvent => upgradeEvent.Upgrade == upgrade);
+
+        if (upgradeEvent.Equals(default)) return;
+
+        upgradeEvent.SceneEvent.Invoke();
     }
 
     private new void OnDestroy()
@@ -85,4 +100,16 @@ public class UpgradesManager : NetworkBehaviour
         base.OnDestroy();
         GameStateManager.OnDayChanged -= (current) => { AddUpgrades(); };
     }
+
+    public void UpgradePlayer(PlayerUpgradeData data)
+    {
+        GlobalPlayerModifiers.UpgradeStat(data);
+    }
+}
+
+[System.Serializable]
+public struct UpgradeEvent
+{
+    public Upgrade Upgrade;
+    public UnityEvent SceneEvent;
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 public class OrderManager : NetworkBehaviour
 {
@@ -186,6 +187,7 @@ public class OrderManager : NetworkBehaviour
     {
         base.OnDestroy();
 
+        GameStateManager.OnDayChanged -= UpdateOrderablesList;
         GameStateManager.OnDayStateChanged -= OnDayStateChange;
         OnOrderTimersUpdate = null;
     }

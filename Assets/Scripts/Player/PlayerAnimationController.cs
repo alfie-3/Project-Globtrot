@@ -17,6 +17,21 @@ public class PlayerAnimationController : NetworkBehaviour
         characterMovement = GetComponent<CharacterMovement>();
     }
 
+    private void OnEnable()
+    {
+        GetComponent<PlayerCharacterController>().OnToggledRagdoll += OnToggleRagdoll;
+    }
+
+    private void OnDisable()
+    {
+        GetComponent<PlayerCharacterController>().OnToggledRagdoll -= OnToggleRagdoll;
+    }
+
+    public void OnToggleRagdoll(bool value)
+    {
+        animator.enabled = !value;
+    }
+
     private void FixedUpdate()
     {
         if (animator == null) return;

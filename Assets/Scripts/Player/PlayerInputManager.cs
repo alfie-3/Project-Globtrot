@@ -38,6 +38,8 @@ public class PlayerInputManager : NetworkBehaviour
 
     public PlayerCameraManager CameraManager { get; private set; }
 
+    public Action<InputAction.CallbackContext> OnRagdoll = delegate { };
+
     public void Awake()
     {
         inputActions = new();
@@ -62,6 +64,7 @@ public class PlayerInputManager : NetworkBehaviour
         inputActions.Player.Q.performed += context => OnQ(context);
         inputActions.Player.Dismantle.performed += context => OnDismantle(context);
         inputActions.Player.Snapping.performed += context => OnPerformCtrl(context);
+        inputActions.Player.Ragdoll.performed += context => OnRagdoll(context);
 
         inputActions.Universal.Pause.performed += ProgressEscapeStack;
     }

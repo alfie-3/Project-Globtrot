@@ -198,6 +198,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Ragdoll"",
+                    ""type"": ""Button"",
+                    ""id"": ""df4703ee-28f1-4987-ac0d-07943331c122"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -605,6 +614,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Q"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bd25a207-6cc0-44a5-86e3-464ea97e86f0"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Ragdoll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1263,6 +1283,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Dismantle = m_Player.FindAction("Dismantle", throwIfNotFound: true);
         m_Player_Snapping = m_Player.FindAction("Snapping", throwIfNotFound: true);
         m_Player_Q = m_Player.FindAction("Q", throwIfNotFound: true);
+        m_Player_Ragdoll = m_Player.FindAction("Ragdoll", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1373,6 +1394,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Dismantle;
     private readonly InputAction m_Player_Snapping;
     private readonly InputAction m_Player_Q;
+    private readonly InputAction m_Player_Ragdoll;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1432,6 +1454,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Q".
         /// </summary>
         public InputAction @Q => m_Wrapper.m_Player_Q;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Ragdoll".
+        /// </summary>
+        public InputAction @Ragdoll => m_Wrapper.m_Player_Ragdoll;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1494,6 +1520,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Q.started += instance.OnQ;
             @Q.performed += instance.OnQ;
             @Q.canceled += instance.OnQ;
+            @Ragdoll.started += instance.OnRagdoll;
+            @Ragdoll.performed += instance.OnRagdoll;
+            @Ragdoll.canceled += instance.OnRagdoll;
         }
 
         /// <summary>
@@ -1541,6 +1570,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Q.started -= instance.OnQ;
             @Q.performed -= instance.OnQ;
             @Q.canceled -= instance.OnQ;
+            @Ragdoll.started -= instance.OnRagdoll;
+            @Ragdoll.performed -= instance.OnRagdoll;
+            @Ragdoll.canceled -= instance.OnRagdoll;
         }
 
         /// <summary>
@@ -2032,6 +2064,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnQ(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Ragdoll" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRagdoll(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
