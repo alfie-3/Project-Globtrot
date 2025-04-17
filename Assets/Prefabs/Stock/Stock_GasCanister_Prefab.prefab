@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 2338464466044683018}
   - component: {fileID: 1437095574613986919}
   - component: {fileID: 2465448483347628972}
+  - component: {fileID: 7613498337362198552}
   m_Layer: 0
   m_Name: Stock_GasCanister_Prefab
   m_TagString: Untagged
@@ -449,6 +450,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+--- !u!114 &7613498337362198552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1647032077398859466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cab30c779a9bc3d42bf785a4f929a0ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  onTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  shouldTakeDamage: 0
+  baseHealth: 5
+  health:
+    m_InternalValue: 0
+  minDamageForce: 7
+  maxDamageForce: 14
+  damageCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  fragility: 2
 --- !u!1 &5200686461006155014
 GameObject:
   m_ObjectHideFlags: 0

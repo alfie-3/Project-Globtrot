@@ -30,6 +30,7 @@ public class PlayerAnimationController : NetworkBehaviour
     public void OnToggleRagdoll(bool value)
     {
         animator.enabled = !value;
+        Physics.SyncTransforms();
     }
 
     private void FixedUpdate()

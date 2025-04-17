@@ -11,6 +11,7 @@ public class PlayerCharacterController : NetworkBehaviour
     public PlayerInputManager PlayerInputManager { get; private set; }
     public PlayerCameraManager CameraManager { get; private set; }
 
+
     [Header("Movement")]
     public bool CanMove = false;
 
@@ -26,6 +27,9 @@ public class PlayerCharacterController : NetworkBehaviour
     [field: Space]
     public Action<bool> OnToggledRagdoll = delegate { };
     bool ragdollEnabled = false;
+
+    float baseFriction;
+    float baseAirResistance;
 
     public override void OnNetworkSpawn()
     {
@@ -51,13 +55,25 @@ public class PlayerCharacterController : NetworkBehaviour
         Stamina.ResetStamina();
 
         CursorUtils.LockAndHideCusor();
+
+        baseFriction = CharacterMovement.Friction;
+        baseAirResistance = CharacterMovement.AirResistance;
+
+        foreach (Rigidbody rb in GetComponentsInChildren<Rigidbody>())
+        {
+            rb.isKinematic = true;
+        }
     }
 
     private void Update()
     {
         Stamina.UpdateStamina(sprintinInputHeld && PlayerInputManager.CameraRelativeInput().magnitude > 0.001);
 
-        if (!CanMove) return;
+        if (!CanMove)
+        {
+            CharacterMovement.Move(Vector3.zero, currentMovementMultiplier);
+            return;
+        }
 
         if (Stamina.CurrentStamina > 0.1f && sprintinInputHeld)
         {
@@ -85,6 +101,7 @@ public class PlayerCharacterController : NetworkBehaviour
 
     private void Jump()
     {
+        if (!CanMove) return;
         CharacterMovement.Jump(PlayerInputManager.CameraRelativeInput());
     }
 
@@ -101,6 +118,15 @@ public class PlayerCharacterController : NetworkBehaviour
     {
         ragdollEnabled = !ragdollEnabled;
         OnToggledRagdoll.Invoke(ragdollEnabled);
+
+        foreach (Rigidbody rb in GetComponentsInChildren<Rigidbody>())
+        {
+            rb.isKinematic = !ragdollEnabled;
+        }
+
+        CanMove = !ragdollEnabled;
+        CharacterMovement.Friction = ragdollEnabled ? baseFriction / 4 : baseFriction;
+        CharacterMovement.AirResistance = ragdollEnabled ? baseAirResistance / 4 : baseAirResistance;
     }
 
     public void Respawn()
