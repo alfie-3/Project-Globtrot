@@ -50,6 +50,12 @@ public class GasFillerController : NetworkBehaviour
         gasFillTweener.onComplete += () => OnGasFillComplete(gasType);
     }
 
+    public void OverPressurizeCanister()
+    {
+        if (port.Filled.Value == false) return;
+        port.Cannister.GetComponent<GasCanister>().OverPressurize_Rpc();
+    }
+
     public void UpdateFillAmount(float amount)
     {
         currentFillAmount = amount;
@@ -66,6 +72,7 @@ public class GasFillerController : NetworkBehaviour
     public void OnGasFillComplete(GasType _)
     {
         gasFillTweener = DOTween.Shake(() => hackyShakeFloat, x => { hackyShakeFloat = x; UpdateFillAmount(1 + hackyShakeFloat.x); }, overPressureTimeout, 0.2f, 20, 1, false, false);
+        gasFillTweener.onComplete += () => OverPressurizeCanister();
     }
 
     [Rpc(SendTo.Everyone)]

@@ -31,6 +31,8 @@ public class PlayerCharacterController : NetworkBehaviour
     float baseFriction;
     float baseAirResistance;
 
+    [SerializeField] Rigidbody[] ragdollRigidbodies;
+
     public override void OnNetworkSpawn()
     {
         if (!IsLocalPlayer) return;
@@ -42,7 +44,7 @@ public class PlayerCharacterController : NetworkBehaviour
     {
         PlayerInputManager.OnJump += Jump;
         PlayerInputManager.OnSprint += ToggleSprint;
-        PlayerInputManager.OnRagdoll += context => ToggleRagdoll_Rpc();
+        PlayerInputManager.OnRagdoll += context => ToggleRagdoll();
     }
 
     private void Awake()
@@ -59,9 +61,10 @@ public class PlayerCharacterController : NetworkBehaviour
         baseFriction = CharacterMovement.Friction;
         baseAirResistance = CharacterMovement.AirResistance;
 
-        foreach (Rigidbody rb in GetComponentsInChildren<Rigidbody>())
+        foreach (Rigidbody rb in ragdollRigidbodies)
         {
             rb.isKinematic = true;
+            rb.interpolation = RigidbodyInterpolation.None;
         }
     }
 
@@ -113,15 +116,32 @@ public class PlayerCharacterController : NetworkBehaviour
             sprintinInputHeld = false;
     }
 
-    [Rpc(SendTo.Everyone)]
-    public void ToggleRagdoll_Rpc()
+    public void ToggleRagdoll()
     {
+        if (!IsLocalPlayer) return;
+
         ragdollEnabled = !ragdollEnabled;
+        SetRagdoll_Rpc(ragdollEnabled);
+    }
+
+    public void SetRagdoll(bool value)
+    {
+        if (!IsLocalPlayer) return;
+
+        ragdollEnabled = value;
+        SetRagdoll_Rpc(ragdollEnabled);
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void SetRagdoll_Rpc(bool value)
+    {
+        ragdollEnabled = value;
         OnToggledRagdoll.Invoke(ragdollEnabled);
 
-        foreach (Rigidbody rb in GetComponentsInChildren<Rigidbody>())
+        foreach (Rigidbody rb in ragdollRigidbodies)
         {
             rb.isKinematic = !ragdollEnabled;
+            rb.interpolation = ragdollEnabled ? RigidbodyInterpolation.Interpolate : RigidbodyInterpolation.None;
         }
 
         CanMove = !ragdollEnabled;

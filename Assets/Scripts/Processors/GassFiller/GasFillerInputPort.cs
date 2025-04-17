@@ -9,7 +9,7 @@ public class GasFillerInputPort : NetworkBehaviour, IUseItem
     public NetworkVariable<bool> Filled { get; private set; } = new();
     public Action OnGasCannisterRemoved = delegate { };
 
-    public GameObject cannister;
+    public GameObject Cannister;
 
     public override void OnNetworkSpawn()
     {
@@ -42,7 +42,7 @@ public class GasFillerInputPort : NetworkBehaviour, IUseItem
         if (!obj.TryGet(out NetworkObject nwObject)) return;
 
         nwObject.GetComponent<Pickup_Interactable>().OnPickedUp += CannisterRemoved;
-        cannister = nwObject.gameObject;
+        Cannister = nwObject.gameObject;
 
         nwObject.GetComponent<RigidbodyNetworkTransform>().SetRigidbodyEnabled(false);
 
@@ -54,12 +54,12 @@ public class GasFillerInputPort : NetworkBehaviour, IUseItem
 
     public void CannisterRemoved()
     {
-        Pickup_Interactable pickup_Interactable = cannister.GetComponent<Pickup_Interactable>();
+        Pickup_Interactable pickup_Interactable = Cannister.GetComponent<Pickup_Interactable>();
         pickup_Interactable.OnPickedUp -= CannisterRemoved;
         OnGasCannisterRemoved.Invoke();
 
-        cannister.GetComponent<RigidbodyNetworkTransform>().SetRigidbodyEnabled(true);
-        cannister = null;
+        Cannister.GetComponent<RigidbodyNetworkTransform>().SetRigidbodyEnabled(true);
+        Cannister = null;
 
         if (!IsServer) return;
 
@@ -68,7 +68,7 @@ public class GasFillerInputPort : NetworkBehaviour, IUseItem
 
     public void SetGasCannisterType(Stock_Item item)
     {
-        cannister.GetComponent<StockItem>().SetItem(item);
+        Cannister.GetComponent<StockItem>().SetItem(item);
     }
 
     public InteractionContext OnViewWithItem(PlayerHoldingManager holdingManager, Stock_Item item)

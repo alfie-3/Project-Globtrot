@@ -8,7 +8,7 @@ public class PhysicsObjectHealth : NetworkBehaviour
     [SerializeField] UnityEvent onTakeDamage;
     [SerializeField] UnityEvent onDeath;
     [Space]
-    [SerializeField] bool shouldTakeDamage;
+    public bool ShouldTakeDamage;
     [SerializeField] float baseHealth;
     [SerializeField] NetworkVariable<float> health = new();
     [Space]
@@ -46,7 +46,7 @@ public class PhysicsObjectHealth : NetworkBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!shouldTakeDamage) return;
+        if (!ShouldTakeDamage) return;
         if (!IsServer) return;
 
         if (collision.relativeVelocity.magnitude > minDamageForce)

@@ -569,6 +569,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   NetworkTransformExpanded: 0
+  AutoOwnerAuthorityTickOffset: 1
+  PositionInterpolationType: 0
+  RotationInterpolationType: 0
+  ScaleInterpolationType: 0
+  PositionLerpSmoothing: 1
+  PositionMaxInterpolationTime: 0.1
+  RotationLerpSmoothing: 1
+  RotationMaxInterpolationTime: 0.1
+  ScaleLerpSmoothing: 1
+  ScaleMaxInterpolationTime: 0.1
   AuthorityMode: 0
   TickSyncChildren: 0
   UseUnreliableDeltas: 0
@@ -812,7 +822,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   referenceItem: {fileID: 11400000, guid: 0bb6a851e5864414382675a67b4747c3, type: 2}
-  cannister: {fileID: 0}
+  Cannister: {fileID: 0}
 --- !u!1 &6770905199817362442
 GameObject:
   m_ObjectHideFlags: 0
@@ -1806,7 +1816,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   fillSpeed: 10
-  overPressureTimeout: 6
+  overPressureTimeout: 2
   port: {fileID: 8439737965999621989}
   gasTypes:
   - {fileID: 11400000, guid: 0bbdc41bfe8e1e74eb2b4f14c89d80fc, type: 2}
