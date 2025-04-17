@@ -34,6 +34,7 @@ public class PlayerCameraManager : NetworkBehaviour
     private void OnToggleRagdoll(bool value)
     {
         if (ragdollCamera == null) return;
+        if (!IsOwner) return;
 
         ragdollCamera.enabled = value;
         panTilt.enabled = !value;  
