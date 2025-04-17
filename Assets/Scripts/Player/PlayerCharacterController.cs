@@ -70,6 +70,8 @@ public class PlayerCharacterController : NetworkBehaviour
 
     private void Update()
     {
+        if (!IsLocalPlayer) return;
+
         Stamina.UpdateStamina(sprintinInputHeld && PlayerInputManager.CameraRelativeInput().magnitude > 0.001);
 
         if (!CanMove)

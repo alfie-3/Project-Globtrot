@@ -18,30 +18,33 @@ public class PhysicsObjectHealth : NetworkBehaviour
     [Space]
     [SerializeField] float fragility;
 
-    private void Awake()
-    {
-        health.OnValueChanged += OnUpdateHealth;
-    }
-
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+        health.OnValueChanged += OnUpdateHealth;
+
+        if (!IsServer) return;
+
         health.Value = baseHealth;
     }
 
     private void OnUpdateHealth(float previousValue, float newValue)
     {
-        if (newValue < previousValue && newValue > 0)
+        if (newValue <= 0 && IsServer)
+        {
+            NetworkObject.Despawn();
+        }
+
+        if (newValue < previousValue)
         {
             onTakeDamage.Invoke();
             return;
         }
+    }
 
-        if (newValue <= 0)
-        {
-            onDeath.Invoke();
-            return;
-        }
+    public override void OnNetworkDespawn()
+    {
+        onDeath.Invoke();
     }
 
     private void OnCollisionEnter(Collision collision)
