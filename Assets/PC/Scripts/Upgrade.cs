@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Upgrade", menuName = "PC Data/Upgrade")]
+[CreateAssetMenu(fileName = "New Upgrade", menuName = "Upgrades/Upgrade")]
 public class Upgrade : ScriptableObject
 {
     [field: SerializeField] public string UpgradeId {  get; private set; }

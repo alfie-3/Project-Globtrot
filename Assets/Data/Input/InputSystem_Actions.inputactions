@@ -112,6 +112,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Ragdoll",
+                    "type": "Button",
+                    "id": "df4703ee-28f1-4987-ac0d-07943331c122",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -519,6 +528,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Q",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bd25a207-6cc0-44a5-86e3-464ea97e86f0",
+                    "path": "<Keyboard>/t",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Ragdoll",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

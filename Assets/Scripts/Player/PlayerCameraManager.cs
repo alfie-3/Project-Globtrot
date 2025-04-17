@@ -8,6 +8,8 @@ public class PlayerCameraManager : NetworkBehaviour
 {
     [SerializeField] CinemachineCamera camPrefab;
     [field: SerializeField] public Transform Viewpoint { get; private set; }
+    [Space]
+    [field: SerializeField] CinemachineCamera ragdollCamera;
 
     public Transform CamTransform { get; private set; }
 
@@ -25,7 +27,16 @@ public class PlayerCameraManager : NetworkBehaviour
        if (transform.root.TryGetComponent(out PlayerCharacterController characterController))
         {
             characterController.OnSprintingChanged += ToggleSprintFOV;
+            characterController.OnToggledRagdoll += OnToggleRagdoll;
         }
+    }
+
+    private void OnToggleRagdoll(bool value)
+    {
+        if (ragdollCamera == null) return;
+
+        ragdollCamera.enabled = value;
+        panTilt.enabled = !value;  
     }
 
     public override void OnNetworkSpawn()

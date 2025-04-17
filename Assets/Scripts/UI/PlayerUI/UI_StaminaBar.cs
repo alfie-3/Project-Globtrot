@@ -9,7 +9,7 @@ public class UI_StaminaBar : MonoBehaviour, IInitPlayerUI
     {
         if (uiManager.TryGetComponent(out PlayerCharacterController characterController))
         {
-            characterController.OnStaminaUpdated += UpdateStaminaBar;
+            characterController.Stamina.OnStaminaUpdated += UpdateStaminaBar;
         }
     }
 
