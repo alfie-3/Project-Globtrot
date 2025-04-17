@@ -27,8 +27,8 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] protected float gravity = -9.8f;
     [field: SerializeField] public float Weight { get; private set; } = 5f;
 
-    [SerializeField] float friction = 10;
-    [SerializeField] float airResistance = 5;
+    public float Friction = 10;
+    public float AirResistance = 5;
 
     private void Awake()
     {
@@ -93,16 +93,16 @@ public class CharacterMovement : MonoBehaviour
         if (IsGrounded && forcesVelocity.y < 0)
         {
             forcesVelocity.y = -0.5f;
-            forcesVelocity.x = Mathf.Lerp(forcesVelocity.x, 0, friction * Time.deltaTime);
-            forcesVelocity.z = Mathf.Lerp(forcesVelocity.z, 0, friction * Time.deltaTime);
+            forcesVelocity.x = Mathf.Lerp(forcesVelocity.x, 0, Friction * Time.deltaTime);
+            forcesVelocity.z = Mathf.Lerp(forcesVelocity.z, 0, Friction * Time.deltaTime);
         }
         else
         {
             forcesVelocity.y += gravity * Time.deltaTime;
         }
 
-        forcesVelocity.x = Mathf.Lerp(forcesVelocity.x, 0, airResistance * Time.deltaTime);
-        forcesVelocity.z = Mathf.Lerp(forcesVelocity.z, 0, airResistance * Time.deltaTime);
+        forcesVelocity.x = Mathf.Lerp(forcesVelocity.x, 0, AirResistance * Time.deltaTime);
+        forcesVelocity.z = Mathf.Lerp(forcesVelocity.z, 0, AirResistance * Time.deltaTime);
 
         return forcesVelocity + slideDirection;
     }
