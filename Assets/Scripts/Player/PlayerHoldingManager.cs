@@ -59,6 +59,11 @@ public class PlayerHoldingManager : NetworkBehaviour
         NetworkedHeldObj.OnValueChanged += HandlePlayerHolding;
 
         CameraManager = GetComponentInChildren<PlayerCameraManager>();
+
+        if (TryGetComponent(out PlayerCharacterController playerCharacterController))
+        {
+            playerCharacterController.OnToggledRagdoll += (context) => { if (context == true) ClearHeldItem(); };
+        }
     }
 
     public void HandlePlayerHolding(HeldObject prev, HeldObject current)
@@ -82,8 +87,19 @@ public class PlayerHoldingManager : NetworkBehaviour
         NetworkedHeldObj.Value = new(nwObject);
     }
 
-    public void ClearHeldItem(Vector3 position, Vector3 rotation)
+    public void ClearHeldItem(Vector3 position = default, Vector3 rotation = default)
     {
+        if (HeldObj == null) return;
+
+        if (position == default)
+        {
+            position = HeldObj.transform.position;
+        }
+        if (rotation == default)
+        {
+            rotation = HeldObj.transform.eulerAngles;
+        }
+
         NetworkedHeldObj.Value = new(NetworkedHeldObj.Value.NetworkObjectReference, position, rotation);
     }
 
