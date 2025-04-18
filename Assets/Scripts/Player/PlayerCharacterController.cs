@@ -106,7 +106,11 @@ public class PlayerCharacterController : NetworkBehaviour
 
     private void Jump()
     {
-        if (!CanMove) return;
+        if (ragdollEnabled)
+        {
+            ToggleRagdoll();
+        }
+
         CharacterMovement.Jump(PlayerInputManager.CameraRelativeInput());
     }
 
@@ -147,8 +151,15 @@ public class PlayerCharacterController : NetworkBehaviour
         }
 
         CanMove = !ragdollEnabled;
+
         CharacterMovement.Friction = ragdollEnabled ? baseFriction / 4 : baseFriction;
         CharacterMovement.AirResistance = ragdollEnabled ? baseAirResistance / 4 : baseAirResistance;
+
+        if (ragdollEnabled)
+        {
+            ragdollRigidbodies[0].centerOfMass = Vector3.zero;
+            ragdollRigidbodies[0].inertiaTensorRotation = Quaternion.identity;
+        }
     }
 
     public void Respawn()

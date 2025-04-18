@@ -34,7 +34,7 @@ public class GasCanister : NetworkBehaviour
 
     public void Explode()
     {
-        Collider[] rigidbodyColliders = Physics.OverlapSphere(transform.position, explosionRadius, LayerMask.GetMask("Default", "Physics", "Player"));
+        Collider[] rigidbodyColliders = Physics.OverlapSphere(transform.position, explosionRadius, LayerMask.GetMask("Default", "Physics", "Player", "PlayerCollider"));
 
         foreach (Collider col in rigidbodyColliders)
         {
