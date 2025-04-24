@@ -17,7 +17,7 @@ public class OrderBoxInput : NetworkBehaviour
         {
             if (stockItem.Item == null) return;
 
-            if (!transform.parent.TryGetComponent(out IContents contents)) return;
+            if (!transform.parent.TryGetComponent(out ContainerContents contents)) return;
 
             if (!contents.Contents.TryAddItem(stockItem.Item, 1)) return;
 
