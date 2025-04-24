@@ -102,7 +102,7 @@ Transform:
   m_GameObject: {fileID: 1854440327627436191}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 1.347305, z: 0}
+  m_LocalPosition: {x: 1, y: 1.347305, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -142,6 +142,7 @@ MeshRenderer:
   - {fileID: 2100000, guid: e6807faeadfd5b840bec852b98d114d9, type: 2}
   - {fileID: 2100000, guid: 046043ca5f1bdd04eaf6366eecb1e56c, type: 2}
   - {fileID: 2100000, guid: 4719890c369e8704fbe36ebb82ede36e, type: 2}
+  - {fileID: 2100000, guid: 37689d52c570e484291ead926af9d359, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -300,7 +301,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -2.013, y: 0.654}
+  m_AnchoredPosition: {x: -1, y: 0.654}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &7957890724621662024
@@ -588,7 +589,7 @@ Transform:
   m_GameObject: {fileID: 8616587932990199470}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2, y: 0.5, z: -0.37844592}
+  m_LocalPosition: {x: -1, y: 0.5, z: -0.37844592}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -701,14 +702,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1285243362
+  GlobalObjectIdHash: 1967106059
   InScenePlacedSourceGlobalObjectIdHash: 1285243362
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
