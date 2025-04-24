@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-[RequireComponent(typeof(Contents))]
+[RequireComponent(typeof(ContainerContents))]
 public class OrderContainerBox : NetworkBehaviour, IContents, IOnHeld, IUseItem
 {
-    [SerializeField] Contents boxContents;
-    public Contents Contents => boxContents;
+    [SerializeField] ContainerContents boxContents;
+    public Contents Contents => boxContents.Contents;
     [Space]
     [SerializeField] Animator boxAnimator;
     bool isOpen = false;

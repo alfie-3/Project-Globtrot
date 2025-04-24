@@ -19,7 +19,8 @@ public class PlayerHoldingManager : NetworkBehaviour
         }
         else
         {
-            NetworkedHeldObj.Value = null;
+            if (IsOwner)
+                NetworkedHeldObj.Value = null;
         }
 
         return null;

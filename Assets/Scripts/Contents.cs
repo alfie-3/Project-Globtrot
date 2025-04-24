@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class Contents : NetworkBehaviour
+public class Contents
 {
     [SerializeField] int maxContentsAmount = 4;
     bool useLimit = true;
@@ -39,13 +39,11 @@ public class Contents : NetworkBehaviour
 
         if (ContentsDictionary.TryAdd(item, quantity))
         {
-            ReplicateContentsItem_Rpc(item.ItemID, ContentsDictionary[item]);
             return true;
         }
 
         ContentsDictionary[item] += quantity;
 
-        ReplicateContentsItem_Rpc(item.ItemID, ContentsDictionary[item]);
         return true;
     }
 
@@ -63,44 +61,13 @@ public class Contents : NetworkBehaviour
             if (value <= 0)
             {
                 ContentsDictionary.Remove(item);
-                ReplicateContentsItemRemove_Rpc(item.ItemID);
                 return true;
             }
 
-            ReplicateContentsItem_Rpc(id, ContentsDictionary[item]);
             return true;
         }
 
         return false;
-    }
-
-    [Rpc(SendTo.NotServer)]
-    public void ReplicateContentsItem_Rpc(string id, int quanitity)
-    {
-        if (IsServer) return;
-
-        Stock_Item item = (Stock_Item)ItemDictionaryManager.RetrieveItem(id);
-        if (item == null) return;
-
-        if (ContentsDictionary.TryGetValue(item, out int value))
-        {
-            ContentsDictionary[item] = quanitity;
-        }
-        else
-        {
-            ContentsDictionary.Add(item, quanitity);
-        }
-    }
-
-    [Rpc(SendTo.NotServer)]
-    public void ReplicateContentsItemRemove_Rpc(string id)
-    {
-        if (IsServer) return;
-
-        Stock_Item item = (Stock_Item)ItemDictionaryManager.RetrieveItem(id);
-        if (item == null) return;
-
-        ContentsDictionary.Remove(item);
     }
 }
 
