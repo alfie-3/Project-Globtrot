@@ -1693,6 +1693,7 @@ GameObject:
   - component: {fileID: 3865422819475089816}
   - component: {fileID: 661505259640319263}
   - component: {fileID: 3079573038801967223}
+  - component: {fileID: 6674167971500149588}
   m_Layer: 0
   m_Name: GasStation
   m_TagString: Untagged
@@ -1708,8 +1709,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7542530661824127455}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 7.351583, y: 0.021996856, z: -7.0614743}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1722,7 +1723,7 @@ Transform:
   - {fileID: 2935904685531116107}
   - {fileID: 7864860909609538180}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4300507456067780120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1946,6 +1947,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6674167971500149588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7542530661824127455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74228665e5ff8f8488a3e9fd65697aa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <BuildHologramMesh>k__BackingField: {fileID: 0}
+  <item>k__BackingField: {fileID: 11400000, guid: 3025311c2915f1b49b1910546134900a, type: 2}
+  <CanRemove>k__BackingField: 1
+  <MirrorX>k__BackingField: 0
+  <MirrorZ>k__BackingField: 0
 --- !u!1 &7851895281087848873
 GameObject:
   m_ObjectHideFlags: 0
