@@ -16,10 +16,18 @@ public class UI_BuildingSelection: MonoBehaviour {
     TextMeshProUGUI Moneytxt;
 
     [SerializeField]
+    TextMeshProUGUI ObjectNameText;
+
+    [SerializeField]
+    TextMeshProUGUI ObjectPriceText;
+
+    [SerializeField]
     List<FunitureSlot> slots;
 
     [SerializeField]
     GameObject itemSlotCarrige;
+
+    [SerializeField] float horizontalValue = 12f;
 
 
     int _menuY;
@@ -78,8 +86,8 @@ public class UI_BuildingSelection: MonoBehaviour {
                 catch { Debug.LogWarning($"Failed to load item icon. Item: {slot.Items[i].ItemID}"); };
             }
 
-            MoneyManager.Instance.OnBuildCoinsChanged += (money) => Moneytxt.text = "Build Coins: "+money.ToString();
-            Moneytxt.text = "Build Coins: " + MoneyManager.Instance.BuildCoins.Value.ToString();
+            MoneyManager.Instance.OnBuildCoinsChanged += (money) => Moneytxt.text = "<sprite=0> " + money.ToString();
+            Moneytxt.text = "<sprite=0> " + MoneyManager.Instance.BuildCoins.Value.ToString();
         }
 
 
@@ -95,8 +103,8 @@ public class UI_BuildingSelection: MonoBehaviour {
 
     private void OnEnable()
     {
-        //Debug.LogAssertion("SPam");
         GameStateManager.OnDayChanged += (day) => ProccessNewItems();
+        UpdateBuildText();
     }
     private void OnDisable()
     {
@@ -115,14 +123,14 @@ public class UI_BuildingSelection: MonoBehaviour {
 
         DOTween.To(() => HorizontalSlice.localPosition, x => HorizontalSlice.localPosition = x, new Vector3(MenuX * -75, 0, 0), 0.2f).SetEase(Ease.InOutFlash);
 
+        UpdateBuildText();
     }
 
     public void ScrolPanel(int dir) {
         MenuY += dir;
-        //Debug.Log(MenuY);
-        DOTween.To(() => ItemsPanel.localPosition, x => ItemsPanel.localPosition = x, new Vector3(0, MenuY * 75, 0), 0.2f).SetEase(Ease.InOutFlash);
-        //SetScales();
-        //GetComponent<CanvasGroup>().alpha = 1.0f;
+        DOTween.To(() => ItemsPanel.localPosition, x => ItemsPanel.localPosition = x, new Vector3(horizontalValue, MenuY * 75, 0), 0.2f).SetEase(Ease.InOutFlash);
+
+        UpdateBuildText();
     }
 
     public void AddItem(PlacableFurniture_Item item, string category)
@@ -158,6 +166,14 @@ public class UI_BuildingSelection: MonoBehaviour {
 
     public void SetVisabiltiy(bool visabiltiy) {
         GetComponent<Canvas>().enabled = visabiltiy;
+    }
+
+    public void UpdateBuildText()
+    {
+        PlacableFurniture_Item item = slots[MenuY].Items[MenuX];
+
+        ObjectNameText.text = item.ItemName;
+        ObjectPriceText.text = $"<sprite=0> {item.FurniturePrice}";
     }
 
     public string GetSelectedId()
