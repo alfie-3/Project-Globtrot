@@ -30,7 +30,7 @@ public class UI_ContextualPromptsHandler : MonoBehaviour, IInitPlayerUI
 
         if (uiManager.TryGetComponent(out PlayerHoldingManager holdingManager))
         {
-            holdingManager.NetworkedHeldObj.OnValueChanged += (prev, current) => { TogglePrompt(current.IsHolding, DropPrompt.gameObject); TogglePrompt(current.IsHolding, ThrowPrompt.gameObject); };
+            holdingManager.NetworkedHeldObj.OnValueChanged += (prev, current) => { if (current == null) return; TogglePrompt(current.IsHolding, DropPrompt.gameObject); TogglePrompt(current.IsHolding, ThrowPrompt.gameObject); };
         }
 
         playerCharacterController = uiManager.GetComponent<PlayerCharacterController>();
