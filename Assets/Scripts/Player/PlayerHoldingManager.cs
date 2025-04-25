@@ -69,7 +69,7 @@ public class PlayerHoldingManager : NetworkBehaviour
 
     public void HandlePlayerHolding(HeldObject prev, HeldObject current)
     {
-        if (!current.IsHolding)
+        if (current == null || !current.IsHolding)
         {
             DisconnectHeldObject(current);
         }
@@ -125,7 +125,7 @@ public class PlayerHoldingManager : NetworkBehaviour
 
     public void DisconnectHeldObject(HeldObject obj)
     {
-        if (!obj.NetworkObjectReference.TryGet(out NetworkObject nwObj))
+        if (obj == null || !obj.NetworkObjectReference.TryGet(out NetworkObject nwObj))
         {
             DisconnectAll();
             return;
