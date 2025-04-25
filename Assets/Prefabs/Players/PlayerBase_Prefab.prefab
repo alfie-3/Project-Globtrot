@@ -1795,7 +1795,7 @@ CharacterJoint:
     bounciness: 0
     contactDistance: 0
   m_HighTwistLimit:
-    limit: 10
+    limit: 20.8
     bounciness: 0
     contactDistance: 0
   m_SwingLimitSpring:
@@ -1922,7 +1922,7 @@ CharacterJoint:
     spring: 0
     damper: 0
   m_LowTwistLimit:
-    limit: -80
+    limit: -121.9
     bounciness: 0
     contactDistance: 0
   m_HighTwistLimit:
@@ -2388,7 +2388,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   NetworkTransformExpanded: 1
   AutoOwnerAuthorityTickOffset: 1
-  PositionInterpolationType: 2
+  PositionInterpolationType: 1
   RotationInterpolationType: 2
   ScaleInterpolationType: 0
   PositionLerpSmoothing: 1
@@ -2488,6 +2488,7 @@ MonoBehaviour:
   - {fileID: 7514954429490206661}
   - {fileID: 8297703753503267867}
   - {fileID: 4059933280630950529}
+  knockedOut: 0
 --- !u!114 &3745843975204388149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2782,7 +2783,7 @@ CharacterJoint:
     bounciness: 0
     contactDistance: 0
   m_HighTwistLimit:
-    limit: 10
+    limit: 20.8
     bounciness: 0
     contactDistance: 0
   m_SwingLimitSpring:
@@ -3959,7 +3960,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.18
+  m_Radius: 0.21
   m_Center: {x: 0, y: 0.14, z: 0}
 --- !u!54 &7408790012600804191
 Rigidbody:
@@ -4307,7 +4308,7 @@ CharacterJoint:
     spring: 0
     damper: 0
   m_LowTwistLimit:
-    limit: -80
+    limit: -121.9
     bounciness: 0
     contactDistance: 0
   m_HighTwistLimit:
