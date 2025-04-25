@@ -7,6 +7,9 @@ public class UI_ContextualPromptsHandler : MonoBehaviour, IInitPlayerUI
     [SerializeField] TextMeshProUGUI InteractPrompt;
     [SerializeField] TextMeshProUGUI ThrowPrompt;
     [SerializeField] TextMeshProUGUI DropPrompt;
+    [SerializeField] TextMeshProUGUI GetUpPrompt;
+
+    PlayerCharacterController playerCharacterController;
 
     private void OnEnable()
     {
@@ -28,6 +31,20 @@ public class UI_ContextualPromptsHandler : MonoBehaviour, IInitPlayerUI
         if (uiManager.TryGetComponent(out PlayerHoldingManager holdingManager))
         {
             holdingManager.NetworkedHeldObj.OnValueChanged += (prev, current) => { TogglePrompt(current.IsHolding, DropPrompt.gameObject); TogglePrompt(current.IsHolding, ThrowPrompt.gameObject); };
+        }
+
+        playerCharacterController = uiManager.GetComponent<PlayerCharacterController>();
+    }
+
+    private void Update()
+    {
+        if (playerCharacterController.ReadyToGetUp)
+        {
+            GetUpPrompt.gameObject.SetActive(true);
+        }
+        else if (GetUpPrompt.gameObject.activeSelf)
+        {
+            GetUpPrompt.gameObject.SetActive(false);
         }
     }
 

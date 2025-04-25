@@ -25,13 +25,16 @@ public class PlayerCharacterController : NetworkBehaviour
     [field: SerializeField] public Stamina Stamina {  get; private set; }
 
     [field: Space]
+    [SerializeField] Rigidbody[] ragdollRigidbodies;
+    [SerializeField] bool knockedOut;
+    float knockoutTime;
+    public bool ReadyToGetUp => !knockedOut && ragdollEnabled;
+
     public Action<bool> OnToggledRagdoll = delegate { };
     bool ragdollEnabled = false;
 
     float baseFriction;
     float baseAirResistance;
-
-    [SerializeField] Rigidbody[] ragdollRigidbodies;
 
     public override void OnNetworkSpawn()
     {
@@ -73,7 +76,13 @@ public class PlayerCharacterController : NetworkBehaviour
         if (!IsLocalPlayer) return;
 
         Stamina.UpdateStamina(sprintinInputHeld && PlayerInputManager.CameraRelativeInput().magnitude > 0.001);
+        UpdateKnockoutTimer();
 
+        Movement();
+    }
+
+    public void Movement()
+    {
         if (!CanMove)
         {
             CharacterMovement.Move(Vector3.zero, currentMovementMultiplier);
@@ -106,6 +115,8 @@ public class PlayerCharacterController : NetworkBehaviour
 
     private void Jump()
     {
+        if (knockedOut) return;
+
         if (ragdollEnabled)
         {
             ToggleRagdoll();
@@ -136,6 +147,24 @@ public class PlayerCharacterController : NetworkBehaviour
 
         ragdollEnabled = value;
         SetRagdoll_Rpc(ragdollEnabled);
+    }
+
+    public void Knockout(float time)
+    {
+        knockoutTime = time;
+        knockedOut = true;
+    }
+
+    public void UpdateKnockoutTimer()
+    {
+        if (knockedOut == false) return;
+
+        knockoutTime -= Time.deltaTime;
+
+        if (knockoutTime < 0)
+        {
+            knockedOut = false;
+        }
     }
 
     [Rpc(SendTo.Everyone)]

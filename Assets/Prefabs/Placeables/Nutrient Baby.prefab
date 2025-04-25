@@ -191,7 +191,7 @@ Transform:
   m_GameObject: {fileID: 2762513294426188397}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.979, y: 2.53, z: 0.642}
+  m_LocalPosition: {x: 0.979, y: 2.53, z: 0.579}
   m_LocalScale: {x: 0.74769, y: 0.35852522, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -216,8 +216,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3.6065347, z: 0.6580727}
-  m_Center: {x: 0, y: -1.3032676, z: 0.08269727}
+  m_Size: {x: 1, y: 3.9569066, z: 0.72542995}
+  m_Center: {x: 2.8879673e-15, y: -1.4784522, z: 0.11637592}
 --- !u!114 &6381425512302898280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,7 +245,7 @@ GameObject:
   m_Layer: 0
   m_Name: Poop Point
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -258,7 +258,7 @@ Transform:
   m_GameObject: {fileID: 3122494432471008848}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 1.667, z: -1.869}
+  m_LocalPosition: {x: 0.99, y: 1.667, z: -1.316}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -291,7 +291,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3460301417772113459}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: -0.00000035762784}
-  m_LocalPosition: {x: 0, y: 0, z: 0.186}
+  m_LocalPosition: {x: 0, y: 0, z: 0.123}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -301,7 +301,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -1, y: 1.654}
+  m_AnchoredPosition: {x: -1, y: 1.664}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &7957890724621662024
@@ -501,7 +501,7 @@ Transform:
   m_GameObject: {fileID: 6936585551399200874}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.00000591576, z: -0, w: -1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.079}
+  m_LocalPosition: {x: 0, y: 0.01, z: -0.142}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -708,6 +708,7 @@ GameObject:
   - component: {fileID: 3761760409055327472}
   - component: {fileID: 4086295002853219929}
   - component: {fileID: 4959219378892586985}
+  - component: {fileID: 8387247596069450654}
   m_Layer: 0
   m_Name: Nutrient Baby
   m_TagString: Untagged
@@ -746,7 +747,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1285243362
+  GlobalObjectIdHash: 1313552899
   InScenePlacedSourceGlobalObjectIdHash: 1285243362
   DeferredDespawnTick: 0
   Ownership: 1
@@ -891,6 +892,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <BuildHologramMesh>k__BackingField: {fileID: 3628577105517108128, guid: b497c0ee47366f74f9872e81191ec7a6, type: 3}
   <item>k__BackingField: {fileID: 11400000, guid: a80c50de362d0154691d1facb5432f61, type: 2}
+  <CanRemove>k__BackingField: 1
+  <MirrorX>k__BackingField: 0
+  <MirrorZ>k__BackingField: 0
+--- !u!114 &8387247596069450654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8981345904246907521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74228665e5ff8f8488a3e9fd65697aa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <BuildHologramMesh>k__BackingField: {fileID: 0}
+  <item>k__BackingField: {fileID: 0}
   <CanRemove>k__BackingField: 1
   <MirrorX>k__BackingField: 0
   <MirrorZ>k__BackingField: 0

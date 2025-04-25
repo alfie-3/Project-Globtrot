@@ -41,6 +41,7 @@ public class GasCanister : NetworkBehaviour
             if (col.TryGetComponent(out PlayerCharacterController playerCharacter))
             {
                 playerCharacter.SetRagdoll(true);
+                playerCharacter.Knockout(4);
 
                 Vector3 explosionDirection = Vector3.Normalize(playerCharacter.transform.position - transform.position);
                 explosionDirection += Vector3.up;
