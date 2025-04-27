@@ -12,11 +12,15 @@ public class ZeeboPod : NetworkBehaviour
 
     public void Break(PhysicsObjectHealth health)
     {
-        NetworkObject newZeebo = Instantiate(zeeboPrefabs[Random.Range(0, zeeboPrefabs.Count)], transform.position, transform.rotation).NetworkObject;
-        newZeebo.Spawn();
+        if (IsServer)
+        {
+            NetworkObject newZeebo = Instantiate(zeeboPrefabs[Random.Range(0, zeeboPrefabs.Count)], transform.position, transform.rotation).NetworkObject;
+            newZeebo.Spawn();
+
+            newZeebo.GetComponent<Rigidbody>().AddForce(health.LastHitNormal * breakoutForce, ForceMode.Impulse);
+        }
+
         GameObject effect = Instantiate(particleEffect, transform.position, transform.rotation);
         effect.transform.localScale *= 0.8f;
-
-        newZeebo.GetComponent<Rigidbody>().AddForce(health.LastHitNormal * breakoutForce, ForceMode.Impulse);
     }
 }

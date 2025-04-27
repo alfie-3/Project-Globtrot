@@ -12,6 +12,8 @@ public class ItemDestructionZone : NetworkBehaviour
         {
             if (item.NetworkObject != null)
             {
+                if (!NetworkObject.IsSpawned) return;
+
                 item.NetworkObject.Despawn();
             }
         }

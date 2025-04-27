@@ -19,7 +19,7 @@ public class OrderBoxInput : NetworkBehaviour
 
             if (!transform.parent.TryGetComponent(out ContainerContents contents)) return;
 
-            if (!contents.Contents.TryAddItem(stockItem.Item, 1)) return;
+            if (!contents.TryAddItem(stockItem.Item, 1)) return;
 
             ClipData clipData = randomClip.GetClip(1, true);
 
