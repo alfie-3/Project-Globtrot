@@ -50,8 +50,6 @@ public class MoneyManager : NetworkBehaviour
 
         Chips.OnValueChanged += (prev, current) => { OnChipsChanged(current); };
         BuildCoins.OnValueChanged += (prev, current) => { OnBuildCoinsChanged(current); };
-
-        BuildCoins.Value = 128;
     }
 
     public override void OnNetworkSpawn()
@@ -59,6 +57,7 @@ public class MoneyManager : NetworkBehaviour
         if (!IsServer) return;
 
         OnQuotaAmountChanged.Invoke(CurrentQuotaAmount.Value, CurrentQuotaTarget.Value);
+        BuildCoins.Value = 2000;
     }
 
     public void SetQuotaTarget()
