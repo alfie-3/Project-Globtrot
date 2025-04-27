@@ -180,7 +180,7 @@ public class OrderManager : NetworkBehaviour
             return 1;
         }
 
-        return PlayerTimeMultipliers[NetworkManager.Singleton.ConnectedClients.Count];
+        return PlayerTimeMultipliers[NetworkManager.Singleton.ConnectedClients.Count - 1];
     }
 
     public override void OnDestroy()
