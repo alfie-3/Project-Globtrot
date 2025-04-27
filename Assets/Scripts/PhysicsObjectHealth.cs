@@ -18,6 +18,10 @@ public class PhysicsObjectHealth : NetworkBehaviour
     [Space]
     [SerializeField] float fragility;
 
+    bool dead = false;
+
+    public Vector3 LastHitNormal {  get; private set; }
+
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -44,6 +48,8 @@ public class PhysicsObjectHealth : NetworkBehaviour
 
     public override void OnNetworkDespawn()
     {
+        if (dead) return;
+        dead = true;
         onDeath.Invoke();
     }
 
@@ -55,6 +61,7 @@ public class PhysicsObjectHealth : NetworkBehaviour
         if (collision.relativeVelocity.magnitude > minDamageForce)
         {
             float damageMultiplier = damageCurve.Evaluate(collision.relativeVelocity.magnitude / maxDamageForce) + 1;
+            LastHitNormal = collision.contacts[0].normal;
 
             health.Value -= fragility * damageMultiplier;
         }
