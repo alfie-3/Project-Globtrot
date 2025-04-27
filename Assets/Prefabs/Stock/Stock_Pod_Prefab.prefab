@@ -114,6 +114,7 @@ GameObject:
   - component: {fileID: 2773145123947280717}
   - component: {fileID: -2860482465728284655}
   - component: {fileID: 8477052731716489054}
+  - component: {fileID: 8497001358148109376}
   m_Layer: 0
   m_Name: Stock_Pod_Prefab
   m_TagString: Untagged
@@ -130,7 +131,7 @@ Transform:
   m_GameObject: {fileID: 7619981547121828464}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -16.208, y: 1, z: -15.171}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -507,7 +508,6 @@ MonoBehaviour:
   - {fileID: 7650358324696950725, guid: 48cbfce3c2f2cc64294dd267d837e289, type: 3}
   - {fileID: 7650358324696950725, guid: b92a6824e94e28b438e4176157b14c52, type: 3}
   - {fileID: 7650358324696950725, guid: ebd420de48f08ff4ab824ac65cd784ec, type: 3}
-  breakForce: 7.5
   breakoutForce: 3
 --- !u!114 &2773145123947280717
 MonoBehaviour:
@@ -550,3 +550,65 @@ MonoBehaviour:
   audioSource: {fileID: 4667619557137094660}
   audioClipData: {fileID: 11400000, guid: a4403774cd803ad489b7a53fc8c4b5a5, type: 2}
   minNoiseForce: 1
+--- !u!114 &8497001358148109376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7619981547121828464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cab30c779a9bc3d42bf785a4f929a0ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  onTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  onDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -7502809990524931178}
+        m_TargetAssemblyTypeName: ZeeboPod, Assembly-CSharp
+        m_MethodName: Break
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8497001358148109376}
+          m_ObjectArgumentAssemblyTypeName: PhysicsObjectHealth, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  ShouldTakeDamage: 1
+  baseHealth: 8
+  health:
+    m_InternalValue: 0
+  minDamageForce: 5
+  maxDamageForce: 9
+  damageCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1.297821
+      outSlope: 1.297821
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1.297821
+      inSlope: 1.297821
+      outSlope: 1.297821
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  fragility: 3.5
