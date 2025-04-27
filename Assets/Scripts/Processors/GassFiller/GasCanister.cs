@@ -8,6 +8,7 @@ public class GasCanister : NetworkBehaviour
     [SerializeField] TMP_Text text;
     [field: SerializeField] public bool OverPressurised { get; private set; }
     [SerializeField] ParticleSystem gasParticles;
+    [SerializeField] GameObject explosionEffect;
     [Space]
     [SerializeField] float explosionRadius = 5;
     [SerializeField] float explosionPower = 100;
@@ -34,6 +35,8 @@ public class GasCanister : NetworkBehaviour
 
     public void Explode()
     {
+        GameObject explosion = Instantiate(explosionEffect, transform.position, transform.rotation);
+        Destroy(explosion, 4f);
         Collider[] rigidbodyColliders = Physics.OverlapSphere(transform.position, explosionRadius, LayerMask.GetMask("Default", "Physics", "Player", "PlayerCollider"));
 
         foreach (Collider col in rigidbodyColliders)
