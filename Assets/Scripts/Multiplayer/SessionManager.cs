@@ -10,7 +10,7 @@ public static class SessionManager
 {
     public static ISession Session { get; private set; }
 
-    public const int MAXPLAYERS = 4;
+    public const int MAXPLAYERS = 5;
     public static int CurrentPlayers;
 
     public static ConnectionState State { get; private set; } = ConnectionState.Disconnected;
