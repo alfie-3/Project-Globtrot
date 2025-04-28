@@ -22,6 +22,9 @@ public class UI_BuildingSelection: MonoBehaviour {
     TextMeshProUGUI ObjectPriceText;
 
     [SerializeField]
+    TextMeshProUGUI ObjectDescriptionText;
+
+    [SerializeField]
     List<FunitureSlot> slots;
 
     [SerializeField]
@@ -131,6 +134,7 @@ public class UI_BuildingSelection: MonoBehaviour {
         DOTween.To(() => ItemsPanel.localPosition, x => ItemsPanel.localPosition = x, new Vector3(horizontalValue, MenuY * 75, 0), 0.2f).SetEase(Ease.InOutFlash);
 
         UpdateBuildText();
+        SetScales();
     }
 
     public void AddItem(PlacableFurniture_Item item, string category)
@@ -159,8 +163,10 @@ public class UI_BuildingSelection: MonoBehaviour {
 
     void SetScales() {
         for(int i = 0; i < ItemsPanel.childCount; i++) {
-            float scale = 1 - (0.1f * Mathf.Abs(MenuY - i));
-            DOTween.To(() => ItemsPanel.GetChild(i).localScale, x => ItemsPanel.GetChild(i).localScale = x, new Vector3(scale, scale, scale),0.2f).SetEase(Ease.InOutFlash);
+            float scale = 1 - (0.2f * Mathf.Abs(MenuY - i));
+            //transform.DOScale(scale, scale,2f);
+            ItemsPanel.GetChild(i).DOScale(new Vector3(scale, scale, scale), 0.2f);//
+            //DOTween.To(() => ItemsPanel.GetChild(i).localScale, x => ItemsPanel.GetChild(i).localScale = x, new Vector3(scale, scale, scale),0.2f).SetEase(Ease.InOutFlash);
         }
     }
 
@@ -174,6 +180,7 @@ public class UI_BuildingSelection: MonoBehaviour {
 
         ObjectNameText.text = item.ItemName;
         ObjectPriceText.text = $"<sprite=0> {item.FurniturePrice}";
+        ObjectDescriptionText.text = item.Description;
     }
 
     public string GetSelectedId()
