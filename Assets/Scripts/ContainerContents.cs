@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ContainerContents : NetworkBehaviour
 {
-    public Contents Contents {  get; private set; } = new Contents();
+    [field: SerializeField] public Contents Contents {  get; private set; } = new Contents();
 
     public bool TryAddItem(Stock_Item item, int quantity = 1)
     {

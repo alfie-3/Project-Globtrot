@@ -2,10 +2,11 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
+[System.Serializable]
 public class Contents
 {
     [SerializeField] int maxContentsAmount = 4;
-    bool useLimit = true;
+    [SerializeField] bool useLimit = true;
     public bool AllowItems = true;
 
     public Dictionary<Stock_Item, int> ContentsDictionary { get; private set; } = new Dictionary<Stock_Item, int>();
