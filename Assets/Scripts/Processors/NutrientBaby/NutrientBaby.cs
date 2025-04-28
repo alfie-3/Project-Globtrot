@@ -12,6 +12,7 @@ public class NutrientBaby : NetworkBehaviour
     [Space]
     [SerializeField] Transform outputSpawnPoint;
     [SerializeField] NetworkObject energyCorePrefab;
+    [SerializeField] NetworkObject wastePrefab;
 
     NetworkVariable<FixedString32Bytes> requestedItemID = new();
     Stock_Item requestedItem;
@@ -80,6 +81,12 @@ public class NutrientBaby : NetworkBehaviour
         else
         {
             OnFeed.Invoke(false);
+
+            if (IsServer)
+            {
+                NetworkObject newNwObj = Instantiate(wastePrefab, outputSpawnPoint.position, outputSpawnPoint.rotation);
+                newNwObj.Spawn();
+            }
         }
 
         if (IsServer)

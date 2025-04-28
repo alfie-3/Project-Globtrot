@@ -66,6 +66,7 @@ public class PlayerBuildingManager : NetworkBehaviour
     private RenderParams renderParams;
 
     private float rotation;
+    private bool wasPlacing;
 
     public const float PLACABLE_DISTANCE = 5;
 
@@ -118,12 +119,11 @@ public class PlayerBuildingManager : NetworkBehaviour
 
 
     [Rpc(SendTo.Everyone)]
-    public void SetItem_Rpc(string itemID, float rotation = 0)
+    public void SetItem_Rpc(string itemID)
     {
         furnitureItem = ItemDictionaryManager.RetrieveItem(itemID) is not PlacableFurniture_Item ? null : (PlacableFurniture_Item)ItemDictionaryManager.RetrieveItem(itemID);
         if (furnitureItem == null) return;
 
-        this.rotation = rotation;
         PopulateItem(furnitureItem);
     }
 
@@ -316,6 +316,11 @@ public class PlayerBuildingManager : NetworkBehaviour
 
     private void PerformSecondary(InputAction.CallbackContext context)
     {
+        if (Mode == mode.destroyMode && wasPlacing)
+        {
+            Mode = mode.placementMode;
+            wasPlacing = false;
+        }
         if (Mode == mode.placementMode || Mode == mode.destroyMode)
         {
             Mode = mode.selectionMode;
@@ -325,8 +330,20 @@ public class PlayerBuildingManager : NetworkBehaviour
     private void PerformDismantle(InputAction.CallbackContext context)
     {
         if (Mode == mode.inactive) return;
-        if (Mode != mode.destroyMode) Mode = mode.destroyMode;
-        else if (Mode == mode.destroyMode) Mode = mode.selectionMode;
+        if (Mode != mode.destroyMode)
+        {
+            if (Mode == mode.placementMode)
+                wasPlacing = true;
+            Mode = mode.destroyMode;
+        }
+        else if (Mode == mode.destroyMode)
+        {
+            if (wasPlacing)
+            {
+                Mode = mode.placementMode;
+                wasPlacing = false;
+            } else Mode = mode.selectionMode;
+        }
     }
 
     public void PerformScroll(InputAction.CallbackContext context)
@@ -341,7 +358,8 @@ public class PlayerBuildingManager : NetworkBehaviour
         else if (Mode == mode.placementMode)
         {
             if (furnitureItem == null) return;
-            rotation += dir * 90;
+            float newRot = rotation + (dir * 90);
+            rotation = newRot == 360 ? 0 : newRot == -90 ? 270 : newRot;
         }
     }
 
