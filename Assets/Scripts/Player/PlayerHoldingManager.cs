@@ -90,6 +90,7 @@ public class PlayerHoldingManager : NetworkBehaviour
 
     public void ClearHeldItem(Vector3 position = default, Vector3 rotation = default)
     {
+        if (!IsOwner) return;
         if (HeldObj == null) return;
 
         if (position == default)
