@@ -8479,7 +8479,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1036265833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10151,13 +10151,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  OrderScreen: {fileID: 1825260944}
   orderPortAcceptor: {fileID: 898174291}
-  orderAllocationList:
-  - OrderScreen: {fileID: 1825260944}
-  - OrderScreen: {fileID: 0}
   CorrectNoise: {fileID: 8300000, guid: 89fc4db6b8eccd74b8697b783f4d7a6e, type: 3}
   IncorrectNoise: {fileID: 8300000, guid: 32ace68193309ac42bcc817ca10d40d4, type: 3}
   TimeoutNoise: {fileID: 8300000, guid: 7013dee2210b4aa459e8111fb3420b75, type: 3}
+  OnOrderAdded:
+    m_PersistentCalls:
+      m_Calls: []
   OnOrderCorrect:
     m_PersistentCalls:
       m_Calls:
