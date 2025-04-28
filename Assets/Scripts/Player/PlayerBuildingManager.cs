@@ -1,8 +1,10 @@
 using Unity.Netcode;
+using Unity.Services.Multiplay.Authoring.Core.Model;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 using UnityEngine.Rendering;
+using UnityEngine.UIElements;
 
 public class PlayerBuildingManager : NetworkBehaviour
 {
@@ -167,10 +169,31 @@ public class PlayerBuildingManager : NetworkBehaviour
             Vector3 position = grid.HitToGrid(hit.point);
             if (Physics.OverlapBox(position + holoMesh.bounds.center + furnitureItem.FurniturePrefab.transform.position, holoMesh.bounds.size * 0.48f, Quaternion.Euler(0, rotation, 0)).Length == 0)
             {
+                if (!IsServer)
+                {
+                    RequestBuildItem_Rpc(furnitureItem.ItemID, position, Quaternion.Euler(0, rotation, 0));
+
+                    return;
+                }
+
                 if (MoneyManager.Instance.TrySpendBuildCoins(furnitureItem.FurniturePrice))
                     PlaceItem_Rpc(furnitureItem.ItemID, position, Quaternion.Euler(0, rotation, 0));
             }
         }
+    }
+
+    public void BuildItem(string furnitureId, Vector3 pos, Quaternion rot)
+    {
+        if (!IsServer) return;
+
+        if (MoneyManager.Instance.TrySpendBuildCoins(furnitureItem.FurniturePrice))
+            PlaceItem_Rpc(furnitureId, pos, rot);
+    }
+
+    [Rpc(SendTo.Server)]
+    public void RequestBuildItem_Rpc(string furnitureId, Vector3 pos, Quaternion rot)
+    {
+        BuildItem(furnitureId, pos, rot);
     }
 
     private void RenderPlacementHologram()

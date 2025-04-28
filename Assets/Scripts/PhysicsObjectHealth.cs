@@ -18,6 +18,7 @@ public class PhysicsObjectHealth : NetworkBehaviour
     [Space]
     [SerializeField] float fragility;
 
+    bool killed = false;
     bool dead = false;
 
     public Vector3 LastHitNormal {  get; private set; }
@@ -36,6 +37,7 @@ public class PhysicsObjectHealth : NetworkBehaviour
     {
         if (newValue <= 0 && IsServer)
         {
+            Kill_Rpc();
             NetworkObject.Despawn();
         }
 
@@ -46,8 +48,15 @@ public class PhysicsObjectHealth : NetworkBehaviour
         }
     }
 
+    [Rpc(SendTo.Everyone)]
+    public void Kill_Rpc()
+    {
+        killed = true;
+    }
+
     public override void OnNetworkDespawn()
     {
+        if (!killed) return;
         if (dead) return;
         dead = true;
         onDeath.Invoke();
