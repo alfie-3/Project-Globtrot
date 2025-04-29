@@ -380,7 +380,7 @@ PrefabInstance:
       addedObject: {fileID: 4595832833256734517}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b13a6c6b35d431e43bb2cf4fa556577b, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1912131507132165739}
+      addedObject: {fileID: 1254449395789397609}
   m_SourcePrefab: {fileID: 100100000, guid: b13a6c6b35d431e43bb2cf4fa556577b, type: 3}
 --- !u!1 &5767533154593911786 stripped
 GameObject:
@@ -409,7 +409,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -7010396035936834917, guid: b13a6c6b35d431e43bb2cf4fa556577b, type: 3}
---- !u!114 &1912131507132165739
+--- !u!114 &1254449395789397609
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -423,15 +423,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   customerData:
   - Name: Kid
-    Asset: {fileID: 2527563099514029078}
+    CustomerAsset: {fileID: 2527563099514029078}
+    ShipAsset: {fileID: 0}
   - Name: Shark
-    Asset: {fileID: 2023260313345557341}
+    CustomerAsset: {fileID: 2023260313345557341}
+    ShipAsset: {fileID: 0}
   - Name: Bus
-    Asset: {fileID: 2315122810586208711}
+    CustomerAsset: {fileID: 2315122810586208711}
+    ShipAsset: {fileID: 0}
   - Name: Brain
-    Asset: {fileID: 3659186188942825066}
+    CustomerAsset: {fileID: 3659186188942825066}
+    ShipAsset: {fileID: 0}
   - Name: Police
-    Asset: {fileID: 7170384923503897622}
+    CustomerAsset: {fileID: 7170384923503897622}
+    ShipAsset: {fileID: 0}
   splineAnimator: {fileID: 0}
   arriveSpline: {fileID: 0}
   leaveSpline: {fileID: 0}

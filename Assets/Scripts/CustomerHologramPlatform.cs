@@ -6,8 +6,8 @@ using UnityEngine.Splines;
 public class CustomerHologramPlatform : MonoBehaviour
 {
     [SerializeField] CustomerData[] customerData;
-    GameObject selectedData;
-    Dictionary<string, GameObject> customerDataDict = new Dictionary<string, GameObject>();
+    CustomerData selectedData;
+    Dictionary<string, CustomerData> customerDataDict = new Dictionary<string, CustomerData>();
     [Space]
     [SerializeField] SplineAnimate splineAnimator;
     [SerializeField] SplineContainer arriveSpline;
@@ -20,8 +20,8 @@ public class CustomerHologramPlatform : MonoBehaviour
     {
         foreach (CustomerData customerData in customerData)
         {
-            customerDataDict.Add(customerData.Name, customerData.Asset);
-            customerData.Asset.SetActive(false);
+            customerDataDict.Add(customerData.Name, customerData);
+            customerData.SetGameobjectsEnable(false);
         }
 
         orderPort.OnOrderAdded.AddListener(() => ActivateRandomHologram());
@@ -40,16 +40,23 @@ public class CustomerHologramPlatform : MonoBehaviour
 
     public void ActivateHologram(string customerName)
     {
-        if (customerDataDict.TryGetValue(customerName, out GameObject obj))
+        if (customerDataDict.TryGetValue(customerName, out CustomerData obj))
         {
-            obj.SetActive(true);
+            obj.CustomerAsset.SetActive(true);
             selectedData = obj;
             PlayCustomerAnimation(CustomerAnimations.Hello);
 
-            Vector3 ogScale = obj.transform.localScale;
-            obj.transform.localScale = new Vector3(obj.transform.localScale.x * 0.5f, obj.transform.localScale.y * 1.5f, obj.transform.localScale.z * 0.5f);
+            Vector3 ogScale = obj.CustomerAsset.transform.localScale;
+            obj.CustomerAsset.transform.localScale = new Vector3(obj.CustomerAsset.transform.localScale.x * 0.5f, obj.CustomerAsset.transform.localScale.y * 1.5f, obj.CustomerAsset.transform.localScale.z * 0.5f);
 
-            obj.transform.DOScale(ogScale, 0.3f).SetEase(Ease.OutElastic);
+            obj.CustomerAsset.transform.DOScale(ogScale, 0.3f).SetEase(Ease.OutElastic);
+
+            foreach (var item in customerData)
+            {
+                item.ShipAsset.SetActive(false);
+            }
+
+            obj.ShipAsset.SetActive(true);
 
             splineAnimator.Container = arriveSpline;
             splineAnimator.Restart(true);
@@ -60,7 +67,7 @@ public class CustomerHologramPlatform : MonoBehaviour
     {
         if (selectedData == null) return;
 
-        if (selectedData.TryGetComponent(out Animator animator))
+        if (selectedData.CustomerAsset.TryGetComponent(out Animator animator))
         {
             Debug.Log(animation.ToString());
             animator.Play(animation.ToString());
@@ -83,14 +90,14 @@ public class CustomerHologramPlatform : MonoBehaviour
     {
         if (selectedData == null) return;
 
-        Vector3 ogScale = selectedData.transform.localScale;
+        Vector3 ogScale = selectedData.CustomerAsset.transform.localScale;
 
         splineAnimator.Container = leaveSpline;
         splineAnimator.Restart(true);
 
-        selectedData.transform.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InBounce).OnComplete(() => {
-            selectedData.gameObject.SetActive(false);
-            selectedData.transform.localScale = ogScale;
+        selectedData.CustomerAsset.transform.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InBounce).OnComplete(() => {
+            selectedData.CustomerAsset.gameObject.SetActive(false);
+            selectedData.CustomerAsset.transform.localScale = ogScale;
             selectedData = null;
         });
     }
@@ -105,8 +112,16 @@ public enum CustomerAnimations
 }
 
 [System.Serializable]
-public struct CustomerData
+public class CustomerData
 {
     public string Name;
-    public GameObject Asset;
+    [Space]
+    public GameObject CustomerAsset;
+    public GameObject ShipAsset;
+
+    public void SetGameobjectsEnable(bool value)
+    {
+        CustomerAsset.SetActive(value);
+        ShipAsset.SetActive(value);
+    }
 }
