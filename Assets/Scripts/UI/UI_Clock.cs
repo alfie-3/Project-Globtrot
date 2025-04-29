@@ -31,7 +31,7 @@ public class UI_Clock : MonoBehaviour
         }
         else
         {
-            rect.DOAnchorPosX(Offset, 2);
+            rect.DOAnchorPosX(Offset, 2).SetEase(Ease.InExpo);
         }
     }
 
