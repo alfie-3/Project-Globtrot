@@ -81,7 +81,6 @@ public class MoneyManager : NetworkBehaviour
         if (CurrentQuotaAmount.Value >= CurrentQuotaTarget.Value)
         {
             OnQuotaAchieved.Invoke();
-            GameStateManager.Instance.EndDay_Rpc();
         }
     }
 
@@ -120,6 +119,12 @@ public class MoneyManager : NetworkBehaviour
     public void Add100BuildCoins()
     {
         AddBuildCoins(100);
+    }
+
+    [ContextMenu("Complete quota")]
+    public void CompleteQuota()
+    {
+        AddToQuota(CurrentQuotaTarget.Value);
     }
 
     public void AddBuildCoins(int amount)

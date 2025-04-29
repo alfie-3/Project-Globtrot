@@ -8,14 +8,21 @@ public class GameStateManager : NetworkBehaviour
     public NetworkVariable<int> CurrentDay = new();
     public static Action<int> OnDayChanged = delegate { };
 
+    public NetworkVariable<DayState> CurrentDayState = new();
+    public bool IsOpen => CurrentDayState.Value == DayState.Open;
     public static Action<DayState> OnDayStateChanged = delegate { };
     public static Action StartWorkingDay = delegate { };
+    [Space]
+    [SerializeField, Range(0.01f, 1f)] float timeSpeed = 1f; 
+    public NetworkVariable<int> CurrentGameTime = new();
+    public static Action<int> OnGameTimeChanged = delegate { };
+    bool timerRunning;
+    float timer;
+
 
     public static Action OnReset = delegate { };
     public static Action OnResetServer = delegate { };
 
-    public NetworkVariable<DayState> CurrentDayState = new();
-    public bool IsOpen => CurrentDayState.Value == DayState.Open;
 
     public static GameStateManager Instance { get; private set; }
 
@@ -36,11 +43,19 @@ public class GameStateManager : NetworkBehaviour
         CurrentDayState.OnValueChanged += (prev, current) => { OnDayStateChanged.Invoke(current); };
     }
 
+    private void Update()
+    {
+        if (!IsServer) return;
+
+        UpdateTime();
+    }
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void Init()
     {
         OnDayChanged = delegate { };
         OnDayStateChanged = delegate { };
+        OnGameTimeChanged = delegate {};
         OnReset = delegate { };
         OnResetServer = delegate { };
         StartWorkingDay = delegate { };
@@ -53,6 +68,7 @@ public class GameStateManager : NetworkBehaviour
 
         OnDayChanged.Invoke(0);
         CurrentDay.OnValueChanged += (prev, current) => OnDayChanged.Invoke(current);
+        CurrentGameTime.OnValueChanged += (prev, current) => OnGameTimeChanged.Invoke(current);
 
         if (!IsServer) return;
 
@@ -67,6 +83,9 @@ public class GameStateManager : NetworkBehaviour
     {
         if (CurrentDayState.Value != DayState.Preperation) return;
 
+        CurrentGameTime.Value = 540;
+        ToggleTimer(true);
+
         CurrentDayState.Value = DayState.Open;
     }
 
@@ -76,6 +95,7 @@ public class GameStateManager : NetworkBehaviour
         if (CurrentDayState.Value != DayState.Open && bypassOpen != false) return;
 
         CurrentDayState.Value = DayState.Closed;
+        ToggleTimer(false);
 
         DayEnd();
     }
@@ -128,6 +148,31 @@ public class GameStateManager : NetworkBehaviour
         else
         {
             return DayDataList.DayList[^1];
+        }
+    }
+
+    public void ToggleTimer(bool on)
+    {
+        timer = 0;
+        if (on)
+        {
+            timerRunning = true;
+        }
+        else
+        {
+            timerRunning = false;
+        }
+    }
+
+    public void UpdateTime()
+    {
+        if (!IsServer || !timerRunning) return;
+        timer += Time.deltaTime;
+
+        if (timer > timeSpeed)
+        {
+            CurrentGameTime.Value++;
+            timer = 0;
         }
     }
 

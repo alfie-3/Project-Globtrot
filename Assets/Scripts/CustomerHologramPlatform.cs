@@ -26,7 +26,7 @@ public class CustomerHologramPlatform : MonoBehaviour
 
         orderPort.OnOrderAdded.AddListener(() => ActivateRandomHologram());
 
-        orderPort.OnOrderCorrect.AddListener(() => PlayCustomerAnimation(CustomerAnimations.Happy));
+        orderPort.OnOrderCorrect.AddListener(() => { PlayCustomerAnimation(CustomerAnimations.Happy); RemoveCustomerHologram(3); });
 
         orderPort.OnOrderTimout.AddListener(() => { PlayCustomerAnimation(CustomerAnimations.Upset); RemoveCustomerHologram(3); });
         orderPort.OnOrderIncorrect.AddListener(() => { PlayCustomerAnimation(CustomerAnimations.Upset); RemoveCustomerHologram(3); });
