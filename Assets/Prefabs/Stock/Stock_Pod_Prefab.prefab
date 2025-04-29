@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 3622198537029046730}
   serializedVersion: 2
   m_LocalRotation: {x: 0.49999976, y: 0.49999985, z: 0.50000024, w: 0.50000024}
-  m_LocalPosition: {x: -0.22, y: -0.345, z: 0.004}
+  m_LocalPosition: {x: -0.2, y: -0.305, z: 0.004}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -71,7 +71,7 @@ Transform:
   m_GameObject: {fileID: 5579025128704813873}
   serializedVersion: 2
   m_LocalRotation: {x: -0.50000066, y: 0.49999976, z: 0.5000007, w: -0.49999902}
-  m_LocalPosition: {x: 0.22, y: -0.34499997, z: 0.0040000007}
+  m_LocalPosition: {x: 0.2, y: -0.30499995, z: 0.004}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -384,8 +384,8 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.33
-  m_Height: 0.83
+  m_Radius: 0.25
+  m_Height: 0.6
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0.0042041764}
 --- !u!82 &4667619557137094660
@@ -583,11 +583,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   ShouldTakeDamage: 1
-  baseHealth: 8
+  baseHealth: 4
   health:
     m_InternalValue: 0
-  minDamageForce: 6
-  maxDamageForce: 9
+  minDamageForce: 11
+  maxDamageForce: 14
   damageCurve:
     serializedVersion: 2
     m_Curve:
@@ -612,4 +612,4 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  fragility: 2.5
+  fragility: 2.8
