@@ -13,6 +13,7 @@ public class GameStateManager : NetworkBehaviour
     public static Action<DayState> OnDayStateChanged = delegate { };
     public static Action StartWorkingDay = delegate { };
     [Space]
+
     [SerializeField, Range(0.01f, 1f)] float timeSpeed = 1f; 
     public NetworkVariable<int> CurrentGameTime = new();
     public static Action<int> OnGameTimeChanged = delegate { };
@@ -76,6 +77,7 @@ public class GameStateManager : NetworkBehaviour
         mainScene = SceneManager.GetActiveScene();
 
         CurrentDay.Value = 0;
+        CurrentGameTime.Value = 540;
     }
 
     [Rpc(SendTo.Server)]

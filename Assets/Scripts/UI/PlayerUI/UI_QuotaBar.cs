@@ -30,7 +30,8 @@ public class UI_QuotaBar : MonoBehaviour
         GameStateManager.OnDayStateChanged += ToggleBar;
         MoneyManager.OnQuotaAchieved += QuotaAchieved;
 
-        GetComponent<Canvas>().enabled = false;
+        RectTransform rect = transform as RectTransform;
+        rect.anchoredPosition = new(rect.anchoredPosition.x, 100);
     }
 
     public void UpdateQuotaTarget(int newTarget)
@@ -49,18 +50,27 @@ public class UI_QuotaBar : MonoBehaviour
 
     public void ToggleBar(DayState state)
     {
-        GetComponent<Canvas>().enabled = state == DayState.Open;
+        RectTransform rect = transform as RectTransform;
 
+        if (state == DayState.Open)
+        {
+            rect.DOAnchorPosY(0.5f, 2).SetEase(Ease.OutCubic);
+        }
+        else
+        {
+            rect.DOAnchorPosY(100, 2).SetEase(Ease.InCubic);
+        }
     }
 
     public void QuotaAchieved()
     {
         fillColour.color = successColour;
+        text.color = successColour;
 
         Sequence sequence = DOTween.Sequence();
 
-        sequence.Append(progressBar.transform.DOLocalMoveY(progressBarStartingPos.y + 40, 1).SetEase(Ease.InBounce));
-        sequence.Append(text.transform.DOLocalMoveY(textStartingPos.y + 20, 1).SetEase(Ease.OutExpo));
+        sequence.Append(progressBar.transform.DOLocalMoveY(progressBarStartingPos.y + 40, 1).SetEase(Ease.InExpo));
+        sequence.Append(text.transform.DOLocalMoveY(textStartingPos.y + 10, 1).SetEase(Ease.OutExpo));
     }
 
     private void OnDestroy()
