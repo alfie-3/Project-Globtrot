@@ -54,11 +54,11 @@ public class UI_QuotaBar : MonoBehaviour
 
         if (state == DayState.Open)
         {
-            rect.DOAnchorPosY(0.5f, 2).SetEase(Ease.OutCubic);
+            rect.DOAnchorPosY(0.5f, 1).SetEase(Ease.InOutExpo);
         }
         else
         {
-            rect.DOAnchorPosY(100, 2).SetEase(Ease.InCubic);
+            rect.DOAnchorPosY(100, 1).SetEase(Ease.InOutExpo);
         }
     }
 

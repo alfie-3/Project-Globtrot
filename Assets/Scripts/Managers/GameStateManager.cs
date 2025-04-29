@@ -9,6 +9,7 @@ public class GameStateManager : NetworkBehaviour
     public static Action<int> OnDayChanged = delegate { };
 
     public NetworkVariable<DayState> CurrentDayState = new();
+
     public bool IsOpen => CurrentDayState.Value == DayState.Open;
     public static Action<DayState> OnDayStateChanged = delegate { };
     public static Action StartWorkingDay = delegate { };
@@ -16,6 +17,8 @@ public class GameStateManager : NetworkBehaviour
 
     [SerializeField, Range(0.01f, 1f)] float timeSpeed = 1f; 
     public NetworkVariable<int> CurrentGameTime = new();
+    [SerializeField] int dayStartTime = 540;
+    [SerializeField] int dayEndTime = 1020;
     public static Action<int> OnGameTimeChanged = delegate { };
     bool timerRunning;
     float timer;
@@ -77,7 +80,7 @@ public class GameStateManager : NetworkBehaviour
         mainScene = SceneManager.GetActiveScene();
 
         CurrentDay.Value = 0;
-        CurrentGameTime.Value = 540;
+        CurrentGameTime.Value = dayStartTime;
     }
 
     [Rpc(SendTo.Server)]
@@ -85,30 +88,28 @@ public class GameStateManager : NetworkBehaviour
     {
         if (CurrentDayState.Value != DayState.Preperation) return;
 
-        CurrentGameTime.Value = 540;
+        CurrentGameTime.Value = dayStartTime;
         ToggleTimer(true);
 
         CurrentDayState.Value = DayState.Open;
     }
 
     [Rpc(SendTo.Server)]
-    public void EndDay_Rpc(bool bypassOpen = false)
+    public void Close_Rpc(bool bypassOpen = false)
     {
         if (CurrentDayState.Value != DayState.Open && bypassOpen != false) return;
 
         CurrentDayState.Value = DayState.Closed;
         ToggleTimer(false);
-
-        DayEnd();
     }
 
     [ContextMenu("SkipDay")]
     public void SkipDay()
     {
-        EndDay_Rpc();
+        CurrentGameTime.Value = dayEndTime;
     }
 
-    public void DayEnd()
+    public void EndDay_Rpc()
     {
         var status = NetworkManager.Singleton.SceneManager.LoadScene("DayEndScene", LoadSceneMode.Additive);
         CheckStatus(status);
@@ -175,6 +176,11 @@ public class GameStateManager : NetworkBehaviour
         {
             CurrentGameTime.Value++;
             timer = 0;
+        }
+
+        if (CurrentGameTime.Value >= dayEndTime)
+        {
+            Close_Rpc();
         }
     }
 

@@ -27,5 +27,9 @@ public class UI_DayCounter : MonoBehaviour
         {
             DayState.text = "Open";
         }
+        else if (dayState == global::DayState.Closed)
+        {
+            DayState.text = "Closed";
+        }
     }
 }
