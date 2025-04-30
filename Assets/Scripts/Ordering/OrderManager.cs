@@ -25,6 +25,9 @@ public class OrderManager : NetworkBehaviour
     [Space]
 
     [SerializeField] float[] PlayerTimeMultipliers = new float[4];
+    [Space]
+    [SerializeField] Vector2 minMaxSpeedLimits = new(0.25f, 0.5f);
+    [SerializeField] Vector2 minMaxSpeedMultipliers = new(1.05f, 1.25f);
 
 
     private void Awake()
@@ -183,6 +186,20 @@ public class OrderManager : NetworkBehaviour
         return PlayerTimeMultipliers[NetworkManager.Singleton.ConnectedClients.Count - 1];
     }
 
+    public void AddTimeBonus(Order order, float profits)
+    {
+        float normalisedCompletionTime = order.CurrentOrderTime / order.InitialOrderTime;
+
+        if (normalisedCompletionTime < minMaxSpeedLimits.x) { return; }
+
+        Mathf.Clamp(normalisedCompletionTime, minMaxSpeedLimits.x, minMaxSpeedLimits.y);
+        normalisedCompletionTime /= minMaxSpeedLimits.y;
+
+        profits *= normalisedCompletionTime + 1;
+
+        MoneyManager.Instance?.AddTimeBonus((int)profits);
+    }
+
     public override void OnDestroy()
     {
         base.OnDestroy();
@@ -191,4 +208,11 @@ public class OrderManager : NetworkBehaviour
         GameStateManager.OnDayStateChanged -= OnDayStateChange;
         OnOrderTimersUpdate = null;
     }
+}
+
+[System.Serializable]
+public struct SpeedBonus
+{
+    float normalizedTime;
+    float multiplier;
 }

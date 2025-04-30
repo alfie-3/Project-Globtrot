@@ -15,6 +15,8 @@ public class MoneyManager : NetworkBehaviour
     public Action<int> OnBuildCoinsChanged = delegate { };
 
     public NetworkVariable<int> CurrentQuotaAmount = new();
+    public NetworkVariable<int> TimeBonus = new();
+
     public NetworkVariable<int> CurrentQuotaTarget = new();
 
     static public Action OnQuotaAchieved = delegate { };
@@ -42,7 +44,7 @@ public class MoneyManager : NetworkBehaviour
             Instance = this;
         }
 
-        GameStateManager.OnResetServer += () => { CurrentQuotaAmount.Value = 0; };
+        GameStateManager.OnResetServer += () => { CurrentQuotaAmount.Value = 0; TimeBonus.Value = 0; };
         GameStateManager.OnDayStateChanged += (value) => { if (value == DayState.Open) SetQuotaTarget(); };
 
         CurrentQuotaAmount.OnValueChanged += (prev, current) => { OnQuotaAmountChanged(prev, current); };
@@ -60,6 +62,15 @@ public class MoneyManager : NetworkBehaviour
         BuildCoins.Value = 2000;
     }
 
+    public int GetTotal()
+    {
+        int total = 0;
+        total += CurrentQuotaAmount.Value;
+        total += TimeBonus.Value;
+
+        return total;
+    }
+
     public void SetQuotaTarget()
     {
         DayData dayData = GameStateManager.Instance.GetLatestDayData();
@@ -72,6 +83,11 @@ public class MoneyManager : NetworkBehaviour
     public void SetQuotaTarget(int target)
     {
         CurrentQuotaTarget.Value = target;
+    }
+
+    public void AddTimeBonus(int amount)
+    {
+        TimeBonus.Value += amount;
     }
 
     public void AddToQuota(int amount)
@@ -151,6 +167,6 @@ public class MoneyManager : NetworkBehaviour
     {
         base.OnDestroy();
         GameStateManager.OnDayStateChanged -= (value) => { if (value == DayState.Open) SetQuotaTarget(); };
-        GameStateManager.OnResetServer -= () => { CurrentQuotaAmount.Value = 0; };
+        GameStateManager.OnResetServer -= () => { CurrentQuotaAmount.Value = 0; TimeBonus.Value = 0; };
     }
 }

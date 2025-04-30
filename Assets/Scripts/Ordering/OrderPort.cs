@@ -55,6 +55,7 @@ public class OrderPort : NetworkBehaviour
                 Debug.Log("Great order!");
                 MoneyManager.Instance.AddToQuota(response.Profit + response.Loss);
                 Order.OnOrderSucceeded.Invoke(Order);
+                OrderManager.Instance.AddTimeBonus(Order, response.Profit);
                 OrderCorrect_Rpc();
                 break;
             case (ResponseStatus.Failure):
@@ -62,6 +63,8 @@ public class OrderPort : NetworkBehaviour
                 OrderIncorrect_Rpc();
                 break;
         }
+
+
 
         OrderManager.Instance.RemoveOrder_Rpc(Order.OrderId);
         OrderManager.Instance.Invoke(nameof(OrderManager.AddNewRandomOrder), OrderManager.Instance.GetRandomDelay());

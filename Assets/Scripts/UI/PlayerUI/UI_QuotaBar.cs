@@ -38,13 +38,13 @@ public class UI_QuotaBar : MonoBehaviour
     {
         currentTarget = newTarget;
         progressBar.maxValue = currentTarget;
-        text.text = $"{0} / {currentTarget}";
+        text.text = $"<sprite=0>{0} / {currentTarget}";
     }
 
     public void UpdateQuotaAmount(int prev, int current)
     {
         progressBar.value = current;
-        text.text = $"{current} / {currentTarget}";
+        text.text = $"<sprite=0>{current} / {currentTarget}";
 
     }
 
