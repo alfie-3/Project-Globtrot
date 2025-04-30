@@ -1,8 +1,6 @@
-using UnityEngine;
-using TMPro;
-using Unity.Netcode;
 using System;
-using UnityEngine.InputSystem.LowLevel;
+using Unity.Netcode;
+using UnityEngine;
 
 public class MoneyManager : NetworkBehaviour
 {
@@ -31,7 +29,7 @@ public class MoneyManager : NetworkBehaviour
     {
         OnQuotaAmountChanged = delegate { };
         OnUpdateQuotaTarget = delegate { };
-        OnQuotaAchieved = delegate {};
+        OnQuotaAchieved = delegate { };
     }
 
     private void Awake()
@@ -49,7 +47,16 @@ public class MoneyManager : NetworkBehaviour
         GameStateManager.OnResetServer += () => { CurrentQuotaAmount.Value = 0; TimeBonus.Value = 0; };
         GameStateManager.OnDayStateChanged += (value) => { if (value == DayState.Open) SetQuotaTarget(); };
 
-        CurrentQuotaAmount.OnValueChanged += (prev, current) => { OnQuotaAmountChanged(prev, current); };
+        CurrentQuotaAmount.OnValueChanged += (prev, current) =>
+        {
+            OnQuotaAmountChanged(prev, current); 
+            
+            if (CurrentQuotaAmount.Value >= CurrentQuotaTarget.Value)
+            {
+                OnQuotaAchieved.Invoke();
+            }
+        };
+
         CurrentQuotaTarget.OnValueChanged += (prev, current) => { OnUpdateQuotaTarget(current); };
 
         Chips.OnValueChanged += (prev, current) => { OnChipsChanged(current); };
@@ -95,11 +102,6 @@ public class MoneyManager : NetworkBehaviour
     public void AddToQuota(int amount)
     {
         CurrentQuotaAmount.Value += amount;
-
-        if (CurrentQuotaAmount.Value >= CurrentQuotaTarget.Value)
-        {
-            OnQuotaAchieved.Invoke();
-        }
     }
 
     public bool CanAfford(double price)
@@ -162,7 +164,7 @@ public class MoneyManager : NetworkBehaviour
 
     public void AddMoney(int amount)
     {
-        
+
     }
 
     private new void OnDestroy()

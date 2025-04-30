@@ -513,6 +513,8 @@ MonoBehaviour:
   timeSpeed: 1
   CurrentGameTime:
     m_InternalValue: 0
+  dayStartTime: 540
+  dayEndTime: 1020
   DayDataList: {fileID: 11400000, guid: e1299ce3f8158a84abc24c98611fa255, type: 2}
 --- !u!1 &3414759610727970496
 GameObject:
@@ -565,12 +567,14 @@ MonoBehaviour:
   <OrderPorts>k__BackingField:
   - {fileID: 0}
   OrderLimit: 2
-  minMaxOrderDelayTime: {x: 5, y: 10}
+  minMaxOrderDelayTime: {x: 3, y: 6}
   PlayerTimeMultipliers:
   - 3
   - 3
   - 1.5
   - 1
+  minMaxSpeedLimits: {x: 0.25, y: 0.5}
+  minMaxSpeedMultipliers: {x: 1.05, y: 1.25}
 --- !u!1 &4246870664351213462
 GameObject:
   m_ObjectHideFlags: 0
@@ -619,6 +623,7 @@ MonoBehaviour:
   <Speed>k__BackingField: 3
   <PlayerForce>k__BackingField: 5
   Beltss: []
+  <BeltMaterial>k__BackingField: {fileID: 0}
 --- !u!1 &4716950886852918521
 GameObject:
   m_ObjectHideFlags: 0
@@ -781,6 +786,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   CurrentQuotaAmount:
+    m_InternalValue: 0
+  TimeBonus:
     m_InternalValue: 0
   CurrentQuotaTarget:
     m_InternalValue: 0

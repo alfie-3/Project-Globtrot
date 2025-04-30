@@ -29,6 +29,8 @@ public class OrderableList : ScriptableObject
 
         for (int i = 0; i < count; i++)
         {
+            if (i >= count) continue;
+
             randomPickedList.Add(new(CurrentOrderablesList[i], CurrentOrderablesList[i].WeightedQuantitySelection.GetRandom(), CurrentOrderablesList[i].TimeContribution));
         }
 

@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,6 +18,8 @@ public class UI_QuotaBar : MonoBehaviour
     Vector3 progressBarStartingPos;
     Vector3 textStartingPos;
 
+    bool barEnabled = false;
+
     public void Awake()
     {
         progressBarStartingPos = progressBar.transform.localPosition;
@@ -30,8 +33,21 @@ public class UI_QuotaBar : MonoBehaviour
         GameStateManager.OnDayStateChanged += ToggleBar;
         MoneyManager.OnQuotaAchieved += QuotaAchieved;
 
+        GameStateManager.OnReset += ResetBar;
+
         RectTransform rect = transform as RectTransform;
         rect.anchoredPosition = new(rect.anchoredPosition.x, 100);
+    }
+
+    private void ResetBar()
+    {
+        RectTransform rect = transform as RectTransform;
+
+        fillColour.color = defaultColour;
+        text.color = Color.white;
+
+        progressBar.transform.localPosition = progressBarStartingPos;
+        text.transform.localPosition = textStartingPos;
     }
 
     public void UpdateQuotaTarget(int newTarget)
@@ -52,13 +68,19 @@ public class UI_QuotaBar : MonoBehaviour
     {
         RectTransform rect = transform as RectTransform;
 
-        if (state == DayState.Open)
+        if (state == DayState.Open || state == DayState.Overtime)
         {
+            if (barEnabled) return;
+
             rect.DOAnchorPosY(0.5f, 1).SetEase(Ease.InOutExpo);
+            barEnabled = true;
         }
         else
         {
+            if (!barEnabled) return;
+
             rect.DOAnchorPosY(100, 1).SetEase(Ease.InOutExpo);
+            barEnabled = false;
         }
     }
 
@@ -79,5 +101,6 @@ public class UI_QuotaBar : MonoBehaviour
         MoneyManager.OnUpdateQuotaTarget -= UpdateQuotaTarget;
         MoneyManager.OnQuotaAmountChanged -= UpdateQuotaAmount;
         GameStateManager.OnDayStateChanged -= ToggleBar;
+        GameStateManager.OnReset -= ResetBar;
     }
 }

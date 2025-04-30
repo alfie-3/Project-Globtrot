@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Profiling;
@@ -64,7 +65,7 @@ public class OrderManager : NetworkBehaviour
         {
             for (int i = 0; i < OrderPorts.Count; i++)
             {
-                Invoke(nameof(AddNewRandomOrder), GetRandomDelay() * i);
+                Invoke(nameof(AddNewRandomOrder), GetRandomDelay() * (i + 1));
             }
         }
     }
@@ -200,10 +201,10 @@ public class OrderManager : NetworkBehaviour
 
         if (normalisedCompletionTime < minMaxSpeedLimits.x) { return; }
 
-        Mathf.Clamp(normalisedCompletionTime, minMaxSpeedLimits.x, minMaxSpeedLimits.y);
-        normalisedCompletionTime /= minMaxSpeedLimits.y;
+        normalisedCompletionTime = Mathf.Clamp(normalisedCompletionTime, minMaxSpeedLimits.x, minMaxSpeedLimits.y);
+        float multiplier = math.remap(minMaxSpeedLimits.x, minMaxSpeedLimits.y, minMaxSpeedMultipliers.x, minMaxSpeedMultipliers.y, normalisedCompletionTime);
 
-        profits *= normalisedCompletionTime + 1;
+        profits *= multiplier;
 
         MoneyManager.Instance?.AddTimeBonus((int)profits);
     }
