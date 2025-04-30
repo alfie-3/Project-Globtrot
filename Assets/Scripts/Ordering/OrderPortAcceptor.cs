@@ -25,6 +25,8 @@ public class OrderPortAcceptor : NetworkBehaviour
             }
         }
 
+        if (other.transform.root.gameObject.TryGetComponent(out PlayerCharacterController characterController)) { return; }
+
         networkObject.Despawn();
     }
 }
