@@ -10,7 +10,10 @@ public class OrderManager : NetworkBehaviour
     [field: SerializeField] public List<OrderPort> OrderPorts { get; private set; } = new List<OrderPort>();
 
     public static Dictionary<int, Order> CurrentOrders = new();
+    public static int CurrentOrdersAmount => CurrentOrders.Count;
+
     public static Action<Order, int> OnNewOrderAdded;
+    public static Action OnOrderRemoved;
 
     //Will always be 0 on clients, used by the server as an ID to distinguish orders
     public static int CurrentOrderID = 0;
@@ -59,7 +62,10 @@ public class OrderManager : NetworkBehaviour
     {
         if (state == DayState.Open)
         {
-            Invoke(nameof(AddNewRandomOrder), GetRandomDelay());
+            for (int i = 0; i < OrderPorts.Count; i++)
+            {
+                Invoke(nameof(AddNewRandomOrder), GetRandomDelay() * i);
+            }
         }
     }
 
@@ -79,6 +85,7 @@ public class OrderManager : NetworkBehaviour
         CurrentOrders = new();
         Instance = null;
         OnNewOrderAdded = delegate { };
+        OnOrderRemoved = delegate { };
         OnOrderTimersUpdate = delegate { };
         CurrentOrderID = 0;
     }
@@ -148,6 +155,7 @@ public class OrderManager : NetworkBehaviour
         }
 
         CurrentOrders.Remove(orderId);
+        OnOrderRemoved.Invoke();
     }
 
     public int TryAssignToOrderPort(Order order)

@@ -10,6 +10,8 @@ public class UI_DayCounter : MonoBehaviour
     {
         GameStateManager.Instance.CurrentDay.OnValueChanged += (prev, current) => { UpdateDayCounter(current); };
         GameStateManager.Instance.CurrentDayState.OnValueChanged += (prev, current) => { UpdateDayState(current); };
+
+        UpdateDayState(GameStateManager.Instance.CurrentDayState.Value);
     }
 
     public void UpdateDayCounter(int current)
@@ -30,6 +32,10 @@ public class UI_DayCounter : MonoBehaviour
         else if (dayState == global::DayState.Closed)
         {
             DayState.text = "Closed";
+        }
+        else if (dayState == global::DayState.Overtime)
+        {
+            DayState.text = "Overtime";
         }
     }
 }
