@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 05ef7f1095f25ff4888175ba38f7fb19, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 05ef7f1095f25ff4888175ba38f7fb19, type: 3}
       propertyPath: m_LocalPosition.y
@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 05ef7f1095f25ff4888175ba38f7fb19, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 17
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 05ef7f1095f25ff4888175ba38f7fb19, type: 3}
       propertyPath: m_LocalRotation.w
@@ -96,6 +96,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 05ef7f1095f25ff4888175ba38f7fb19, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1153198539626401354}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 05ef7f1095f25ff4888175ba38f7fb19, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1787775306602493807}
     - targetCorrespondingSourceObject: {fileID: 3196978992077723283, guid: 05ef7f1095f25ff4888175ba38f7fb19, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2803388155138971908}
@@ -186,8 +189,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2732600636
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  GlobalObjectIdHash: 1643775608
+  InScenePlacedSourceGlobalObjectIdHash: 1643775608
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
@@ -212,3 +215,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+--- !u!114 &1787775306602493807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4381649898801391499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74228665e5ff8f8488a3e9fd65697aa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <BuildHologramMesh>k__BackingField: {fileID: 5075070655965605853, guid: 05ef7f1095f25ff4888175ba38f7fb19, type: 3}
+  <item>k__BackingField: {fileID: 11400000, guid: 0857f2031d398124fb5e02e5362f735d, type: 2}
+  <CanRemove>k__BackingField: 1
+  <MirrorX>k__BackingField: 0
+  <MirrorZ>k__BackingField: 0
