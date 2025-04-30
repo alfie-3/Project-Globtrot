@@ -25,7 +25,7 @@ public class UI_Clock : MonoBehaviour
     {
         RectTransform rect = clockText.rectTransform;
 
-        if (dayState == DayState.Open)
+        if (dayState == DayState.Open || dayState == DayState.Overtime)
         {
             rect.DOAnchorPosX(0, 2).SetEase(Ease.OutExpo);
         }

@@ -6,6 +6,8 @@ using UnityEngine.InputSystem.LowLevel;
 
 public class MoneyManager : NetworkBehaviour
 {
+    public const float ChipsMultiplier = 0.08f;
+
     public static MoneyManager Instance { get; private set; }
 
     public NetworkVariable<int> Chips { get; private set; } = new();

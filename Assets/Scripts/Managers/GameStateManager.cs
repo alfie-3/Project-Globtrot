@@ -99,8 +99,29 @@ public class GameStateManager : NetworkBehaviour
     {
         if (CurrentDayState.Value != DayState.Open && bypassOpen != false) return;
 
+        if (OrderManager.CurrentOrdersAmount > 0)
+        {
+            CurrentDayState.Value = DayState.Overtime;
+            OrderManager.OnOrderRemoved += WaitForOvertimeToFinish;
+
+            return;
+        }
+
         CurrentDayState.Value = DayState.Closed;
         ToggleTimer(false);
+    }
+
+    public void WaitForOvertimeToFinish()
+    {
+        if (OrderManager.CurrentOrdersAmount > 0)
+        {
+            return;
+        }
+        else
+        {
+            Close_Rpc();
+            OrderManager.OnOrderRemoved -= WaitForOvertimeToFinish;
+        }
     }
 
     [ContextMenu("SkipDay")]
@@ -178,7 +199,7 @@ public class GameStateManager : NetworkBehaviour
             timer = 0;
         }
 
-        if (CurrentGameTime.Value >= dayEndTime)
+        if (CurrentGameTime.Value >= dayEndTime && CurrentDayState.Value != DayState.Overtime)
         {
             Close_Rpc();
         }
@@ -206,6 +227,7 @@ public class GameStateManager : NetworkBehaviour
 
         OnDayChanged = delegate { };
         OnDayStateChanged = delegate { };
+        OrderManager.OnOrderRemoved -= WaitForOvertimeToFinish;
     }
 }
 
@@ -213,5 +235,6 @@ public enum DayState
 {
     Preperation,
     Open,
+    Overtime,
     Closed
 }
