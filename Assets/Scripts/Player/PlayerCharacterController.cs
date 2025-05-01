@@ -10,6 +10,7 @@ public class PlayerCharacterController : NetworkBehaviour
     public CharacterMovement CharacterMovement { get; private set; }
     public PlayerInputManager PlayerInputManager { get; private set; }
     public PlayerCameraManager CameraManager { get; private set; }
+    public PlayerModel PlayerModel { get; private set; }
 
 
     [Header("Movement")]
@@ -28,10 +29,10 @@ public class PlayerCharacterController : NetworkBehaviour
     [SerializeField] Rigidbody[] ragdollRigidbodies;
     [SerializeField] bool knockedOut;
     float knockoutTime;
-    public bool ReadyToGetUp => !knockedOut && ragdollEnabled;
+    public bool ReadyToGetUp => !knockedOut && RagdollEnabled;
 
     public Action<bool> OnToggledRagdoll = delegate { };
-    bool ragdollEnabled = false;
+    public bool RagdollEnabled { get; private set; } = false;
 
     float baseFriction;
     float baseAirResistance;
@@ -55,6 +56,7 @@ public class PlayerCharacterController : NetworkBehaviour
         CharacterMovement = GetComponent<CharacterMovement>();
         PlayerInputManager = GetComponent<PlayerInputManager>();
         CameraManager = GetComponentInChildren<PlayerCameraManager>();
+        PlayerModel = GetComponentInChildren<PlayerModel>();
         GameStateManager.OnReset += Respawn;
 
         Stamina.ResetStamina();
@@ -117,7 +119,7 @@ public class PlayerCharacterController : NetworkBehaviour
     {
         if (knockedOut) return;
 
-        if (ragdollEnabled)
+        if (RagdollEnabled)
         {
             ToggleRagdoll();
         }
@@ -137,16 +139,16 @@ public class PlayerCharacterController : NetworkBehaviour
     {
         if (!IsLocalPlayer) return;
 
-        ragdollEnabled = !ragdollEnabled;
-        SetRagdoll_Rpc(ragdollEnabled);
+        RagdollEnabled = !RagdollEnabled;
+        SetRagdoll_Rpc(RagdollEnabled);
     }
 
     public void SetRagdoll(bool value)
     {
         if (!IsLocalPlayer) return;
 
-        ragdollEnabled = value;
-        SetRagdoll_Rpc(ragdollEnabled);
+        RagdollEnabled = value;
+        SetRagdoll_Rpc(RagdollEnabled);
     }
 
     public void Knockout(float time)
@@ -170,21 +172,21 @@ public class PlayerCharacterController : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     private void SetRagdoll_Rpc(bool value)
     {
-        ragdollEnabled = value;
-        OnToggledRagdoll.Invoke(ragdollEnabled);
+        RagdollEnabled = value;
+        OnToggledRagdoll.Invoke(RagdollEnabled);
 
         foreach (Rigidbody rb in ragdollRigidbodies)
         {
-            rb.isKinematic = !ragdollEnabled;
-            rb.interpolation = ragdollEnabled ? RigidbodyInterpolation.Interpolate : RigidbodyInterpolation.None;
+            rb.isKinematic = !RagdollEnabled;
+            rb.interpolation = RagdollEnabled ? RigidbodyInterpolation.Interpolate : RigidbodyInterpolation.None;
         }
 
-        CanMove = !ragdollEnabled;
+        CanMove = !RagdollEnabled;
 
-        CharacterMovement.Friction = ragdollEnabled ? baseFriction / 4 : baseFriction;
-        CharacterMovement.AirResistance = ragdollEnabled ? baseAirResistance / 4 : baseAirResistance;
+        CharacterMovement.Friction = RagdollEnabled ? baseFriction / 4 : baseFriction;
+        CharacterMovement.AirResistance = RagdollEnabled ? baseAirResistance / 4 : baseAirResistance;
 
-        if (ragdollEnabled)
+        if (RagdollEnabled)
         {
             ragdollRigidbodies[0].centerOfMass = Vector3.zero;
             ragdollRigidbodies[0].inertiaTensorRotation = Quaternion.identity;

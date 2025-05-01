@@ -1,5 +1,6 @@
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ImpactAudioHandler : NetworkBehaviour
 {
@@ -12,6 +13,8 @@ public class ImpactAudioHandler : NetworkBehaviour
 
     float previousVelocityMagnitude;
 
+    public UnityEvent onPlayNoise;
+
     private void OnEnable()
     {
         rigidBody = GetComponent<Rigidbody>();
@@ -22,6 +25,7 @@ public class ImpactAudioHandler : NetworkBehaviour
         if (collision.relativeVelocity.magnitude > minNoiseForce)
         {
             PlayNoise();
+            onPlayNoise.Invoke();
         }
     }
 

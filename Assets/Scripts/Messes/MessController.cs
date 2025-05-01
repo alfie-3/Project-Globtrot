@@ -9,6 +9,23 @@ public class MessController : NetworkBehaviour
 
     [SerializeField] ParticleSystem SweepParticle;
 
+    [SerializeField] float slipCooldown = 3;
+    bool onCooldown = false;
+    float slipTimer;
+
+    private void Update()
+    {
+        if (onCooldown)
+        {
+            slipTimer -= Time.deltaTime;
+
+            if (slipTimer <= 0)
+            {
+                onCooldown = false;
+            }
+        }
+    }
+
     private void OnEnable()
     {
         CurrentSweepState.OnValueChanged += PlayEffect;
@@ -21,6 +38,52 @@ public class MessController : NetworkBehaviour
         if (!IsServer) return;
 
         CurrentSweepState.Value = sweepsRequired;
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.transform.root.TryGetComponent(out PlayerCharacterController playerController))
+        {
+            if (onCooldown) return;
+            if (!playerController.IsOwner) return;
+            if (!playerController.CharacterMovement.IsGrounded) return;
+            if (playerController.PlayerInputManager.MovementInput.magnitude < 0.1f) return;
+            StartSlipCooldown();
+            if (playerController.RagdollEnabled) return;
+
+            playerController.SetRagdoll(true);
+            playerController.Knockout(3);
+
+            PlayerSlip_Rpc(playerController.NetworkObject);
+        }
+    }
+
+    public void StartSlipCooldown()
+    {
+        onCooldown = true;
+        slipTimer = slipCooldown;
+    }
+
+    [Rpc(SendTo.Everyone)]
+    public void PlayerSlip_Rpc(NetworkObjectReference player)
+    {
+        if (!player.TryGet(out NetworkObject other)) return;
+
+        if (other.transform.root.TryGetComponent(out PlayerCharacterController playerController))
+        {
+            BoxCollider boxCollider = GetComponent<BoxCollider>();
+
+            Collider[] rigidbodyColliders = Physics.OverlapBox(boxCollider.bounds.center, boxCollider.size, transform.rotation, LayerMask.GetMask("PlayerCollider"));
+
+            foreach (Collider playerCollider in playerController.GetComponentsInChildren<Collider>())
+            {
+                if (playerCollider.attachedRigidbody == null) continue;
+
+                playerCollider.attachedRigidbody.AddExplosionForce(1800, playerController.PlayerModel.Head.transform.position + playerController.PlayerModel.Head.transform.forward, 5);
+            }
+
+            playerController.CharacterMovement.Push(playerController.PlayerModel.transform.forward * 200 / 8);
+        }
     }
 
     [Rpc(SendTo.Server)]
@@ -53,6 +116,8 @@ public class MessController : NetworkBehaviour
 
     public void PlayEffect(int prev, int current)
     {
+        if (current == sweepsRequired) return;
+
         if (SweepParticle != null)
         {
             SweepParticle.Emit(25);

@@ -4,6 +4,13 @@ public class PlayerModel : MonoBehaviour
 {
     [SerializeField] PlayerCameraManager playerCameraManager;
 
+    [Header("Bones")]
+    public GameObject Head;
+    public GameObject legHigher_R;
+    public GameObject legLower_R;
+    public GameObject legHigher_L;
+    public GameObject legLower_L;
+
     private void Update()
     {
         RotateToFaceCameraDirection();

@@ -422,19 +422,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5862923584276602137, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -3.7493994e-33
-      objectReference: {fileID: 0}
-    - target: {fileID: 5862923584276602137, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -6.123234e-17
-      objectReference: {fileID: 0}
-    - target: {fileID: 5862923584276602137, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
-      propertyPath: m_LocalRotation.y
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5862923584276602137, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862923584276602137, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862923584276602137, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 6.123234e-17
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5862923584276602137, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -459,6 +459,14 @@ PrefabInstance:
     - target: {fileID: 6413770517156856969, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
       propertyPath: m_LocalPosition.z
       value: -0.451
+      objectReference: {fileID: 0}
+    - target: {fileID: 6757460629403179946, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
+      propertyPath: m_Mass
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6757460629403179946, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
+      propertyPath: m_ImplicitCom
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7159928062219779173, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
       propertyPath: m_Materials.Array.size
@@ -584,7 +592,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   sweepDistance: 5
   sweepPower: 1
-  capacity: 6
+  capacity: 10000
   <fullness>k__BackingField:
     m_InternalValue: 0
   TextIndicator: {fileID: 809209297297752157}
