@@ -195,6 +195,7 @@ public struct OrderPayload : INetworkSerializable
             reader.ReadValueSafe(out OrderItems);
             reader.ReadValueSafe(out Time);
             reader.ReadValueSafe(out OrderID);
+            reader.ReadValueSafe(out AssignedPort);
 
         }
         else
@@ -204,6 +205,7 @@ public struct OrderPayload : INetworkSerializable
             writer.WriteValueSafe(OrderItems);
             writer.WriteValueSafe(Time);
             writer.WriteValueSafe(OrderID);
+            writer.WriteValueSafe(AssignedPort);
         }
     }
 

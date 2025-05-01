@@ -82,6 +82,8 @@ public class MoneyManager : NetworkBehaviour
 
     public void SetQuotaTarget()
     {
+        if (!IsServer) return;
+
         DayData dayData = GameStateManager.Instance.GetLatestDayData();
         if (dayData == null) return;
 
@@ -91,6 +93,8 @@ public class MoneyManager : NetworkBehaviour
 
     public void SetQuotaTarget(int target)
     {
+        if (!IsServer) return;
+
         CurrentQuotaTarget.Value = target;
     }
 
