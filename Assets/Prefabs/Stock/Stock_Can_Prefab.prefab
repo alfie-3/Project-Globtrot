@@ -123,5 +123,96 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1647032077398859466, guid: c1eb8c503f20d1649bb9c0ac784fbc69, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3173958545335947952}
+    - targetCorrespondingSourceObject: {fileID: 1647032077398859466, guid: c1eb8c503f20d1649bb9c0ac784fbc69, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1330454701787831985}
   m_SourcePrefab: {fileID: 100100000, guid: c1eb8c503f20d1649bb9c0ac784fbc69, type: 3}
+--- !u!1 &9047902247392308003 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1647032077398859466, guid: c1eb8c503f20d1649bb9c0ac784fbc69, type: 3}
+  m_PrefabInstance: {fileID: 7731543481718322665}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3173958545335947952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9047902247392308003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cab30c779a9bc3d42bf785a4f929a0ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  onTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  onDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1330454701787831985}
+        m_TargetAssemblyTypeName: MessMaker, Assembly-CSharp
+        m_MethodName: CreateMess
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  ShouldTakeDamage: 1
+  baseHealth: 25
+  health:
+    m_InternalValue: 0
+  minDamageForce: 7
+  maxDamageForce: 14
+  damageCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  fragility: 4
+--- !u!114 &1330454701787831985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9047902247392308003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cf35b8500752224a956fcab71f9cbb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  mess: {fileID: 2112776467993208405, guid: c600c6c3b6cd5c6428c24b7c5d8894a2, type: 3}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 65
+  randomMessChance: 1
