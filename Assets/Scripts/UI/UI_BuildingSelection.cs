@@ -2,8 +2,6 @@ using UnityEngine;
 using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
-using Unity.VisualScripting;
 using TMPro;
 
 
@@ -29,6 +27,9 @@ public class UI_BuildingSelection: MonoBehaviour {
 
     [SerializeField]
     GameObject itemSlotCarrige;
+
+    [SerializeField] float scaleFalloff = 0.2f;
+    [SerializeField] float alphaFalloff = 0.3f;
 
     [SerializeField] float horizontalValue = 12f;
 
@@ -135,20 +136,37 @@ public class UI_BuildingSelection: MonoBehaviour {
 
         UpdateBuildText();
         SetScales();
+        SetVisabilaties();
     }
 
     public void AddItem(PlacableFurniture_Item item, string category)
     {
-        GameObject carrige = ItemsPanel.Find(category).gameObject;
-        if (carrige == null) { 
-            carrige = Instantiate(itemSlotCarrige, ItemsPanel); 
+        Transform carrigeT = ItemsPanel.Find(category);
+        GameObject carrige;
+        GameObject itemIcon;
+        if (carrigeT == null)
+        {
+            carrige = Instantiate(itemSlotCarrige, ItemsPanel);
             carrige.name = category;
             slots.Add(new FunitureSlot(category));
             _menuX.Add(0);
-        }
-        Transform slot = carrige.transform.GetChild(0);
 
-        GameObject itemIcon = Instantiate(slot.GetChild(0).gameObject,slot);
+
+            itemIcon = carrige.transform.GetChild(0).GetChild(0).gameObject;
+            /*try
+            {
+                carrige.transform.GetChild(0).GetChild(0).GetComponent<RawImage>().texture = item.ItemIcon.texture;
+            }
+            catch { Debug.LogWarning($"Failed to load item icon. Item: {item.ItemID}"); };
+            slots[carrige.transform.GetSiblingIndex()].Items.Add(item);*/
+        }
+        else
+        {
+            carrige = carrigeT.gameObject;
+            itemIcon = Instantiate(carrige.transform.GetChild(0).GetChild(0).gameObject, carrige.transform.GetChild(0));
+        }
+
+        
         try
         {
             itemIcon.GetComponent<RawImage>().texture = item.ItemIcon.texture;
@@ -163,9 +181,22 @@ public class UI_BuildingSelection: MonoBehaviour {
 
     void SetScales() {
         for(int i = 0; i < ItemsPanel.childCount; i++) {
-            float scale = 1 - (0.2f * Mathf.Abs(MenuY - i));
+            float scale = 1 - (scaleFalloff * Mathf.Abs(MenuY - i));
             //transform.DOScale(scale, scale,2f);
-            ItemsPanel.GetChild(i).DOScale(new Vector3(scale, scale, scale), 0.2f);//
+            ItemsPanel.GetChild(i).DOScale(new Vector3(scale, scale, scale), 0.2f).SetEase(Ease.InOutFlash);//
+            //DOTween.To(() => ItemsPanel.GetChild(i).localScale, x => ItemsPanel.GetChild(i).localScale = x, new Vector3(scale, scale, scale),0.2f).SetEase(Ease.InOutFlash);
+        }
+    }
+
+    void SetVisabilaties()
+    {
+        for (int i = 0; i < ItemsPanel.childCount; i++)
+        {
+            float scale = 1 - (alphaFalloff * Mathf.Abs(MenuY - i));
+            //transform.DOScale(scale, scale,2f);
+            CanvasGroup canvas = ItemsPanel.GetChild(i).GetComponent<CanvasGroup>();
+            DOTween.To(() => canvas.alpha, x => canvas.alpha = x, scale, 0.2f).SetEase(Ease.InOutFlash);
+            //ItemsPanel.GetChild(i).DO//.DOScale(new Vector3(scale, scale, scale), 0.2f);//
             //DOTween.To(() => ItemsPanel.GetChild(i).localScale, x => ItemsPanel.GetChild(i).localScale = x, new Vector3(scale, scale, scale),0.2f).SetEase(Ease.InOutFlash);
         }
     }
