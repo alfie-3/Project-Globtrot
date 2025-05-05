@@ -13,20 +13,20 @@ public class UI_MenusManager : MonoBehaviour
 
     public static Action<bool> SetDisplayLoadingScreen = delegate { };
 
-    [RuntimeInitializeOnLoadMethod]
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void Init()
     {
         SetDisplayLoadingScreen = delegate { };
     }
 
-    private void OnEnable()
+    private void Awake()
     {
         SetDisplayLoadingScreen += DisplayLoadingScreen;
     }
 
     private void OnDisable()
     {
-        SetDisplayLoadingScreen += DisplayLoadingScreen;
+        SetDisplayLoadingScreen -= DisplayLoadingScreen;
     }
 
     private void Start()

@@ -3,6 +3,7 @@ using System.Linq;
 using TMPro;
 using Unity.Services.Multiplayer;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class UI_LobbyManager : MonoBehaviour
@@ -15,6 +16,9 @@ public class UI_LobbyManager : MonoBehaviour
     Dictionary<string, UI_PlayerCard> playerCardDict = new Dictionary<string, UI_PlayerCard>();
 
     [SerializeField] Button startGameButton;
+
+    public UnityEvent OnLobbyJoined;
+    public UnityEvent OnLobbyLeft;
 
     private void OnEnable()
     {
@@ -35,6 +39,7 @@ public class UI_LobbyManager : MonoBehaviour
         GetComponent<UI_OpenableCanvas>().SetEnabled(true);
         lobbyIdText.text = SessionManager.Session.Code;
 
+        OnLobbyJoined.Invoke();
         AddPlayerCards();
     }
 
@@ -43,6 +48,7 @@ public class UI_LobbyManager : MonoBehaviour
         await SessionManager.LeaveSession();
         GetComponent<UI_OpenableCanvas>().SetEnabled(false);
         ClearPlayerCards();
+        OnLobbyLeft.Invoke();
     }
 
     public void StartGame(string sceneName)
