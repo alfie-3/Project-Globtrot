@@ -1028,10 +1028,10 @@ PrefabInstance:
       addedObject: {fileID: 6616268413417235685}
     - targetCorrespondingSourceObject: {fileID: -506391751699220794, guid: f22854c2888e34e40882d234c7156472, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8767758377066608076}
+      addedObject: {fileID: 311141663141840178}
     - targetCorrespondingSourceObject: {fileID: -506391751699220794, guid: f22854c2888e34e40882d234c7156472, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 311141663141840178}
+      addedObject: {fileID: 1667729936052894501}
     - targetCorrespondingSourceObject: {fileID: 5162820104835090806, guid: f22854c2888e34e40882d234c7156472, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1703288795636774868}
@@ -1163,7 +1163,20 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -506391751699220794, guid: f22854c2888e34e40882d234c7156472, type: 3}
   m_PrefabInstance: {fileID: 443918084402169040}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &8767758377066608076
+--- !u!114 &311141663141840178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9138351509173334550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e85f8234b05a91e4e8259ee465566ef2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+--- !u!65 &1667729936052894501
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1178,22 +1191,9 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.34550455, y: 0.51717776, z: 0.8255939}
-  m_Center: {x: 0.17275275, y: 0.45858887, z: 0}
---- !u!114 &311141663141840178
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9138351509173334550}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e85f8234b05a91e4e8259ee465566ef2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
+  m_Size: {x: 0.46, y: 0.89, z: 0.67}
+  m_Center: {x: 0.20003688, y: -0.000000002468058, z: -0.4585889}
