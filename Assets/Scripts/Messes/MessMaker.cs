@@ -1,5 +1,6 @@
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class MessMaker : NetworkBehaviour
 {
@@ -17,9 +18,12 @@ public class MessMaker : NetworkBehaviour
         {
             if (!hit.transform.TryGetComponent(out MessSurface surface)) return;
 
-            Vector3 euler = new(90, Random.Range(0, 360),0);
-            MessController instancedMessController = Instantiate(mess, hit.point + mess.transform.position, Quaternion.Euler(euler));
-            instancedMessController.GetComponent<NetworkObject>().Spawn();
+            if (NavMesh.SamplePosition(hit.point, out NavMeshHit navHit, 2, NavMesh.GetAreaFromName("Everything")))
+            {
+                Vector3 euler = new(90, Random.Range(0, 360), 0);
+                MessController instancedMessController = Instantiate(mess, navHit.position + mess.transform.position, Quaternion.Euler(euler));
+                instancedMessController.GetComponent<NetworkObject>().Spawn();
+            }
         }
     }
 }
