@@ -55,20 +55,12 @@ public class NavMeshSourceTag : MonoBehaviour
 
     public void OnEnable()
     {
-        if (NetworkManager.Singleton)
-        {
-            if (!NetworkManager.Singleton.IsServer) return;
-        }
 
         RebuildNavmesh.Invoke();
     }
 
     public void OnDisable()
     {
-        if (NetworkManager.Singleton)
-        {
-            if (!NetworkManager.Singleton.IsServer) return;
-        }
 
         if (meshFilterData != null)
         {
