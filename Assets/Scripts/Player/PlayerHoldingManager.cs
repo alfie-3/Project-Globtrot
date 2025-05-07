@@ -67,6 +67,11 @@ public class PlayerHoldingManager : NetworkBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        GameStateManager.OnReset += () => ClearHeldItem();
+    }
+
     public void HandlePlayerHolding(HeldObject prev, HeldObject current)
     {
         if (current == null || !current.IsHolding)
@@ -293,15 +298,24 @@ public class PlayerHoldingManager : NetworkBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, dropDistance, dropObjectLayerMask, QueryTriggerInteraction.Ignore))
         {
             dropPos = hit.point;
-            dropPos += hit.normal * (heldObjBounds.extents.y + dropHeight);
+            dropPos = CalculateDropDistance(dropPos, hit, heldObjBounds);
         }
-        else if (Physics.Raycast(secondaryRay, out RaycastHit secondaryHit, dropHeight * 4, dropObjectLayerMask, QueryTriggerInteraction.Ignore))
+        else if (Physics.Raycast(secondaryRay, out RaycastHit secondaryHit, 5, dropObjectLayerMask, QueryTriggerInteraction.Ignore))
         {
             dropPos = secondaryHit.point;
-            dropPos += secondaryHit.normal * (heldObjBounds.extents.y + dropHeight);
+            dropPos = CalculateDropDistance(dropPos, secondaryHit, heldObjBounds);
         }
 
         ClearHeldItem(dropPos, HeldObj.transform.rotation.eulerAngles);
+    }
+
+    public Vector3 CalculateDropDistance(Vector3 inputPos, RaycastHit hit, Bounds objectBounds)
+    {
+        inputPos.y += objectBounds.extents.y;
+        inputPos.y += (HeldObj.transform.position.y - objectBounds.center.y) * 2;
+        inputPos.y += dropHeight;
+
+        return inputPos;
     }
 
     public void PerformScroll(InputAction.CallbackContext context)
@@ -332,6 +346,11 @@ public class PlayerHoldingManager : NetworkBehaviour
     }
 
     public bool HoldingItem => HeldObj != null;
+
+    private new void OnDestroy()
+    {
+        GameStateManager.OnReset -= () => ClearHeldItem();
+    }
 }
 
 [System.Serializable]

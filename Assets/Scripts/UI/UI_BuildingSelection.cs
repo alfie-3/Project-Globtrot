@@ -117,7 +117,11 @@ public class UI_BuildingSelection: MonoBehaviour {
 
     void ProccessNewItems()
     {
-        GameStateManager.Instance.GetCurrentDayData().AddedPlaceables.ForEach(x => AddItem(x.prefab, x.category));
+        DayData dayData = GameStateManager.Instance.GetCurrentDayData();
+
+        if (dayData == null) return;
+
+        dayData.AddedPlaceables.ForEach(x => AddItem(x.prefab, x.category));
     }
 
 
