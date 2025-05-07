@@ -41,6 +41,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Ambient_Occlusion:
+        m_Texture: {fileID: 2800000, guid: 68134ef866d028c428020080719a2baf, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -51,6 +55,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Colour:
         m_Texture: {fileID: 2800000, guid: 7266bdbf1c8a7a841b1949b8a7e7c3e7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CustomLightingShader_3c6bcbddaf9b4755aad8265914600f6c_AmbientOcclusion_2767091583_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CustomLightingShader_3c6bcbddaf9b4755aad8265914600f6c_Texture2D_3410600165_Texture2D:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -119,6 +131,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AO_Strength: 0.39
     - _AddPrecomputedVelocity: 0
     - _AlphaClip: 0
     - _AlphaClipThreshold: 0.5
