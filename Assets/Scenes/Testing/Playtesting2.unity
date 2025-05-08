@@ -4394,55 +4394,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -180.007, z: 0}
---- !u!1 &526437789
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 526437791}
-  - component: {fileID: 526437790}
-  m_Layer: 0
-  m_Name: --Volume--
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &526437790
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 526437789}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IsGlobal: 1
-  priority: 0
-  blendDistance: 0
-  weight: 1
-  sharedProfile: {fileID: 11400000, guid: 10fc4df2da32a41aaa32d77bc913491c, type: 2}
---- !u!4 &526437791
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 526437789}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &527741345
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12199,6 +12150,10 @@ PrefabInstance:
     - target: {fileID: 6696600584059691822, guid: 181139452a76c0545b110019147e9cc8, type: 3}
       propertyPath: m_UseColorTemperature
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8641443424100520481, guid: 181139452a76c0545b110019147e9cc8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.147
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -21326,9 +21281,9 @@ SceneRoots:
   - {fileID: 662677060}
   - {fileID: 1649533084}
   - {fileID: 1256857228}
+  - {fileID: 1460749559}
   - {fileID: 1455776872}
   - {fileID: 853568570}
-  - {fileID: 526437791}
   - {fileID: 1921731462}
   - {fileID: 1075258117}
   - {fileID: 911679828}
@@ -21349,7 +21304,6 @@ SceneRoots:
   - {fileID: 981393048}
   - {fileID: 1281443081}
   - {fileID: 2064704188}
-  - {fileID: 1460749559}
   - {fileID: 4519446963133616111}
   - {fileID: 826284825}
   - {fileID: 1501231106}
