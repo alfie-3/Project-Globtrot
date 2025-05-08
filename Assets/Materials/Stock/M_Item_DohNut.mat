@@ -41,6 +41,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Ambient_Occlusion:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 2800000, guid: 614ec2a7aa7cd284a9ed7c28c991ddbb, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -123,12 +127,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AO_Strength: 1
     - _AddPrecomputedVelocity: 0
     - _Alpha: 1
     - _AlphaClip: 0
     - _AlphaClipThreshold: 0.5
     - _AlphaToMask: 0
-    - _Backlight_Amount: 1
+    - _Backlight_Amount: 2.5
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
