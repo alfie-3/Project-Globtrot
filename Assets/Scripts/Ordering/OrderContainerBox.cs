@@ -18,6 +18,8 @@ public class OrderContainerBox : NetworkBehaviour, IContents, IOnHeld, IUseItem
     {
         rb = GetComponent<RigidbodyNetworkTransform>();
         pickupInteractable = GetComponent<Pickup_Interactable>();
+
+        boxContents.OnItemAdded += PlayAddAnimation;
     }
 
     public void SetOpen(bool open)
@@ -96,5 +98,10 @@ public class OrderContainerBox : NetworkBehaviour, IContents, IOnHeld, IUseItem
     public void OnUnview()
     {
         
+    }
+
+    public void PlayAddAnimation()
+    {
+        boxAnimator.SetTrigger("Expand");
     }
 }
