@@ -11,6 +11,8 @@ public class MessMaker : NetworkBehaviour
 
     public void CreateMess()
     {
+        if (!IsServer) return;
+
         if (Random.value > randomMessChance) return;
 
         Debug.DrawRay(transform.position, Vector3.down * 1, Color.red, 3);

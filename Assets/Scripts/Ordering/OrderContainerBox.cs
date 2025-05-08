@@ -8,6 +8,7 @@ public class OrderContainerBox : NetworkBehaviour, IContents, IOnHeld, IUseItem
     [SerializeField] ContainerContents boxContents;
     public Contents Contents => boxContents.Contents;
     [Space]
+    [SerializeField] ParticleSystem inputParticle;
     [SerializeField] Animator boxAnimator;
     bool isOpen = false;
 
@@ -102,6 +103,7 @@ public class OrderContainerBox : NetworkBehaviour, IContents, IOnHeld, IUseItem
 
     public void PlayAddAnimation()
     {
+        inputParticle.Play();
         boxAnimator.SetTrigger("Expand");
     }
 }

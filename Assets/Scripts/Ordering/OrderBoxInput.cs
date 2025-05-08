@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class OrderBoxInput : NetworkBehaviour
 {
-    [SerializeField] ParticleSystem inputParticle;
-    [Space]
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClipRandomData randomClip;
 
@@ -27,17 +25,6 @@ public class OrderBoxInput : NetworkBehaviour
             audioSource.PlayOneShot(clipData.Clip);
 
             networkObject.Despawn();
-
-            if (inputParticle != null)
-            {
-                PlayParticle_Rpc();
-            }
         }
-    }
-
-    [Rpc(SendTo.Everyone)]
-    public void PlayParticle_Rpc()
-    {
-        inputParticle.Play();
     }
 }
