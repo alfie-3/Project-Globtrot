@@ -16,10 +16,13 @@ public class MopStation : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (currentMop == null)
-        {
-            SpawnMop();
-        }
+        SpawnMop();
+    }
+
+    private void OnMopDespawned()
+    {
+        currentMop = null;
+        ResetMop();
     }
 
     private void ResetMop()
@@ -40,10 +43,26 @@ public class MopStation : NetworkBehaviour
 
     public void SpawnMop()
     {
+        if (!IsServer) return;
+        if (currentMop != null) return;
+
         NetworkObject newMop = Instantiate(mopPrefab, mopSpawnTransform.position, mopSpawnTransform.rotation);
         newMop.Spawn();
 
         currentMop = newMop;
+        newMop.GetComponent<Pickup_Interactable>().OnDespawned += OnMopDespawned;
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+
+        if (!IsServer) return;
+
+        if (currentMop)
+            currentMop.GetComponent<Pickup_Interactable>().OnDespawned -= OnMopDespawned;
+
+        currentMop.Despawn();
     }
 
     private new void OnDestroy()

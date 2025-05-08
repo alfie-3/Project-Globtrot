@@ -13,6 +13,8 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop, IVi
     public Action OnPickedUp = delegate { };
     public Action OnDropped = delegate { };
 
+    public Action OnDespawned = delegate { };
+
     public virtual void OnInteract(PlayerInteractionManager interactionManager)
     {
         if (interactionManager.TryGetComponent(out PlayerHoldingManager holdingManager))
@@ -96,5 +98,11 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop, IVi
     public void OnUnview()
     {
 
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        OnDespawned.Invoke();
     }
 }

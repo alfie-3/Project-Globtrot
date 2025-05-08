@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -5,10 +6,13 @@ public class ContainerContents : NetworkBehaviour
 {
     [field: SerializeField] public Contents Contents {  get; private set; } = new Contents();
 
+    public Action OnItemAdded;
+
     public bool TryAddItem(Stock_Item item, int quantity = 1)
     {
         if (Contents.TryAddItem(item, quantity))
         {
+            OnItemAdded.Invoke();
             ReplicateContentsItem_Rpc(item.ItemID, Contents.ContentsDictionary[item]);
             return true;
         }
@@ -46,10 +50,14 @@ public class ContainerContents : NetworkBehaviour
         if (Contents.ContentsDictionary.TryGetValue(item, out int value))
         {
             Contents.ContentsDictionary[item] = quanitity;
+
+            if (Contents.ContentsDictionary[item] < quanitity)
+                OnItemAdded.Invoke(); 
         }
         else
         {
             Contents.ContentsDictionary.Add(item, quanitity);
+            OnItemAdded.Invoke();
         }
     }
 

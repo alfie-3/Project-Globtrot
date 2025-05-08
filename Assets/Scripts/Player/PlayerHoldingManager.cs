@@ -91,6 +91,7 @@ public class PlayerHoldingManager : NetworkBehaviour
         if (!obj.TryGetComponent(out NetworkObject nwObject)) return;
 
         NetworkedHeldObj.Value = new(nwObject);
+        obj.OnDespawned += () => ClearHeldItem();
     }
 
     public void ClearHeldItem(Vector3 position = default, Vector3 rotation = default)
@@ -107,6 +108,7 @@ public class PlayerHoldingManager : NetworkBehaviour
             rotation = HeldObj.transform.eulerAngles;
         }
 
+        HeldObj.GetComponent<Pickup_Interactable>().OnDespawned -= () => ClearHeldItem();
         NetworkedHeldObj.Value = new(NetworkedHeldObj.Value.NetworkObjectReference, position, rotation);
     }
 
