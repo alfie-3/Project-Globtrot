@@ -46,7 +46,7 @@ public class GasFillerController : NetworkBehaviour
         if (port.Filled.Value == false) return;
 
         currentGasType = gasType;
-        gasFillTweener = DOVirtual.Float(0, 1, fillSpeed, fill => UpdateFillAmount(fill));
+        gasFillTweener = DOVirtual.Float(0, 1, fillSpeed * GlobalProcessorModifiers.GasStationSpeedMultiplier, fill => UpdateFillAmount(fill));
         gasFillTweener.onComplete += () => OnGasFillComplete(gasType);
     }
 

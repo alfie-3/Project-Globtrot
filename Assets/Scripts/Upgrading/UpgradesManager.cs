@@ -105,6 +105,11 @@ public class UpgradesManager : NetworkBehaviour
     {
         GlobalPlayerModifiers.UpgradeStat(data);
     }
+
+    public void UpgradeProcessor(ProcessorUpgradeData data)
+    {
+        GlobalProcessorModifiers.UpgradeStat(data);
+    }
 }
 
 [System.Serializable]
