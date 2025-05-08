@@ -33,7 +33,7 @@ RenderSettings:
   m_HaloTexture: {fileID: 0}
   m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
   m_DefaultReflectionMode: 0
-  m_DefaultReflectionResolution: 128
+  m_DefaultReflectionResolution: 1024
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
@@ -10152,6 +10152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  destructionEffect: {fileID: 0}
 --- !u!65 &981393047
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12717,6 +12718,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  destructionEffect: {fileID: 0}
 --- !u!114 &1281443079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16024,7 +16026,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3610929527327950859, guid: 1fe9bb1f281b53141bb75e93f425dbdf, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7182220101507003217, guid: 1fe9bb1f281b53141bb75e93f425dbdf, type: 3}
       propertyPath: m_ProtocolType
