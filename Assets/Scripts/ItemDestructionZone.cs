@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ItemDestructionZone : NetworkBehaviour
 {
+    [SerializeField] ParticleSystem destructionEffect;
     private void OnTriggerEnter(Collider other)
     {
         if (!IsServer) { return; }
@@ -15,6 +16,13 @@ public class ItemDestructionZone : NetworkBehaviour
                 if (!NetworkObject.IsSpawned) return;
 
                 item.NetworkObject.Despawn();
+                if(destructionEffect != null)
+                {
+                    Vector3 effectPos = new (gameObject.transform.position.x, gameObject.transform.position.y + 1f, gameObject.transform.position.z);
+                    Quaternion effectRot = Quaternion.Euler(-90f, 0, 0);
+                    Instantiate(destructionEffect, effectPos, effectRot);
+                }
+                    
             }
         }
     }
