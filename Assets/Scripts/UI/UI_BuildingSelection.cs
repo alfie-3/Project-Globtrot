@@ -3,6 +3,7 @@ using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 
 public class UI_BuildingSelection: MonoBehaviour {
@@ -121,7 +122,7 @@ public class UI_BuildingSelection: MonoBehaviour {
 
         if (dayData == null) return;
 
-        dayData.AddedPlaceables.ForEach(x => AddItem(x.prefab, x.category));
+        dayData.AddedPlaceables.ForEach(x => { AddItem(x.prefab, x.category);});
     }
 
 
@@ -145,6 +146,11 @@ public class UI_BuildingSelection: MonoBehaviour {
 
     public void AddItem(PlacableFurniture_Item item, string category)
     {
+        if (item.Required)
+        {
+            RequiredBuildablesManager.AddRequiredBuildable(item);
+        }
+
         Transform carrigeT = ItemsPanel.Find(category);
         GameObject carrige;
         GameObject itemIcon;

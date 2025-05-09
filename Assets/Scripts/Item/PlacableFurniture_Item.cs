@@ -8,15 +8,6 @@ public class PlacableFurniture_Item : ItemBase
     [field: SerializeField] public GameObject FurniturePrefab { get; private set; }
     [field: SerializeField] public int FurniturePrice = 0;
     [field: SerializeField, TextArea(3,8)] public string Description;
-    [field: SerializeField] public ProductCategory Category { get; private set; } 
-    [field: SerializeField] public int UnlockPrice = 50;
-    [field: SerializeField] public bool Unlockable = false;
-    [field: SerializeField] public float SalePercentage = 0.25f;
-
-    // allows for discounts
-    public int GetCurrentPurchasePrice()
-    {
-        return UnlockPrice;
-    }
+    [field: SerializeField] public bool Required = false;
 
 }

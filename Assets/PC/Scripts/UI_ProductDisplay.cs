@@ -33,20 +33,6 @@ public class UI_ProductDisplay : MonoBehaviour
         SetupUnlockUI(productScript);
     }
 
-    // same as Initialize but for furniture
-    public void InitializeFurniture(PlacableFurniture_Item furniture, UI_Basket basketScript)
-    {
-        this.basketScript = basketScript;
-        furnitureData = furniture;
-        isUnlocked = PlayerPrefs.GetInt($"Unlocked_{furniture.ItemID}", 0) == 1;
-
-        productImage.sprite = furniture.ItemIcon;
-        productTitle.text = furniture.ItemName;
-        productPrice.text = $"${furniture.GetCurrentPurchasePrice():F2}";
-
-        SetupUnlockUI(furniture);
-    }
-
     // check and set up locking mechanic
     private void SetupUnlockUI(Stock_Item item)
     {
@@ -63,31 +49,6 @@ public class UI_ProductDisplay : MonoBehaviour
             unlockPriceText.gameObject.SetActive(true);
             unlockPriceText.text = $"Unlock: ${item.UnlockPrice:F2}";
             unlockButton.onClick.AddListener(() => UnlockProduct(item));
-        }
-        else
-        {
-            lockPanel.SetActive(false);
-            unlockButton.gameObject.SetActive(false);
-            unlockPriceText.gameObject.SetActive(false);
-        }
-    }
-
-    private void SetupUnlockUI(PlacableFurniture_Item furniture)
-    {
-        if (!furniture.Unlockable)
-        {
-            isUnlocked = true;  
-            PlayerPrefs.SetInt($"Unlocked_{furniture.ItemID}", 1);
-        }
-
-        if (furniture.Unlockable && !isUnlocked)
-        {
-            lockPanel.SetActive(true);
-            unlockButton.gameObject.SetActive(true);
-            unlockPriceText.gameObject.SetActive(true);
-
-            unlockPriceText.text = $"Unlock: ${furniture.UnlockPrice:F2}";
-            unlockButton.onClick.AddListener(() => UnlockProduct(furniture));
         }
         else
         {
@@ -116,7 +77,7 @@ public class UI_ProductDisplay : MonoBehaviour
     }    
     private void UnlockProduct(PlacableFurniture_Item furniture)
     {
-        if (MoneyManager.Instance.CanAfford(furniture.UnlockPrice))
+        if (MoneyManager.Instance.CanAfford(furniture.FurniturePrice))
         {
             isUnlocked = true;
             PlayerPrefs.SetInt($"Unlocked_{furniture.ItemID}", 1);

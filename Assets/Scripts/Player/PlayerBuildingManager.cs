@@ -1,5 +1,5 @@
+using System;
 using Unity.Netcode;
-using Unity.Services.Multiplay.Authoring.Core.Model;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
@@ -48,6 +48,7 @@ public class PlayerBuildingManager : NetworkBehaviour
                     break;
             }
             _Mode = value;
+            OnChangeMode.Invoke(_Mode);
         }
     }
 
@@ -74,6 +75,8 @@ public class PlayerBuildingManager : NetworkBehaviour
 
 
     public PlayerCameraManager CameraManager { get; private set; }
+
+    public Action<mode> OnChangeMode;
 
     private void Awake()
     {

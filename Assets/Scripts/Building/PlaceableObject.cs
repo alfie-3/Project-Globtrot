@@ -1,6 +1,7 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public class PlaceableObject : MonoBehaviour
+public class PlaceableObject : NetworkBehaviour
 {
     [field: SerializeField] public Mesh BuildHologramMesh { get; private set; }
     [field: SerializeField] public PlacableFurniture_Item item { get; private set; }
@@ -8,6 +9,16 @@ public class PlaceableObject : MonoBehaviour
     [field: Space]
     [field: SerializeField] public bool MirrorX { get; private set; }
     [field: SerializeField] public bool MirrorZ { get; private set; }
+
+    public override void OnNetworkSpawn()
+    {
+        RequiredBuildablesManager.AddBuildable(item);
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        RequiredBuildablesManager.RemoveBuildable(item);
+    }
 
     public Matrix4x4 GetMatrix(Vector3 position, Quaternion rotation)
     {

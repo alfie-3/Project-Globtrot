@@ -831,6 +831,7 @@ GameObject:
   - component: {fileID: 7119182062947668135}
   - component: {fileID: 2117252085529003638}
   - component: {fileID: 6374380795335195406}
+  - component: {fileID: 8390137083496855230}
   m_Layer: 0
   m_Name: --Grid--
   m_TagString: Untagged
@@ -881,3 +882,18 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
+--- !u!114 &8390137083496855230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5155324442400652339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60f163be023f50242ae12411478d322f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  RequiredBuildables:
+  - {fileID: 11400000, guid: 563edf22985138d44bfce5314ef5ee4e, type: 2}

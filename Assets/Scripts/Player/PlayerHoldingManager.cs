@@ -91,7 +91,7 @@ public class PlayerHoldingManager : NetworkBehaviour
         if (!obj.TryGetComponent(out NetworkObject nwObject)) return;
 
         NetworkedHeldObj.Value = new(nwObject);
-        obj.OnDespawned += () => ClearHeldItem();
+        obj.OnDespawned += ForceDrop;
     }
 
     public void ClearHeldItem(Vector3 position = default, Vector3 rotation = default)
@@ -108,7 +108,7 @@ public class PlayerHoldingManager : NetworkBehaviour
             rotation = HeldObj.transform.eulerAngles;
         }
 
-        HeldObj.GetComponent<Pickup_Interactable>().OnDespawned -= () => ClearHeldItem();
+        HeldObj.GetComponent<Pickup_Interactable>().OnDespawned -= ForceDrop;
         NetworkedHeldObj.Value = new(NetworkedHeldObj.Value.NetworkObjectReference, position, rotation);
     }
 
@@ -320,6 +320,11 @@ public class PlayerHoldingManager : NetworkBehaviour
         }
 
         ClearHeldItem(dropPos, HeldObj.transform.rotation.eulerAngles);
+    }
+
+    public void ForceDrop()
+    {
+        ClearHeldItem();
     }
 
     public Vector3 CalculateDropDistance(Vector3 inputPos, RaycastHit hit, Bounds objectBounds)
