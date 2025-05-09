@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class GameStateManager : NetworkBehaviour
@@ -13,6 +16,8 @@ public class GameStateManager : NetworkBehaviour
     public bool IsOpen => CurrentDayState.Value == DayState.Open;
     public static Action<DayState> OnDayStateChanged = delegate { };
     public static Action StartWorkingDay = delegate { };
+    [field: SerializeField] public List<DayEvent> SceneDayEvents { get; private set; }
+
     [Space]
 
     [SerializeField, Range(0.01f, 1f)] float timeSpeed = 1f; 
@@ -34,6 +39,8 @@ public class GameStateManager : NetworkBehaviour
 
     Scene mainScene;
     Scene dayEndScene;
+
+
 
     private void Awake()
     {
@@ -71,7 +78,8 @@ public class GameStateManager : NetworkBehaviour
         base.OnNetworkSpawn();
 
         OnDayChanged.Invoke(0);
-        CurrentDay.OnValueChanged += (prev, current) => OnDayChanged.Invoke(current);
+        CurrentDay.OnValueChanged += (prev, current) => OnDayChanged.Invoke(current);;
+        OnDayChanged += (val) => TriggerDayEvent();
         CurrentGameTime.OnValueChanged += (prev, current) => OnGameTimeChanged.Invoke(current);
 
         if (!IsServer) return;
@@ -147,6 +155,18 @@ public class GameStateManager : NetworkBehaviour
         CurrentDayState.Value = DayState.Preperation;
 
         ResetLevel_Rpc();
+    }
+
+    private void TriggerDayEvent()
+    {
+        DayData dayData = GetCurrentDayData();
+        if (dayData == null) return;
+
+        DayEvent dayEvent = SceneDayEvents.FirstOrDefault(dEvent => dEvent.DayData == dayData);
+
+        if (dayEvent.Equals(default)) return;
+
+        dayEvent.SceneEvent?.Invoke();
     }
 
     [Rpc(SendTo.Everyone)]
@@ -228,6 +248,7 @@ public class GameStateManager : NetworkBehaviour
         OnDayChanged = delegate { };
         OnDayStateChanged = delegate { };
         OrderManager.OnOrderRemoved -= WaitForOvertimeToFinish;
+        OnDayChanged -= (val) => TriggerDayEvent();
     }
 }
 
@@ -237,4 +258,11 @@ public enum DayState
     Open,
     Overtime,
     Closed
+}
+
+[System.Serializable]
+public struct DayEvent
+{
+    public DayData DayData;
+    public UnityEvent SceneEvent;
 }

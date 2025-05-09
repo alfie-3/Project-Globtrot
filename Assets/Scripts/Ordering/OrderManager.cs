@@ -209,6 +209,14 @@ public class OrderManager : NetworkBehaviour
         MoneyManager.Instance?.AddTimeBonus((int)profits);
     }
 
+    public void AddOrderPort(OrderPort orderPort)
+    {
+        if (!OrderPorts.Contains(orderPort))
+        {
+            OrderPorts.Add(orderPort);
+        }
+    }
+
     public override void OnDestroy()
     {
         base.OnDestroy();

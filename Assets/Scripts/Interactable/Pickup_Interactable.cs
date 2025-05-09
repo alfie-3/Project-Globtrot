@@ -9,6 +9,8 @@ public class Pickup_Interactable : NetworkBehaviour, IInteractable, IOnDrop, IVi
     [Space]
     [SerializeField] AudioClipData pickupSound;
     [SerializeField] AudioClipData dropSound;
+    [Space]
+    public float DropPosAddition = 0;
 
     public Action OnPickedUp = delegate { };
     public Action OnDropped = delegate { };

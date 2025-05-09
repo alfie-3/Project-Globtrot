@@ -510,6 +510,35 @@ MonoBehaviour:
     m_InternalValue: 0
   CurrentDayState:
     m_InternalValue: 0
+  <SceneDayEvents>k__BackingField:
+  - DayData: {fileID: 11400000, guid: a7340568cc1021542b72b27570c5ddd2, type: 2}
+    SceneEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2102395014185417971}
+          m_TargetAssemblyTypeName: OrderManager, Assembly-CSharp
+          m_MethodName: AddOrderPort
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: OrderPort, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   timeSpeed: 1
   CurrentGameTime:
     m_InternalValue: 0

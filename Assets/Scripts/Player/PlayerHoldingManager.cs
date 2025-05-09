@@ -295,7 +295,18 @@ public class PlayerHoldingManager : NetworkBehaviour
 
         Vector3 dropPos = CameraManager.CamTransform.position + (CameraManager.CamTransform.forward * dropDistance);
 
-        Bounds heldObjBounds = HeldObj.GetComponent<MeshRenderer>().bounds;
+        Bounds heldObjBounds = default;
+
+        if (HeldObj.TryGetComponent(out MeshRenderer meshRenderer))
+        {
+            heldObjBounds = meshRenderer.bounds;
+        }
+        else if (HeldObj.TryGetComponent(out Collider collider))
+        {
+            heldObjBounds = collider.bounds;
+        }
+
+        if (heldObjBounds.Equals(default)) return;
 
         if (Physics.Raycast(ray, out RaycastHit hit, dropDistance, dropObjectLayerMask, QueryTriggerInteraction.Ignore))
         {
@@ -315,7 +326,7 @@ public class PlayerHoldingManager : NetworkBehaviour
     {
         inputPos.y += objectBounds.extents.y;
         inputPos.y += (HeldObj.transform.position.y - objectBounds.center.y) * 2;
-        inputPos.y += dropHeight;
+        inputPos.y += dropHeight + HeldObj.GetComponent<Pickup_Interactable>().DropPosAddition;
 
         return inputPos;
     }
