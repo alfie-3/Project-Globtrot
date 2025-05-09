@@ -91,7 +91,7 @@ public class PlayerCharacterController : NetworkBehaviour
             return;
         }
 
-        if (Stamina.CurrentStamina > 0.1f && sprintinInputHeld)
+        if (Stamina.CurrentStamina > 0.1f && sprintinInputHeld && PlayerInputManager.MovementInput.magnitude > 0.1f)
         {
             currentMovementMultiplier = sprintMultiplier;
 

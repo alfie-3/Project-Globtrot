@@ -2323,6 +2323,7 @@ GameObject:
   - component: {fileID: 6672524378739762288}
   - component: {fileID: 9194858862636055753}
   - component: {fileID: 2897031659351700631}
+  - component: {fileID: 7380991720487429095}
   m_Layer: 3
   m_Name: PlayerBase_Prefab
   m_TagString: Untagged
@@ -2644,6 +2645,23 @@ MonoBehaviour:
   ui: {fileID: 0}
   furnitureItem: {fileID: 0}
   HologramMat: {fileID: 2100000, guid: e8ec7737d2b69ae429d0af63dcd50d3f, type: 2}
+--- !u!114 &7380991720487429095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5789001657597990608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be540a826fdbdb84f8668df55f8597a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  BathroomNeed: 0
+  MaxBathroomNeed: 100
+  sprintingBathroomMultiplier: 1.15
+  bathroomMessPrefab: {fileID: 7451292061177803435, guid: 7771b42eb54f09c43aec682dbe709f99, type: 3}
 --- !u!1 &5794413184630554296
 GameObject:
   m_ObjectHideFlags: 0
