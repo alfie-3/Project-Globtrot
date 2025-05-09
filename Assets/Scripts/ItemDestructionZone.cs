@@ -16,14 +16,19 @@ public class ItemDestructionZone : NetworkBehaviour
                 if (!NetworkObject.IsSpawned) return;
 
                 item.NetworkObject.Despawn();
-                if(destructionEffect != null)
-                {
-                    Vector3 effectPos = new (gameObject.transform.position.x, gameObject.transform.position.y + 1f, gameObject.transform.position.z);
-                    Quaternion effectRot = Quaternion.Euler(-90f, 0, 0);
-                    Instantiate(destructionEffect, effectPos, effectRot);
-                }
-                    
+                PlayParticle_Rpc();
             }
+        }
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void PlayParticle_Rpc()
+    {
+        if (destructionEffect != null)
+        {
+            Vector3 effectPos = new(gameObject.transform.position.x, gameObject.transform.position.y + 1f, gameObject.transform.position.z);
+            Quaternion effectRot = Quaternion.Euler(-90f, 0, 0);
+            Instantiate(destructionEffect, effectPos, effectRot);
         }
     }
 }

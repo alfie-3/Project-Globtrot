@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
@@ -96,10 +97,22 @@ public class GameStateManager : NetworkBehaviour
     {
         if (CurrentDayState.Value != DayState.Preperation) return;
 
+        if (!RequiredBuildablesManager.HasRequiredBuildables(out RequiredBuildablesResponse response))
+        {
+            AlertMissingBuildables_Rpc(response.CreateNotification());
+            return;
+        }
+
         CurrentGameTime.Value = dayStartTime;
         ToggleTimer(true);
 
         CurrentDayState.Value = DayState.Open;
+    }
+
+    [Rpc(SendTo.Everyone)]
+    public void AlertMissingBuildables_Rpc(FixedString64Bytes notification)
+    {
+        UI_Notifcation.EnqueueNotification(notification.ToString());
     }
 
     [Rpc(SendTo.Server)]

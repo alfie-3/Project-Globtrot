@@ -138,6 +138,7 @@ public class PlayerCharacterController : NetworkBehaviour
     public void ToggleRagdoll()
     {
         if (!IsLocalPlayer) return;
+        if (RagdollEnabled && knockedOut) return;
 
         RagdollEnabled = !RagdollEnabled;
         SetRagdoll_Rpc(RagdollEnabled);

@@ -99,7 +99,7 @@ public class UI_Basket : MonoBehaviour
                     }
                     else if (item is PlacableFurniture_Item furnitureItem)
                     {
-                        int totalPrice = furnitureItem.GetCurrentPurchasePrice() * amountToSpawn;
+                        int totalPrice = furnitureItem.FurniturePrice;
 
                         // check if enough money
                         if (MoneyManager.Instance.CanAfford(totalPrice))
@@ -187,7 +187,7 @@ public class UI_Basket : MonoBehaviour
                     }
                     else if(itemData is PlacableFurniture_Item furniture)
                     {
-                        total += furniture.GetCurrentPurchasePrice()*amount;
+                        total += furniture.FurniturePrice;
                     }
                 }
             }
