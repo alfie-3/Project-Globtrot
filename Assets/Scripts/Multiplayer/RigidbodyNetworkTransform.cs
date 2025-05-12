@@ -96,7 +96,7 @@ public class RigidbodyNetworkTransform : NetworkTransform
 
     public void SetRigidbodyEnabled(bool state)
     {
-        rigidbodyDisabled = state;
+        rigidbodyDisabled = !state;
 
         if (IsServer)
 
