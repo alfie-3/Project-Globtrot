@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6111dd31e31c6f0469992229d350d8b6, type: 3}
+  m_Name: CombinerRecipeList
+  m_EditorClassIdentifier: 
+  lightMaterial: {fileID: 11400000, guid: 22b90f92c41aebb43a3936996bde0e9f, type: 2}
+  mediumMaterial: {fileID: 11400000, guid: af56a894494c830429dd0c2fc766f7b5, type: 2}
+  heavyMaterial: {fileID: 11400000, guid: 552da706a534bb748b549f4534a2639f, type: 2}
+  recipes:
+  - name: Power THing
+    item: {fileID: 11400000, guid: abaad600a53a2f64a9a6c23090c17b27, type: 2}
+    lightVarient: {fileID: 11400000, guid: d97a618827333a849928e126a94832a5, type: 2}
+    mediumVarient: {fileID: 11400000, guid: d97a618827333a849928e126a94832a5, type: 2}
+    heavyVarient: {fileID: 11400000, guid: d97a618827333a849928e126a94832a5, type: 2}
+  - name: Ammo
+    item: {fileID: 11400000, guid: 7d312249c0c9d9844838dcb8bf970ffb, type: 2}
+    lightVarient: {fileID: 11400000, guid: ec1169ec27db59c48ab6e1c5ba23ae11, type: 2}
+    mediumVarient: {fileID: 11400000, guid: 3d9f01093c68be44b93acaaf1d240d95, type: 2}
+    heavyVarient: {fileID: 11400000, guid: 4ce38d6d30272e34b9b4d31c907fa928, type: 2}

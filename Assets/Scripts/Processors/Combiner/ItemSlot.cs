@@ -9,7 +9,7 @@ public abstract class ItemSlot : NetworkBehaviour, IUseItem
     
     public Action OnItemRemoved = delegate { };
 
-    public GameObject Item;
+    [field: SerializeField] public GameObject Item {get; private set; }
 
     public override void OnNetworkSpawn()
     {
@@ -21,6 +21,7 @@ public abstract class ItemSlot : NetworkBehaviour, IUseItem
 
     public void OnItemUsed(PlayerHoldingManager manager, Stock_Item shopProduct_Item)
     {
+        if (Item != null) return;
         if (CanUseItem(manager, shopProduct_Item))
         {
 
@@ -48,7 +49,6 @@ public abstract class ItemSlot : NetworkBehaviour, IUseItem
 
     public void ItemRemoved()
     {
-        Debug.Log("Ham");
         Pickup_Interactable pickup_Interactable = Item.GetComponent<Pickup_Interactable>();
         pickup_Interactable.OnPickedUp -= ItemRemoved;
         OnItemRemoved.Invoke();
