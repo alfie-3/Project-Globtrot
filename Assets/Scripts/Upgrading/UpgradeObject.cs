@@ -5,11 +5,11 @@ public class UpgradeObject : NetworkBehaviour
 {
     [SerializeField] bool DisableOnSpawn = true;
 
-    public void Start()
+
+    public override void OnNetworkSpawn()
     {
         if (DisableOnSpawn)
         {
-            NetworkObject.Spawn();
             gameObject.SetActive(false);
         }
     }

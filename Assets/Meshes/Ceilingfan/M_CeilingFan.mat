@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Pipe_Mario_Style
+  m_Name: M_CeilingFan
   m_Shader: {fileID: -6465566751694194690, guid: a2ace1f002b577a4eb310bb294fcdf11, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -41,7 +41,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Colour:
-        m_Texture: {fileID: 2800000, guid: 0afff281085701c4690a88ca1e79a5fa, type: 3}
+        m_Texture: {fileID: 2800000, guid: 36ca60e94365def4a827126870c3acce, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -69,7 +69,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal:
-        m_Texture: {fileID: 2800000, guid: 787fb33c688c1ee4ba1ae88c1d085fa6, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -81,7 +81,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Roughness_Map:
-        m_Texture: {fileID: 2800000, guid: 6fa9a2a1d45e07a438e69fadf5349574, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_ae1ac01112954a828b02669a3920d894_Texture_1_Texture2D:
@@ -111,7 +111,7 @@ Material:
     - _AlphaClip: 0
     - _AlphaClipThreshold: 0.5
     - _AlphaToMask: 0
-    - _Backlight_Amount: 0.6
+    - _Backlight_Amount: 0.47
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
@@ -142,7 +142,7 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
-    - _Use_Backlight: 1
+    - _Use_Backlight: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
@@ -156,7 +156,7 @@ Material:
     - _Tiling: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &6024269129861588904
+--- !u!114 &5356190175047541598
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
