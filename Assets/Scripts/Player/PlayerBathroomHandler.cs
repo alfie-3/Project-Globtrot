@@ -3,15 +3,18 @@ using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerBathroomHandler : NetworkBehaviour
 {
+    [field: SerializeField] bool bathroomEnabled = false;
     [field: SerializeField] float BathroomNeed;
     [field: SerializeField] float MaxBathroomNeed = 120;
     [Space]
     [field: SerializeField] float sprintingBathroomMultiplier = 2;
+    bool sprinting = false;
     [Space]
-    float bathroomNeedMultiplier = 1;
+    public float BathroomNeedMultiplier = 1;
     PlayerCharacterController playerController;
     [Space]
     [SerializeField] MessController bathroomMessPrefab;
@@ -22,36 +25,58 @@ public class PlayerBathroomHandler : NetworkBehaviour
 
     private void Awake()
     {
-        BathroomNeed = 0;
+        BathroomNeed = 0.01f;
 
         if (TryGetComponent(out playerController))
         {
             playerController.OnSprintingChanged += ChangeSprintingMultiplier;
         }
+
+        GameStateManager.OnDayStateChanged += UpdateBathroomEnabled;
+        GameStateManager.OnReset += ResetBathroom;
+    }
+
+    private void ResetBathroom()
+    {
+        BathroomNeed = 0.01f;
+        OnBathroomNeedChange.Invoke(NormalizedBathroom);
+    }
+
+    private void UpdateBathroomEnabled(DayState state)
+    {
+        bathroomEnabled = state == DayState.Open;
     }
 
     private void Update()
     {
-        BathroomNeed += Time.deltaTime * bathroomNeedMultiplier;
+        UpdateBathroom();
+
+    }
+
+    public void UpdateBathroom()
+    {
+        if (!bathroomEnabled) return;
+
+        BathroomNeed += Time.deltaTime * BathroomNeedMultiplier * (sprinting == true ? sprintingBathroomMultiplier : 1);
 
         if (BathroomNeed >= MaxBathroomNeed)
         {
             Bathroom_Rpc();
-            BathroomNeed = 0;
+            BathroomNeed = 0.01f;
         }
 
         OnBathroomNeedChange.Invoke(NormalizedBathroom);
-
     }
 
     private void ChangeSprintingMultiplier(bool value)
     {
-        bathroomNeedMultiplier = value == true ? sprintingBathroomMultiplier : 1;
+        sprinting = value;
     }
 
     public void Relieve()
     {
         BathroomNeed = 0;
+        OnBathroomNeedChange?.Invoke(NormalizedBathroom);
     }
 
     [Rpc(SendTo.Everyone)]
@@ -69,5 +94,13 @@ public class PlayerBathroomHandler : NetworkBehaviour
                 }
             }
         }
+    }
+
+    private new void OnDestroy()
+    {
+        base.OnDestroy();
+
+        GameStateManager.OnDayStateChanged -= UpdateBathroomEnabled;
+        GameStateManager.OnReset -= ResetBathroom;
     }
 }

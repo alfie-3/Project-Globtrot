@@ -2324,6 +2324,7 @@ GameObject:
   - component: {fileID: 9194858862636055753}
   - component: {fileID: 2897031659351700631}
   - component: {fileID: 7380991720487429095}
+  - component: {fileID: 2612491062647520222}
   m_Layer: 3
   m_Name: PlayerBase_Prefab
   m_TagString: Untagged
@@ -2490,6 +2491,9 @@ MonoBehaviour:
   - {fileID: 8297703753503267867}
   - {fileID: 4059933280630950529}
   knockedOut: 0
+  slippingImmunityCooldown: 6
+  <SprintingSlipChance>k__BackingField: 1
+  <WalkingSlipChance>k__BackingField: 0.01
 --- !u!114 &3745843975204388149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2503,7 +2507,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Controller>k__BackingField: {fileID: 8877675575019304611}
-  <BaseMovementSpeed>k__BackingField: 120
+  BaseMovementSpeed: 134.7
   <AirMovementMultiplier>k__BackingField: 0.14
   JumpVelocity: {x: 0.5, y: 1.5}
   slideSpeed: 2.93
@@ -2658,10 +2662,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  bathroomEnabled: 0
   BathroomNeed: 0
   MaxBathroomNeed: 100
   sprintingBathroomMultiplier: 1.15
+  BathroomNeedMultiplier: 1
   bathroomMessPrefab: {fileID: 7451292061177803435, guid: 7771b42eb54f09c43aec682dbe709f99, type: 3}
+--- !u!114 &2612491062647520222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5789001657597990608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e795e5759616cf748a803419716d30af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5794413184630554296
 GameObject:
   m_ObjectHideFlags: 0

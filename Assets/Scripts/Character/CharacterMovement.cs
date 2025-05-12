@@ -9,7 +9,7 @@ public class CharacterMovement : MonoBehaviour
     [field:Header("Components"), SerializeField] public CharacterController Controller {  get; private set; }
 
     [Header("Movement Variables")]
-    [field: SerializeField] public float BaseMovementSpeed { get; private set; } = 5f;
+    public float BaseMovementSpeed = 5f;
     [field: SerializeField] public float AirMovementMultiplier { get; private set; } = 0.01f;
     [field: SerializeField] public Vector2 JumpVelocity = new(2, 1.5f);
     [SerializeField] float slideSpeed = 8;

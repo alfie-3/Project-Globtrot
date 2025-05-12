@@ -1,6 +1,7 @@
 using System;
 using Unity.Cinemachine;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,16 +20,22 @@ public class PlayerCharacterController : NetworkBehaviour
     public Action<bool> OnSprintingChanged = delegate { };
     [SerializeField] float sprintMultiplier = 1.4f;
     bool sprintinInputHeld;
-    bool isSprinting;
+    public bool IsSprinting { get; private set; }
     float currentMovementMultiplier = 1f;
 
     [field: Space]
     [field: SerializeField] public Stamina Stamina {  get; private set; }
 
-    [field: Space]
+    [Header("Ragdoll & Slipping")]
     [SerializeField] Rigidbody[] ragdollRigidbodies;
     [SerializeField] bool knockedOut;
+    [SerializeField] float slippingImmunityCooldown = 6;
+    [field: Space]
+    [field: SerializeField] public float SprintingSlipChance { get; private set; } = 1f;
+    [field: SerializeField] public float WalkingSlipChance { get; private set; } = 0.25f;
+    float slippingImmunityTimer;
     float knockoutTime;
+    public bool ImmuneToSlipping { get; private set; }
     public bool ReadyToGetUp => !knockedOut && RagdollEnabled;
 
     public Action<bool> OnToggledRagdoll = delegate { };
@@ -81,6 +88,8 @@ public class PlayerCharacterController : NetworkBehaviour
         UpdateKnockoutTimer();
 
         Movement();
+        UpdateSlipImmunity();
+
     }
 
     public void Movement()
@@ -95,20 +104,20 @@ public class PlayerCharacterController : NetworkBehaviour
         {
             currentMovementMultiplier = sprintMultiplier;
 
-            if (!isSprinting)
+            if (!IsSprinting)
             {
                 OnSprintingChanged.Invoke(true);
-                isSprinting = true;
+                IsSprinting = true;
             }
         }
         else
         {
             currentMovementMultiplier = 1;
 
-            if (isSprinting)
+            if (IsSprinting)
             {
                 OnSprintingChanged.Invoke(false);
-                isSprinting = false;
+                IsSprinting = false;
             }
         }
 
@@ -121,6 +130,7 @@ public class PlayerCharacterController : NetworkBehaviour
 
         if (RagdollEnabled)
         {
+            StartSlippingImmunityTimer();
             ToggleRagdoll();
         }
 
@@ -156,6 +166,24 @@ public class PlayerCharacterController : NetworkBehaviour
     {
         knockoutTime = time;
         knockedOut = true;
+    }
+
+    public void StartSlippingImmunityTimer()
+    {
+        ImmuneToSlipping = true;
+        slippingImmunityTimer = slippingImmunityCooldown;
+    }
+
+    public void UpdateSlipImmunity()
+    {
+        if (!ImmuneToSlipping) return;
+
+        slippingImmunityTimer -= Time.deltaTime;
+
+        if (slippingImmunityTimer <= 0)
+        {
+            ImmuneToSlipping = false;
+        }
     }
 
     public void UpdateKnockoutTimer()

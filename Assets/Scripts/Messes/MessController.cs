@@ -9,23 +9,6 @@ public class MessController : NetworkBehaviour
 
     [SerializeField] ParticleSystem SweepParticle;
 
-    [SerializeField] float slipCooldown = 3;
-    bool onCooldown = false;
-    float slipTimer;
-
-    private void Update()
-    {
-        if (onCooldown)
-        {
-            slipTimer -= Time.deltaTime;
-
-            if (slipTimer <= 0)
-            {
-                onCooldown = false;
-            }
-        }
-    }
-
     private void OnEnable()
     {
         CurrentSweepState.OnValueChanged += PlayEffect;
@@ -44,24 +27,21 @@ public class MessController : NetworkBehaviour
     {
         if (other.transform.root.TryGetComponent(out PlayerCharacterController playerController))
         {
-            if (onCooldown) return;
+            if (playerController.ImmuneToSlipping) return;
             if (!playerController.IsOwner) return;
             if (!playerController.CharacterMovement.IsGrounded) return;
             if (playerController.PlayerInputManager.MovementInput.magnitude < 0.1f) return;
-            StartSlipCooldown();
             if (playerController.RagdollEnabled) return;
+
+            float randomValue = Random.value;
+
+            if (randomValue > (playerController.IsSprinting ? playerController.SprintingSlipChance : playerController.WalkingSlipChance)) return;
 
             playerController.SetRagdoll(true);
             playerController.Knockout(3);
 
             PlayerSlip_Rpc(playerController.NetworkObject);
         }
-    }
-
-    public void StartSlipCooldown()
-    {
-        onCooldown = true;
-        slipTimer = slipCooldown;
     }
 
     [Rpc(SendTo.Everyone)]

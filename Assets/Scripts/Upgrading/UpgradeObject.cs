@@ -9,6 +9,7 @@ public class UpgradeObject : NetworkBehaviour
     {
         if (DisableOnSpawn)
         {
+            NetworkObject.Spawn();
             gameObject.SetActive(false);
         }
     }
