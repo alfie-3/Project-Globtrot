@@ -28,6 +28,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Ambient_Occlusion:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -37,7 +41,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Colour:
-        m_Texture: {fileID: 2800000, guid: 0f9a6a965d1a24b41b6b2d3291b4ee08, type: 3}
+        m_Texture: {fileID: 2800000, guid: 75e31cab4f9529645912eccc08f880eb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -102,6 +106,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AO_Strength: 1
     - _AddPrecomputedVelocity: 0
     - _AlphaClip: 0
     - _AlphaClipThreshold: 0.5
