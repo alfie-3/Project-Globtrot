@@ -28,6 +28,8 @@ public class RigidbodyNetworkTransform : NetworkTransform
 
     public bool rigidbodyDisabled;
 
+    public Action OnDespawned = delegate { };
+
     protected override void Awake()
     {
         base.Awake();
@@ -152,6 +154,12 @@ public class RigidbodyNetworkTransform : NetworkTransform
             gameObject.layer = LayerMask.NameToLayer("Physics");
             NetworkRigidbody.UseRigidBodyForMotion = true;
         }
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        OnDespawned?.Invoke();
     }
 }
 
