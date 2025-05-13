@@ -6,7 +6,7 @@ public abstract class ItemSlot : NetworkBehaviour, IUseItem
 {
     
 
-    
+    public Action<Stock_Item> OnItemAdded = delegate { };
     public Action OnItemRemoved = delegate { };
 
     [field: SerializeField] public GameObject Item {get; private set; }
