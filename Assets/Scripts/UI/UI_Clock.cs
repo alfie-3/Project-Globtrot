@@ -1,51 +1,49 @@
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_Clock : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI clockText;
-
     [SerializeField] float Offset;
+    [SerializeField] Image rotationalImage;
+
+    RectTransform rectTransform => (RectTransform)transform;
 
     public void OnEnable()
     {
         GameStateManager.OnDayStateChanged += DayStateChanged;
-        GameStateManager.OnGameTimeChanged += UpdateText;
+        GameStateManager.OnGameTimeChanged += UpdateTime;
 
-        clockText.rectTransform.anchoredPosition = new(Offset, clockText.rectTransform.anchoredPosition.y);
+        rectTransform.anchoredPosition = new(Offset, rectTransform.anchoredPosition.y);
     }
 
     public void OnDisable()
     {
-        GameStateManager.OnGameTimeChanged -= UpdateText;
+        GameStateManager.OnGameTimeChanged -= UpdateTime;
     }
 
     public void DayStateChanged(DayState dayState)
     {
-        RectTransform rect = clockText.rectTransform;
-
         if (dayState == DayState.Open || dayState == DayState.Overtime)
         {
-            rect.DOAnchorPosX(0, 2).SetEase(Ease.OutExpo);
+            rectTransform.DOAnchorPosX(0, 2).SetEase(Ease.OutExpo);
         }
         else
         {
-            rect.DOAnchorPosX(Offset, 2).SetEase(Ease.InExpo);
+            rectTransform.DOAnchorPosX(Offset, 2).SetEase(Ease.InExpo);
         }
     }
 
-    public void UpdateText(int currentTime)
+    public void UpdateTime(float normalisedTime)
     {
-        int hours = currentTime / 60;
-        int minutes = currentTime % 60;
+        rotationalImage.rectTransform.rotation = Quaternion.Euler(0, 0, Mathf.Lerp(0, 180, normalisedTime));
 
-        clockText.text = $"{hours:00} : {minutes:00}";
     }
 
     private void OnDestroy()
     {
         GameStateManager.OnDayStateChanged -= DayStateChanged;
-        GameStateManager.OnGameTimeChanged -= UpdateText;
+        GameStateManager.OnGameTimeChanged -= UpdateTime;
     }
 }

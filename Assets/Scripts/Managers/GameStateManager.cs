@@ -21,13 +21,11 @@ public class GameStateManager : NetworkBehaviour
 
     [Space]
 
-    [SerializeField, Range(0.01f, 1f)] float timeSpeed = 1f; 
-    public NetworkVariable<int> CurrentGameTime = new();
-    [SerializeField] int dayStartTime = 540;
-    [SerializeField] int dayEndTime = 1020;
-    public static Action<int> OnGameTimeChanged = delegate { };
+    public NetworkVariable<float> CurrentGameTime = new();
+    [SerializeField] int dayStartTime = 0;
+    [SerializeField] int dayEndTime = 300;
+    public static Action<float> OnGameTimeChanged = delegate { };
     bool timerRunning;
-    float timer;
 
 
     public static Action OnReset = delegate { };
@@ -81,7 +79,7 @@ public class GameStateManager : NetworkBehaviour
         OnDayChanged.Invoke(0);
         CurrentDay.OnValueChanged += (prev, current) => OnDayChanged.Invoke(current);;
         OnDayChanged += (val) => TriggerDayEvent();
-        CurrentGameTime.OnValueChanged += (prev, current) => OnGameTimeChanged.Invoke(current);
+        CurrentGameTime.OnValueChanged += (prev, current) => OnGameTimeChanged.Invoke(current / dayEndTime);
 
         if (!IsServer) return;
 
@@ -210,7 +208,6 @@ public class GameStateManager : NetworkBehaviour
 
     public void ToggleTimer(bool on)
     {
-        timer = 0;
         if (on)
         {
             timerRunning = true;
@@ -224,13 +221,8 @@ public class GameStateManager : NetworkBehaviour
     public void UpdateTime()
     {
         if (!IsServer || !timerRunning) return;
-        timer += Time.deltaTime;
 
-        if (timer > timeSpeed)
-        {
-            CurrentGameTime.Value++;
-            timer = 0;
-        }
+        CurrentGameTime.Value += Time.deltaTime;
 
         if (CurrentGameTime.Value >= dayEndTime && CurrentDayState.Value != DayState.Overtime)
         {
