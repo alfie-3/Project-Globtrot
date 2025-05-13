@@ -466,7 +466,10 @@ PrefabInstance:
       addedObject: {fileID: 1836057813938255210}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 395d0d7c190278b4ab79ea4e8eebef80, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4658010855849091241}
+      addedObject: {fileID: 3939241936304857652}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 395d0d7c190278b4ab79ea4e8eebef80, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1517798476621490347}
   m_SourcePrefab: {fileID: 100100000, guid: 395d0d7c190278b4ab79ea4e8eebef80, type: 3}
 --- !u!4 &5169296584957002224 stripped
 Transform:
@@ -660,7 +663,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &4658010855849091241
+--- !u!114 &3939241936304857652
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -676,6 +679,23 @@ MonoBehaviour:
   - m_Rig: {fileID: 639218669333335436}
     m_Active: 1
   m_Effectors: []
+--- !u!114 &1517798476621490347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5980353153624066877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc0646e7a6e8f3a46931f664c94847ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eyeTrackRange: 4
+  eyeTrackingSpeed: 0.25
+  multiAimConstraintL: {fileID: 8288108618388102945}
+  multiAimConstraintR: {fileID: 3953071359749667625}
+  rigBuilder: {fileID: 3939241936304857652}
 --- !u!4 &6464261056693145991 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 395d0d7c190278b4ab79ea4e8eebef80, type: 3}
