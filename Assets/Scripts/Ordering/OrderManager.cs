@@ -199,7 +199,7 @@ public class OrderManager : NetworkBehaviour
     {
         float normalisedCompletionTime = order.CurrentOrderTime / order.InitialOrderTime;
 
-        if (normalisedCompletionTime < minMaxSpeedLimits.x) { return; }
+        if (normalisedCompletionTime > minMaxSpeedLimits.y) { return; }
 
         normalisedCompletionTime = Mathf.Clamp(normalisedCompletionTime, minMaxSpeedLimits.x, minMaxSpeedLimits.y);
         float multiplier = math.remap(minMaxSpeedLimits.x, minMaxSpeedLimits.y, minMaxSpeedMultipliers.x, minMaxSpeedMultipliers.y, normalisedCompletionTime);
