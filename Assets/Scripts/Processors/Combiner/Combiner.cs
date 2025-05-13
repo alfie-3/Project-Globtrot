@@ -8,7 +8,7 @@ public class Combiner : NetworkBehaviour
     [SerializeField]
     CombinerRecipeList recipeList;
     [SerializeField]
-    TextMeshPro indicator;
+    UI_CombinerScreen screen;
     [SerializeField]
     Transform itemOutput;
     [SerializeField]
@@ -16,14 +16,18 @@ public class Combiner : NetworkBehaviour
     [SerializeField]
     ItemSlot materialSlot;
 
+    Stock_Item Item;
+    Stock_Item Material;
 
 
 
-
-
-
-
-
+    private void Awake()
+    {
+        itemslot.OnItemAdded += (value) => { Item = value; screen.newState(Item, Material); };
+        itemslot.OnItemRemoved += () => { Item = null; screen.newState(Item, Material); };
+        materialSlot.OnItemAdded += (value) => { Material = value; screen.newState(Item, Material); };
+        materialSlot.OnItemRemoved += () => { Material = null; screen.newState(Item, Material); };
+    }
 
     public void MakeItem()
     {
