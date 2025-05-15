@@ -24,7 +24,7 @@ public abstract class ItemSlot : NetworkBehaviour, IUseItem
         if (Item != null) return;
         if (CanUseItem(manager, shopProduct_Item))
         {
-
+            OnItemAdded.Invoke(shopProduct_Item);
 
             NetworkObject nwObj = manager.HeldObj;
             manager.ClearHeldItem(transform.position, transform.rotation.eulerAngles);

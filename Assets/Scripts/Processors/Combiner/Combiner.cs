@@ -23,20 +23,23 @@ public class Combiner : NetworkBehaviour
 
     private void Awake()
     {
-        itemslot.OnItemAdded += (value) => { Item = value; screen.newState(Item, Material); };
-        itemslot.OnItemRemoved += () => { Item = null; screen.newState(Item, Material); };
-        materialSlot.OnItemAdded += (value) => { Material = value; screen.newState(Item, Material); };
-        materialSlot.OnItemRemoved += () => { Material = null; screen.newState(Item, Material); };
+        itemslot.OnItemAdded += (value) => { Item = value; NewState(); };
+        itemslot.OnItemRemoved += () => { Item = null; NewState(); };
+        materialSlot.OnItemAdded += (value) => { Material = value; NewState(); };
+        materialSlot.OnItemRemoved += () => { Material = null; NewState(); };
     }
 
+    protected void NewState()
+    {
+        if (Item != null && Material != null)
+        {
+            screen.EndScreen(recipeList.GetItem(Item, Material));
+        }
+        screen.newState(Item, Material);
+    }
     public void MakeItem()
     {
-        Stock_Item ham = itemslot.Item.GetComponent<StockItem>().Item;
-        Stock_Item Gama = materialSlot.Item.GetComponent<StockItem>().Item;
-        Stock_Item item = recipeList.GetItem(ham,Gama );
-
-        PlaceItem_Rpc(item.ItemID, itemOutput.position, itemOutput.rotation);
-        //return item != null;
+        PlaceItem_Rpc(recipeList.GetItem(Item, Material).ItemID, itemOutput.position, itemOutput.rotation);
     }
 
 
