@@ -158,8 +158,9 @@ MonoBehaviour:
   PickedUp:
     m_InternalValue: 0
   <HoldingSocket>k__BackingField: 0
-  pickupSound: {fileID: 11400000, guid: 68065cfb364cb1f4aae6b2b52f348a51, type: 2}
+  pickupSound: {fileID: 11400000, guid: 98dfbe1e3c2175d42b7938d6f88283c3, type: 2}
   dropSound: {fileID: 11400000, guid: 98dfbe1e3c2175d42b7938d6f88283c3, type: 2}
+  DropPosAddition: 0
 --- !u!33 &3044263797552778197
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -308,8 +309,6 @@ MonoBehaviour:
   explosionEffect: {fileID: 6620120571614405442, guid: 8a305e34cc773b946a21412a0b35d4d5, type: 3}
   explosionRadius: 3.2
   explosionPower: 1000
-  audioSource: {fileID: 1437095574613986919}
-  explosionSounds: {fileID: 11400000, guid: a9b2d3eb28ddc744fab4338973c3d859, type: 2}
 --- !u!114 &-9188984677635813994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,6 +325,9 @@ MonoBehaviour:
   audioSource: {fileID: 1437095574613986919}
   audioClipData: {fileID: 11400000, guid: 98dfbe1e3c2175d42b7938d6f88283c3, type: 2}
   minNoiseForce: 3.5
+  onPlayNoise:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!136 &2338464466044683018
 CapsuleCollider:
   m_ObjectHideFlags: 0
