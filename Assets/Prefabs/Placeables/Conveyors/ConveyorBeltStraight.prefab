@@ -277,6 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74228665e5ff8f8488a3e9fd65697aa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   <BuildHologramMesh>k__BackingField: {fileID: -5764540428167880885, guid: 094bd5fa9bd9e4943ae1eafb1c02f163, type: 3}
   <item>k__BackingField: {fileID: 11400000, guid: b78d2a1ddb6a92342b0da193a2e0a58a, type: 2}
   <CanRemove>k__BackingField: 1
@@ -293,6 +294,7 @@ GameObject:
   - component: {fileID: 7307321870668173775}
   - component: {fileID: 4955327475034098275}
   - component: {fileID: 2628700181982869834}
+  - component: {fileID: 6352901967276140483}
   m_Layer: 0
   m_Name: ConveyorBeltStraight.001
   m_TagString: Untagged
@@ -369,3 +371,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &6352901967276140483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8792946235365090579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6147ddff872833f41b1bccbe0f415f7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  areaOverride: 1
