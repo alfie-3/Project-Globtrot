@@ -1,4 +1,5 @@
 using System;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -6,8 +7,8 @@ public abstract class ItemSlot : NetworkBehaviour, IUseItem
 {
     
 
-    public Action<Stock_Item> OnItemAdded = delegate { };
-    public Action OnItemRemoved = delegate { };
+    
+    public NetworkVariable<FixedString32Bytes> itemId = new NetworkVariable<FixedString32Bytes>();
 
     [field: SerializeField] public GameObject Item {get; private set; }
 
@@ -21,11 +22,9 @@ public abstract class ItemSlot : NetworkBehaviour, IUseItem
 
     public void OnItemUsed(PlayerHoldingManager manager, Stock_Item shopProduct_Item)
     {
-        if (Item != null) return;
+        if (!string.IsNullOrEmpty(itemId.Value.ToString())) return;
         if (CanUseItem(manager, shopProduct_Item))
         {
-            OnItemAdded.Invoke(shopProduct_Item);
-
             NetworkObject nwObj = manager.HeldObj;
             manager.ClearHeldItem(transform.position, transform.rotation.eulerAngles);
             ConnectItem_Rpc(nwObj);
@@ -42,7 +41,10 @@ public abstract class ItemSlot : NetworkBehaviour, IUseItem
 
         nwObject.GetComponent<RigidbodyNetworkTransform>().SetRigidbodyEnabled(false);
 
+        
+
         if (!IsServer) return;
+        itemId.Value = Item.GetComponent<StockItem>().Item.ItemID;
 
         nwObject.GetComponent<RigidbodyNetworkTransform>().Teleport(transform.position, transform.rotation, nwObject.transform.lossyScale);
     }
@@ -51,12 +53,12 @@ public abstract class ItemSlot : NetworkBehaviour, IUseItem
     {
         Pickup_Interactable pickup_Interactable = Item.GetComponent<Pickup_Interactable>();
         pickup_Interactable.OnPickedUp -= ItemRemoved;
-        OnItemRemoved.Invoke();
 
         Item.GetComponent<RigidbodyNetworkTransform>().SetRigidbodyEnabled(true);
         Item = null;
 
-        
+        if(IsServer)
+            itemId.Value = string.Empty;
     }
 
     public void SetGasCannisterType(Stock_Item item)
