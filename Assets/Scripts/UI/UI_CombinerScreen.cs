@@ -1,4 +1,7 @@
+using System;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_CombinerScreen : MonoBehaviour
 {
@@ -14,6 +17,10 @@ public class UI_CombinerScreen : MonoBehaviour
     RectTransform _current;
     RectTransform current { get { return _current; } set { _current.gameObject.SetActive(false); _current = value; _current.gameObject.SetActive(true); } }
 
+    private void Awake()
+    {
+        _current = Default;
+    }
     public void ItemChanged(Stock_Item item)
     {
         if (item == null)
@@ -38,5 +45,13 @@ public class UI_CombinerScreen : MonoBehaviour
             return;
         }
 
+    }
+
+    internal void EndScreen(Stock_Item output)
+    {
+        if (output == null) return;
+        End.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = output.ItemName;
+        End.GetChild(1).GetComponent<RawImage>().texture = output.ItemIcon.texture;
+        current = End;
     }
 }

@@ -117,6 +117,8 @@ public class RigidbodyNetworkTransform : NetworkTransform
     [Rpc(SendTo.Everyone)]
     public void AddForce_Rpc(Vector3 force, ForceMode forceMode)
     {
+        if (rigidbodyDisabled) return;
+
         SetSleeping(false);
 
         if (IsServer)
@@ -126,6 +128,8 @@ public class RigidbodyNetworkTransform : NetworkTransform
     [Rpc(SendTo.Everyone)]
     public void AddForceAtPoint_Rpc(Vector3 force, Vector3 point, ForceMode forceMode)
     {
+        if (rigidbodyDisabled) return;
+
         SetSleeping(false);
 
         if (IsServer)
