@@ -20,6 +20,17 @@ public class CombinerRecipeList : ScriptableObject
         if (material == heavyMaterial) return recipe.heavyVarient;
         return null;
     }
+    public Stock_Item GetItem(string itemId, string materialId)
+    {
+        Stock_Item item = string.IsNullOrEmpty(itemId) ? null : ItemDictionaryManager.RetrieveItem(itemId) is not Stock_Item ? null : (Stock_Item)ItemDictionaryManager.RetrieveItem(itemId);
+        Stock_Item material = string.IsNullOrEmpty(materialId) ? null : ItemDictionaryManager.RetrieveItem(materialId) is not Stock_Item ? null : (Stock_Item)ItemDictionaryManager.RetrieveItem(materialId);
+        if (item == null || material == null) return null;
+        CombinerRecipe recipe = recipes.Where(x => x.item == item).First();
+        if (material == lightMaterial) return recipe.lightVarient;
+        if (material == mediumMaterial) return recipe.mediumVarient;
+        if (material == heavyMaterial) return recipe.heavyVarient;
+        return null;
+    }
     //public
     [System.Serializable]
     public struct CombinerRecipe
