@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -10,6 +13,8 @@ public class GasCanister : NetworkBehaviour
     [SerializeField] ParticleSystem gasParticles;
     [SerializeField] GameObject explosionEffect;
     [Space]
+    [SerializeField] GasCanisterMaterial[] gasCannisterGasColours;
+    [Space]
     [SerializeField] float explosionRadius = 5;
     [SerializeField] float explosionPower = 100;
 
@@ -20,9 +25,14 @@ public class GasCanister : NetworkBehaviour
 
     public void UpdateGasType(Stock_Item item)
     {
-        string name = item.ItemName;
-        name = name.Replace(" Canister", "");
-        text.text = name;
+        GasCanisterMaterial material = gasCannisterGasColours.FirstOrDefault(x => item == x.Item);
+
+        if (material.Material == null) return;
+
+        List<Material> materialsCopy = GetComponent<MeshRenderer>().materials.ToList();
+        materialsCopy[1] = material.Material;
+
+        GetComponent<MeshRenderer>().SetMaterials(materialsCopy);
     }
 
     [Rpc(SendTo.Everyone)]
@@ -72,4 +82,10 @@ public class GasCanister : NetworkBehaviour
         }
     }
 
+    [Serializable]
+    public struct GasCanisterMaterial
+    {
+        public Stock_Item Item;
+        public Material Material;
+    }
 }
