@@ -8,6 +8,8 @@ public class Clug : MonoBehaviour, IOnDrop, IOnHeld
     Vector3 lastpos;
     public Vector3 Target;
 
+    [SerializeField] Animator animator;
+
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -18,6 +20,12 @@ public class Clug : MonoBehaviour, IOnDrop, IOnHeld
         
         agent.enabled = true;
         ClugManager.Instance.AddClug(this);
+    }
+
+    private void FixedUpdate()
+    {
+        
+         animator.SetBool("isWalking", agent.velocity.magnitude > 0.2);
     }
 
     public void GoToTarget()
