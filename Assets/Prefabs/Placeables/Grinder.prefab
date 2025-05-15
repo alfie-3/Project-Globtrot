@@ -102,6 +102,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3196978992077723283, guid: 05ef7f1095f25ff4888175ba38f7fb19, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2803388155138971908}
+    - targetCorrespondingSourceObject: {fileID: 3196978992077723283, guid: 05ef7f1095f25ff4888175ba38f7fb19, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1341590098157739403}
   m_SourcePrefab: {fileID: 100100000, guid: 05ef7f1095f25ff4888175ba38f7fb19, type: 3}
 --- !u!1 &2040735343955545161 stripped
 GameObject:
@@ -129,6 +132,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2, y: 1, z: 2}
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &1341590098157739403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2040735343955545161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6147ddff872833f41b1bccbe0f415f7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  areaOverride: 1
 --- !u!1 &4381649898801391499 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 05ef7f1095f25ff4888175ba38f7fb19, type: 3}
@@ -228,6 +244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74228665e5ff8f8488a3e9fd65697aa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   <BuildHologramMesh>k__BackingField: {fileID: 5075070655965605853, guid: 05ef7f1095f25ff4888175ba38f7fb19, type: 3}
   <item>k__BackingField: {fileID: 11400000, guid: 0857f2031d398124fb5e02e5362f735d, type: 2}
   <CanRemove>k__BackingField: 1

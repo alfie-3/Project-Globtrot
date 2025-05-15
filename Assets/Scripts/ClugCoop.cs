@@ -1,6 +1,7 @@
 using System;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ClugCoop : NetworkBehaviour
 {
@@ -16,10 +17,11 @@ public class ClugCoop : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        //Invoke("SpawnClug", 3f);
         SpawnClug();
     }
 
-    private void OnMopDespawned()
+    private void OnClugDespawned()
     {
         currentClug = null;
         ResetClug();
@@ -45,12 +47,14 @@ public class ClugCoop : NetworkBehaviour
     {
         if (!IsServer) return;
         if (currentClug != null) return;
+        NavMesh.SamplePosition(clugSpawnTransform.position, out NavMeshHit navHit, 246132, NavMesh.GetAreaFromName("Everything"));
+        
 
-        NetworkObject newMop = Instantiate(clugPrefab, clugSpawnTransform.position, clugSpawnTransform.rotation);
-        newMop.Spawn();
+        NetworkObject newClug = Instantiate(clugPrefab, navHit.position, clugSpawnTransform.rotation);
+        newClug.Spawn();
 
-        currentClug = newMop;
-        newMop.GetComponent<Pickup_Interactable>().OnDespawned += OnMopDespawned;
+        currentClug = newClug;
+        newClug.GetComponent<Pickup_Interactable>().OnDespawned += OnClugDespawned;
     }
 
     public override void OnNetworkDespawn()
@@ -60,7 +64,7 @@ public class ClugCoop : NetworkBehaviour
         if (!IsServer) return;
 
         if (currentClug)
-            currentClug.GetComponent<Pickup_Interactable>().OnDespawned -= OnMopDespawned;
+            currentClug.GetComponent<Pickup_Interactable>().OnDespawned -= OnClugDespawned;
 
         currentClug.Despawn();
     }

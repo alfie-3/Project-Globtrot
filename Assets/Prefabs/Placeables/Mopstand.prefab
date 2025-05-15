@@ -118,6 +118,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8d582ed65534bf141a02a0e119c086c4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4409867291644095944}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8d582ed65534bf141a02a0e119c086c4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1433935099937987882}
   m_SourcePrefab: {fileID: 100100000, guid: 8d582ed65534bf141a02a0e119c086c4, type: 3}
 --- !u!1 &5017407310265922544 stripped
 GameObject:
@@ -198,11 +201,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74228665e5ff8f8488a3e9fd65697aa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   <BuildHologramMesh>k__BackingField: {fileID: 0}
   <item>k__BackingField: {fileID: 11400000, guid: 48776660b7336924c9103f548818831d, type: 2}
   <CanRemove>k__BackingField: 1
   <MirrorX>k__BackingField: 0
   <MirrorZ>k__BackingField: 0
+--- !u!114 &1433935099937987882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5017407310265922544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6147ddff872833f41b1bccbe0f415f7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  areaOverride: 1
 --- !u!4 &5686561924773931338 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8d582ed65534bf141a02a0e119c086c4, type: 3}
