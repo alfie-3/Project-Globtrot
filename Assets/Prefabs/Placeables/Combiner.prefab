@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 3430547967982824774}
   - component: {fileID: 4659855629560450890}
   - component: {fileID: 3481783151670281384}
+  - component: {fileID: 7388148490077831920}
   m_Layer: 0
   m_Name: Combiner
   m_TagString: Untagged
@@ -114,7 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3358971485
+  GlobalObjectIdHash: 3282669240
   InScenePlacedSourceGlobalObjectIdHash: 3282669240
   DeferredDespawnTick: 0
   Ownership: 1
@@ -207,6 +208,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7388148490077831920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 899394606651262318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6147ddff872833f41b1bccbe0f415f7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  areaOverride: 1
 --- !u!1 &1398315480381572366
 GameObject:
   m_ObjectHideFlags: 0
@@ -1136,7 +1150,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8598855297844389892, guid: ae18dfe7c80fb2f4ca546d79aa9766c1, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 3730951888
+      value: 3434641494
       objectReference: {fileID: 0}
     - target: {fileID: -8598855297844389892, guid: ae18dfe7c80fb2f4ca546d79aa9766c1, type: 3}
       propertyPath: SceneMigrationSynchronization

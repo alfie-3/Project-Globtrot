@@ -379,6 +379,7 @@ GameObject:
   - component: {fileID: 5416091933003526636}
   - component: {fileID: 4472617669117134802}
   - component: {fileID: 4964931192000152161}
+  - component: {fileID: 303986970333899241}
   m_Layer: 0
   m_Name: Highchair
   m_TagString: Untagged
@@ -476,6 +477,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 9184625660543465921, guid: 76864347b934ab744b4870e1db3cc91e, type: 3}
+--- !u!114 &303986970333899241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6817088785353535844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6147ddff872833f41b1bccbe0f415f7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  areaOverride: 1
 --- !u!1 &6936585551399200874
 GameObject:
   m_ObjectHideFlags: 0
@@ -597,6 +611,7 @@ GameObject:
   - component: {fileID: 9041272573985098826}
   - component: {fileID: 5490164598193586275}
   - component: {fileID: 2461492790348509589}
+  - component: {fileID: 6298301923894211432}
   m_Layer: 0
   m_Name: Terminal
   m_TagString: Untagged
@@ -695,6 +710,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 7807538432633192378, guid: 76864347b934ab744b4870e1db3cc91e, type: 3}
+--- !u!114 &6298301923894211432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8616587932990199470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6147ddff872833f41b1bccbe0f415f7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  areaOverride: 1
 --- !u!1 &8981345904246907521
 GameObject:
   m_ObjectHideFlags: 0
@@ -891,6 +919,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74228665e5ff8f8488a3e9fd65697aa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   <BuildHologramMesh>k__BackingField: {fileID: 3628577105517108128, guid: b497c0ee47366f74f9872e81191ec7a6, type: 3}
   <item>k__BackingField: {fileID: 11400000, guid: a80c50de362d0154691d1facb5432f61, type: 2}
   <CanRemove>k__BackingField: 1
@@ -908,6 +937,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74228665e5ff8f8488a3e9fd65697aa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   <BuildHologramMesh>k__BackingField: {fileID: 0}
   <item>k__BackingField: {fileID: 0}
   <CanRemove>k__BackingField: 1

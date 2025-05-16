@@ -1026,6 +1026,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -3133498875991405556, guid: f22854c2888e34e40882d234c7156472, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6616268413417235685}
+    - targetCorrespondingSourceObject: {fileID: -3133498875991405556, guid: f22854c2888e34e40882d234c7156472, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 929296810023636011}
     - targetCorrespondingSourceObject: {fileID: -506391751699220794, guid: f22854c2888e34e40882d234c7156472, type: 3}
       insertIndex: -1
       addedObject: {fileID: 311141663141840178}
@@ -1099,6 +1102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74228665e5ff8f8488a3e9fd65697aa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   <BuildHologramMesh>k__BackingField: {fileID: 2558101883076268249, guid: 4db85b5bb2c15224a9ae13933d2a40dc, type: 3}
   <item>k__BackingField: {fileID: 11400000, guid: ed3d565bfbde9f342987fdcadeaea4e1, type: 2}
   <CanRemove>k__BackingField: 1
@@ -1158,6 +1162,19 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 3909233067320746374, guid: f22854c2888e34e40882d234c7156472, type: 3}
+--- !u!114 &929296810023636011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5956730113975093468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6147ddff872833f41b1bccbe0f415f7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  areaOverride: 1
 --- !u!1 &9138351509173334550 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -506391751699220794, guid: f22854c2888e34e40882d234c7156472, type: 3}

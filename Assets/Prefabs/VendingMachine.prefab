@@ -286,6 +286,7 @@ GameObject:
   - component: {fileID: 8541639646411374718}
   - component: {fileID: 3038191007802706452}
   - component: {fileID: 4677998244288433550}
+  - component: {fileID: 8467805314461732520}
   m_Layer: 0
   m_Name: VendingMachine
   m_TagString: Untagged
@@ -322,7 +323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3724983554
+  GlobalObjectIdHash: 3594281649
   InScenePlacedSourceGlobalObjectIdHash: 3594281649
   DeferredDespawnTick: 0
   Ownership: 8
@@ -364,6 +365,19 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   text: {fileID: 3948789480488928155}
   drinkSpawnTransform: {fileID: 5599637153989950462}
+--- !u!114 &8467805314461732520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 182648837507475336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6147ddff872833f41b1bccbe0f415f7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  areaOverride: 1
 --- !u!1 &1169230523820002435
 GameObject:
   m_ObjectHideFlags: 0
