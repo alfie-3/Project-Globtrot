@@ -47,7 +47,7 @@ public class PlayerBathroomHandler : NetworkBehaviour
     private void ResetBathroom()
     {
         BathroomNeed = 0.01f;
-        OnBathroomNeedChange.Invoke(NormalizedBathroom);
+        OnBathroomNeedChange?.Invoke(NormalizedBathroom);
     }
 
     private void UpdateBathroomEnabled(DayState state)
@@ -73,7 +73,7 @@ public class PlayerBathroomHandler : NetworkBehaviour
             BathroomNeed = 0.01f;
         }
 
-        OnBathroomNeedChange.Invoke(NormalizedBathroom);
+        OnBathroomNeedChange?.Invoke(NormalizedBathroom);
     }
 
     private void ChangeSprintingMultiplier(bool value)
