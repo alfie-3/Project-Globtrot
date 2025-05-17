@@ -43,6 +43,12 @@ public class GasCanister : NetworkBehaviour
         gasParticles.Play();
     }
 
+    [Rpc(SendTo.Everyone)]
+    public void TriggerExplode_Rpc()
+    {
+        Explode();
+    }
+
     public void Explode()
     {
         GameObject explosion = Instantiate(explosionEffect, transform.position, transform.rotation);

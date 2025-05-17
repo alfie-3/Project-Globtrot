@@ -7,6 +7,11 @@ public class ItemDestructionZone : NetworkBehaviour
     [SerializeField] ParticleSystem destructionEffect;
     private void OnTriggerEnter(Collider other)
     {
+        DestroyItem(other.gameObject);
+    }
+
+    protected virtual void DestroyItem(GameObject other)
+    {
         if (!IsServer) { return; }
 
         if (other.TryGetComponent(out Pickup_Interactable item))
