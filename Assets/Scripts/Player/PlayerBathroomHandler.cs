@@ -36,6 +36,14 @@ public class PlayerBathroomHandler : NetworkBehaviour
         GameStateManager.OnReset += ResetBathroom;
     }
 
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+
+        if (IsLocalPlayer)
+            enabled = true;
+    }
+
     private void ResetBathroom()
     {
         BathroomNeed = 0.01f;

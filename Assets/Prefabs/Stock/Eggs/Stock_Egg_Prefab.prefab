@@ -216,6 +216,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1647032077398859466, guid: c1eb8c503f20d1649bb9c0ac784fbc69, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7876602930483306719}
+    - targetCorrespondingSourceObject: {fileID: 1647032077398859466, guid: c1eb8c503f20d1649bb9c0ac784fbc69, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7998970323283980223}
   m_SourcePrefab: {fileID: 100100000, guid: c1eb8c503f20d1649bb9c0ac784fbc69, type: 3}
 --- !u!1 &7433481912298447631 stripped
 GameObject:
@@ -265,13 +268,13 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 6278287091908602750, guid: 95b34f927c5c69041aac59e2c3a29327, type: 3}
-        m_TargetAssemblyTypeName: UnityEngine.ParticleSystem, UnityEngine
-        m_MethodName: 
+      - m_Target: {fileID: 7998970323283980223}
+        m_TargetAssemblyTypeName: MessMaker, Assembly-CSharp
+        m_MethodName: CreateMess
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -321,9 +324,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  zeeboPrefabs: []
+  eggMess: {fileID: 0}
   particleEffect: {fileID: 0}
   breakoutForce: 3
+--- !u!114 &7998970323283980223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7433481912298447631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cf35b8500752224a956fcab71f9cbb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  mess: {fileID: 3829860827612231658, guid: 95b34f927c5c69041aac59e2c3a29327, type: 3}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 65
+  randomMessChance: 1
+  Decal: 0
 --- !u!4 &7810043051420121525 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2130411935382373488, guid: c1eb8c503f20d1649bb9c0ac784fbc69, type: 3}

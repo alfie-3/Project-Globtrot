@@ -9,6 +9,7 @@ public class NutrientBaby : NetworkBehaviour
 {
     [SerializeField] List<Stock_Item> requestableStock;
     [SerializeField] Image brainScannerScreen;
+    [SerializeField] Animator wormAnimator;
     [Space]
     [SerializeField] Transform outputSpawnPoint;
     [SerializeField] NetworkObject energyCorePrefab;
@@ -71,6 +72,7 @@ public class NutrientBaby : NetworkBehaviour
         if (success)
         {
             OnFeed.Invoke(true);
+            wormAnimator.CrossFade("Eat", 0.1f);
 
             if (IsServer)
             {
@@ -81,6 +83,7 @@ public class NutrientBaby : NetworkBehaviour
         else
         {
             OnFeed.Invoke(false);
+            wormAnimator.CrossFade("Eat Sad", 0.1f);
 
             if (IsServer)
             {

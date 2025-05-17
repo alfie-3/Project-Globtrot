@@ -8,6 +8,8 @@ public class MessController : NetworkBehaviour
     public bool Cleaned { get; private set; }
 
     [SerializeField] ParticleSystem SweepParticle;
+    [Space]
+    public bool Decal;
 
     private void OnEnable()
     {

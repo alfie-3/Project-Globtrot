@@ -64,6 +64,8 @@ public class PlayerCameraManager : NetworkBehaviour
         cineCamera.enabled = true;
 
         OnCameraAssigned.Invoke(cineCamera.gameObject);
+
+        cineCamera.GetComponentInChildren<VignetteEffectController>().Init(transform.root.gameObject);
     }
 
     public void ToggleSprintFOV(bool value)

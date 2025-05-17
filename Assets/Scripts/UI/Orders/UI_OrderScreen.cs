@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using WebSocketSharp;
 
 public class UI_OrderScreen : MonoBehaviour
 {
@@ -14,6 +17,35 @@ public class UI_OrderScreen : MonoBehaviour
     [Space]
     [SerializeField] Canvas SuccessCanvas;
     [SerializeField] Canvas FailCanvas;
+    [Space]
+    [SerializeField] TextMeshProUGUI[] ScreenText;
+
+    private void Awake()
+    {
+        GameStateManager.OnDayStateChanged += UpdateScreenText;
+    }
+
+    private void UpdateScreenText(DayState state)
+    {
+        foreach (TextMeshProUGUI tmpUI in ScreenText)
+        {
+            switch (state)
+            {
+                case (DayState.Preperation):
+                    tmpUI.enabled = true;
+                    tmpUI.text = "CLOCK IN TO START DAY";
+                    break;
+
+                case (DayState.Closed):
+                    tmpUI.enabled = true;
+                    tmpUI.text = "CLOCK OUT TO END DAY";
+                    break;
+                default:
+                    tmpUI.enabled = false;
+                    break;
+            }
+        }          
+    }
 
     public void AddOrder(Order order)
     {
@@ -84,5 +116,10 @@ public class UI_OrderScreen : MonoBehaviour
         {
             FailCanvas.enabled = false;
         }
+    }
+
+    private void OnDestroy()
+    {
+        GameStateManager.OnDayStateChanged -= UpdateScreenText;
     }
 }
