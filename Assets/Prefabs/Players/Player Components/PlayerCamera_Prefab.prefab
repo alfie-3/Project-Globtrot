@@ -220,7 +220,7 @@ MonoBehaviour:
   m_IsGlobal: 1
   priority: 1
   blendDistance: 0
-  weight: 1
+  weight: 0
   sharedProfile: {fileID: 11400000, guid: c2eed8db2aef26e42b942a83ecb85245, type: 2}
 --- !u!114 &1381781510140700232
 MonoBehaviour:
@@ -237,7 +237,7 @@ MonoBehaviour:
   m_IsGlobal: 1
   priority: 0
   blendDistance: 0
-  weight: 1
+  weight: 0
   sharedProfile: {fileID: 11400000, guid: 4875311143028a54d82e31fb1828196d, type: 2}
 --- !u!114 &7480158133359028741
 MonoBehaviour:
@@ -252,4 +252,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bathroomVolume: {fileID: 1601054327027703126}
-  buildingVolume: {fileID: 0}
+  buildingVolume: {fileID: 1381781510140700232}
+  buildProfile: {fileID: 11400000, guid: 4875311143028a54d82e31fb1828196d, type: 2}
+  destroyProfile: {fileID: 11400000, guid: 81aa81ac920ae7e4ca3645aae4a27f37, type: 2}

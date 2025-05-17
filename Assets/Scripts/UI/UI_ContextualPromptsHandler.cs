@@ -77,6 +77,7 @@ public class UI_ContextualPromptsHandler : MonoBehaviour, IInitPlayerUI
             RotatePrompt.gameObject.SetActive(false);
             PlacePrompt.gameObject.SetActive(false);
             DestroyPrompt.gameObject.SetActive(false);
+            BackPrompt.gameObject.SetActive(false);
             BuildPrompt.text = "Build <sprite=164>";
         }
         else

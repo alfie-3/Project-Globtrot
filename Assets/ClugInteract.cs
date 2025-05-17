@@ -24,6 +24,8 @@ public class ClugInteract : NetworkBehaviour, IUsePrimary
         audioSrc.pitch = Random.Range(0.9f, 1.1f);
         audioSrc.Play();
 
+        if (!IsServer) return;
+
         GameObject spawnedEgg = Instantiate(egg, eggSpawnPos.position, Quaternion.identity);
         spawnedEgg.GetComponent<NetworkObject>().Spawn();
     }
