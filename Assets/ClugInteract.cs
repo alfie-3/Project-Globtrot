@@ -29,4 +29,9 @@ public class ClugInteract : NetworkBehaviour, IUsePrimary
         GameObject spawnedEgg = Instantiate(egg, eggSpawnPos.position, Quaternion.identity);
         spawnedEgg.GetComponent<NetworkObject>().Spawn();
     }
+
+    public InteractionContext GetUseContext(PlayerHoldingManager holdingManager)
+    {
+        return new(true, "Squeeze");
+    }
 }

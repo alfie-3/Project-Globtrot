@@ -26,6 +26,10 @@ public class PlayerHoldingManager : NetworkBehaviour
         return null;
     }
 
+    public Action<InteractionContext> OnHeldObjUseChanged = delegate { };
+    InteractionContext previousUseContext;
+
+
     [SerializeField] PlayerObjectSocketManager ObjectSocketManager;
 
     //Dropping
@@ -70,6 +74,21 @@ public class PlayerHoldingManager : NetworkBehaviour
     private void OnEnable()
     {
         GameStateManager.OnReset += () => ClearHeldItem();
+    }
+
+    public void Update()
+    {
+        if (HeldObj == null) return;
+
+        if (HeldObj.TryGetComponent(out IUpdate update))
+        {
+            update.OnUpdate(this);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        CheckItemUsageContext();
     }
 
     public void HandlePlayerHolding(HeldObject prev, HeldObject current)
@@ -184,16 +203,6 @@ public class PlayerHoldingManager : NetworkBehaviour
         }
     }
 
-    public void Update()
-    {
-        if (HeldObj == null) return;
-
-        if (HeldObj.TryGetComponent(out IUpdate update))
-        {
-            update.OnUpdate(this);
-        }
-    }
-
     private bool primHeld = false;
     public void PerformPrimary(InputAction.CallbackContext context)
     {
@@ -212,6 +221,24 @@ public class PlayerHoldingManager : NetworkBehaviour
             if (primHeld)
             {
                 primHeld = false; NetworkManager.NetworkTickSystem.Tick -= UsePrimaryOnHeldObject;
+            }
+        }
+    }
+
+    public void CheckItemUsageContext()
+    {
+        if (HeldObj != null)
+        {
+            if (HeldObj.TryGetComponent(out IUsePrimary iPrimary))
+            {
+               
+
+                InteractionContext context = iPrimary.GetUseContext(this);
+
+                if (context.Equals(previousUseContext)) return;
+
+                OnHeldObjUseChanged.Invoke(context);
+                previousUseContext = context;
             }
         }
     }

@@ -1,9 +1,11 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public interface IUsePrimary
 {
     public void UsePrimary(PlayerHoldingManager manager);
+    public InteractionContext GetUseContext(PlayerHoldingManager manager);
 }
 
 public interface IUseSecondary
@@ -20,7 +22,7 @@ public interface IUseItem
     public void OnUnview();
 }
 
-public struct InteractionContext
+public struct InteractionContext : IEquatable<InteractionContext>
 {
     public bool InteractionAvailable;
     public string InteractionContextText;
@@ -32,6 +34,8 @@ public struct InteractionContext
     }
 
     public static InteractionContext DefaultContext => new InteractionContext(true, "Interact");
+
+    public bool Equals(InteractionContext other) => InteractionAvailable == other.InteractionAvailable && InteractionContextText.Equals(other.InteractionContextText);
 }
 
 public interface IOnHeld

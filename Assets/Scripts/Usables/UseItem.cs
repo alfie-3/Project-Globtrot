@@ -22,4 +22,9 @@ public class UseItem : MonoBehaviour, IUsePrimary
             }
         }
     }
+
+    public InteractionContext GetUseContext(PlayerHoldingManager manager)
+    {
+        return new(false);
+    }
 }

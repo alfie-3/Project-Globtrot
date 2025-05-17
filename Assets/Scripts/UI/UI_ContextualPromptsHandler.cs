@@ -9,6 +9,7 @@ public class UI_ContextualPromptsHandler : MonoBehaviour, IInitPlayerUI
     [SerializeField] TextMeshProUGUI ThrowPrompt;
     [SerializeField] TextMeshProUGUI DropPrompt;
     [SerializeField] TextMeshProUGUI GetUpPrompt;
+    [SerializeField] TextMeshProUGUI UsePrompt;
     [Space]
     [SerializeField] TextMeshProUGUI BackPrompt;
     [SerializeField] TextMeshProUGUI RotatePrompt;
@@ -31,12 +32,13 @@ public class UI_ContextualPromptsHandler : MonoBehaviour, IInitPlayerUI
     {
         if (uiManager.TryGetComponent(out PlayerInteractionManager interactionManager))
         {
-            interactionManager.OnSetObjectViewed += (value, ctx) => { ToggleInteractionPromptWithContext(value, ctx); };
+            interactionManager.OnSetObjectViewed += (value, ctx) => { TogglePromptWithContext(InteractPrompt, value, ctx, "<sprite=170>"); };
         }
 
         if (uiManager.TryGetComponent(out PlayerHoldingManager holdingManager))
         {
-            holdingManager.NetworkedHeldObj.OnValueChanged += (prev, current) => { if (current == null) return; TogglePrompt(current.IsHolding, DropPrompt.gameObject); TogglePrompt(current.IsHolding, ThrowPrompt.gameObject); };
+            holdingManager.NetworkedHeldObj.OnValueChanged += OnItemHeld;
+            holdingManager.OnHeldObjUseChanged += (value) => { TogglePromptWithContext(UsePrompt, value.InteractionAvailable, value, "<sprite=19>"); };
         }
 
         if (uiManager.TryGetComponent(out PlayerBuildingManager buildingManager))
@@ -59,15 +61,27 @@ public class UI_ContextualPromptsHandler : MonoBehaviour, IInitPlayerUI
         }
     }
 
+    private void OnItemHeld(HeldObject prev, HeldObject current)
+    {
+        if (current == null) return; 
+        TogglePrompt(current.IsHolding, DropPrompt.gameObject); 
+        TogglePrompt(current.IsHolding, ThrowPrompt.gameObject);
+
+        if (!current.IsHolding)
+        {
+            TogglePrompt(false, UsePrompt.gameObject);
+        }
+    }
+
     private void TogglePrompt(bool value, GameObject prompt)
     {
         prompt.SetActive(value);
     }
 
-    private void ToggleInteractionPromptWithContext(bool value, InteractionContext promptWithContext)
+    private void TogglePromptWithContext(TextMeshProUGUI prompt, bool value, InteractionContext promptWithContext, string append)
     {
-        InteractPrompt.gameObject.SetActive(value);
-        InteractPrompt.text = $"{promptWithContext.InteractionContextText} <sprite=170>";
+        prompt.gameObject.SetActive(value);
+        prompt.text = $"{promptWithContext.InteractionContextText} {append}";
     }
 
     public void ChangeBuildMode(PlayerBuildingManager.mode buildingMode)

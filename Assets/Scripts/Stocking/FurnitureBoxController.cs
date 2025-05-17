@@ -133,4 +133,9 @@ public class FurnitureBoxController : NetworkBehaviour, IUsePrimary, IUpdate, IS
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireCube(gizmoPos, holoMesh.bounds.size * 0.48f);
     }
+
+    public InteractionContext GetUseContext(PlayerHoldingManager holdingManager)
+    {
+        return new(true, "Place");
+    }
 }

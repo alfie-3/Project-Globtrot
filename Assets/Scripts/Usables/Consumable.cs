@@ -34,4 +34,9 @@ public class Consumable : NetworkBehaviour, IUsePrimary
         if (IsServer)
             NetworkObject.Despawn();
     }
+
+    public InteractionContext GetUseContext(PlayerHoldingManager holdingManager)
+    {
+        return new(true, "Consume");
+    }
 }

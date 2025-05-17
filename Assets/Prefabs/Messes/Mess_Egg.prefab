@@ -4856,7 +4856,6 @@ GameObject:
   - component: {fileID: 2850682528829393483}
   - component: {fileID: 7049372798347721763}
   - component: {fileID: 2648399951572143352}
-  - component: {fileID: 2499957465655190080}
   - component: {fileID: 8725369747496703768}
   - component: {fileID: 3829860827612231658}
   - component: {fileID: 5257115783401153122}
@@ -4904,7 +4903,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3238648909
+  GlobalObjectIdHash: 1375649899
   InScenePlacedSourceGlobalObjectIdHash: 2560012781
   DeferredDespawnTick: 0
   Ownership: 1
@@ -5040,25 +5039,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &2499957465655190080
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6278287091908602750}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1432a0f9f2e0a7e4798e6cf455f8bfbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  PickedUp:
-    m_InternalValue: 0
-  <HoldingSocket>k__BackingField: 0
-  pickupSound: {fileID: 11400000, guid: 1eb07738723c77e41ab0b57b53abb18f, type: 2}
-  dropSound: {fileID: 11400000, guid: 32e6cdfa7a7b780438c24577b2a262be, type: 2}
-  DropPosAddition: 0
 --- !u!114 &8725369747496703768
 MonoBehaviour:
   m_ObjectHideFlags: 0

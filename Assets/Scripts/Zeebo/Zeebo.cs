@@ -22,4 +22,8 @@ public class Zeebo : NetworkBehaviour, IUsePrimary
         audioSrc.Play();
     }
 
+    public InteractionContext GetUseContext(PlayerHoldingManager holdingManager)
+    {
+        return new(true, "Squish");
+    }
 }

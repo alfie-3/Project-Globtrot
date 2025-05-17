@@ -43,4 +43,19 @@ public class MopHandler : NetworkBehaviour, IUsePrimary, IOnHeld, IOnDrop
             }
         }
     }
+
+    public InteractionContext GetUseContext(PlayerHoldingManager holdingManager)
+    {
+        Ray ray = new(holdingManager.CameraManager.CamTransform.position, holdingManager.CameraManager.CamTransform.forward);
+
+        if (Physics.Raycast(ray, out RaycastHit hit, sweepDistance))
+        {
+            if (hit.collider.TryGetComponent(out MessController messController))
+            {
+                return new(true, "Clean");
+            }
+        }
+
+        return new(false);
+    }
 }
