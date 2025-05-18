@@ -49,6 +49,22 @@ public abstract class ItemSlot : NetworkBehaviour, IUseItem
         nwObject.GetComponent<RigidbodyNetworkTransform>().Teleport(transform.position, transform.rotation, nwObject.transform.lossyScale);
     }
 
+    public void ClearItem()
+    {
+        DeleteItem_Rpc(Item.GetComponent<NetworkObject>());
+    }
+
+    [Rpc(SendTo.Server)]
+    private void DeleteItem_Rpc(NetworkObjectReference obj)
+    {
+        if (!obj.TryGet(out NetworkObject nwObject)) return;
+
+        Item = null;
+        itemId.Value = string.Empty;
+
+        nwObject.Despawn();
+    }
+
     public void ItemRemoved()
     {
         Pickup_Interactable pickup_Interactable = Item.GetComponent<Pickup_Interactable>();
@@ -68,7 +84,8 @@ public abstract class ItemSlot : NetworkBehaviour, IUseItem
 
     public InteractionContext OnViewWithItem(PlayerHoldingManager holdingManager, Stock_Item item)
     {
-
+        if(!string.IsNullOrEmpty(itemId.Value.ToString()))
+            return new(false);
         if (CanUseItem(holdingManager, item))
         {
             return new(true, "Insert");

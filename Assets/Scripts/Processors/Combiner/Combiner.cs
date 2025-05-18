@@ -1,7 +1,11 @@
+using DG.Tweening;
 using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
+
+[RequireComponent(typeof(Animator))]
 
 public class Combiner : NetworkBehaviour
 {
@@ -16,21 +20,16 @@ public class Combiner : NetworkBehaviour
     ItemSlot itemslot;
     [SerializeField]
     ItemSlot materialSlot;
+    Animator anim;
 
-    //NetworkVariable<FixedString32Bytes> itemslot.itemId = new NetworkVariable<FixedString32Bytes>();
-    //NetworkVariable<FixedString32Bytes> materialSlot.itemId = new NetworkVariable<FixedString32Bytes>();
-
-    //Stock_Item Item;
-    //Stock_Item Material;
-
+    [SerializeField] float proccesingTime;
 
 
     private void Awake()
     {
         itemslot.itemId.OnValueChanged += NewState;
         materialSlot.itemId.OnValueChanged += NewState;
-        //itemslot.itemId.OnValueChanged += NewState;
-        //materialSlot.itemId.OnValueChanged += NewState;
+        anim = GetComponent<Animator>();
     }
 
 
@@ -48,15 +47,23 @@ public class Combiner : NetworkBehaviour
         Stock_Item Material = string.IsNullOrEmpty(materialID) ? null : ItemDictionaryManager.RetrieveItem(materialID) is not Stock_Item ? null : (Stock_Item)ItemDictionaryManager.RetrieveItem(materialID);
         screen.newState(Item, Material);
     }
-    public void MakeItem()
+
+    private bool makingItem;
+    public void TryMakeItem()
     {
+        if (makingItem) return;
         Stock_Item item = recipeList.GetItem(itemslot.itemId.Value.ToString(), materialSlot.itemId.Value.ToString());
         if (item == null) return;
-
-        PlaceItem_Rpc(item.ItemID, itemOutput.position, itemOutput.rotation);
+        makingItem = true;
+        itemslot.ClearItem();
+        materialSlot.ClearItem();
+        DOTween.Sequence().Append(DOTween.To(() => anim.speed, x => anim.speed = x, 3, proccesingTime/2)).Append(DOTween.To(() => anim.speed, x => anim.speed = x, 1, proccesingTime/2)).OnKill(() => 
+        {
+            PlaceItem_Rpc(item.ItemID, itemOutput.position, itemOutput.rotation);
+            makingItem = false;
+        });
     }
-
-
+    
     [Rpc(SendTo.Server)]
     public void PlaceItem_Rpc(string itemId, Vector3 location, Quaternion rotation)
     {
