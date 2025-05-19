@@ -14,7 +14,7 @@ public class GasCanister : NetworkBehaviour
     [SerializeField] GameObject explosionEffect;
     [Space]
     [SerializeField] GasCanisterMaterial[] gasCannisterGasColours;
-    [Space]
+    public GasType CurrentGasType = GasType.None;
     [SerializeField] float explosionRadius = 5;
     [SerializeField] float explosionPower = 100;
 
@@ -28,6 +28,8 @@ public class GasCanister : NetworkBehaviour
         GasCanisterMaterial material = gasCannisterGasColours.FirstOrDefault(x => item == x.Item);
 
         if (material.Material == null) return;
+
+        CurrentGasType = material.GasType;
 
         List<Material> materialsCopy = GetComponent<MeshRenderer>().materials.ToList();
         materialsCopy[1] = material.Material;
@@ -91,6 +93,7 @@ public class GasCanister : NetworkBehaviour
     [Serializable]
     public struct GasCanisterMaterial
     {
+        public GasType GasType;
         public Stock_Item Item;
         public Material Material;
     }

@@ -5,7 +5,6 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-[RequireComponent(typeof(NetworkRigidbody))]
 public class RigidbodyNetworkTransform : NetworkTransform
 {
     //References

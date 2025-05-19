@@ -84,8 +84,13 @@ public class GasFillerController : NetworkBehaviour
 
     public void OnCannisterRemoved()
     {
-        gasFillTweener.Kill();
-        gasFillTweener = null;
+        if (gasFillTweener != null)
+        {
+            gasFillTweener.Kill();
+            gasFillTweener = null;
+        }
+
+
         filledCannister = false;
         DOVirtual.Float(currentFillAmount, 0, 0.5f, fill => UpdateFillAmount(fill));
         GetComponent<AudioSource>().PlayOneShot(AirEscape);
@@ -99,5 +104,6 @@ public enum GasType
     Helium = 2,
     Hydrogen = 3,
     Radon = 4,
-    Zeeblium = 5
+    Zeeblium = 5,
+    None = 6
 }

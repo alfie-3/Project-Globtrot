@@ -6,7 +6,8 @@ public class ItemGrinder : ItemDestructionZone
     {
         if (other.TryGetComponent(out GasCanister gasCanister))
         {
-            gasCanister.TriggerExplode_Rpc();
+            if (gasCanister.CurrentGasType != GasType.None)
+                gasCanister.TriggerExplode_Rpc();
         }
 
         base.DestroyItem(other);

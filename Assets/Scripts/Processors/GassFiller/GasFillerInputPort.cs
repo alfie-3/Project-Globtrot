@@ -87,4 +87,9 @@ public class GasFillerInputPort : NetworkBehaviour, IUseItem
     {
         
     }
+
+    private new void OnDestroy()
+    {
+        CannisterRemoved();
+    }
 }
