@@ -9,6 +9,7 @@ public class BoxScanner : MonoBehaviour
 {
 
     [SerializeField] UI_DisplayContents[] screens = new UI_DisplayContents[2];
+    [SerializeField] float scannerResetTimer = 5f;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -31,7 +32,7 @@ public class BoxScanner : MonoBehaviour
         if (other.TryGetComponent(out OrderContainerBox orderContainerbox)) { boxContents = orderContainerbox; }
         if (boxContents == null) return;
         
-        Invoke("ClearScreens",2);
+        Invoke("ClearScreens",scannerResetTimer);
     }
 
     void ClearScreens() { screens.ToList().ForEach(s => { s.ClearList(); }); }
