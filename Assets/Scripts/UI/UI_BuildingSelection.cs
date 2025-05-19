@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
+using static PlayerUI_Manager;
 
 
-public class UI_BuildingSelection: MonoBehaviour {
+public class UI_BuildingSelection: MonoBehaviour, IInitPlayerUI {
 
     [SerializeField]
     RectTransform ItemsPanel;
@@ -65,6 +66,8 @@ public class UI_BuildingSelection: MonoBehaviour {
 
     private void Awake()
     {
+        GameStateManager.OnDayChanged += (day) => ProccessNewItems();
+
         foreach (FunitureSlot slot in slots)
         {
             GameObject carrige = Instantiate(itemSlotCarrige, ItemsPanel);
@@ -104,16 +107,6 @@ public class UI_BuildingSelection: MonoBehaviour {
         //GameStateManager.OnDayChanged += (y) => Debug.LogError("HG");
        // GameStateManager.OnDayChanged += (y) => GameStateManager.Instance.GetCurrentDayData().AddedPlaceables.ForEach(x => AddItem(x.prefab, x.category));
         //GameStateManager.Instance.GetCurrentDayData().AddedPlaceables.ForEach(x => AddItem(x.prefab, x.category));
-    }
-
-    private void OnEnable()
-    {
-        GameStateManager.OnDayChanged += (day) => ProccessNewItems();
-        UpdateBuildText();
-    }
-    private void OnDisable()
-    {
-        GameStateManager.OnDayChanged -= (day) => ProccessNewItems();
     }
 
     void ProccessNewItems()
@@ -236,5 +229,16 @@ public class UI_BuildingSelection: MonoBehaviour {
         public List<PlacableFurniture_Item> Items;
 
         public FunitureSlot(string name) {  this.name = name; Items = new(); }
+    }
+
+    private void OnDestroy()
+    {
+        GameStateManager.OnDayChanged -= (day) => ProccessNewItems();
+
+    }
+
+    public void Init(PlayerUI_Manager uiManager)
+    {
+        ProccessNewItems();
     }
 }

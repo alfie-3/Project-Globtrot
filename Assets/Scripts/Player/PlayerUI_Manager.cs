@@ -30,7 +30,6 @@ public class PlayerUI_Manager : NetworkBehaviour
             init.Init(this);
         }
     }
-
 }
 
 public interface IInitPlayerUI

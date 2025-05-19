@@ -9,6 +9,8 @@ using UnityEngine.SceneManagement;
 
 public class GameStateManager : NetworkBehaviour
 {
+    public int startingDay = 0;
+    [Space]
     public NetworkVariable<int> CurrentDay = new();
     public static Action<int> OnDayChanged = delegate { };
 
@@ -76,7 +78,7 @@ public class GameStateManager : NetworkBehaviour
     {
         base.OnNetworkSpawn();
 
-        OnDayChanged.Invoke(0);
+        OnDayChanged.Invoke(startingDay);
         CurrentDay.OnValueChanged += (prev, current) => OnDayChanged.Invoke(current);;
         OnDayChanged += (val) => TriggerDayEvent();
         CurrentGameTime.OnValueChanged += (prev, current) => OnGameTimeChanged.Invoke(current / dayEndTime);
@@ -86,7 +88,7 @@ public class GameStateManager : NetworkBehaviour
         CurrentDayState.Value = DayState.Preperation;
         mainScene = SceneManager.GetActiveScene();
 
-        CurrentDay.Value = 0;
+        CurrentDay.Value = startingDay;
         CurrentGameTime.Value = dayStartTime;
     }
 

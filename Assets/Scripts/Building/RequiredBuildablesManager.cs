@@ -38,6 +38,7 @@ public class RequiredBuildablesManager : NetworkBehaviour
     public static void AddBuildable(PlacableFurniture_Item placable)
     {
         if (Instance == null) return;
+        if (placable == null) return;
 
         if (Instance.CurrentBuildables.ContainsKey(placable))
         {

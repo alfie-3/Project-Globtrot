@@ -54,6 +54,8 @@ public class GasFillerInputPort : NetworkBehaviour, IUseItem
 
     public void CannisterRemoved()
     {
+        if (Cannister == null) return;
+
         Pickup_Interactable pickup_Interactable = Cannister.GetComponent<Pickup_Interactable>();
         pickup_Interactable.OnPickedUp -= CannisterRemoved;
         OnGasCannisterRemoved.Invoke();
