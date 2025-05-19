@@ -9,6 +9,7 @@ public class OrderBoxInput : NetworkBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!IsServer) return;
+        if (other.isTrigger) return;
         if (!other.TryGetComponent(out NetworkObject networkObject)) return;
 
         if (other.TryGetComponent(out StockItem stockItem))
