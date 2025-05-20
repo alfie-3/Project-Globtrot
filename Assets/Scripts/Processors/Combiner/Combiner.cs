@@ -18,6 +18,8 @@ public class Combiner : NetworkBehaviour
     [SerializeField]
     UI_CombinerScreen screen;
     [SerializeField]
+    ParticleSystem particles;
+    [SerializeField]
     Transform itemOutput;
     [SerializeField]
     ItemSlot itemslot;
@@ -63,6 +65,7 @@ public class Combiner : NetworkBehaviour
             itemslot.ClearItem();
             materialSlot.ClearItem();
         }
+        particles.Play();
         float speedModifier = GlobalProcessorModifiers.CombinerSpeedMultiplier;
         DOTween.Sequence().Append(DOTween.To(() => anim.speed, x => anim.speed = x, cogSpeedMult * speedModifier, (proccesingTime/ speedModifier) *0.5f)).Append(DOTween.To(() => anim.speed, x => anim.speed = x, 1, (proccesingTime / speedModifier) *0.5f)).OnKill(() => 
         {
