@@ -177,8 +177,8 @@ Transform:
   m_GameObject: {fileID: 931859123346592409}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0.02, z: 5.86}
-  m_LocalScale: {x: 14.4, y: 1, z: 22.937555}
+  m_LocalPosition: {x: 8.499996, y: 0.01999997, z: 9.499996}
+  m_LocalScale: {x: 28.199123, y: 1, z: 24.599998}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7119182062947668135}
@@ -338,7 +338,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 98
+  m_VersionIndex: 188
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -449,7 +449,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3308825336
+  GlobalObjectIdHash: 3028263869
   InScenePlacedSourceGlobalObjectIdHash: 3308825336
   DeferredDespawnTick: 0
   Ownership: 1
@@ -507,13 +507,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  startingDay: 0
   CurrentDay:
     m_InternalValue: 0
   CurrentDayState:
     m_InternalValue: 0
   <SceneDayEvents>k__BackingField:
-  - DayData: {fileID: 11400000, guid: a7340568cc1021542b72b27570c5ddd2, type: 2}
+  - DayData: {fileID: 11400000, guid: da6683eb8f3af814f8f40a8ac193b738, type: 2}
     SceneEvent:
       m_PersistentCalls:
         m_Calls:
@@ -743,7 +742,79 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  <SceneUpgradeEvents>k__BackingField: []
+  <SceneUpgradeEvents>k__BackingField:
+  - Upgrade: {fileID: 11400000, guid: 6bd669680b35956439426a739e1df092, type: 2}
+    SceneEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 276642292427758183}
+          m_TargetAssemblyTypeName: UpgradesManager, Assembly-CSharp
+          m_MethodName: UpgradePlayer
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 11400000, guid: cdc006f3786871746b74782f12c7e889, type: 2}
+            m_ObjectArgumentAssemblyTypeName: PlayerUpgradeData, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+  - Upgrade: {fileID: 11400000, guid: a54434c98a8408947bbc92dc37bfbdfb, type: 2}
+    SceneEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 221758001537192601}
+          m_TargetAssemblyTypeName: BeltManager, Assembly-CSharp
+          m_MethodName: SetBeltSpeed
+          m_Mode: 4
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 6
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+  - Upgrade: {fileID: 11400000, guid: 307985cb0823390418a5147e3a83dfa4, type: 2}
+    SceneEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 276642292427758183}
+          m_TargetAssemblyTypeName: UpgradesManager, Assembly-CSharp
+          m_MethodName: UpgradeProcessor
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 11400000, guid: f9e34891ae2843e449750a42a08be6c3, type: 2}
+            m_ObjectArgumentAssemblyTypeName: ProcessorUpgradeData, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
 --- !u!1 &4837913382070897866
 GameObject:
   m_ObjectHideFlags: 0
@@ -789,7 +860,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3019933591
+  GlobalObjectIdHash: 4137768678
   InScenePlacedSourceGlobalObjectIdHash: 3308825336
   DeferredDespawnTick: 0
   Ownership: 1
