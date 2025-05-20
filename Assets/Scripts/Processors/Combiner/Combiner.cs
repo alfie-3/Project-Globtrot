@@ -12,6 +12,9 @@ public class Combiner : NetworkBehaviour
 
     [SerializeField]
     CombinerRecipeList recipeList;
+    [SerializeField] float proccesingTime;
+    [SerializeField] float cogSpeedMult;
+    [Space]
     [SerializeField]
     UI_CombinerScreen screen;
     [SerializeField]
@@ -22,7 +25,7 @@ public class Combiner : NetworkBehaviour
     ItemSlot materialSlot;
     Animator anim;
 
-    [SerializeField] float proccesingTime;
+    
 
 
     private void Awake()
@@ -57,9 +60,11 @@ public class Combiner : NetworkBehaviour
         makingItem = true;
         itemslot.ClearItem();
         materialSlot.ClearItem();
-        DOTween.Sequence().Append(DOTween.To(() => anim.speed, x => anim.speed = x, 3, proccesingTime/2)).Append(DOTween.To(() => anim.speed, x => anim.speed = x, 1, proccesingTime/2)).OnKill(() => 
+        float speedModifier = GlobalProcessorModifiers.CombinerSpeedMultiplier;
+        DOTween.Sequence().Append(DOTween.To(() => anim.speed, x => anim.speed = x, cogSpeedMult * speedModifier, (proccesingTime/ speedModifier) *0.5f)).Append(DOTween.To(() => anim.speed, x => anim.speed = x, 1, (proccesingTime / speedModifier) *0.5f)).OnKill(() => 
         {
-            PlaceItem_Rpc(item.ItemID, itemOutput.position, itemOutput.rotation);
+            if (IsServer)
+                PlaceItem_Rpc(item.ItemID, itemOutput.position, itemOutput.rotation);
             makingItem = false;
         });
     }

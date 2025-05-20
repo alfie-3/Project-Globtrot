@@ -1,13 +1,11 @@
 using System;
 using Unity.Collections;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class ItemSlot : NetworkBehaviour, IUseItem
 {
-    
-
-    
     public NetworkVariable<FixedString32Bytes> itemId = new NetworkVariable<FixedString32Bytes>();
 
     [field: SerializeField] public GameObject Item {get; private set; }
@@ -96,5 +94,11 @@ public abstract class ItemSlot : NetworkBehaviour, IUseItem
     public void OnUnview()
     {
 
+    }
+
+    private void OnDestroy()
+    {
+        if (Item != null)
+            ItemRemoved();
     }
 }
