@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 573769d89549f724f996e2631ddd2f35, type: 3}
+  m_Name: Caffinade
+  m_EditorClassIdentifier: 
+  <ItemID>k__BackingField: drink_caffinade
+  itemName: Caffinade
+  <ItemIcon>k__BackingField: {fileID: 21300000, guid: be0c1a816eed02f4195c9ab06133b9a8, type: 3}
+  <Price>k__BackingField: 200
+  <Prefab>k__BackingField: {fileID: 6638090782260872110, guid: 578764c6fed0ee34ea8ca756c53b6770, type: 3}
+  <TimeContribution>k__BackingField: 8
+  weightedRandomCustomerPickupChance:
+  - Quantity: 1
+    Weight: 10
+  - Quantity: 2
+    Weight: 4
+  - Quantity: 3
+    Weight: 1
+  SalePercentage: 0.25
+  UnlockPrice: 50
+  Unlockable: 0
