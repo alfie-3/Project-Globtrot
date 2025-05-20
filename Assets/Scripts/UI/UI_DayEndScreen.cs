@@ -51,6 +51,8 @@ public class UI_DayEndScreen : NetworkBehaviour
         sequence.Append(DOVirtual.Int(0, MoneyManager.Instance.GetTotal(), 2, (value) => totalText.text = $"Total - <sprite=0>{value}").SetEase(Ease.OutExpo));
 
         int chipsEarned = (int)(MoneyManager.Instance.GetTotal() * MoneyManager.ChipsMultiplier);
+        if (!continueToNextDay) chipsEarned = (int)(chipsEarned * 0.05f);
+
         MoneyManager.Instance.AddChips(chipsEarned);
 
         sequence.Append(DOVirtual.Int(0, chipsEarned, 1, (value) => chipsEarnedText.text = $"Chips Earned - {value}").SetEase(Ease.OutExpo));
