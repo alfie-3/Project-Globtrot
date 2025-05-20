@@ -12,7 +12,7 @@ public class UI_UpgradeButton : MonoBehaviour
     public void InitButton(Upgrade upgrade, UI_UpgradeMenuHandler upgradeMenu)
     {
         upgradeTitle.text = upgrade.UpgradeName;
-        upgradePrice.text = upgrade.UpgradeCost.ToString();
+        upgradePrice.text = $"<sprite=0> {upgrade.UpgradeCost}";
 
         this.upgrade = upgrade;
         this.upgradeMenu = upgradeMenu;
