@@ -24,6 +24,8 @@ public class MoneyManager : NetworkBehaviour
     static public Action<int, int> OnQuotaAmountChanged = delegate { };
     static public Action<int> OnUpdateQuotaTarget = delegate { };
 
+    public bool MetQuota => CurrentQuotaAmount.Value >= CurrentQuotaTarget.Value;
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void Initialize()
     {
@@ -48,15 +50,15 @@ public class MoneyManager : NetworkBehaviour
         GameStateManager.OnDayStateChanged += (value) => { if (value == DayState.Open) SetQuotaTarget(); };
         GameStateManager.OnDayChanged += (value) => { DayData dayData = GameStateManager.Instance.GetCurrentDayData(); if (dayData == null) return; AddBuildCoins(dayData.AddedDayCoins); };
 
-            CurrentQuotaAmount.OnValueChanged += (prev, current) =>
+        CurrentQuotaAmount.OnValueChanged += (prev, current) =>
+    {
+        OnQuotaAmountChanged(prev, current);
+
+        if (CurrentQuotaAmount.Value >= CurrentQuotaTarget.Value)
         {
-            OnQuotaAmountChanged(prev, current); 
-            
-            if (CurrentQuotaAmount.Value >= CurrentQuotaTarget.Value)
-            {
-                OnQuotaAchieved.Invoke();
-            }
-        };
+            OnQuotaAchieved.Invoke();
+        }
+    };
 
         CurrentQuotaTarget.OnValueChanged += (prev, current) => { OnUpdateQuotaTarget(current); };
 
@@ -166,6 +168,7 @@ public class MoneyManager : NetworkBehaviour
         BuildCoins.Value -= amount;
         return true;
     }
+
 
     public void AddMoney(int amount)
     {

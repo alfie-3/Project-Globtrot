@@ -51,7 +51,10 @@ public class UI_DayEndScreen : NetworkBehaviour
         sequence.Append(DOVirtual.Int(0, MoneyManager.Instance.GetTotal(), 2, (value) => totalText.text = $"Total - <sprite=0>{value}").SetEase(Ease.OutExpo));
 
         int chipsEarned = (int)(MoneyManager.Instance.GetTotal() * MoneyManager.ChipsMultiplier);
-        if (!continueToNextDay) chipsEarned = (int)(chipsEarned * 0.05f);
+        if (!MoneyManager.Instance.MetQuota)
+        {
+            chipsEarned = (int)(chipsEarned * 0.12f);
+        }
 
         MoneyManager.Instance.AddChips(chipsEarned);
 
@@ -72,7 +75,7 @@ public class UI_DayEndScreen : NetworkBehaviour
 
     public void UpdateOrderProfitsQuotaFailed()
     {
-        if (MoneyManager.Instance.CurrentQuotaAmount.Value < MoneyManager.Instance.CurrentQuotaTarget.Value)
+        if (!MoneyManager.Instance.MetQuota)
         {
             QuotaAchievedStatusText.enabled = true;
             QuotaAchievedStatusText.text = "QUOTA NOT REACHED!";
@@ -81,7 +84,7 @@ public class UI_DayEndScreen : NetworkBehaviour
 
     public void UpdateNextDayButton()
     {
-        if (MoneyManager.Instance.CurrentQuotaAmount.Value < MoneyManager.Instance.CurrentQuotaTarget.Value)
+        if (!MoneyManager.Instance.MetQuota)
         {
             NextDayButton.GetComponentInChildren<TextMeshProUGUI>().text = "TRY AGAIN";
         }
