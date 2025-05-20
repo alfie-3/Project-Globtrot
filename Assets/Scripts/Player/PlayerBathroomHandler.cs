@@ -52,7 +52,7 @@ public class PlayerBathroomHandler : NetworkBehaviour
 
     private void UpdateBathroomEnabled(DayState state)
     {
-        bathroomEnabled = state == DayState.Open;
+        bathroomEnabled = state == DayState.Open || state == DayState.Overtime;
     }
 
     private void Update()

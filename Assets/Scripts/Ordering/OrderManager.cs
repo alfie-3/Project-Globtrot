@@ -197,12 +197,13 @@ public class OrderManager : NetworkBehaviour
 
     public void AddTimeBonus(Order order, float profits)
     {
-        float normalisedCompletionTime = order.CurrentOrderTime / order.InitialOrderTime;
+        float normalisedCompletionTime = 1 - (order.CurrentOrderTime / order.InitialOrderTime);
 
         if (normalisedCompletionTime > minMaxSpeedLimits.y) { return; }
 
         normalisedCompletionTime = Mathf.Clamp(normalisedCompletionTime, minMaxSpeedLimits.x, minMaxSpeedLimits.y);
         float multiplier = math.remap(minMaxSpeedLimits.x, minMaxSpeedLimits.y, minMaxSpeedMultipliers.x, minMaxSpeedMultipliers.y, normalisedCompletionTime);
+        multiplier -= 1;
 
         profits *= multiplier;
 

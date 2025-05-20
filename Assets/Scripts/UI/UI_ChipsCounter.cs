@@ -16,6 +16,6 @@ public class UI_ChipsCounter : MonoBehaviour
 
     public void UpdateChipsCounter(int amount)
     {
-        CounterText.text = $"Chips: {amount}";
+        CounterText.text = $"<sprite=0> {amount}";
     }
 }
