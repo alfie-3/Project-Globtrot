@@ -6,6 +6,7 @@ using UnityEngine;
 public class DayData : ScriptableObject
 {
     [field:SerializeField] public int DailyQuota { get; private set; }
+    [field: SerializeField] public int AddedDayCoins;
     [field: Space]
     [field: SerializeField] public List<Email> DayEmails { get; private set; }
     [field :SerializeField] public List<Upgrade> AddedUpgrades { get; private set; }
@@ -20,4 +21,6 @@ public class DayData : ScriptableObject
         [field: SerializeField] public string category { get; private set; }
         [field: SerializeField] public PlacableFurniture_Item prefab { get; private set; }
     }
+
+    
 }

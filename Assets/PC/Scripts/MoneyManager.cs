@@ -46,8 +46,9 @@ public class MoneyManager : NetworkBehaviour
 
         GameStateManager.OnResetServer += () => { CurrentQuotaAmount.Value = 0; TimeBonus.Value = 0; };
         GameStateManager.OnDayStateChanged += (value) => { if (value == DayState.Open) SetQuotaTarget(); };
+        GameStateManager.OnDayChanged += (value) => { DayData dayData = GameStateManager.Instance.GetCurrentDayData(); if (dayData == null) return; AddBuildCoins(dayData.AddedDayCoins); };
 
-        CurrentQuotaAmount.OnValueChanged += (prev, current) =>
+            CurrentQuotaAmount.OnValueChanged += (prev, current) =>
         {
             OnQuotaAmountChanged(prev, current); 
             
@@ -176,5 +177,6 @@ public class MoneyManager : NetworkBehaviour
         base.OnDestroy();
         GameStateManager.OnDayStateChanged -= (value) => { if (value == DayState.Open) SetQuotaTarget(); };
         GameStateManager.OnResetServer -= () => { CurrentQuotaAmount.Value = 0; TimeBonus.Value = 0; };
+        GameStateManager.OnDayChanged -= (value) => { DayData dayData = GameStateManager.Instance.GetCurrentDayData(); if (dayData == null) return; AddBuildCoins(dayData.AddedDayCoins); };
     }
 }
