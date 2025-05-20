@@ -216,6 +216,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1647032077398859466, guid: c1eb8c503f20d1649bb9c0ac784fbc69, type: 3}
       insertIndex: -1
       addedObject: {fileID: -8228702791995476916}
+    - targetCorrespondingSourceObject: {fileID: 1647032077398859466, guid: c1eb8c503f20d1649bb9c0ac784fbc69, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5577691894309909116}
   m_SourcePrefab: {fileID: 100100000, guid: c1eb8c503f20d1649bb9c0ac784fbc69, type: 3}
 --- !u!1 &7433481912298447631 stripped
 GameObject:
@@ -326,7 +329,20 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 65
   randomMessChance: 1
-  Decal: 0
+--- !u!114 &5577691894309909116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7433481912298447631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65f51fb8a71ac784798fdb894e9ed458, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  force: {x: 0, y: -0.12, z: 0}
+  rb: {fileID: 0}
 --- !u!4 &7810043051420121525 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2130411935382373488, guid: c1eb8c503f20d1649bb9c0ac784fbc69, type: 3}
