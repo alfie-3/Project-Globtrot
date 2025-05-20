@@ -80,13 +80,10 @@ public class UI_BuildingSelection: MonoBehaviour, IInitPlayerUI {
             catch { Debug.LogWarning($"Failed to load item icon. Item: {slot.Items[0].ItemID}"); };
 
 
-            //if(slot.children[0].ItemIcon.texture != null)
                 
             for (int i = 1; i < slot.Items.Count; i++)
             {
                 itemIcon = Instantiate(itemIcon, carrige.transform.GetChild(0));
-                //if (slot.children[i].ItemIcon.texture)
-                //itemIcon.GetComponent<RawImage>().texture = slot.children[i].ItemIcon.texture;
                 try
                 {
                     itemIcon.GetComponent<RawImage>().texture = slot.Items[i].ItemIcon.texture;
@@ -94,19 +91,14 @@ public class UI_BuildingSelection: MonoBehaviour, IInitPlayerUI {
                 catch { Debug.LogWarning($"Failed to load item icon. Item: {slot.Items[i].ItemID}"); };
             }
 
-            MoneyManager.Instance.OnBuildCoinsChanged += (money) => Moneytxt.text = "<sprite=0> " + money.ToString();
-            Moneytxt.text = "<sprite=0> " + MoneyManager.Instance.BuildCoins.Value.ToString();
+            
         }
 
+        MoneyManager.Instance.OnBuildCoinsChanged += (money) => Moneytxt.text = "<sprite=0> " + money.ToString();
+        Moneytxt.text = "<sprite=0> " + MoneyManager.Instance.BuildCoins.Value.ToString();
 
-        //maxMenuY = ItemsPanel.childCount - 1;
-        // _menuX = new int[ItemsPanel.childCount];
-        //maxMenuX = new int[ItemsPanel.childCount];
         _menuX = new();
         slots.ForEach(x => _menuX.Add(0));
-        //GameStateManager.OnDayChanged += (y) => Debug.LogError("HG");
-       // GameStateManager.OnDayChanged += (y) => GameStateManager.Instance.GetCurrentDayData().AddedPlaceables.ForEach(x => AddItem(x.prefab, x.category));
-        //GameStateManager.Instance.GetCurrentDayData().AddedPlaceables.ForEach(x => AddItem(x.prefab, x.category));
     }
 
     void ProccessNewItems()
@@ -115,7 +107,7 @@ public class UI_BuildingSelection: MonoBehaviour, IInitPlayerUI {
 
         if (dayData == null) return;
 
-        dayData.AddedPlaceables.ForEach(x => { AddItem(x.prefab, x.category);});
+        dayData.AddedPlaceables.ForEach(x => AddItem(x.prefab, x.category));
     }
 
 
@@ -154,14 +146,7 @@ public class UI_BuildingSelection: MonoBehaviour, IInitPlayerUI {
             slots.Add(new FunitureSlot(category));
             _menuX.Add(0);
 
-
             itemIcon = carrige.transform.GetChild(0).GetChild(0).gameObject;
-            /*try
-            {
-                carrige.transform.GetChild(0).GetChild(0).GetComponent<RawImage>().texture = item.ItemIcon.texture;
-            }
-            catch { Debug.LogWarning($"Failed to load item icon. Item: {item.ItemID}"); };
-            slots[carrige.transform.GetSiblingIndex()].Items.Add(item);*/
         }
         else
         {
@@ -185,9 +170,7 @@ public class UI_BuildingSelection: MonoBehaviour, IInitPlayerUI {
     void SetScales() {
         for(int i = 0; i < ItemsPanel.childCount; i++) {
             float scale = 1 - (scaleFalloff * Mathf.Abs(MenuY - i));
-            //transform.DOScale(scale, scale,2f);
-            ItemsPanel.GetChild(i).DOScale(new Vector3(scale, scale, scale), 0.2f).SetEase(Ease.InOutFlash);//
-            //DOTween.To(() => ItemsPanel.GetChild(i).localScale, x => ItemsPanel.GetChild(i).localScale = x, new Vector3(scale, scale, scale),0.2f).SetEase(Ease.InOutFlash);
+            ItemsPanel.GetChild(i).DOScale(new Vector3(scale, scale, scale), 0.2f).SetEase(Ease.InOutFlash);
         }
     }
 
@@ -196,11 +179,8 @@ public class UI_BuildingSelection: MonoBehaviour, IInitPlayerUI {
         for (int i = 0; i < ItemsPanel.childCount; i++)
         {
             float scale = 1 - (alphaFalloff * Mathf.Abs(MenuY - i));
-            //transform.DOScale(scale, scale,2f);
             CanvasGroup canvas = ItemsPanel.GetChild(i).GetComponent<CanvasGroup>();
             DOTween.To(() => canvas.alpha, x => canvas.alpha = x, scale, 0.2f).SetEase(Ease.InOutFlash);
-            //ItemsPanel.GetChild(i).DO//.DOScale(new Vector3(scale, scale, scale), 0.2f);//
-            //DOTween.To(() => ItemsPanel.GetChild(i).localScale, x => ItemsPanel.GetChild(i).localScale = x, new Vector3(scale, scale, scale),0.2f).SetEase(Ease.InOutFlash);
         }
     }
 
@@ -234,7 +214,7 @@ public class UI_BuildingSelection: MonoBehaviour, IInitPlayerUI {
     private void OnDestroy()
     {
         GameStateManager.OnDayChanged -= (day) => ProccessNewItems();
-
+        MoneyManager.Instance.OnBuildCoinsChanged -= (money) => Moneytxt.text = "<sprite=0> " + money.ToString();
     }
 
     public void Init(PlayerUI_Manager uiManager)
