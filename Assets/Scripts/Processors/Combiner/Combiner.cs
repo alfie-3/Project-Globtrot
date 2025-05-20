@@ -58,15 +58,18 @@ public class Combiner : NetworkBehaviour
         Stock_Item item = recipeList.GetItem(itemslot.itemId.Value.ToString(), materialSlot.itemId.Value.ToString());
         if (item == null) return;
         makingItem = true;
-        itemslot.ClearItem();
-        materialSlot.ClearItem();
+        if (IsServer)
+        {
+            itemslot.ClearItem();
+            materialSlot.ClearItem();
+        }
         float speedModifier = GlobalProcessorModifiers.CombinerSpeedMultiplier;
         DOTween.Sequence().Append(DOTween.To(() => anim.speed, x => anim.speed = x, cogSpeedMult * speedModifier, (proccesingTime/ speedModifier) *0.5f)).Append(DOTween.To(() => anim.speed, x => anim.speed = x, 1, (proccesingTime / speedModifier) *0.5f)).OnKill(() => 
         {
-            if (IsServer)
+            if(IsServer)
                 PlaceItem_Rpc(item.ItemID, itemOutput.position, itemOutput.rotation);
             makingItem = false;
-        });
+        });//asd
     }
     
     [Rpc(SendTo.Server)]
