@@ -9,8 +9,6 @@ using UnityEngine.SceneManagement;
 
 public class GameStateManager : NetworkBehaviour
 {
-    public int startingDay = 0;
-    [Space]
     public NetworkVariable<int> CurrentDay = new();
     public static Action<int> OnDayChanged = delegate { };
 
@@ -78,7 +76,8 @@ public class GameStateManager : NetworkBehaviour
     {
         base.OnNetworkSpawn();
 
-        OnDayChanged.Invoke(startingDay);
+        CurrentDay.Value = 0;
+        OnDayChanged.Invoke(0);
         CurrentDay.OnValueChanged += (prev, current) => OnDayChanged.Invoke(current);;
         OnDayChanged += (val) => TriggerDayEvent();
         CurrentGameTime.OnValueChanged += (prev, current) => OnGameTimeChanged.Invoke(current / dayEndTime);
@@ -88,7 +87,6 @@ public class GameStateManager : NetworkBehaviour
         CurrentDayState.Value = DayState.Preperation;
         mainScene = SceneManager.GetActiveScene();
 
-        CurrentDay.Value = startingDay;
         CurrentGameTime.Value = dayStartTime;
     }
 
@@ -148,7 +146,7 @@ public class GameStateManager : NetworkBehaviour
     [ContextMenu("SkipDay")]
     public void SkipDay()
     {
-        CurrentGameTime.Value = dayEndTime;
+        NewDay();
     }
 
     public void EndDay_Rpc()
@@ -159,12 +157,18 @@ public class GameStateManager : NetworkBehaviour
 
     public void NewDay()
     {
-        if (dayEndScene == null) return;
-
-        var status = NetworkManager.Singleton.SceneManager.UnloadScene(SceneManager.GetSceneByName("DayEndScene"));
-        CheckStatus(status, false);
+        TryUnloadDayEndScene();
 
         CurrentDay.Value++;
+        CurrentDayState.Value = DayState.Preperation;
+
+        ResetLevel_Rpc();
+    }
+
+    public void RepeatDay()
+    {
+        TryUnloadDayEndScene();
+
         CurrentDayState.Value = DayState.Preperation;
 
         ResetLevel_Rpc();
@@ -256,6 +260,15 @@ public class GameStateManager : NetworkBehaviour
         OnDayStateChanged = delegate { };
         OrderManager.OnOrderRemoved -= WaitForOvertimeToFinish;
         OnDayChanged -= (val) => TriggerDayEvent();
+    }
+
+    private void TryUnloadDayEndScene()
+    {
+        if (dayEndScene != null)
+        {
+            var status = NetworkManager.Singleton.SceneManager.UnloadScene(SceneManager.GetSceneByName("DayEndScene"));
+            CheckStatus(status, false);
+        }
     }
 }
 

@@ -12,6 +12,7 @@ public class UI_DayCounter : MonoBehaviour
         GameStateManager.Instance.CurrentDayState.OnValueChanged += (prev, current) => { UpdateDayState(current); };
 
         UpdateDayState(GameStateManager.Instance.CurrentDayState.Value);
+        UpdateDayCounter(GameStateManager.Instance.CurrentDay.Value);
     }
 
     public void UpdateDayCounter(int current)
