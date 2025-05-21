@@ -25,12 +25,15 @@ public class PlayerAnimationController : NetworkBehaviour
         GetComponent<PlayerCharacterController>().OnToggledRagdoll += OnToggleRagdoll;
         playerInputManager.OnPerformEmote += PlayEmote;
         holdingManager.NetworkedHeldObj.OnValueChanged += UpdateHeldAnimation;
+        characterMovement.OnJump += PlayJumpAnimation;
     }
 
     private void OnDisable()
     {
         GetComponent<PlayerCharacterController>().OnToggledRagdoll -= OnToggleRagdoll;
         holdingManager.NetworkedHeldObj.OnValueChanged -= UpdateHeldAnimation;
+        characterMovement.OnJump -= PlayJumpAnimation;
+
     }
 
     public void OnToggleRagdoll(bool value)
@@ -50,6 +53,11 @@ public class PlayerAnimationController : NetworkBehaviour
             animator.SetBool("Holding", false);
             animator.CrossFade("Throw", 0.1f, 2);
         }
+    }
+
+    private void PlayJumpAnimation()
+    {
+        networkAnimaor.SetTrigger("Jump");
     }
 
     private void PlayEmote(UnityEngine.InputSystem.InputAction.CallbackContext context)
