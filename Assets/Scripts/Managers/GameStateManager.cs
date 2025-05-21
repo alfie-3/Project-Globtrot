@@ -76,9 +76,13 @@ public class GameStateManager : NetworkBehaviour
     {
         base.OnNetworkSpawn();
 
-        CurrentDay.Value = 0;
-        OnDayChanged.Invoke(0);
-        CurrentDay.OnValueChanged += (prev, current) => OnDayChanged.Invoke(current);;
+        if (IsServer)
+        {
+            CurrentDay.Value = 0;
+            OnDayChanged.Invoke(0);
+        }
+
+        CurrentDay.OnValueChanged += (prev, current) => OnDayChanged.Invoke(current);
         OnDayChanged += (val) => TriggerDayEvent();
         CurrentGameTime.OnValueChanged += (prev, current) => OnGameTimeChanged.Invoke(current / dayEndTime);
 

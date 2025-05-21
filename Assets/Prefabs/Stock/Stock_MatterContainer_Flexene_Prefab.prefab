@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 819681319061539969}
   - component: {fileID: 2929701577200797625}
   - component: {fileID: 7323375438222317784}
+  - component: {fileID: -7933198954940143703}
   m_Layer: 0
   m_Name: Stock_MatterContainer_Flexene_Prefab
   m_TagString: Untagged
@@ -404,6 +405,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 271537389a990704fb510515f32ff61e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-7933198954940143703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5272815659342864214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8de33ea817dadf2489d5de901458b5a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minRequiredVelocity: 14
+  impactEnabed: 0
 --- !u!1 &5319687083276712812
 GameObject:
   m_ObjectHideFlags: 0

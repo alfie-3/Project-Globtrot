@@ -15,6 +15,7 @@ public class NutrientBaby : NetworkBehaviour
     [SerializeField] NetworkObject energyCorePrefab;
     [SerializeField] NetworkObject wastePrefab;
 
+    NetworkVariable<FixedString32Bytes> nextrequestedItemID = new();
     NetworkVariable<FixedString32Bytes> requestedItemID = new();
     Stock_Item requestedItem;
 
@@ -31,6 +32,8 @@ public class NutrientBaby : NetworkBehaviour
 
         if (IsServer)
         {
+            Stock_Item newItem = requestableStock[UnityEngine.Random.Range(0, requestableStock.Count)];
+            nextrequestedItemID.Value = newItem.ItemID;
             GenerateNewItem();
         }
         else
@@ -102,8 +105,9 @@ public class NutrientBaby : NetworkBehaviour
     }
 
     public void GenerateNewItem() {
+        requestedItemID.Value = nextrequestedItemID.Value;
         Stock_Item newItem = requestableStock[UnityEngine.Random.Range(0, requestableStock.Count)];
-        requestedItemID.Value = newItem.ItemID;
+        nextrequestedItemID.Value = newItem.ItemID;
     }
 
     public void AssignItem(FixedString32Bytes current) {
@@ -113,7 +117,7 @@ public class NutrientBaby : NetworkBehaviour
 
     public void UpdateBrainScanner(Stock_Item item) {
         if (!brainScannerScreen) return;
-
+        
         brainScannerScreen.sprite = item.ItemIcon;
     }
 }
