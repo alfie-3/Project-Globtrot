@@ -115,6 +115,7 @@ GameObject:
   - component: {fileID: -2860482465728284655}
   - component: {fileID: 8477052731716489054}
   - component: {fileID: 8497001358148109376}
+  - component: {fileID: -3794147319804835032}
   m_Layer: 0
   m_Name: Stock_Pod_Prefab
   m_TagString: Untagged
@@ -248,6 +249,7 @@ MonoBehaviour:
   <HoldingSocket>k__BackingField: 0
   pickupSound: {fileID: 11400000, guid: a4403774cd803ad489b7a53fc8c4b5a5, type: 2}
   dropSound: {fileID: 11400000, guid: a4403774cd803ad489b7a53fc8c4b5a5, type: 2}
+  DropPosAddition: 0
 --- !u!33 &2380778513150800679
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -551,6 +553,9 @@ MonoBehaviour:
   audioSource: {fileID: 4667619557137094660}
   audioClipData: {fileID: 11400000, guid: a4403774cd803ad489b7a53fc8c4b5a5, type: 2}
   minNoiseForce: 1
+  onPlayNoise:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &8497001358148109376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -613,3 +618,17 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   fragility: 2.8
+--- !u!114 &-3794147319804835032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7619981547121828464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8de33ea817dadf2489d5de901458b5a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minRequiredVelocity: 14
+  impactEnabed: 0

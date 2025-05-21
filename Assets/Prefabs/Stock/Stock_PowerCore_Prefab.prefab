@@ -68,6 +68,7 @@ GameObject:
   - component: {fileID: 5169919143857015555}
   - component: {fileID: -3812507416470041769}
   - component: {fileID: -2798189678766245020}
+  - component: {fileID: 7384412298150563461}
   m_Layer: 0
   m_Name: Stock_PowerCore_Prefab
   m_TagString: Untagged
@@ -483,6 +484,20 @@ MonoBehaviour:
   onPlayNoise:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7384412298150563461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7502218038730093827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8de33ea817dadf2489d5de901458b5a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minRequiredVelocity: 11
+  impactEnabed: 0
 --- !u!1 &7811760613646496278
 GameObject:
   m_ObjectHideFlags: 0

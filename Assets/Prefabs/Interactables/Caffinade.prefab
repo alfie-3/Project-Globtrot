@@ -112,6 +112,7 @@ GameObject:
   - component: {fileID: 2710810781744603523}
   - component: {fileID: 4442687310152707243}
   - component: {fileID: 4825623024045359175}
+  - component: {fileID: -3507753064191376767}
   m_Layer: 0
   m_Name: Caffinade
   m_TagString: Untagged
@@ -517,3 +518,17 @@ MonoBehaviour:
   ConsumableModifier: 0
   multiplierAmount: 0.5
   bathroomNeedMultiplier: 0.2
+--- !u!114 &-3507753064191376767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6638090782260872110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8de33ea817dadf2489d5de901458b5a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minRequiredVelocity: 14
+  impactEnabed: 0

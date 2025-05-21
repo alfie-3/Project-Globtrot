@@ -254,6 +254,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1664385448671051171, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 408344423108507383}
+    - targetCorrespondingSourceObject: {fileID: 1664385448671051171, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 949410682405942621}
   m_SourcePrefab: {fileID: 100100000, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
 --- !u!1 &1405003125404266358 stripped
 GameObject:
@@ -378,6 +381,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &949410682405942621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1405003125404266358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8de33ea817dadf2489d5de901458b5a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minRequiredVelocity: 12
+  impactEnabed: 0
 --- !u!82 &3144026870544114957 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 3442813480485631960, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
