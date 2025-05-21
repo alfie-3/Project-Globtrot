@@ -7,15 +7,17 @@ public class PlayerMultiplayerMaterialsController : NetworkBehaviour
     {
         if (IsLocalPlayer)
         {
-            EnableMeshCulling();
+            SetMeshCulling(true);
         }
     }
 
-    public void EnableMeshCulling()
+    public void SetMeshCulling(bool value)
     {
+        float threshold = value ? 0.5f : 0;
+
         MaterialPropertyBlock propBlock = new MaterialPropertyBlock();
 
-        propBlock.SetFloat("_AlphaClipThreshold", 0.5f);
+        propBlock.SetFloat("_AlphaClipThreshold", threshold);
 
         GetComponent<SkinnedMeshRenderer>().SetPropertyBlock(propBlock);
     }

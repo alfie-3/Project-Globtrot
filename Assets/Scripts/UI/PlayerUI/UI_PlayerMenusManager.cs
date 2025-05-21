@@ -35,7 +35,7 @@ public class UI_PlayerMenusManager : MonoBehaviour, IEscapeable
         pauseCanvas.enabled = !pausedState;
         mainCanvas.enabled = pausedState;
 
-        connectedPlayerInput.ToggleUIInput(!pausedState);
+        connectedPlayerInput.SetUIInput(!pausedState);
         connectedPlayerInput.CameraManager.SetPanTiltEnabled(pausedState);
 
         if (!pausedState)

@@ -35,7 +35,7 @@ public class PCHandler : MonoBehaviour, IEscapeable
     {
         SetCanvasGroupEnabled(true);
 
-        manager.ToggleUIInput(true);
+        manager.SetUIInput(true);
         manager.GetComponent<PlayerUI_Manager>().PlayerUI.SetPlayerUIEnabled(false);
 
         manager.CameraManager.SetPanTiltEnabled(false);
@@ -52,7 +52,7 @@ public class PCHandler : MonoBehaviour, IEscapeable
         SetCanvasGroupEnabled(false);
         pcZoomCam.enabled = false;
 
-        cachedPlayerInput.ToggleUIInput(false);
+        cachedPlayerInput.SetUIInput(false);
         cachedPlayerInput.CameraManager.SetPanTiltEnabled(true);
 
         cachedPlayerInput = null;

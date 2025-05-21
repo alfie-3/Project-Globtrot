@@ -25,6 +25,8 @@ public class PlayerUI_Manager : NetworkBehaviour
 
         GetComponent<PlayerBuildingManager>().ui = PlayerUI.GetComponentInChildren<UI_BuildingSelection>();
 
+        GetComponent<PlayerInputManager>().OnHideUI += (ctx) => { PlayerUI.GetComponent<Canvas>().enabled = !PlayerUI.GetComponent<Canvas>().enabled; };
+
         foreach (IInitPlayerUI init in PlayerUI.GetComponentsInChildren<IInitPlayerUI>())
         {
             init.Init(this);

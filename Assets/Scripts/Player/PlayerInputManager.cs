@@ -40,6 +40,11 @@ public class PlayerInputManager : NetworkBehaviour
 
     public Action<InputAction.CallbackContext> OnRagdoll = delegate { };
 
+    public Action<InputAction.CallbackContext> OnPerformEmote = delegate { };
+
+    public Action<InputAction.CallbackContext> OnToggleFreeCam = delegate { };
+    public Action<InputAction.CallbackContext> OnHideUI = delegate { };
+
     public void Awake()
     {
         inputActions = new();
@@ -65,6 +70,11 @@ public class PlayerInputManager : NetworkBehaviour
         inputActions.Player.Dismantle.performed += context => OnDismantle(context);
         inputActions.Player.Snapping.performed += context => OnPerformCtrl(context);
         inputActions.Player.Ragdoll.performed += context => OnRagdoll(context);
+
+        inputActions.Player.Emote.performed += context => OnPerformEmote.Invoke(context);
+
+        inputActions.Special.Freecam.performed += context => OnToggleFreeCam.Invoke(context);
+        inputActions.Special.HideUI.performed += context => OnHideUI.Invoke(context);
 
         inputActions.Universal.Pause.performed += ProgressEscapeStack;
     }
@@ -97,6 +107,7 @@ public class PlayerInputManager : NetworkBehaviour
 
         inputActions.Player.Enable();
         inputActions.Universal.Enable();
+        inputActions.Special.Enable();
     }
 
     private void Update()
@@ -126,7 +137,7 @@ public class PlayerInputManager : NetworkBehaviour
         return moveDir;
     }
 
-    public void ToggleUIInput(bool toggle)
+    public void SetUIInput(bool toggle)
     {
         if (toggle)
         {
@@ -136,6 +147,20 @@ public class PlayerInputManager : NetworkBehaviour
         else
         {
             inputActions.Player.Enable();
+            inputActions.UI.Disable();
+        }
+    }
+
+    public void SetInputEnabled(bool toggle)
+    {
+        if (toggle)
+        {
+            inputActions.Player.Enable();
+            inputActions.UI.Enable();
+        }
+        else
+        {
+            inputActions.Player.Disable();
             inputActions.UI.Disable();
         }
     }

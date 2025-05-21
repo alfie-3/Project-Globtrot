@@ -7,6 +7,8 @@ using UnityEngine;
 public class PlayerCameraManager : NetworkBehaviour
 {
     [SerializeField] CinemachineCamera camPrefab;
+    [SerializeField] CinemachineCamera freeCamPrefab;
+    [field: Space]
     [field: SerializeField] public Transform Viewpoint { get; private set; }
     [Space]
     [field: SerializeField] CinemachineCamera ragdollCamera;
@@ -22,12 +24,19 @@ public class PlayerCameraManager : NetworkBehaviour
     public float defaultFov;
     public Tweener currentFOVTweener;
 
+    public GameObject freeCam = null;
+
     private void OnEnable()
     {
        if (transform.root.TryGetComponent(out PlayerCharacterController characterController))
         {
             characterController.OnSprintingChanged += ToggleSprintFOV;
             characterController.OnToggledRagdoll += OnToggleRagdoll;
+        }
+
+       if (transform.root.TryGetComponent(out PlayerInputManager inputManager))
+        {
+            inputManager.OnToggleFreeCam += (ctx) => ToggleFreeCam(ctx, inputManager);
         }
     }
 
@@ -86,5 +95,23 @@ public class PlayerCameraManager : NetworkBehaviour
     {
         panTilt.PanAxis.Value = rotation.x;
         panTilt.TiltAxis.Value = rotation.y;
+    }
+
+    private void ToggleFreeCam(UnityEngine.InputSystem.InputAction.CallbackContext context, PlayerInputManager inputManager)
+    {
+        if (freeCam != null)
+        {
+            Destroy(freeCam);
+            inputManager.SetInputEnabled(true);
+            SetPanTiltEnabled(true);
+            transform.root.GetComponentInChildren<PlayerMultiplayerMaterialsController>().SetMeshCulling(true);
+        }
+        else
+        {
+            freeCam = Instantiate(freeCamPrefab, transform.position, transform.rotation).gameObject;
+            inputManager.SetInputEnabled(false);
+            SetPanTiltEnabled(false);
+            transform.root.GetComponentInChildren<PlayerMultiplayerMaterialsController>().SetMeshCulling(false);
+        }
     }
 }
