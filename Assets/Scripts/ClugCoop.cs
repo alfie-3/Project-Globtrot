@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using Unity.Netcode;
 using UnityEngine;
@@ -10,6 +11,8 @@ public class ClugCoop : NetworkBehaviour
 
     [SerializeField] Transform clugSpawnTransform;
 
+    [SerializeField] Transform clugTracker;
+
     private void OnEnable()
     {
         GameStateManager.OnResetServer += ResetClug;
@@ -19,6 +22,7 @@ public class ClugCoop : NetworkBehaviour
     {
         //Invoke("SpawnClug", 3f);
         SpawnClug();
+        StartTrackingClug();
     }
 
     private void OnClugDespawned()
@@ -56,6 +60,27 @@ public class ClugCoop : NetworkBehaviour
         currentClug = newClug;
         newClug.GetComponent<Pickup_Interactable>().OnDespawned += OnClugDespawned;
     }
+
+
+    public void StartTrackingClug()
+    {
+        clugTracker.gameObject.SetActive(true);
+        InvokeRepeating("trackClug", 1f, 2f);
+        
+    }
+
+    private void trackClug()
+    {
+        Quaternion lookAtRotation = Quaternion.LookRotation(currentClug.transform.position - transform.position);
+        //lookAtRotation = new Quaternion(0, lookAtRotation.y, 0, lookAtRotation.z);
+
+        Vector3 lookDir = currentClug.transform.position - transform.position;
+        //lookDir.z = 0;
+        //clugTracker.transform.LookAt(currentClug.transform.position,Vector3.up);
+        //clugTracker.transform.rotation = new Quaternion(0, clugTracker.transform.rotation.y, 0, clugTracker.transform.rotation.z);
+        clugTracker.DORotateQuaternion(lookAtRotation, 1.8f).SetEase(Ease.InOutExpo);
+    }
+
 
     public override void OnNetworkDespawn()
     {
