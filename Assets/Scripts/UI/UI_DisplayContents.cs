@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
@@ -13,10 +14,12 @@ public class UI_DisplayContents : MonoBehaviour
             ClearList();
         }
 
-        foreach (var item in contents.ContentsDictionary)
+        List<ContentsItem> contentsList = ContentsItem.GenerateContentItemsFromDict(contents.ContentsDictionary, true);
+
+        foreach (var item in contentsList)
         {
             UI_ItemDisplay orderListItemUI = Instantiate(itemDisplayPrefab, listParent);
-            orderListItemUI.InitializeItem(item.Key, item.Value);
+            orderListItemUI.InitializeItem(item.Item, item.Quantity);
         }
     }
 

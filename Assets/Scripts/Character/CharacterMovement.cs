@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using Unity.Netcode.Components;
 using Unity.VisualScripting;
@@ -29,6 +30,8 @@ public class CharacterMovement : MonoBehaviour
 
     public float Friction = 10;
     public float AirResistance = 5;
+
+    public Action OnJump = delegate { };
 
     private void Awake()
     {
@@ -77,6 +80,7 @@ public class CharacterMovement : MonoBehaviour
     {
         if (IsOnSlope || !GroundCheck()) return;
         forcesVelocity += new Vector3((direction.x * JumpVelocity.x), Mathf.Sqrt(JumpVelocity.y * -2f * gravity), (direction.z * JumpVelocity.x));
+        OnJump.Invoke();
     }
 
     public Vector3 CalculateForces()

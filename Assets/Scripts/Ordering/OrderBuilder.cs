@@ -19,6 +19,8 @@ public static class OrderBuilder
 
         randomTime *= timeMultiplier;
 
+        OrderListSorting.SortOrderItems(ref items);
+
         return new Order(randomTime, items, uniqueId);
     }
 }
