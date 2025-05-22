@@ -1,5 +1,4 @@
 using DG.Tweening;
-using System;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
@@ -11,7 +10,9 @@ public class ClugCoop : NetworkBehaviour
 
     [SerializeField] Transform clugSpawnTransform;
 
+    [SerializeField] Upgrade ClugTrackerUpgrade;
     [SerializeField] Transform clugTracker;
+
 
     private void OnEnable()
     {
@@ -20,9 +21,11 @@ public class ClugCoop : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        //Invoke("SpawnClug", 3f);
         SpawnClug();
-        StartTrackingClug();
+        if(UpgradesManager.Instance.CurrentUpgrades.Contains(ClugTrackerUpgrade))
+            StartTrackingClug();
+        else
+            UpgradesManager.OnUnlockedUpgrade += onUpgradeUnlocked;
     }
 
     private void OnClugDespawned()
@@ -47,7 +50,7 @@ public class ClugCoop : NetworkBehaviour
         }
     }
 
-    public void SpawnClug()
+    private void SpawnClug()
     {
         if (!IsServer) return;
         if (currentClug != null) return;
@@ -61,23 +64,27 @@ public class ClugCoop : NetworkBehaviour
         newClug.GetComponent<Pickup_Interactable>().OnDespawned += OnClugDespawned;
     }
 
+    private void onUpgradeUnlocked(Upgrade upgrade)
+    {
+        if (upgrade == ClugTrackerUpgrade)
+        {
+            StartTrackingClug();
+            UpgradesManager.OnUnlockedUpgrade -= onUpgradeUnlocked;
+        }
+    }
 
-    public void StartTrackingClug()
+    private void StartTrackingClug()
     {
         clugTracker.gameObject.SetActive(true);
-        InvokeRepeating("trackClug", 1f, 2f);
+        InvokeRepeating("trackClug", Random.value * 3, 2f + Random.value);
         
     }
 
     private void trackClug()
     {
-        Quaternion lookAtRotation = Quaternion.LookRotation(currentClug.transform.position - transform.position);
-        //lookAtRotation = new Quaternion(0, lookAtRotation.y, 0, lookAtRotation.z);
-
         Vector3 lookDir = currentClug.transform.position - transform.position;
-        //lookDir.z = 0;
-        //clugTracker.transform.LookAt(currentClug.transform.position,Vector3.up);
-        //clugTracker.transform.rotation = new Quaternion(0, clugTracker.transform.rotation.y, 0, clugTracker.transform.rotation.z);
+        lookDir.y = 0;
+        Quaternion lookAtRotation = Quaternion.LookRotation(lookDir);
         clugTracker.DORotateQuaternion(lookAtRotation, 1.8f).SetEase(Ease.InOutExpo);
     }
 
@@ -97,5 +104,6 @@ public class ClugCoop : NetworkBehaviour
     private new void OnDestroy()
     {
         GameStateManager.OnResetServer -= ResetClug;
+        UpgradesManager.OnUnlockedUpgrade -= onUpgradeUnlocked;
     }
 }
