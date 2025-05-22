@@ -91,6 +91,7 @@ public class UpgradesManager : NetworkBehaviour
         UpgradeEvent upgradeEvent = SceneUpgradeEvents.FirstOrDefault(upgradeEvent => upgradeEvent.Upgrade == upgrade);
 
         if (upgradeEvent.Equals(default)) return;
+        if (upgradeEvent.SceneEvent == null) return;
 
         upgradeEvent.SceneEvent.Invoke();
     }

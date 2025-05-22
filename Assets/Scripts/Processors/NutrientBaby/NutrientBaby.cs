@@ -14,6 +14,9 @@ public class NutrientBaby : NetworkBehaviour
     [SerializeField] Transform outputSpawnPoint;
     [SerializeField] NetworkObject energyCorePrefab;
     [SerializeField] NetworkObject wastePrefab;
+    [Space]
+    [SerializeField] Upgrade secondBrainScannerUpgrade;
+    [SerializeField] Image upgradeBrainScannerScreen;
 
     NetworkVariable<FixedString32Bytes> nextrequestedItemID = new();
     NetworkVariable<FixedString32Bytes> requestedItemID = new();
@@ -39,6 +42,13 @@ public class NutrientBaby : NetworkBehaviour
         else
         {
             AssignItem(requestedItemID.Value);
+        }
+
+        if (UpgradesManager.Instance.CurrentUpgrades.Contains(secondBrainScannerUpgrade))
+            AddSecondScreen();
+        else
+        {
+            UpgradesManager.OnUnlockedUpgrade += onUpgradeUnlocked;
         }
 
     }
@@ -120,4 +130,31 @@ public class NutrientBaby : NetworkBehaviour
         
         brainScannerScreen.sprite = item.ItemIcon;
     }
+
+
+    private void onUpgradeUnlocked(Upgrade upgrade)
+    {
+        if (upgrade == secondBrainScannerUpgrade)
+        {
+            AddSecondScreen();
+            UpgradesManager.OnUnlockedUpgrade -= onUpgradeUnlocked;
+        }
+    }
+
+    private void AddSecondScreen()
+    {
+        upgradeBrainScannerScreen.transform.parent.gameObject.SetActive(true);
+        upgradeBrainScannerScreen.sprite = ItemDictionaryManager.RetrieveItem(nextrequestedItemID.Value.ToString()).ItemIcon;
+        nextrequestedItemID.OnValueChanged += (prev, current) =>
+        {
+            upgradeBrainScannerScreen.sprite = ItemDictionaryManager.RetrieveItem(current.ToString()).ItemIcon;
+        };
+    }
+
+
+    private void OnDestroy()
+    {
+        UpgradesManager.OnUnlockedUpgrade -= onUpgradeUnlocked;
+    }
 }
+
