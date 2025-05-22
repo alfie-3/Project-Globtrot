@@ -76,7 +76,7 @@ public class ClugCoop : NetworkBehaviour
     private void StartTrackingClug()
     {
         clugTracker.gameObject.SetActive(true);
-        InvokeRepeating("trackClug", Random.value * 3, 2f + Random.value);
+        InvokeRepeating("trackClug", Random.value * 2, 2f + Random.value);
         
     }
 
