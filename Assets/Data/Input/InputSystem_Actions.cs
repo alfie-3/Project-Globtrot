@@ -1246,6 +1246,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CaptureScreenshot"",
+                    ""type"": ""Button"",
+                    ""id"": ""95d85130-e06d-48ef-aff0-6c6417b6e3aa"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1268,6 +1277,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""HideUI"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dbbdb614-31fe-4b45-b05c-417b5c842ecf"",
+                    ""path"": ""<Keyboard>/f12"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""CaptureScreenshot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1373,6 +1393,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Special = asset.FindActionMap("Special", throwIfNotFound: true);
         m_Special_Freecam = m_Special.FindAction("Freecam", throwIfNotFound: true);
         m_Special_HideUI = m_Special.FindAction("HideUI", throwIfNotFound: true);
+        m_Special_CaptureScreenshot = m_Special.FindAction("CaptureScreenshot", throwIfNotFound: true);
     }
 
     ~@InputSystem_Actions()
@@ -1999,6 +2020,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private List<ISpecialActions> m_SpecialActionsCallbackInterfaces = new List<ISpecialActions>();
     private readonly InputAction m_Special_Freecam;
     private readonly InputAction m_Special_HideUI;
+    private readonly InputAction m_Special_CaptureScreenshot;
     /// <summary>
     /// Provides access to input actions defined in input action map "Special".
     /// </summary>
@@ -2018,6 +2040,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Special/HideUI".
         /// </summary>
         public InputAction @HideUI => m_Wrapper.m_Special_HideUI;
+        /// <summary>
+        /// Provides access to the underlying input action "Special/CaptureScreenshot".
+        /// </summary>
+        public InputAction @CaptureScreenshot => m_Wrapper.m_Special_CaptureScreenshot;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -2050,6 +2076,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @HideUI.started += instance.OnHideUI;
             @HideUI.performed += instance.OnHideUI;
             @HideUI.canceled += instance.OnHideUI;
+            @CaptureScreenshot.started += instance.OnCaptureScreenshot;
+            @CaptureScreenshot.performed += instance.OnCaptureScreenshot;
+            @CaptureScreenshot.canceled += instance.OnCaptureScreenshot;
         }
 
         /// <summary>
@@ -2067,6 +2096,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @HideUI.started -= instance.OnHideUI;
             @HideUI.performed -= instance.OnHideUI;
             @HideUI.canceled -= instance.OnHideUI;
+            @CaptureScreenshot.started -= instance.OnCaptureScreenshot;
+            @CaptureScreenshot.performed -= instance.OnCaptureScreenshot;
+            @CaptureScreenshot.canceled -= instance.OnCaptureScreenshot;
         }
 
         /// <summary>
@@ -2392,5 +2424,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnHideUI(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "CaptureScreenshot" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCaptureScreenshot(InputAction.CallbackContext context);
     }
 }

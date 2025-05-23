@@ -1160,6 +1160,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "CaptureScreenshot",
+                    "type": "Button",
+                    "id": "95d85130-e06d-48ef-aff0-6c6417b6e3aa",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1182,6 +1191,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "HideUI",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dbbdb614-31fe-4b45-b05c-417b5c842ecf",
+                    "path": "<Keyboard>/f12",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "CaptureScreenshot",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

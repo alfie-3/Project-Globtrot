@@ -75,6 +75,7 @@ public class PlayerInputManager : NetworkBehaviour
 
         inputActions.Special.Freecam.performed += context => OnToggleFreeCam.Invoke(context);
         inputActions.Special.HideUI.performed += context => OnHideUI.Invoke(context);
+        inputActions.Special.CaptureScreenshot.performed += context => ScreenshotTool.CaptureScreenshot(3);
 
         inputActions.Universal.Pause.performed += ProgressEscapeStack;
     }
