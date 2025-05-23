@@ -1,8 +1,16 @@
 using System.IO;
 using UnityEngine;
 
-public static class ScreenshotTool
+public class ScreenshotTool : MonoBehaviour
 {
+    [SerializeField] int size = 1;
+
+    [ContextMenu("Screenshot")]
+    public void TakeScreenshot()
+    {
+        CaptureScreenshot(size);
+    }
+
     public static void CaptureScreenshot(int superSize = 1)
     {
         if (!Directory.Exists("Screenshots"))
