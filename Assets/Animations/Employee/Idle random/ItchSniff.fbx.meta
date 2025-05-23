@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 32e27b63a45c4b549810c463543059ba
+guid: ea2ddcc52dfbbd24eaf4776d987b1f36
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -21,7 +21,11 @@ ModelImporter:
       might lower retargeting quality:\nNote: Activate translation DOF on avatar
       to improve retargeting quality.\n\t'Base HumanSpine4' is inbetween humanoid
       transforms and has rotation animation that will be discarded.\n\t'Base HumanRibcage'
-      is inbetween humanoid transforms and has rotation animation that will be discarded.\n"
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'Base
+      HumanRDigit32' has scale animation that will be discarded.\n\t'Base HumanRDigit33'
+      has scale animation that will be discarded.\n\t'Base HumanRDigit43' has scale
+      animation that will be discarded.\n\t'Base HumanPalmBone001' has scale animation
+      that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -35,11 +39,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Walk
+      name: ItchSniff
       takeName: Take 001
       internalID: 1827226128182048838
-      firstFrame: 0
-      lastFrame: 25
+      firstFrame: 900
+      lastFrame: 1050
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -62,7 +66,7 @@ ModelImporter:
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+      additiveReferencePoseFrame: 900
     isReadable: 0
   meshes:
     lODScreenPercentages: []
@@ -88,7 +92,7 @@ ModelImporter:
     skinWeightsMode: 0
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
-    optimizeBones: 1
+    optimizeBones: 0
     meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
