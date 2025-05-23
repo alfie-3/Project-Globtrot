@@ -38,7 +38,9 @@ public class InfiniteItemGrabber : NetworkBehaviour, IInteractable
         if (instance.TryGetComponent(out RigidbodyNetworkTransform rbNT))
         {
             spawnedItems++;
-            rbNT.OnDespawned += () => { spawnedItems--; animator.Animator.SetBool("ReOpen", spawnedItems < itemLimit); };
+
+            if (animator)
+                rbNT.OnDespawned += () => { spawnedItems--; animator.Animator.SetBool("ReOpen", spawnedItems < itemLimit); };
         }
 
         if (animator)

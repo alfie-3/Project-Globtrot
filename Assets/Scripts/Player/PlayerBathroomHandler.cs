@@ -11,7 +11,7 @@ public class PlayerBathroomHandler : NetworkBehaviour
     [field: SerializeField] float BathroomNeed;
     [field: SerializeField] float MaxBathroomNeed = 120;
     [Space]
-    [field: SerializeField] float sprintingBathroomMultiplier = 2;
+    [field: SerializeField] float sprintingBathroomMultiplier = 10;
     bool sprinting = false;
     [Space]
     public float BathroomNeedMultiplier = 1;
@@ -81,9 +81,11 @@ public class PlayerBathroomHandler : NetworkBehaviour
         sprinting = value;
     }
 
-    public void Relieve()
+    public void Relieve(float amount)
     {
-        BathroomNeed = 0;
+        BathroomNeed -= amount;
+        BathroomNeed = Mathf.Clamp(BathroomNeed, 0, MaxBathroomNeed);
+
         OnBathroomNeedChange?.Invoke(NormalizedBathroom);
     }
 

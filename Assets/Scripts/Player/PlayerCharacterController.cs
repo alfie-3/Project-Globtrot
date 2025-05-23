@@ -94,6 +94,8 @@ public class PlayerCharacterController : NetworkBehaviour
 
     public void Movement()
     {
+        if (!CharacterMovement.Controller.enabled) return;
+
         if (!CanMove)
         {
             CharacterMovement.Move(Vector3.zero, currentMovementMultiplier);

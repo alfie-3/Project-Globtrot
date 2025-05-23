@@ -3,6 +3,7 @@ using System;
 using Unity.Cinemachine;
 using Unity.Netcode;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerCameraManager : NetworkBehaviour
 {
@@ -45,8 +46,13 @@ public class PlayerCameraManager : NetworkBehaviour
         if (ragdollCamera == null) return;
         if (!IsOwner) return;
 
+        SetHeadcamEnabled(value); 
+    }
+
+    public void SetHeadcamEnabled(bool value)
+    {
         ragdollCamera.enabled = value;
-        panTilt.enabled = !value;  
+        panTilt.enabled = !value;
     }
 
     public override void OnNetworkSpawn()

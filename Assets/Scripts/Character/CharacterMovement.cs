@@ -76,6 +76,19 @@ public class CharacterMovement : MonoBehaviour
         Controller.enabled = true;
     }
 
+    public void SetControllerEnabled(bool value)
+    {
+        if (value)
+        {
+            Controller.enabled = true;
+        }
+        else
+        {
+            Controller.enabled = false;
+            forcesVelocity = Vector3.zero;
+        }
+    }
+
     public void Jump(Vector3 direction)
     {
         if (IsOnSlope || !GroundCheck()) return;
