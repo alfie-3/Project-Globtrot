@@ -19,6 +19,11 @@ public class PlayerMultiplayerMaterialsController : NetworkBehaviour
 
         propBlock.SetFloat("_AlphaClipThreshold", threshold);
 
-        GetComponent<SkinnedMeshRenderer>().SetPropertyBlock(propBlock);
+        SkinnedMeshRenderer meshRenderer = GetComponent<SkinnedMeshRenderer>();
+
+        for (int i = 0; i < meshRenderer.materials.Length; i++)
+        {
+            meshRenderer.SetPropertyBlock(propBlock, i);
+        }
     }
 }
