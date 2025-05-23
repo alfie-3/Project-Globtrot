@@ -153,6 +153,15 @@ public class GameStateManager : NetworkBehaviour
         NewDay();
     }
 
+    [ContextMenu("SkipTime")]
+    public void SkipTime()
+    {
+        if (IsServer)
+        {
+            CurrentGameTime.Value = dayEndTime;
+        }
+    }
+
     public void EndDay_Rpc()
     {
         var status = NetworkManager.Singleton.SceneManager.LoadScene("DayEndScene", LoadSceneMode.Additive);
