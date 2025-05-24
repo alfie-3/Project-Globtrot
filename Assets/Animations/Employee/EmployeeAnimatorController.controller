@@ -1014,8 +1014,12 @@ MonoBehaviour:
   timeUntilBored: 0
   weightedRandomQuantitySelection:
   - Quantity: 1
-    Weight: 1
+    Weight: 18
   - Quantity: 2
+    Weight: 15
+  - Quantity: 3
+    Weight: 2
+  - Quantity: 4
     Weight: 1
 --- !u!1101 &4214082789701725772
 AnimatorStateTransition:
@@ -1162,7 +1166,7 @@ BlendTree:
     m_DirectBlendParameter: Velocity
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 1827226128182048838, guid: e3e83a5669222964ea2a3f32bb6e1077, type: 3}
+    m_Motion: {fileID: 1827226128182048838, guid: 52c63b42441db3140b7f44e457896d3e, type: 3}
     m_Threshold: 1
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -1170,8 +1174,24 @@ BlendTree:
     m_DirectBlendParameter: Velocity
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 1827226128182048838, guid: 157383aa8c25dd142bd4c3342bcc05c4, type: 3}
+    m_Motion: {fileID: 1827226128182048838, guid: 51e402908ec6d1a45a979486ac5e82d0, type: 3}
     m_Threshold: 2
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Velocity
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 1827226128182048838, guid: e3e83a5669222964ea2a3f32bb6e1077, type: 3}
+    m_Threshold: 3
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Velocity
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 1827226128182048838, guid: 157383aa8c25dd142bd4c3342bcc05c4, type: 3}
+    m_Threshold: 4
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -1180,7 +1200,7 @@ BlendTree:
   m_BlendParameter: BoredAnimation
   m_BlendParameterY: Velocity
   m_MinThreshold: 0
-  m_MaxThreshold: 2
+  m_MaxThreshold: 4
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0
