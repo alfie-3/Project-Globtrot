@@ -79,18 +79,18 @@ public class BathroomInteractable : MonoBehaviour, IInteractable, IViewable
         toiletCam.enabled = false;
         enabled = false;
 
+        if (currentPlayer.TryGetComponent(out PlayerCharacterController chmv))
+        {
+            chmv.CharacterMovement.OnJump -= EndBathroom;
+            chmv.OnToggledRagdoll -= OnRagdollCancel;
+        }
+
         if (toiletCam.TryGetComponent(out CinemachinePanTilt panTilt))
         {
             panTilt.PanAxis.Value = 0f;
             panTilt.TiltAxis.Value = 0f;
 
             panTilt.enabled = false;
-        }
-
-
-        if (currentPlayer.TryGetComponent(out CharacterMovement chmv))
-        {
-            chmv.OnJump -= EndBathroom;
         }
 
         currentPlayer = null;
