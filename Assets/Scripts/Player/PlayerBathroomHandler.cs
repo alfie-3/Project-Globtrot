@@ -13,6 +13,7 @@ public class PlayerBathroomHandler : NetworkBehaviour
     [Space]
     [field: SerializeField] float sprintingBathroomMultiplier = 10;
     bool sprinting = false;
+    [field: SerializeField] float speedIncreaseThreshold = 75;
     [Space]
     public float BathroomNeedMultiplier = 1;
     PlayerCharacterController playerController;
@@ -104,6 +105,17 @@ public class PlayerBathroomHandler : NetworkBehaviour
                 }
             }
         }
+    }
+
+    public float GetBladderSpeedBonus()
+    {
+        if (GlobalPlayerModifiers.BladderSpeedModifier == 1) return 1;
+        if (BathroomNeed > speedIncreaseThreshold)
+        {
+            float percentage = (BathroomNeed - speedIncreaseThreshold) / (MaxBathroomNeed - speedIncreaseThreshold);
+            return 1 + percentage * (GlobalPlayerModifiers.BladderSpeedModifier-1);
+        }
+        return 1;
     }
 
     private new void OnDestroy()

@@ -13,6 +13,7 @@ public class PlayerCharacterController : NetworkBehaviour
     public PlayerCameraManager CameraManager { get; private set; }
     public PlayerModel PlayerModel { get; private set; }
 
+    public PlayerBathroomHandler BathroomHandler { get; private set; }
 
     [Header("Movement")]
     public bool CanMove = false;
@@ -64,6 +65,7 @@ public class PlayerCharacterController : NetworkBehaviour
         PlayerInputManager = GetComponent<PlayerInputManager>();
         CameraManager = GetComponentInChildren<PlayerCameraManager>();
         PlayerModel = GetComponentInChildren<PlayerModel>();
+        BathroomHandler = GetComponent<PlayerBathroomHandler>();
         GameStateManager.OnReset += Respawn;
 
         Stamina.ResetStamina();
@@ -122,6 +124,8 @@ public class PlayerCharacterController : NetworkBehaviour
                 IsSprinting = false;
             }
         }
+
+        currentMovementMultiplier *= BathroomHandler.GetBladderSpeedBonus();
 
         CharacterMovement.Move(PlayerInputManager.CameraRelativeInput(), currentMovementMultiplier);
     }
