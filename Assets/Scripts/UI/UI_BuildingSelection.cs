@@ -107,7 +107,7 @@ public class UI_BuildingSelection: MonoBehaviour, IInitPlayerUI {
 
         if (dayData == null) return;
 
-        dayData.AddedPlaceables.ForEach(x => AddItem(x.prefab, x.category));
+        dayData.AddedPlaceables.ForEach(x => { AddItem(x.prefab, x.category); UI_Notifcation.EnqueueNotification($"New Item Added: {x.prefab.ItemName}"); });
     }
 
 
