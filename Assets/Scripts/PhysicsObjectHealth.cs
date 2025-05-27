@@ -1,4 +1,3 @@
-using System;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
@@ -21,7 +20,7 @@ public class PhysicsObjectHealth : NetworkBehaviour
     bool killed = false;
     bool dead = false;
 
-    public Vector3 LastHitNormal {  get; private set; }
+    public Vector3 LastHitNormal { get; private set; }
 
     public override void OnNetworkSpawn()
     {
@@ -38,7 +37,12 @@ public class PhysicsObjectHealth : NetworkBehaviour
         if (newValue <= 0 && IsServer)
         {
             Kill_Rpc();
-            NetworkObject.Despawn();
+
+            if (NetworkObject.IsSpawned)
+            {
+                Kill_Rpc();
+                NetworkObject.Despawn();
+            }
         }
 
         if (newValue < previousValue)

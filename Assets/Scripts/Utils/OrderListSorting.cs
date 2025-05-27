@@ -6,12 +6,12 @@ public static class OrderListSorting
 {
     public static void SortOrderItems(ref List<OrderItem> orderItems)
     {
-       orderItems = orderItems.OrderByDescending(x => x.Quantity).ThenByDescending(x => x.Item.name).ToList();
+       orderItems = orderItems.OrderByDescending(x => x.Quantity).ThenByDescending(x => x.Item.ItemName).ToList();
     }
 
     public static void SortContentsItems(ref List<ContentsItem> contentItems)
     {
-        contentItems = contentItems.OrderByDescending(x => x.Quantity).ThenByDescending(x => x.Item.name).ToList();
+        contentItems = contentItems.OrderByDescending(x => x.Quantity).ThenByDescending(x => x.Item.ItemName).ToList();
     }
 }
 

@@ -25,12 +25,16 @@ public class GasFillerController : NetworkBehaviour
     bool filledCannister;
 
     [Space]
+    [SerializeField] AudioClip gasLoop;
     [SerializeField] AudioClip AirEscape;
     [SerializeField] AudioClip FinishedGas;
+
+    AudioSource audioSource;
 
     private void Awake()
     {
         port.OnGasCannisterRemoved += OnCannisterRemoved;
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void FillGasCannister(int gasType)
@@ -48,6 +52,7 @@ public class GasFillerController : NetworkBehaviour
         currentGasType = gasType;
         gasFillTweener = DOVirtual.Float(0, 1, fillSpeed * GlobalProcessorModifiers.GasStationSpeedMultiplier, fill => UpdateFillAmount(fill));
         gasFillTweener.onComplete += () => OnGasFillComplete(gasType);
+        OnGasFillStart_Rpc();
     }
 
     public void OverPressurizeCanister()
@@ -76,10 +81,18 @@ public class GasFillerController : NetworkBehaviour
     }
 
     [Rpc(SendTo.Everyone)]
+    public void OnGasFillStart_Rpc()
+    {
+        audioSource.clip = gasLoop;
+        audioSource.loop = true;
+        audioSource.Play();
+    }
+
+    [Rpc(SendTo.Everyone)]
     public void OnGasFillComplete_Rpc()
     {
-        GetComponent<AudioSource>().PlayOneShot(AirEscape);
-        GetComponent<AudioSource>().PlayOneShot(FinishedGas);
+        audioSource.PlayOneShot(AirEscape);
+        audioSource.PlayOneShot(FinishedGas);
     }
 
     public void OnCannisterRemoved()
@@ -90,10 +103,11 @@ public class GasFillerController : NetworkBehaviour
             gasFillTweener = null;
         }
 
+        audioSource.Stop();
 
         filledCannister = false;
         DOVirtual.Float(currentFillAmount, 0, 0.5f, fill => UpdateFillAmount(fill));
-        GetComponent<AudioSource>().PlayOneShot(AirEscape);
+        audioSource.PlayOneShot(AirEscape);
     }
 }
 
