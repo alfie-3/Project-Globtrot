@@ -104,6 +104,7 @@ public class PlayerAnimationController : NetworkBehaviour
         if (animator == null) return;
         if (!IsOwner) return;
 
-        animator.SetFloat("Velocity", playerInputManager.MovementInput.magnitude);
+        animator.SetFloat("Velocity", playerCharacterController.CharacterMovement.CurrentVelocity);
+        animator.SetFloat("WalkingMultiplier", playerCharacterController.PlayerInputManager.MovementInput.y >= 0 ? 1 : -1);
     }
 }
