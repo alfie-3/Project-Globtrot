@@ -1,12 +1,13 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public class DispenserController : MonoBehaviour
+public class DispenserController : NetworkBehaviour
 {
     [SerializeField] Animator dispenserAnimator;
 
     [SerializeField] bool startDisabled;
 
-    private void Start()
+    public override void OnNetworkSpawn()
     {
         SetDispenserDisabled(startDisabled);
     }
