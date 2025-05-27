@@ -84,7 +84,7 @@ public class RigidbodyNetworkTransform : NetworkTransform
 
     public void WakeUpNearbyObjects()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, GetComponent<Collider>().bounds.max.magnitude);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, GetComponent<Collider>().bounds.size.magnitude);
 
         foreach(Collider collider in colliders)
         {

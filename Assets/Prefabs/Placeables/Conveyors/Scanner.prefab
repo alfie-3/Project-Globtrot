@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5459228392819209326}
   - component: {fileID: 5166278790935768335}
   - component: {fileID: 1598866867975616092}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Scanner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -156,7 +156,7 @@ GameObject:
   - component: {fileID: 7259683910968886941}
   - component: {fileID: 5328330104576845722}
   - component: {fileID: 4707773719024907864}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: OrderScreenUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -269,7 +269,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2650989019885877692}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ScreenHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -303,7 +303,7 @@ GameObject:
   - component: {fileID: 9029166483446908545}
   - component: {fileID: 5181234866938096111}
   - component: {fileID: 1083293222703392638}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: OrderList
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -381,7 +381,7 @@ GameObject:
   - component: {fileID: 8350273616757585397}
   - component: {fileID: 1848070721697100674}
   - component: {fileID: 8515397863928060495}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Monitor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -730,7 +730,7 @@ GameObject:
   - component: {fileID: 8142133721407065057}
   - component: {fileID: 7100524273199312105}
   - component: {fileID: 1382025401709683159}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -800,7 +800,7 @@ GameObject:
   - component: {fileID: 6506129283478976935}
   - component: {fileID: 6498318390944279046}
   - component: {fileID: 5155207180973357633}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: OrderList
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -878,7 +878,7 @@ GameObject:
   - component: {fileID: 8756434550388137087}
   - component: {fileID: 5053401851519030215}
   - component: {fileID: 1983121254070657743}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Monitor (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1225,7 +1225,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6979444560620919278}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ScreenHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1259,7 +1259,7 @@ GameObject:
   - component: {fileID: 6022695388389888343}
   - component: {fileID: 3117921310451817384}
   - component: {fileID: 2213519262673197725}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1337,7 +1337,7 @@ GameObject:
   - component: {fileID: 1640460527969301577}
   - component: {fileID: 8831936627462173934}
   - component: {fileID: 2935453624322946129}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: OrderScreenUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1452,7 +1452,7 @@ GameObject:
   - component: {fileID: 1522573569649806482}
   - component: {fileID: 8332548177168032370}
   - component: {fileID: 2678141965939178114}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1585,6 +1585,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConveyorBeltScanner
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 611e0e756c21171438c57f8a6e529f00, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4490024605689731851, guid: 611e0e756c21171438c57f8a6e529f00, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 4705256695842283498, guid: 611e0e756c21171438c57f8a6e529f00, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -1677,6 +1685,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4202318226933268498, guid: ae18dfe7c80fb2f4ca546d79aa9766c1, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 5730465518491820836, guid: ae18dfe7c80fb2f4ca546d79aa9766c1, type: 3}
       propertyPath: m_Name
       value: ConveyorBeltStraight
@@ -1740,6 +1752,10 @@ PrefabInstance:
     - target: {fileID: 295193209520488343, guid: ae18dfe7c80fb2f4ca546d79aa9766c1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4202318226933268498, guid: ae18dfe7c80fb2f4ca546d79aa9766c1, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5730465518491820836, guid: ae18dfe7c80fb2f4ca546d79aa9766c1, type: 3}
       propertyPath: m_Name
