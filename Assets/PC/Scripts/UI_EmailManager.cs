@@ -34,6 +34,7 @@ public class UI_EmailManager : MonoBehaviour
     {
         UI_EmailButton emailButton = Instantiate(emailButtonPrefab, spawnPoint).GetComponent<UI_EmailButton>();
         emailButton.GetComponent<UI_EmailButton>().Setup(email, this);
+        emailButton.transform.SetAsFirstSibling();
     }
 
     public void AddDailyEmails()

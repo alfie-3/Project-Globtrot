@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class OrderBuilder
@@ -8,7 +9,7 @@ public static class OrderBuilder
         List<OrderItem> items = new();
         float randomTime = 15;
 
-        int targetValue = (int)(MoneyManager.Instance.CurrentQuotaTarget.Value * 0.2f);
+        int targetValue = (int)(MoneyManager.Instance.CurrentQuotaTarget.Value * orderManager.OrderValueTargetCurve.Evaluate(GameStateManager.Instance.CurrentNormalisedTime));
         int currentValue = 0;
 
         List<OrderableList> tempOrderables = new List<OrderableList>(orderables);
@@ -23,11 +24,19 @@ public static class OrderBuilder
 
                 foreach (OrderItem item in orderItemsToAdd)
                 {
-                    items.Add(item);
+                    OrderItem duplicateItem = items.FirstOrDefault(x => x.Item == item.Item);
+
+                    if (duplicateItem != default)
+                    {
+                        duplicateItem.Quantity += item.Quantity;
+                    }
+                    else
+                    {
+                        items.Add(item);
+                    }
+
                     currentValue += item.Quantity * item.Item.Price;
                 }
-
-                tempOrderables.RemoveAt(i);
             }
         }
 
@@ -38,6 +47,23 @@ public static class OrderBuilder
             currentValue += selectedItem.Item.Price;
         }
 
+        while (currentValue > targetValue)
+        {
+            int min = items.Min(entry => entry.Item.Price);
+            OrderItem selectedItem = items.FirstOrDefault(item => item.Item.Price == min);
+
+            if (selectedItem == default)
+            {
+                selectedItem = items[Random.Range(0, items.Count)];
+            }
+
+            selectedItem.Quantity--;
+            currentValue -= selectedItem.Item.Price;
+
+            if (selectedItem.Quantity == 0)
+                items.Remove(selectedItem);
+        }
+
         foreach (OrderItem item in items)
         {
             randomTime += item.TimeContribution;
@@ -46,6 +72,8 @@ public static class OrderBuilder
         randomTime *= timeMultiplier;
 
         OrderListSorting.SortOrderItems(ref items);
+
+        Debug.Log($"Current - {currentValue}, Target - {targetValue}");
 
         return new Order(randomTime, items, uniqueId);
     }

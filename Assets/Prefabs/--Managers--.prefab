@@ -647,6 +647,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 41439a1dd191e984496993eed60bfa1f, type: 2}
   <OrderPorts>k__BackingField:
   - {fileID: 0}
+  OrderValueTargetCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  failedOrder:
+    m_InternalValue: 0
   OrderLimit: 2
   minMaxOrderDelayTime: {x: 3, y: 6}
   PlayerTimeMultipliers:
@@ -866,6 +874,22 @@ MonoBehaviour:
           m_Arguments:
             m_ObjectArgument: {fileID: 11400000, guid: fd9632fbb1815fa449748a3a71f8bc6c, type: 2}
             m_ObjectArgumentAssemblyTypeName: PlayerUpgradeData, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+  - Upgrade: {fileID: 11400000, guid: 144615b893263c344bd5bd27531216fc, type: 2}
+    SceneEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 276642292427758183}
+          m_TargetAssemblyTypeName: UpgradesManager, Assembly-CSharp
+          m_MethodName: UpgradeProcessor
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 11400000, guid: a7f5700b30b52b64f9f9373e3f36ac63, type: 2}
+            m_ObjectArgumentAssemblyTypeName: ProcessorUpgradeData, Assembly-CSharp
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 

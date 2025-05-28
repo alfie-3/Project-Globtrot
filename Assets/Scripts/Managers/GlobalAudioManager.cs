@@ -12,8 +12,8 @@ public class GlobalAudioManager : NetworkBehaviour
 
     public static GlobalAudioManager Instance = null;
 
-    Action<DayState> playDayStartSound = (dayState) => { if (dayState == DayState.Open) Instance.PlaySoundSynced_Rpc("DayStart"); };
-    Action<Order, int> playNewOrderSound = (order, num) => { Instance.PlaySound("NewOrder"); };
+    event Action<DayState> playDayStartSound = (dayState) => { if (dayState == DayState.Open) Instance.PlaySoundSynced_Rpc("DayStart"); };
+    event Action<Order, int> playNewOrderSound = (order, num) => { Instance.PlaySound("NewOrder"); };
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void Init()
