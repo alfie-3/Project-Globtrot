@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
@@ -11,6 +12,19 @@ public class UI_PlayerMenusManager : MonoBehaviour, IEscapeable
     [SerializeField] Canvas UICanvas;
     [SerializeField] Canvas mainCanvas;
     [SerializeField] Canvas pauseCanvas;
+
+    bool enablePaueMenu = true;
+
+    private void OnEnable()
+    {
+        GameStateManager.OnDayStateChanged += UpdateUIVisible;
+    }
+
+    private void UpdateUIVisible(DayState state)
+    {
+        enablePaueMenu = state != DayState.DayEnd;
+        SetPlayerUIEnabled(state != DayState.DayEnd);
+    }
 
     public void Init(PlayerUI_Manager player)
     {
@@ -30,6 +44,8 @@ public class UI_PlayerMenusManager : MonoBehaviour, IEscapeable
 
     public void TogglePauseMenu()
     {
+        if (!enablePaueMenu) return;
+
         bool pausedState = pauseCanvas.enabled;
 
         pauseCanvas.enabled = !pausedState;
@@ -74,5 +90,11 @@ public class UI_PlayerMenusManager : MonoBehaviour, IEscapeable
         }
 
         NetworkManager.Singleton.Shutdown();
+    }
+
+    private void OnDestroy()
+    {
+        GameStateManager.OnDayStateChanged -= UpdateUIVisible;
+
     }
 }

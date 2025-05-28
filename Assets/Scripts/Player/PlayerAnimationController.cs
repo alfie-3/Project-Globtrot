@@ -46,8 +46,16 @@ public class PlayerAnimationController : NetworkBehaviour
 
     private void UpdateHeldAnimation(HeldObject previousValue, HeldObject newValue)
     {
+
+
         if (newValue.IsHolding)
         {
+            foreach (IKTargetPoint ikPoint in holdingManager.HeldObj.gameObject.GetComponentsInChildren<IKTargetPoint>())
+            {
+                if (ikPoint.IKCONSTRAINT == IKTargetsManager.IKCONSTRAINT.LeftHand || ikPoint.IKCONSTRAINT == IKTargetsManager.IKCONSTRAINT.RightHand)
+                    return;
+            }
+
             animator.SetBool("Holding", true);
         }
         if (!newValue.IsHolding)

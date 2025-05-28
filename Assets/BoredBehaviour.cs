@@ -12,6 +12,7 @@ public class BoredBehaviour : StateMachineBehaviour
     WeightedRandomBag<int> boredAnimationRandomWeights = new();
     bool initializedRandomWeights = false;
 
+    int boredAnimation = 0;
     bool isBored;
     private float idleTimer;
 
@@ -37,23 +38,31 @@ public class BoredBehaviour : StateMachineBehaviour
             {
                 isBored = true;
 
-                int boredAnimation = boredAnimationRandomWeights.GetRandom();
-                animator.SetFloat("BoredAnimation", boredAnimation);
+                boredAnimation = boredAnimationRandomWeights.GetRandom();
+                boredAnimation = boredAnimation * 2 - 1;
+
+                animator.SetFloat("BoredAnimation", boredAnimation - 1);
             }
         }
         else if (stateInfo.normalizedTime % 1 > 0.98f)
         {
             ResetIdle(animator);
         }
+
+        animator.SetFloat("BoredAnimation", boredAnimation, 0.2f, Time.deltaTime);
     }
+
 
     private void ResetIdle(Animator animator)
     {
+        if (isBored)
+        {
+            boredAnimation--;
+        }
+
         isBored = false;
         idleTimer = 0;
 
         timeUntilBored = Random.Range(minxMaxBoredTimer.x, minxMaxBoredTimer.y);
-
-        animator.SetFloat("BoredAnimation", 0);
     }
 }

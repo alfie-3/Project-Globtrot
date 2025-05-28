@@ -4,6 +4,7 @@ using UnityEngine;
 public class IKTargetPoint : MonoBehaviour
 {
     [SerializeField] private IKTargetsManager.IKCONSTRAINT constraint;
+    public IKTargetsManager.IKCONSTRAINT IKCONSTRAINT { get { return constraint; } }
 
     public void SetConstraint(IKTargetsManager manager)
     {

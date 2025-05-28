@@ -3,7 +3,7 @@ using Unity.Cinemachine;
 using Unity.Netcode;
 using UnityEngine;
 
-public class BathroomInteractable : MonoBehaviour, IInteractable, IViewable
+public class BathroomInteractable : MonoBehaviour, IInteractable, IViewable, IEscapeable
 {
     [SerializeField] float bathroomDrainRate = 3;
 
@@ -59,6 +59,7 @@ public class BathroomInteractable : MonoBehaviour, IInteractable, IViewable
 
         if (bathroom.TryGetComponent(out PlayerCharacterController chmv))
         {
+            chmv.PlayerInputManager.EscapeStack.Push(this);
             chmv.CharacterMovement.OnJump += EndBathroom;
             chmv.OnToggledRagdoll += OnRagdollCancel;
         }
@@ -124,4 +125,8 @@ public class BathroomInteractable : MonoBehaviour, IInteractable, IViewable
         return new(true, "Relieve");
     }
 
+    public void Escape(PlayerInputManager manager)
+    {
+        EndBathroom();
+    }
 }

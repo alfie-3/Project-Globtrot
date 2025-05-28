@@ -199,8 +199,12 @@ PrefabInstance:
       value: Mop_Prefab 1
       objectReference: {fileID: 0}
     - target: {fileID: 5448963543574763371, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
+      propertyPath: DropPosAddition
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5448963543574763371, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
       propertyPath: <HoldingSocket>k__BackingField
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5862923584276602137, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
       propertyPath: m_LocalScale.x
@@ -256,15 +260,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6413770517156856969, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.253
+      value: -0.05
       objectReference: {fileID: 0}
     - target: {fileID: 6413770517156856969, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.087
+      value: 0.223
       objectReference: {fileID: 0}
     - target: {fileID: 6413770517156856969, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.451
+      value: -0.464
       objectReference: {fileID: 0}
     - target: {fileID: 6757460629403179946, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
       propertyPath: m_Mass
@@ -337,7 +341,8 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 1464040589727450330, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
     - {fileID: 6877222312694400334, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 4252813076894473091, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 5862923584276602137, guid: b46c733da410c3e408fab9dd37828dc5, type: 3}
       insertIndex: -1

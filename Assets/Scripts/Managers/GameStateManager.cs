@@ -156,6 +156,7 @@ public class GameStateManager : NetworkBehaviour
     {
         var status = NetworkManager.Singleton.SceneManager.LoadScene("DayEndScene", LoadSceneMode.Additive);
         CheckStatus(status);
+        CurrentDayState.Value = DayState.DayEnd;
     }
 
     public void NewDay()
@@ -280,7 +281,8 @@ public enum DayState
     Preperation,
     Open,
     Overtime,
-    Closed
+    Closed,
+    DayEnd
 }
 
 [System.Serializable]
