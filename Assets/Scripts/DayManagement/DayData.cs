@@ -15,6 +15,8 @@ public class DayData : ScriptableObject
 
     [field: SerializeField] public List<Placeable> AddedPlaceables { get; private set; }
 
+    [field: SerializeField] public AudioClip Music { get; private set; }
+
     [System.Serializable]
     public struct Placeable
     {
