@@ -5,7 +5,7 @@ public class Belt : MonoBehaviour
 {
     [field: SerializeField] public float rotation { get; private set; }
 
-    public Action<Belt> OnDestroyAction = delegate { };
+    public event Action<Belt> OnDestroyAction = delegate { };
     protected Rigidbody rb;
     private void Start() {
         rb = GetComponent<Rigidbody>();

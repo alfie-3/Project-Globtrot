@@ -11,7 +11,7 @@ public class GasFillerController : NetworkBehaviour
     [SerializeField] float overPressureTimeout = 5;
 
     float currentFillAmount;
-    public Action<float> OnFillAmountChanged;
+    public event Action<float> OnFillAmountChanged;
 
     Vector3 hackyShakeFloat;
 

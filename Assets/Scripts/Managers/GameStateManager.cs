@@ -5,31 +5,33 @@ using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.SceneManagement;
 
 public class GameStateManager : NetworkBehaviour
 {
     public NetworkVariable<int> CurrentDay = new();
-    public static Action<int> OnDayChanged = delegate { };
+    public static event Action<int> OnDayChanged = delegate { };
 
     public NetworkVariable<DayState> CurrentDayState = new();
 
     public bool IsOpen => CurrentDayState.Value == DayState.Open;
-    public static Action<DayState> OnDayStateChanged = delegate { };
-    public static Action StartWorkingDay = delegate { };
+    public static event Action<DayState> OnDayStateChanged = delegate { };
+    public static event Action StartWorkingDay = delegate { };
     [field: SerializeField] public List<DayEvent> SceneDayEvents { get; private set; }
 
     [Space]
 
     public NetworkVariable<float> CurrentGameTime = new();
+    public float CurrentNormalisedTime => CurrentGameTime.Value / dayEndTime;
     [SerializeField] int dayStartTime = 0;
     [SerializeField] int dayEndTime = 300;
-    public static Action<float> OnGameTimeChanged = delegate { };
+    public static event Action<float> OnGameTimeChanged = delegate { };
     bool timerRunning;
 
 
-    public static Action OnReset = delegate { };
-    public static Action OnResetServer = delegate { };
+    public static event Action OnReset = delegate { };
+    public static event Action OnResetServer = delegate { };
 
 
     public static GameStateManager Instance { get; private set; }
@@ -58,18 +60,6 @@ public class GameStateManager : NetworkBehaviour
         if (!IsServer) return;
 
         UpdateTime();
-    }
-
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-    public static void Init()
-    {
-        OnDayChanged = delegate { };
-        OnDayStateChanged = delegate { };
-        OnGameTimeChanged = delegate {};
-        OnReset = delegate { };
-        OnResetServer = delegate { };
-        StartWorkingDay = delegate { };
-        Instance = null;
     }
 
     public override void OnNetworkSpawn()

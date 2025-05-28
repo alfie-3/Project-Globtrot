@@ -18,32 +18,32 @@ public class PlayerInputManager : NetworkBehaviour
 
     //Rotating
     public Vector2 ScrollInput { get; private set; }
-    public Action<InputAction.CallbackContext> OnScroll = delegate { };
+    public event Action<InputAction.CallbackContext> OnScroll = delegate { };
 
-    public Action<InputAction.CallbackContext> OnPerformCtrl = delegate { };
+    public event Action<InputAction.CallbackContext> OnPerformCtrl = delegate { };
 
     //Interaction
-    public Action<InputAction.CallbackContext> OnInteract = delegate { };
-    public Action<InputAction.CallbackContext> OnDismantle = delegate { };
-    public Action<InputAction.CallbackContext> OnQ = delegate { };
+    public event Action<InputAction.CallbackContext> OnInteract = delegate { };
+    public event Action<InputAction.CallbackContext> OnDismantle = delegate { };
+    public event Action<InputAction.CallbackContext> OnQ = delegate { };
 
-    public Action<InputAction.CallbackContext> OnPerformPrimary = delegate { };
-    public Action<InputAction.CallbackContext> OnPerformSecondary = delegate { };
+    public event Action<InputAction.CallbackContext> OnPerformPrimary = delegate { };
+    public event Action<InputAction.CallbackContext> OnPerformSecondary = delegate { };
 
-    public Action<InputAction.CallbackContext> OnPerformDrop = delegate { };
-    public Action<InputAction.CallbackContext> OnSprint = delegate { };
+    public event Action<InputAction.CallbackContext> OnPerformDrop = delegate { };
+    public event Action<InputAction.CallbackContext> OnSprint = delegate { };
 
-    public Action<InputAction.CallbackContext> OnPause = delegate { };
+    public event Action<InputAction.CallbackContext> OnPause = delegate { };
     public Stack<IEscapeable> EscapeStack = new Stack<IEscapeable>();
 
-    public PlayerCameraManager CameraManager { get; private set; }
+    public  PlayerCameraManager CameraManager { get; private set; }
 
-    public Action<InputAction.CallbackContext> OnRagdoll = delegate { };
+    public event Action<InputAction.CallbackContext> OnRagdoll = delegate { };
 
-    public Action<InputAction.CallbackContext> OnPerformEmote = delegate { };
+    public event Action<InputAction.CallbackContext> OnPerformEmote = delegate { };
 
-    public Action<InputAction.CallbackContext> OnToggleFreeCam = delegate { };
-    public Action<InputAction.CallbackContext> OnHideUI = delegate { };
+    public event Action<InputAction.CallbackContext> OnToggleFreeCam = delegate { };
+    public event Action<InputAction.CallbackContext> OnHideUI = delegate { };
 
     public void Awake()
     {

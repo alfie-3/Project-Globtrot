@@ -9,6 +9,7 @@ public class UI_DayEndScreen : NetworkBehaviour
     [SerializeField] TextMeshProUGUI dayEndText;
     [SerializeField] TextMeshProUGUI rawProfitsText;
     [SerializeField] TextMeshProUGUI speedBonusText;
+    [SerializeField] TextMeshProUGUI perfectBonusText;
     [SerializeField] TextMeshProUGUI totalText;
     [SerializeField] TextMeshProUGUI QuotaAchievedStatusText;
     [SerializeField] TextMeshProUGUI chipsEarnedText;
@@ -46,8 +47,11 @@ public class UI_DayEndScreen : NetworkBehaviour
 
         sequence = DOTween.Sequence();
 
+        int perfectBonus = OrderManager.CalculatePerfectBonus(MoneyManager.Instance.CurrentQuotaAmount.Value);
+
         sequence.Append(DOVirtual.Int(0, MoneyManager.Instance.CurrentQuotaAmount.Value, 1, UpdateOrderProfits).SetEase(Ease.OutExpo).OnComplete(UpdateOrderProfitsQuotaFailed)).OnComplete(UpdateNextDayButton);
         sequence.Append(DOVirtual.Int(0, MoneyManager.Instance.TimeBonus.Value, 1, (value) => speedBonusText.text = $"Speed Bonus - <sprite=0>{value}").SetEase(Ease.OutExpo));
+        sequence.Append(DOVirtual.Int(0, perfectBonus, 1, (value) => perfectBonusText.text = $"Perfect Bonus - <sprite=0>{value}"));
         sequence.Append(DOVirtual.Int(0, MoneyManager.Instance.GetTotal(), 2, (value) => totalText.text = $"Total - <sprite=0>{value}").SetEase(Ease.OutExpo));
 
         int chipsEarned = (int)(MoneyManager.Instance.GetTotal() * MoneyManager.ChipsMultiplier);

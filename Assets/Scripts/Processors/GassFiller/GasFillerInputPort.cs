@@ -7,7 +7,7 @@ public class GasFillerInputPort : NetworkBehaviour, IUseItem
     [SerializeField] Stock_Item referenceItem;
 
     public NetworkVariable<bool> Filled { get; private set; } = new();
-    public Action OnGasCannisterRemoved = delegate { };
+    public event Action OnGasCannisterRemoved = delegate { };
 
     public GameObject Cannister;
 

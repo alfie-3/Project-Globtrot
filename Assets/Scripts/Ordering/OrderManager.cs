@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Profiling;
 
 public class OrderManager : NetworkBehaviour
 {
     [SerializeField] List<OrderableList> currentOrderableLists;
     [field: SerializeField] public List<OrderPort> OrderPorts { get; private set; } = new List<OrderPort>();
+    [field: SerializeField] public AnimationCurve OrderValueTargetCurve;
+
+    public NetworkVariable<bool> failedOrder = new();
 
     public static Dictionary<int, Order> CurrentOrders = new();
     public static int CurrentOrdersAmount => CurrentOrders.Count;
 
-    public static Action<Order, int> OnNewOrderAdded;
-    public static Action OnOrderRemoved;
+    public static event Action<Order, int> OnNewOrderAdded;
+    public static event Action OnOrderRemoved;
 
     //Will always be 0 on clients, used by the server as an ID to distinguish orders
     public static int CurrentOrderID = 0;
@@ -22,7 +24,7 @@ public class OrderManager : NetworkBehaviour
     public static OrderManager Instance;
     public int OrderLimit = 2;
 
-    public static Action<float> OnOrderTimersUpdate = delegate { };
+    public static event Action<float> OnOrderTimersUpdate = delegate { };
 
     public Vector2 minMaxOrderDelayTime = new(5, 10);
 
@@ -63,6 +65,9 @@ public class OrderManager : NetworkBehaviour
     {
         if (state == DayState.Open)
         {
+            if (IsServer)
+                failedOrder.Value = false;
+
             for (int i = 0; i < OrderPorts.Count; i++)
             {
                 Invoke(nameof(AddNewRandomOrder), GetRandomDelay() * (i + 1));
@@ -101,7 +106,7 @@ public class OrderManager : NetworkBehaviour
 
 
         float multiplier = GetTimeMultiplier();
-        Order newOrder = OrderBuilder.GenerateOrder(currentOrderableLists, CurrentOrderID, multiplier);
+        Order newOrder = OrderBuilder.GenerateOrder(this, currentOrderableLists, CurrentOrderID, multiplier);
 
         AddOrder(newOrder);
 
@@ -138,7 +143,7 @@ public class OrderManager : NetworkBehaviour
         if (IsServer) return;
 
         Order newOrder = AddNewOrderFromPayload(orderPayload);
-        
+
         if (sentTime != 0)
         {
             newOrder.CurrentOrderTime -= sentTime - NetworkManager.ServerTime.TimeAsFloat;
@@ -216,6 +221,13 @@ public class OrderManager : NetworkBehaviour
         {
             OrderPorts.Add(orderPort);
         }
+    }
+
+    public static int CalculatePerfectBonus(int baseValue)
+    {
+        if (Instance == null) return 0;
+
+        return Instance.failedOrder.Value == true ? (int)(baseValue * 0.2f) : baseValue;
     }
 
     public override void OnDestroy()

@@ -61,6 +61,7 @@ public class OrderPort : NetworkBehaviour
             case (ResponseStatus.Failure):
                 Order.OnOrderFailed.Invoke(Order);
                 OrderIncorrect_Rpc();
+                OrderManager.Instance.failedOrder.Value = true;
                 break;
         }
 

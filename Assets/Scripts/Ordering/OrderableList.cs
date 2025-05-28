@@ -23,7 +23,7 @@ public class OrderableList : ScriptableObject
             count = randomStockQuantitySelectionBag.GetRandom();
         }
 
-        Shuffle();
+        Shuffle(CurrentOrderablesList);
 
         List<OrderItem> randomPickedList = new(count);
 
@@ -38,20 +38,20 @@ public class OrderableList : ScriptableObject
     }
 
     //github.com/jasonmarziani
-    void Shuffle()
+    public static void Shuffle<T>(List<T> List) 
     {
         // Loops through array
-        for (int i = CurrentOrderablesList.Count - 1; i > 0; i--)
+        for (int i = List.Count - 1; i > 0; i--)
         {
             // Randomize a number between 0 and i (so that the range decreases each time)
             int rnd = Random.Range(0, i);
 
             // Save the value of the current i, otherwise it'll overright when we swap the values
-            Stock_Item temp = CurrentOrderablesList[i];
+            var temp = List[i];
 
             // Swap the new and old values
-            CurrentOrderablesList[i] = CurrentOrderablesList[rnd];
-            CurrentOrderablesList[rnd] = temp;
+            List[i] = List[rnd];
+            List[rnd] = temp;
         }
     }
 }

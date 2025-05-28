@@ -6,7 +6,7 @@ public class ContainerContents : NetworkBehaviour
 {
     [field: SerializeField] public Contents Contents {  get; private set; } = new Contents();
 
-    public Action OnItemAdded;
+    public event Action OnItemAdded;
 
     public bool TryAddItem(Stock_Item item, int quantity = 1)
     {
