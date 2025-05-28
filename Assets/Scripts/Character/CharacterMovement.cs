@@ -31,7 +31,7 @@ public class CharacterMovement : MonoBehaviour
     public float Friction = 10;
     public float AirResistance = 5;
 
-    public Action OnJump = delegate { };
+    public event Action OnJump = delegate { };
 
     private void Awake()
     {

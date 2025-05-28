@@ -39,8 +39,7 @@ public class InfiniteItemGrabber : NetworkBehaviour, IInteractable
         {
             spawnedItems++;
 
-            if (animator)
-                rbNT.OnDespawned += () => { spawnedItems--; animator.Animator.SetBool("ReOpen", spawnedItems < itemLimit); };
+            rbNT.OnDespawned += () => { spawnedItems--; if (animator) animator.Animator.SetBool("ReOpen", spawnedItems < itemLimit); };
         }
 
         if (animator)

@@ -79,6 +79,7 @@ public class MoneyManager : NetworkBehaviour
         int total = 0;
         total += CurrentQuotaAmount.Value;
         total += TimeBonus.Value;
+        total += OrderManager.CalculatePerfectBonus(CurrentQuotaAmount.Value);
 
         return total;
     }
