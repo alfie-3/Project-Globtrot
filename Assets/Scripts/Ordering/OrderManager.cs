@@ -10,7 +10,7 @@ public class OrderManager : NetworkBehaviour
     [field: SerializeField] public List<OrderPort> OrderPorts { get; private set; } = new List<OrderPort>();
     [field: SerializeField] public AnimationCurve OrderValueTargetCurve;
 
-    public NetworkVariable<bool> failedOrder = new();
+    public NetworkVariable<int> FailedOrders = new();
 
     public static Dictionary<int, Order> CurrentOrders = new();
     public static int CurrentOrdersAmount => CurrentOrders.Count;
@@ -66,7 +66,7 @@ public class OrderManager : NetworkBehaviour
         if (state == DayState.Open)
         {
             if (IsServer)
-                failedOrder.Value = false;
+                FailedOrders.Value = 0;
 
             for (int i = 0; i < OrderPorts.Count; i++)
             {
@@ -227,7 +227,7 @@ public class OrderManager : NetworkBehaviour
     {
         if (Instance == null) return 0;
 
-        return Instance.failedOrder.Value == true ? (int)(baseValue * 0.2f) : baseValue;
+        return Instance.FailedOrders.Value == 0 ? (int)(baseValue * 0.2f) : 0;
     }
 
     public override void OnDestroy()

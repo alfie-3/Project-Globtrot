@@ -57,6 +57,7 @@ public class UpgradesManager : NetworkBehaviour
 
         foreach (Upgrade upgrade in dayData.AddedUpgrades)
         {
+            if (upgrade == null) continue;
             UnlockableUpgrades.Add(upgrade.UpgradeId, upgrade);
             OnAddedUpgrade.Invoke(upgrade);
         }
