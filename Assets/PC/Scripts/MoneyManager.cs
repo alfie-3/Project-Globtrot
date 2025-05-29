@@ -71,7 +71,7 @@ public class MoneyManager : NetworkBehaviour
         if (!IsServer) return;
 
         OnQuotaAmountChanged.Invoke(CurrentQuotaAmount.Value, CurrentQuotaTarget.Value);
-        BuildCoins.Value = 2000;
+        BuildCoins.Value = 300;
     }
 
     public int GetTotal()

@@ -13,6 +13,7 @@ public class DayMusic : MonoBehaviour
     private void ChangeMusic(int day)
     {
         musicPlayer.clip = GameStateManager.Instance.GetCurrentDayData().Music;
+        musicPlayer.Play();
     }
 
 
