@@ -32,7 +32,7 @@ public class OrderPort : NetworkBehaviour
         Order.OnOrderRemoved += (context) => { RemoveAllocatedOrder(); };
         Order.OnTimerFinished += (context) => { OrderTimeout_Rpc(); };
 
-        OnOrderAdded.Invoke();
+        OnOrderAdded?.Invoke();
 
         return true;
     }
