@@ -155,6 +155,7 @@ public class GameStateManager : NetworkBehaviour
         }
     }
 
+    [Rpc(SendTo.Server)]
     public void EndDay_Rpc()
     {
         var status = NetworkManager.Singleton.SceneManager.LoadScene("DayEndScene", LoadSceneMode.Additive);

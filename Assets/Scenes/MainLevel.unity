@@ -29392,6 +29392,7 @@ GameObject:
   - component: {fileID: 1427531617}
   - component: {fileID: 1427531616}
   - component: {fileID: 1427531615}
+  - component: {fileID: 1427531621}
   m_Layer: 0
   m_Name: ItemGiver (4)
   m_TagString: Untagged
@@ -29530,6 +29531,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 826284826}
   m_LocalEulerAnglesHint: {x: 0, y: -19.764, z: 0}
+--- !u!114 &1427531621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1427531614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aabf842535cb5d4098dc95c8e6b7c5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  DisableOnSpawn: 1
 --- !u!1 &1442266009 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8798017781408788835, guid: 8ba473da2927ebe4bb389b25c08bae2a, type: 3}
@@ -30301,19 +30316,47 @@ PrefabInstance:
       objectReference: {fileID: 71057176}
     - target: {fileID: 2102395014185417971, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
       propertyPath: OrderValueTargetCurve.m_Curve.Array.data[0].value
-      value: 0.3495222
+      value: 0.39291847
       objectReference: {fileID: 0}
     - target: {fileID: 2102395014185417971, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
       propertyPath: OrderValueTargetCurve.m_Curve.Array.data[1].value
-      value: 0.36009875
+      value: 0.403495
       objectReference: {fileID: 0}
     - target: {fileID: 2102395014185417971, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
       propertyPath: OrderValueTargetCurve.m_Curve.Array.data[2].value
-      value: 0.34451175
+      value: 0.387908
       objectReference: {fileID: 0}
     - target: {fileID: 2258394924513696763, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
       propertyPath: dayEndTime
       value: 210
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258394924513696763, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: <SceneDayEvents>k__BackingField.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258394924513696763, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: <SceneDayEvents>k__BackingField.Array.data[2].DayData
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f4b26ef5dbf40e4185943feb71b4a2b, type: 2}
+    - target: {fileID: 2258394924513696763, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: <SceneDayEvents>k__BackingField.Array.data[2].SceneEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258394924513696763, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: <SceneDayEvents>k__BackingField.Array.data[2].SceneEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258394924513696763, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: <SceneDayEvents>k__BackingField.Array.data[2].SceneEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258394924513696763, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: <SceneDayEvents>k__BackingField.Array.data[2].SceneEvent.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258394924513696763, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: <SceneDayEvents>k__BackingField.Array.data[2].SceneEvent.m_PersistentCalls.m_Calls.Array.data[3].m_Mode
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2258394924513696763, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
       propertyPath: <SceneDayEvents>k__BackingField.Array.data[0].SceneEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
@@ -30336,9 +30379,93 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1865433952}
     - target: {fileID: 2258394924513696763, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: <SceneDayEvents>k__BackingField.Array.data[2].SceneEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1427531614}
+    - target: {fileID: 2258394924513696763, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: <SceneDayEvents>k__BackingField.Array.data[2].SceneEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1865433952}
+    - target: {fileID: 2258394924513696763, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: <SceneDayEvents>k__BackingField.Array.data[2].SceneEvent.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 1865433952}
+    - target: {fileID: 2258394924513696763, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: <SceneDayEvents>k__BackingField.Array.data[2].SceneEvent.m_PersistentCalls.m_Calls.Array.data[3].m_Target
+      value: 
+      objectReference: {fileID: 1865433952}
+    - target: {fileID: 2258394924513696763, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: <SceneDayEvents>k__BackingField.Array.data[2].SceneEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258394924513696763, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: <SceneDayEvents>k__BackingField.Array.data[2].SceneEvent.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258394924513696763, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: <SceneDayEvents>k__BackingField.Array.data[2].SceneEvent.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258394924513696763, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: <SceneDayEvents>k__BackingField.Array.data[2].SceneEvent.m_PersistentCalls.m_Calls.Array.data[3].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258394924513696763, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: <SceneDayEvents>k__BackingField.Array.data[2].SceneEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258394924513696763, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: <SceneDayEvents>k__BackingField.Array.data[2].SceneEvent.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: SetDispenserDisabled
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258394924513696763, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: <SceneDayEvents>k__BackingField.Array.data[2].SceneEvent.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: SetDispenserDisabled
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258394924513696763, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: <SceneDayEvents>k__BackingField.Array.data[2].SceneEvent.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
+      value: SetDispenserDisabled
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258394924513696763, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: <SceneDayEvents>k__BackingField.Array.data[2].SceneEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258394924513696763, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: <SceneDayEvents>k__BackingField.Array.data[2].SceneEvent.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: DispenserController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258394924513696763, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: <SceneDayEvents>k__BackingField.Array.data[2].SceneEvent.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: DispenserController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258394924513696763, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: <SceneDayEvents>k__BackingField.Array.data[2].SceneEvent.m_PersistentCalls.m_Calls.Array.data[3].m_TargetAssemblyTypeName
+      value: DispenserController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258394924513696763, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: <SceneDayEvents>k__BackingField.Array.data[2].SceneEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258394924513696763, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
       propertyPath: <SceneDayEvents>k__BackingField.Array.data[0].SceneEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
       value: 
       objectReference: {fileID: 71057176}
+    - target: {fileID: 2258394924513696763, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: <SceneDayEvents>k__BackingField.Array.data[2].SceneEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258394924513696763, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: <SceneDayEvents>k__BackingField.Array.data[2].SceneEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258394924513696763, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: <SceneDayEvents>k__BackingField.Array.data[2].SceneEvent.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258394924513696763, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
+      propertyPath: <SceneDayEvents>k__BackingField.Array.data[2].SceneEvent.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 2684924958116194892, guid: 779e62061c05d1e48840da6d540866cd, type: 3}
       propertyPath: m_Name
       value: --Managers--
