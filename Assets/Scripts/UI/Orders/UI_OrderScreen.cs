@@ -74,8 +74,11 @@ public class UI_OrderScreen : MonoBehaviour
 
         ClearList();
 
-        timerThrobberImage.fillAmount = 1;
-        timerThrobberImage.sprite = timerWaitingSprite;
+        if (timerThrobberImage)
+        {
+            timerThrobberImage.fillAmount = 1;
+            timerThrobberImage.sprite = timerWaitingSprite;
+        }
     }
 
     public void ClearList()
