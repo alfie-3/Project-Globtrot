@@ -104,6 +104,6 @@ public class OrderContainerBox : NetworkBehaviour, IContents, IOnHeld, IUseItem
     public void PlayAddAnimation()
     {
         inputParticle.Play();
-        boxAnimator.SetTrigger("Expand");
+        boxAnimator.CrossFade("Expand", 0.2f);
     }
 }

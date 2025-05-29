@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ContainerContents : NetworkBehaviour
 {
-    [field: SerializeField] public Contents Contents {  get; private set; } = new Contents();
+    [field: SerializeField] public Contents Contents { get; private set; } = new Contents();
 
     public event Action OnItemAdded;
 
@@ -51,8 +51,8 @@ public class ContainerContents : NetworkBehaviour
         {
             Contents.ContentsDictionary[item] = quanitity;
 
-            if (Contents.ContentsDictionary[item] < quanitity)
-                OnItemAdded.Invoke(); 
+            if (quanitity > value)
+                OnItemAdded.Invoke();
         }
         else
         {
