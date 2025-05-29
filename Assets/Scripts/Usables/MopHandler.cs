@@ -48,6 +48,8 @@ public class MopHandler : NetworkBehaviour, IUsePrimary, IOnHeld, IOnDrop
 
     public InteractionContext GetUseContext(PlayerHoldingManager holdingManager)
     {
+        if (!holdingManager.NetworkObject.IsOwner) return new(false);
+
         Ray ray = new(holdingManager.CameraManager.CamTransform.position, holdingManager.CameraManager.CamTransform.forward);
 
         if (Physics.Raycast(ray, out RaycastHit hit, sweepDistance))

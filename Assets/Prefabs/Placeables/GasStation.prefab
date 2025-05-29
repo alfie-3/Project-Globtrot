@@ -1817,8 +1817,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  fillSpeed: 10
-  overPressureTimeout: 2
+  fillSpeed: 8
+  overPressureTimeout: 0.25
   port: {fileID: 8439737965999621989}
   gasTypes:
   - {fileID: 11400000, guid: 0bbdc41bfe8e1e74eb2b4f14c89d80fc, type: 2}
@@ -1873,8 +1873,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 5.351583
-  MaxDistance: 500
+  MinDistance: 2.67
+  MaxDistance: 8
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -1909,7 +1909,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
