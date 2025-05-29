@@ -6,6 +6,7 @@ public class Consumable : NetworkBehaviour, IUsePrimary
     public PlayerStatModifier ConsumableModifier = PlayerStatModifier.MovementSpeed;
     [SerializeField] float multiplierAmount = 2f;
     [SerializeField] float bathroomNeedMultiplier = 2f;
+    [SerializeField] AudioClip drinkSound;
 
     bool consumed = false;
 
@@ -31,6 +32,8 @@ public class Consumable : NetworkBehaviour, IUsePrimary
     [Rpc(SendTo.Everyone)]
     public void Consumed_Rpc()
     {
+        AudioSource.PlayClipAtPoint(drinkSound, transform.position, 0.5f);
+
         if (IsServer)
             NetworkObject.Despawn();
     }
