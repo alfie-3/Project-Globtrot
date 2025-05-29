@@ -12,15 +12,14 @@ public static class OrderBuilder
         int targetValue = (int)(MoneyManager.Instance.CurrentQuotaTarget.Value * orderManager.OrderValueTargetCurve.Evaluate(GameStateManager.Instance.CurrentNormalisedTime));
         int currentValue = 0;
 
-        List<OrderableList> tempOrderables = new List<OrderableList>(orderables);
 
-        while (currentValue < targetValue && tempOrderables.Count > 0)
+        while (currentValue < targetValue)
         {
             OrderableList.Shuffle(orderables);
 
-            for (int i = tempOrderables.Count-1; i >= 0; i--)
+            for (int i = orderables.Count-1; i >= 0; i--)
             {
-                List<OrderItem> orderItemsToAdd = tempOrderables[i].PickRandom();
+                List<OrderItem> orderItemsToAdd = orderables[i].PickRandom();
 
                 foreach (OrderItem item in orderItemsToAdd)
                 {
