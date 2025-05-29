@@ -649,7 +649,34 @@ MonoBehaviour:
   - {fileID: 0}
   OrderValueTargetCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.02279663
+      value: 0.2999939
+      inSlope: 0.020020839
+      outSlope: 0.020020839
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.50548023
+      value: 0.31057045
+      inSlope: 0.001239793
+      outSlope: 0.001239793
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.93925905
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.29498345
+      inSlope: -0.045578223
+      outSlope: -0.045578223
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.332132
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -660,11 +687,11 @@ MonoBehaviour:
   playerCountMultipliers:
   - TimeMultiplier: 3
     QuotaTargetMultiplier: 1
-  - TimeMultiplier: 2
+  - TimeMultiplier: 2.75
     QuotaTargetMultiplier: 1.5
-  - TimeMultiplier: 1.5
+  - TimeMultiplier: 2.5
     QuotaTargetMultiplier: 2
-  - TimeMultiplier: 1
+  - TimeMultiplier: 2
     QuotaTargetMultiplier: 2.5
   minMaxSpeedLimits: {x: 0.25, y: 0.5}
   minMaxSpeedMultipliers: {x: 1.15, y: 1.4}
