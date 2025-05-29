@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.Multiplayer.Center.NetcodeForGameObjectsExample.DistributedAuthority;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -23,6 +24,7 @@ public class MopHandler : NetworkBehaviour, IUsePrimary, IOnHeld, IOnDrop
     public void UsePrimary(PlayerHoldingManager holdingManager)
     {
         Sweep(holdingManager);
+        holdingManager.GetComponentInChildren<Animator>().CrossFade("UseMop", 0.1f);
     }
 
     public void Sweep(PlayerHoldingManager holdingManager)
