@@ -100,7 +100,7 @@ public class MoneyManager : NetworkBehaviour
             dailyQuota = (int)(dailyQuota * OrderManager.Instance.GetMultipliers().QuotaTargetMultiplier);
         }
 
-        SetQuotaTarget(dayData.DailyQuota);
+        SetQuotaTarget(dailyQuota);
     }
 
     public void SetQuotaTarget(int target)
