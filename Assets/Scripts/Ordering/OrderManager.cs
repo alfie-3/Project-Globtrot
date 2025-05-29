@@ -30,7 +30,7 @@ public class OrderManager : NetworkBehaviour
 
     [Space]
 
-    [SerializeField] float[] PlayerTimeMultipliers = new float[4];
+    [SerializeField] PlayerCountMultipliers[] playerCountMultipliers = new PlayerCountMultipliers[4];
     [Space]
     [SerializeField] Vector2 minMaxSpeedLimits = new(0.25f, 0.5f);
     [SerializeField] Vector2 minMaxSpeedMultipliers = new(1.05f, 1.25f);
@@ -105,8 +105,8 @@ public class OrderManager : NetworkBehaviour
         CurrentOrderID++;
 
 
-        float multiplier = GetTimeMultiplier();
-        Order newOrder = OrderBuilder.GenerateOrder(this, currentOrderableLists, CurrentOrderID, multiplier);
+        PlayerCountMultipliers multiplier = GetMultipliers();
+        Order newOrder = OrderBuilder.GenerateOrder(this, currentOrderableLists, CurrentOrderID, multiplier.TimeMultiplier);
 
         AddOrder(newOrder);
 
@@ -190,14 +190,16 @@ public class OrderManager : NetworkBehaviour
         Invoke(nameof(AddNewRandomOrder), GetRandomDelay());
     }
 
-    public float GetTimeMultiplier()
+    public PlayerCountMultipliers GetMultipliers()
     {
-        if (NetworkManager.Singleton.ConnectedClients.Count > PlayerTimeMultipliers.Length)
+        if (NetworkManager.Singleton == null) return PlayerCountMultipliers.One;
+
+        if (NetworkManager.Singleton.ConnectedClients.Count > playerCountMultipliers.Length)
         {
-            return 1;
+            return default;
         }
 
-        return PlayerTimeMultipliers[NetworkManager.Singleton.ConnectedClients.Count - 1];
+        return playerCountMultipliers[NetworkManager.Singleton.ConnectedClients.Count - 1];
     }
 
     public void AddTimeBonus(Order order, float profits)
@@ -245,4 +247,19 @@ public struct SpeedBonus
 {
     float normalizedTime;
     float multiplier;
+}
+
+[Serializable]
+public struct PlayerCountMultipliers
+{
+    public static PlayerCountMultipliers One => new(1, 1);
+
+    public PlayerCountMultipliers(int timeMult, float quotaMult)
+    {
+        TimeMultiplier = timeMult;
+        QuotaTargetMultiplier = quotaMult;
+    }
+
+    public float TimeMultiplier;
+    public float QuotaTargetMultiplier;
 }

@@ -653,15 +653,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  failedOrder:
+  FailedOrders:
     m_InternalValue: 0
   OrderLimit: 2
   minMaxOrderDelayTime: {x: 3, y: 6}
-  PlayerTimeMultipliers:
-  - 3
-  - 3
-  - 1.5
-  - 1
+  playerCountMultipliers:
+  - TimeMultiplier: 3
+    QuotaTargetMultiplier: 1
+  - TimeMultiplier: 2
+    QuotaTargetMultiplier: 1.5
+  - TimeMultiplier: 1.5
+    QuotaTargetMultiplier: 2
+  - TimeMultiplier: 1
+    QuotaTargetMultiplier: 2.5
   minMaxSpeedLimits: {x: 0.25, y: 0.5}
   minMaxSpeedMultipliers: {x: 1.15, y: 1.4}
 --- !u!1 &4246870664351213462

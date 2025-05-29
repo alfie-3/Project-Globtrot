@@ -92,6 +92,14 @@ public class MoneyManager : NetworkBehaviour
         if (dayData == null) return;
 
         CurrentQuotaAmount.Value = 0;
+
+        int dailyQuota = dayData.DailyQuota;
+
+        if (OrderManager.Instance != null)
+        {
+            dailyQuota = (int)(dailyQuota * OrderManager.Instance.GetMultipliers().QuotaTargetMultiplier);
+        }
+
         SetQuotaTarget(dayData.DailyQuota);
     }
 
