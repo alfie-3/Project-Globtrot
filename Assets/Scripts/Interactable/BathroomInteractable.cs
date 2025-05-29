@@ -86,6 +86,7 @@ public class BathroomInteractable : MonoBehaviour, IInteractable, IViewable, IEs
         {
             chmv.CharacterMovement.OnJump -= EndBathroom;
             chmv.OnToggledRagdoll -= OnRagdollCancel;
+            chmv.PlayerInputManager.EscapeStack.Pop();
         }
 
         if (toiletCam.TryGetComponent(out CinemachinePanTilt panTilt))

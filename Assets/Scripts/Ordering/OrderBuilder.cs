@@ -17,7 +17,7 @@ public static class OrderBuilder
         {
             OrderableList.Shuffle(orderables);
 
-            for (int i = orderables.Count-1; i >= 0; i--)
+            for (int i = orderables.Count - 1; i >= 0; i--)
             {
                 List<OrderItem> orderItemsToAdd = orderables[i].PickRandom();
 
@@ -48,13 +48,7 @@ public static class OrderBuilder
 
         while (currentValue > targetValue)
         {
-            int min = items.Min(entry => entry.Item.Price);
-            OrderItem selectedItem = items.FirstOrDefault(item => item.Item.Price == min);
-
-            if (selectedItem == default)
-            {
-                selectedItem = items[Random.Range(0, items.Count)];
-            }
+            OrderItem selectedItem = items[Random.Range(0, items.Count)];
 
             selectedItem.Quantity--;
             currentValue -= selectedItem.Item.Price;
