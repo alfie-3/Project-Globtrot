@@ -65,6 +65,7 @@ public class GameStateManager : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        NetworkManager.Singleton.OnClientDisconnectCallback += ForceReturnToTitle;
         base.OnNetworkSpawn();
 
         if (IsServer)
@@ -85,6 +86,7 @@ public class GameStateManager : NetworkBehaviour
 
         CurrentGameTime.Value = dayStartTime;
     }
+
 
     [Rpc(SendTo.Server)]
     public void BeginDay_Rpc()
@@ -276,6 +278,15 @@ public class GameStateManager : NetworkBehaviour
         {
             var status = NetworkManager.Singleton.SceneManager.UnloadScene(SceneManager.GetSceneByName("DayEndScene"));
             CheckStatus(status, false);
+        }
+    }
+
+    public static void ForceReturnToTitle(ulong value)
+    {
+        if (value == NetworkManager.ServerClientId)
+        {
+            NetworkManager.Singleton.Shutdown();
+            SceneManager.LoadScene(0);
         }
     }
 }

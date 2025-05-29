@@ -5,6 +5,11 @@ public class UI_HostSessionManager : MonoBehaviour
     [SerializeField] Canvas mainCanvas;
     [SerializeField] UI_LobbyManager lobby;
 
+    private void Awake()
+    {
+        CursorUtils.UnlockAndShowCursor();
+    }
+
     public async void Host()
     {
         UI_MenusManager.SetDisplayLoadingScreen.Invoke(true);

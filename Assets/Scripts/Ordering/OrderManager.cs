@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using Unity.Netcode;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class OrderManager : NetworkBehaviour
@@ -111,9 +112,9 @@ public class OrderManager : NetworkBehaviour
         AddOrder(newOrder);
 
         int assignedPort = TryAssignToOrderPort(newOrder);
-
         if (assignedPort == -1) return;
 
+        RunNewOrderNotification(assignedPort);
         SyncOrder_Rpc(new(newOrder, assignedPort), NetworkManager.LocalTime.TimeAsFloat);
     }
 
@@ -133,6 +134,7 @@ public class OrderManager : NetworkBehaviour
         AddOrder(order);
 
         AssignToOrderPort(order, payload.AssignedPort);
+        RunNewOrderNotification(payload.AssignedPort);
 
         return order;
     }
@@ -230,6 +232,18 @@ public class OrderManager : NetworkBehaviour
         if (Instance == null) return 0;
 
         return Instance.FailedOrders.Value == 0 ? (int)(baseValue * 0.2f) : 0;
+    }
+
+    public void RunNewOrderNotification(int port)
+    {
+        if (OrderPorts.Count > 1)
+        {
+            UI_Notifcation.EnqueueNotification($"NEW ORDER - PORT {port + 1}");
+        }
+        else
+        {
+            UI_Notifcation.EnqueueNotification($"NEW ORDER");
+        }
     }
 
     public override void OnDestroy()

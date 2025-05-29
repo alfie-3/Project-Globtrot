@@ -72,6 +72,7 @@ public class UI_PlayerMenusManager : MonoBehaviour, IEscapeable
 
     public async void LeaveSession()
     {
+
         await ShutdownNetworking();
         SceneManager.LoadScene(0);
     }
@@ -84,6 +85,8 @@ public class UI_PlayerMenusManager : MonoBehaviour, IEscapeable
 
     public async Task ShutdownNetworking()
     {
+        LobbyStateManager.ForceDisconnectClients();
+
         if (SessionManager.Session != null)
         {
             await SessionManager.LeaveSession();

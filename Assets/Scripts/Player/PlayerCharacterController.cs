@@ -216,6 +216,8 @@ public class PlayerCharacterController : NetworkBehaviour
             rb.interpolation = RagdollEnabled ? RigidbodyInterpolation.Interpolate : RigidbodyInterpolation.None;
         }
 
+        Physics.SyncTransforms();
+
         CanMove = !RagdollEnabled;
 
         CharacterMovement.Friction = RagdollEnabled ? baseFriction / 4 : baseFriction;

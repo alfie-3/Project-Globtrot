@@ -7,6 +7,7 @@ using Unity.Collections;
 public class Order
 {
     public int OrderId;
+    public int AssignedOrderPort;
 
     public float InitialOrderTime = 30;
     public float CurrentOrderTime = 30;

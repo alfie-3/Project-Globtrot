@@ -50,6 +50,8 @@ public static class SessionManager
     {
         Session.PlayerJoined -= (value) => { PlayerJoined.Invoke(value); };
         Session.PlayerHasLeft -= (value) => { PlayerLeft.Invoke(value); };
+
+        NetworkManager.Singleton.OnClientConnectedCallback -= context => { Debug.Log($"Client {context} connected"); };
     }
 
     public static async Task<TaskResult> HostSession()

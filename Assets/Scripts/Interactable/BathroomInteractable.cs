@@ -3,7 +3,7 @@ using Unity.Cinemachine;
 using Unity.Netcode;
 using UnityEngine;
 
-public class BathroomInteractable : MonoBehaviour, IInteractable, IViewable, IEscapeable
+public class BathroomInteractable : NetworkBehaviour, IInteractable, IViewable, IEscapeable
 {
     [SerializeField] float bathroomDrainRate = 3;
 
@@ -12,7 +12,7 @@ public class BathroomInteractable : MonoBehaviour, IInteractable, IViewable, IEs
 
     [SerializeField] CinemachineCamera toiletCam;
 
-    PlayerBathroomHandler currentPlayer;
+    [SerializeField] PlayerBathroomHandler currentPlayer;
 
     public void OnInteract(PlayerInteractionManager interactionManager)
     {
@@ -20,6 +20,12 @@ public class BathroomInteractable : MonoBehaviour, IInteractable, IViewable, IEs
 
         if (interactionManager.TryGetComponent(out PlayerBathroomHandler bathroom))
         {
+
+            if (currentPlayer != null)
+            {
+                UI_Notifcation.EnqueueNotification("SOMEONE IS USING THIS!");
+                return;
+            }
 
             if (bathroom.NormalizedBathroom < 0.33f)
             {
@@ -41,7 +47,7 @@ public class BathroomInteractable : MonoBehaviour, IInteractable, IViewable, IEs
 
     public void StartBathroom(PlayerBathroomHandler bathroom)
     {
-        Occupy(bathroom.NetworkObject);
+        Occupy_Rpc(bathroom.NetworkObject);
 
         currentPlayer = bathroom;
         enabled = true;
@@ -99,11 +105,11 @@ public class BathroomInteractable : MonoBehaviour, IInteractable, IViewable, IEs
 
         currentPlayer = null;
 
-        UnOccupy();
+        UnOccupy_Rpc();
     }
 
     [Rpc(SendTo.Everyone)]
-    public void Occupy(NetworkObjectReference networkObjectReference)
+    public void Occupy_Rpc(NetworkObjectReference networkObjectReference)
     {
         networkObjectReference.TryGet(out NetworkObject player);
 
@@ -113,7 +119,7 @@ public class BathroomInteractable : MonoBehaviour, IInteractable, IViewable, IEs
     }
 
     [Rpc(SendTo.Everyone)]
-    public void UnOccupy()
+    public void UnOccupy_Rpc()
     {
         currentPlayer = null;
     }

@@ -35,24 +35,14 @@ public class UI_Notifcation : MonoBehaviour
 
     }
 
-    private void OnEnable()
-    {
-        OrderManager.OnNewOrderAdded += NewOrderNotif;
-    }
-
-    private void OnDisable()
-    {
-        OrderManager.OnNewOrderAdded -= NewOrderNotif;
-    }
-
-    public void NewOrderNotif(Order order, int id)
-    {
-        EnqueueNotification("NEW ORDER");
-    }
-
     public static void EnqueueNotification(string message)
     {
         if (Instance == null) return;
+        if (Instance.notificationQueue.TryPeek(out string result))
+        {
+            if (message == result)
+                return;
+        }
 
         Instance.notificationQueue.Enqueue(message);
 
@@ -72,12 +62,17 @@ public class UI_Notifcation : MonoBehaviour
         textSequence.AppendInterval(3.5f);
         textSequence.Append(notifText.rectTransform.DOAnchorPosX(400, 1f));
 
+        textSequence.AppendCallback(RunNextNotification);
+
         Sequence underscoreSequence = DOTween.Sequence();
         underscoreSequence.AppendInterval(0.5f);
         underscoreSequence.Append(underscoreRect.DOAnchorPosX(-15, 0.5f));
         underscoreSequence.AppendInterval(3f);
         underscoreSequence.Append(underscoreRect.DOAnchorPosX(150, 0.5f));
+    }
 
+    public void RunNextNotification()
+    {
         if (notificationQueue.Count > 0)
         {
             RunNotification(notificationQueue.Dequeue());
@@ -85,10 +80,5 @@ public class UI_Notifcation : MonoBehaviour
         }
 
         notificationRunning = false;
-    }
-
-    private void OnDestroy()
-    {
-        OrderManager.OnNewOrderAdded -= NewOrderNotif;
     }
 }

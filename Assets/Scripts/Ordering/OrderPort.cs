@@ -82,6 +82,7 @@ public class OrderPort : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     public void OrderIncorrect_Rpc()
     {
+        UI_Notifcation.EnqueueNotification("Order incorrect!");
         GetComponent<AudioSource>().PlayOneShot(IncorrectNoise);
         OnOrderIncorrect.Invoke();
     }
@@ -89,6 +90,7 @@ public class OrderPort : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     public void OrderTimeout_Rpc()
     {
+        UI_Notifcation.EnqueueNotification("Order timed out!");
         GetComponent<AudioSource>().PlayOneShot(TimeoutNoise);
         OnOrderTimout.Invoke();
     }
