@@ -76,6 +76,8 @@ public class BathroomInteractable : MonoBehaviour, IInteractable, IViewable, IEs
 
     public void EndBathroom()
     {
+        if (currentPlayer == null) return;
+
         currentPlayer.GetComponent<PlayerAnimationController>().EndSit(dismountPos.position);
         toiletCam.enabled = false;
         enabled = false;

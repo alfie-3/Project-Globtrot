@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
+using static DayData;
 
 public class PlayerBuildingManager : NetworkBehaviour
 {
@@ -250,7 +251,6 @@ public class PlayerBuildingManager : NetworkBehaviour
             if (obj == null) return;
 
             Destroy_RPC(obj);
-            MoneyManager.Instance.AddBuildCoins(placeable.item.FurniturePrice);
         }
     }
     [Rpc(SendTo.Server)]
@@ -271,7 +271,7 @@ public class PlayerBuildingManager : NetworkBehaviour
                 }
             }
 
-
+            MoneyManager.Instance.AddBuildCoins(obj.GetComponent<PlaceableObject>().item.FurniturePrice);
             obj.Despawn();
         }
     }

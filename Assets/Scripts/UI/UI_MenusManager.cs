@@ -38,7 +38,7 @@ public class UI_MenusManager : MonoBehaviour
                 canvas.Canvas.enabled = true;
                 canvasStack.Push(canvas);
             }
-            else if (canvas != null)
+            else if (canvas.Canvas != null)
                 canvas.Canvas.enabled = false;
 
             canvas.CanvasOpened += OnCanvasOpened;
