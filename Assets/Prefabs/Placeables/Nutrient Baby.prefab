@@ -362,7 +362,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 841094589722183002}
-  - component: {fileID: 5168246116855603296}
+  - component: {fileID: 2852390615338869015}
   m_Layer: 0
   m_Name: Collision
   m_TagString: Untagged
@@ -385,8 +385,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2713443283113975350}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &5168246116855603296
-MeshCollider:
+--- !u!65 &2852390615338869015
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -403,10 +403,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 3628577105517108128, guid: b497c0ee47366f74f9872e81191ec7a6, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 3.4225879, y: 2.5997431, z: 1.0442834}
+  m_Center: {x: -0.048892085, y: 1.3121241, z: 0.11481386}
 --- !u!1 &7308111497278242531
 GameObject:
   m_ObjectHideFlags: 0
@@ -611,7 +610,6 @@ GameObject:
   - component: {fileID: 3761760409055327472}
   - component: {fileID: 4086295002853219929}
   - component: {fileID: 4959219378892586985}
-  - component: {fileID: 8387247596069450654}
   m_Layer: 0
   m_Name: Nutrient Baby
   m_TagString: Untagged
@@ -628,8 +626,8 @@ Transform:
   m_GameObject: {fileID: 8981345904246907521}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0.06}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.399}
+  m_LocalScale: {x: 0.94697, y: 0.94697, z: 0.94697}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1412853572480694561}
@@ -652,7 +650,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3456147863
+  GlobalObjectIdHash: 1285243362
   InScenePlacedSourceGlobalObjectIdHash: 1285243362
   DeferredDespawnTick: 0
   Ownership: 1
@@ -802,24 +800,6 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   <BuildHologramMesh>k__BackingField: {fileID: 3628577105517108128, guid: b497c0ee47366f74f9872e81191ec7a6, type: 3}
   <item>k__BackingField: {fileID: 11400000, guid: a80c50de362d0154691d1facb5432f61, type: 2}
-  <CanRemove>k__BackingField: 1
-  <MirrorX>k__BackingField: 0
-  <MirrorZ>k__BackingField: 0
---- !u!114 &8387247596069450654
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8981345904246907521}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74228665e5ff8f8488a3e9fd65697aa7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  <BuildHologramMesh>k__BackingField: {fileID: 0}
-  <item>k__BackingField: {fileID: 0}
   <CanRemove>k__BackingField: 1
   <MirrorX>k__BackingField: 0
   <MirrorZ>k__BackingField: 0
