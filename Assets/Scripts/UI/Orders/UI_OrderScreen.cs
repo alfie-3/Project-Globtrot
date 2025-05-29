@@ -47,6 +47,8 @@ public class UI_OrderScreen : MonoBehaviour
 
     public void AddOrder(Order order)
     {
+        if (order == null) return;
+
         order.OnOrderRemoved += ClearOrder;
         order.OnOrderTimerUpdate += OnTimerUpdate;
 
@@ -61,7 +63,8 @@ public class UI_OrderScreen : MonoBehaviour
             orderListItemUI.InitializeItem(item);
         }
 
-        timerThrobberImage.sprite = timerThrobberSprite;
+        if (timerThrobberImage)
+            timerThrobberImage.sprite = timerThrobberSprite;
     }
 
     public void ClearOrder(Order order)
