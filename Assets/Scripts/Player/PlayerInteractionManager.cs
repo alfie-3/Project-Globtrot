@@ -128,6 +128,12 @@ public class PlayerInteractionManager : NetworkBehaviour
     public void Interact(InputAction.CallbackContext context)
     {
         if (buildingManager.Mode != PlayerBuildingManager.mode.inactive) return;
+        
+        if (TryGetComponent(out PlayerCharacterController pcc))
+        {
+            if (pcc.RagdollEnabled)
+                return;
+        }
 
         Ray ray = new(cameraManager.CamTransform.position, cameraManager.CamTransform.forward);
 

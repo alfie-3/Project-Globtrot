@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEditor;
 using Unity.Cinemachine;
+using Unity.Multiplayer.Center.NetcodeForGameObjectsExample.DistributedAuthority;
 public class PCHandler : MonoBehaviour, IEscapeable
 {
     [SerializeField] private CanvasGroup mainCanvasGroup;
@@ -22,7 +23,7 @@ public class PCHandler : MonoBehaviour, IEscapeable
 
         if (interactionManager.TryGetComponent(out PlayerInputManager inputManager))
         {
-            inputManager.EscapeStack.Push(this);
+            inputManager.EscapeList.Add(this);
 
             pcZoomCam.enabled = true;
             isZoomed = true;
@@ -45,6 +46,8 @@ public class PCHandler : MonoBehaviour, IEscapeable
     public void EscapePC()
     {
         if (cachedPlayerInput == null) return;
+
+        cachedPlayerInput.RemoveFromEscapeStack(this);
 
         isZoomed = false;
 

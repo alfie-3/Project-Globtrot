@@ -2438,9 +2438,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.08
-  m_Height: 0.58607066
+  m_Height: 0.49907917
   m_Direction: 1
-  m_Center: {x: -0.000000011892682, y: 0.20696497, z: -0.000000028420539}
+  m_Center: {x: -0.000000014525179, y: 0.2504607, z: -0.000000018304027}
 --- !u!54 &3042430561966499504
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2510,8 +2510,8 @@ CharacterJoint:
   m_ProjectionAngle: 180
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
-  m_EnableCollision: 0
-  m_EnablePreprocessing: 0
+  m_EnableCollision: 1
+  m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!4 &1555124163927674101 stripped
@@ -2735,8 +2735,8 @@ CharacterJoint:
   m_ProjectionAngle: 180
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
-  m_EnableCollision: 0
-  m_EnablePreprocessing: 0
+  m_EnableCollision: 1
+  m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!4 &2939763672139377063 stripped
@@ -2769,9 +2769,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.08
-  m_Height: 0.58607066
+  m_Height: 0.49907917
   m_Direction: 1
-  m_Center: {x: -0.000000011892682, y: 0.20696497, z: -0.000000028420539}
+  m_Center: {x: -0.000000014525179, y: 0.2504607, z: -0.000000018304027}
 --- !u!54 &583591879499341855
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2841,8 +2841,8 @@ CharacterJoint:
   m_ProjectionAngle: 180
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
-  m_EnableCollision: 0
-  m_EnablePreprocessing: 0
+  m_EnableCollision: 1
+  m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!4 &3060115169896833817 stripped
@@ -2890,9 +2890,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.1
-  m_Height: 0.44583783
+  m_Height: 0.35907248
   m_Direction: 1
-  m_Center: {x: 0.0000000014155915, y: 0.21610259, z: 0.00000000924505}
+  m_Center: {x: 0.0000000024954387, y: 0.17272098, z: 0.000000003992473}
 --- !u!54 &788841853326535336
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2939,22 +2939,22 @@ CharacterJoint:
     spring: 0
     damper: 0
   m_LowTwistLimit:
-    limit: 0.28939247
+    limit: -4.687969
     bounciness: 0
     contactDistance: 0
   m_HighTwistLimit:
-    limit: 70
+    limit: 100.045586
     bounciness: 0
     contactDistance: 0
   m_SwingLimitSpring:
     spring: 0
     damper: 0
   m_Swing1Limit:
-    limit: 40
+    limit: 32.463654
     bounciness: 0
     contactDistance: 0
   m_Swing2Limit:
-    limit: 40
+    limit: 66.148865
     bounciness: 0
     contactDistance: 0
   m_EnableProjection: 1
@@ -2962,8 +2962,8 @@ CharacterJoint:
   m_ProjectionAngle: 180
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
-  m_EnableCollision: 0
-  m_EnablePreprocessing: 0
+  m_EnableCollision: 1
+  m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!4 &3784791486880142743 stripped
@@ -3078,8 +3078,8 @@ CharacterJoint:
   m_ProjectionAngle: 180
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
-  m_EnableCollision: 0
-  m_EnablePreprocessing: 0
+  m_EnableCollision: 1
+  m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!4 &4347301042143238400 stripped
@@ -3301,8 +3301,8 @@ CharacterJoint:
   m_ProjectionAngle: 180
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
-  m_EnableCollision: 0
-  m_EnablePreprocessing: 0
+  m_EnableCollision: 1
+  m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!4 &6207726641955360908 stripped
@@ -3437,8 +3437,8 @@ CharacterJoint:
   m_ProjectionAngle: 180
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
-  m_EnableCollision: 0
-  m_EnablePreprocessing: 0
+  m_EnableCollision: 1
+  m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!4 &7306509076880025316 stripped
@@ -3475,8 +3475,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.38, y: 0.29074377, z: 0.3}
-  m_Center: {x: -0.0031601787, y: 0.09, z: -0.009710789}
+  m_Size: {x: 0.38, y: 0.29074377, z: 0.22235414}
+  m_Center: {x: -0.0031601787, y: 0.09, z: -0.015093918}
 --- !u!54 &5362280028128539217
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3514,7 +3514,7 @@ ConfigurableJoint:
   serializedVersion: 4
   m_ConnectedBody: {fileID: 1405450253723897745}
   m_ConnectedArticulationBody: {fileID: 0}
-  m_Anchor: {x: 0, y: -0.6, z: 0}
+  m_Anchor: {x: 0, y: -0.54, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
@@ -3630,8 +3630,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.35, y: 0.30006203, z: 0.3}
-  m_Center: {x: -0.00021193981, y: 0.21461657, z: -0.009710778}
+  m_Size: {x: 0.35, y: 0.30006203, z: 0.20427853}
+  m_Center: {x: -0.00021193983, y: 0.21461688, z: -0.0002053117}
 --- !u!54 &9146002232470991614
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3701,8 +3701,8 @@ CharacterJoint:
   m_ProjectionAngle: 180
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
-  m_EnableCollision: 0
-  m_EnablePreprocessing: 0
+  m_EnableCollision: 1
+  m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!4 &7660638841944460788 stripped
@@ -3770,9 +3770,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.1
-  m_Height: 0.44583783
+  m_Height: 0.35907248
   m_Direction: 1
-  m_Center: {x: 0.0000000014155915, y: 0.21610259, z: 0.00000000924505}
+  m_Center: {x: 0.0000000024954387, y: 0.17272098, z: 0.000000003992473}
 --- !u!54 &9115965847572764284
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3819,22 +3819,22 @@ CharacterJoint:
     spring: 0
     damper: 0
   m_LowTwistLimit:
-    limit: -20
+    limit: -4.687969
     bounciness: 0
     contactDistance: 0
   m_HighTwistLimit:
-    limit: 70
+    limit: 100.045586
     bounciness: 0
     contactDistance: 0
   m_SwingLimitSpring:
     spring: 0
     damper: 0
   m_Swing1Limit:
-    limit: 40
+    limit: 32.463654
     bounciness: 0
     contactDistance: 0
   m_Swing2Limit:
-    limit: 40
+    limit: 66.148865
     bounciness: 0
     contactDistance: 0
   m_EnableProjection: 1
@@ -3842,8 +3842,8 @@ CharacterJoint:
   m_ProjectionAngle: 180
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
-  m_EnableCollision: 0
-  m_EnablePreprocessing: 0
+  m_EnableCollision: 1
+  m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!4 &8807900860392313359 stripped

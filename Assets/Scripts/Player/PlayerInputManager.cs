@@ -34,7 +34,7 @@ public class PlayerInputManager : NetworkBehaviour
     public event Action<InputAction.CallbackContext> OnSprint = delegate { };
 
     public event Action<InputAction.CallbackContext> OnPause = delegate { };
-    public Stack<IEscapeable> EscapeStack = new Stack<IEscapeable>();
+    public List<IEscapeable> EscapeList = new List<IEscapeable>();
 
     public  PlayerCameraManager CameraManager { get; private set; }
 
@@ -89,14 +89,23 @@ public class PlayerInputManager : NetworkBehaviour
 
     public void ProgressEscapeStack(InputAction.CallbackContext context)
     {
-        if (EscapeStack.Count == 1)
+        if (EscapeList.Count == 1)
         {
-            EscapeStack.Peek().Escape(this);
+            EscapeList[0].Escape(this);
         }
         else
         {
-            EscapeStack.Pop().Escape(this);
+            EscapeList[EscapeList.Count - 1].Escape(this);
+            if (EscapeList.Count == 1) return;
+            EscapeList.RemoveAt(EscapeList.Count - 1);
         }
+    }
+
+    public void RemoveFromEscapeStack(IEscapeable escapable)
+    {
+        if (escapable == EscapeList[0]) return;
+
+        EscapeList.Remove(escapable);
     }
 
     public override void OnNetworkSpawn()

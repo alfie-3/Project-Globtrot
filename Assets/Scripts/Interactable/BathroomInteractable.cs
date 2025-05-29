@@ -14,6 +14,10 @@ public class BathroomInteractable : NetworkBehaviour, IInteractable, IViewable, 
 
     [SerializeField] PlayerBathroomHandler currentPlayer;
 
+    [Space]
+    [SerializeField] AudioSource toiletAudioSource;
+    [SerializeField] AudioClip flushClip;
+
     public void OnInteract(PlayerInteractionManager interactionManager)
     {
         if (currentPlayer != null) return;
@@ -65,7 +69,7 @@ public class BathroomInteractable : NetworkBehaviour, IInteractable, IViewable, 
 
         if (bathroom.TryGetComponent(out PlayerCharacterController chmv))
         {
-            chmv.PlayerInputManager.EscapeStack.Push(this);
+            chmv.PlayerInputManager.EscapeList.Add(this);
             chmv.CharacterMovement.OnJump += EndBathroom;
             chmv.OnToggledRagdoll += OnRagdollCancel;
         }
@@ -92,7 +96,7 @@ public class BathroomInteractable : NetworkBehaviour, IInteractable, IViewable, 
         {
             chmv.CharacterMovement.OnJump -= EndBathroom;
             chmv.OnToggledRagdoll -= OnRagdollCancel;
-            chmv.PlayerInputManager.EscapeStack.Pop();
+            chmv.PlayerInputManager.RemoveFromEscapeStack(this);
         }
 
         if (toiletCam.TryGetComponent(out CinemachinePanTilt panTilt))
@@ -122,6 +126,8 @@ public class BathroomInteractable : NetworkBehaviour, IInteractable, IViewable, 
     public void UnOccupy_Rpc()
     {
         currentPlayer = null;
+
+        toiletAudioSource.PlayOneShot(flushClip, 0.5f);
     }
 
     public void OnUnview()

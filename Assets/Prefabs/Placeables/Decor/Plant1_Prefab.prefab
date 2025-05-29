@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 3024197842534611956}
   - component: {fileID: 2895678209725705073}
   - component: {fileID: 847885647356348822}
-  - component: {fileID: 5360477584597566037}
   - component: {fileID: -8785183428425690220}
   - component: {fileID: 6555387128206244483}
+  - component: {fileID: 1938298856935222808}
   m_Layer: 0
   m_Name: Plant1_Prefab
   m_TagString: Untagged
@@ -69,9 +69,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -7730079208461156751, guid: f96feaacafa3b7d4b89554b724baf9f5, type: 3}
+  - {fileID: 2100000, guid: a885fb40f2b142b45ace22431a403a20, type: 2}
   - {fileID: 2100000, guid: 8b8ae7ad84c5be44889745aa900da2b4, type: 2}
-  - {fileID: 6151071871934886045, guid: f96feaacafa3b7d4b89554b724baf9f5, type: 3}
+  - {fileID: 2100000, guid: e509ec97bf3e3594eb1744ed7ea881e1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -132,6 +132,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   NetworkTransformExpanded: 0
+  AutoOwnerAuthorityTickOffset: 1
+  PositionInterpolationType: 0
+  RotationInterpolationType: 0
+  ScaleInterpolationType: 0
+  PositionLerpSmoothing: 1
+  PositionMaxInterpolationTime: 0.1
+  RotationLerpSmoothing: 1
+  RotationMaxInterpolationTime: 0.1
+  ScaleLerpSmoothing: 1
+  ScaleMaxInterpolationTime: 0.1
   AuthorityMode: 0
   TickSyncChildren: 0
   UseUnreliableDeltas: 0
@@ -154,22 +164,6 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &5360477584597566037
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9071561246754564292}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed59e0d5d0f394b47bbdd98be89e0644, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  PickedUp:
-    m_InternalValue: 0
-  placableFurniture: {fileID: 11400000, guid: b72d504d26bc0824791f454ddb47eb60, type: 2}
 --- !u!64 &-8785183428425690220
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -205,3 +199,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   areaOverride: 0
+--- !u!114 &1938298856935222808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9071561246754564292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74228665e5ff8f8488a3e9fd65697aa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  <BuildHologramMesh>k__BackingField: {fileID: 0}
+  <item>k__BackingField: {fileID: 11400000, guid: b72d504d26bc0824791f454ddb47eb60, type: 2}
+  <CanRemove>k__BackingField: 1
+  <MirrorX>k__BackingField: 0
+  <MirrorZ>k__BackingField: 0
